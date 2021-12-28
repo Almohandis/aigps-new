@@ -11,6 +11,12 @@
 
         <form method="POST" action="{{ route('register') }}">
             @csrf
+            <!-- National ID -->
+            <div>
+                <x-label for="nationalid" value="National ID" />
+
+                <x-input id="nationalid" class="block mt-1 w-full" type="text" name="nationalid" :value="old('nationalid')" required autofocus />
+            </div>
 
             <!-- Name -->
             <div>
