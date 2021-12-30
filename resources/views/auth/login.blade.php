@@ -1,4 +1,4 @@
-<x-app-layout>
+<x-auth-layout>
     <x-auth-card>
         <x-slot name="logo">
             <a href="/">
@@ -11,6 +11,10 @@
 
         <!-- Validation Errors -->
         <x-auth-validation-errors class="mb-4" :errors="$errors" />
+        
+        <div class="text-2xl font-bold text-center mb-4">
+            AIGPS
+        </div>
 
         <form method="POST" action="{{ route('login') }}">
             @csrf
@@ -35,22 +39,26 @@
             <!-- Remember Me -->
             <div class="block mt-4">
                 <label for="remember_me" class="inline-flex items-center">
-                    <input id="remember_me" type="checkbox" class="rounded border-gray-300 text-indigo-600 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" name="remember">
+                    <input id="remember_me" type="checkbox" class="rounded border-gray-300 text-blue-600 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50" name="remember">
                     <span class="ml-2 text-sm text-gray-600">{{ __('Remember me') }}</span>
                 </label>
             </div>
 
-            <div class="flex items-center justify-end mt-4">
-                @if (Route::has('password.request'))
-                    <a class="underline text-sm text-gray-600 hover:text-gray-900" href="{{ route('password.request') }}">
-                        {{ __('Forgot your password?') }}
-                    </a>
-                @endif
+            <div class="mt-4">
+                <div class="container">
+                    @if (Route::has('password.request'))
+                        <a class="underline text-sm text-gray-600 hover:text-gray-900" href="{{ route('password.request') }}">
+                            {{ __('Forgot your password?') }}
+                        </a>
+                    @endif
+                </div>
 
-                <x-button class="ml-3">
-                    {{ __('Log in') }}
-                </x-button>
+                <div class="mt-3 mx-auto text-center">
+                    <x-button>
+                        {{ __('Log in') }}
+                    </x-button>
+                </div>
             </div>
         </form>
     </x-auth-card>
-</x-app-layout>
+</x-auth-layout>
