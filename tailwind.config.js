@@ -14,6 +14,9 @@ module.exports = {
             },
             width: {
                 '300': '300px',
+            },
+            height: {
+                '300': '300px',
             }
         },
     },
