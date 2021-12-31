@@ -14,10 +14,8 @@
 
         <style>
             body {
-                background-image: url('abg.png');
-                background-color: #010920;
-                background-repeat: no-repeat;
-                background-size: 1000px;
+                background: rgb(50,80,154);
+                background: linear-gradient(90deg, rgba(50,80,154,1) 0%, rgba(149,70,81,1) 100%);
             }
         </style>
 
@@ -73,12 +71,7 @@
                 </div>
             </nav>
 
-            <div class="flex flex-row">
-                <div class="basis-1/2 w-full"></div>
-                <div class="basis-1/2 w-full">
-                    {{ $slot }}
-                </div>
-            </div>
+            {{ $slot }}
         </div>
     </body>
 </html>

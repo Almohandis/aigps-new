@@ -6875,6 +6875,10 @@ select {
   width: 24rem;
 }
 
+.w-300 {
+  width: 300px;
+}
+
 .w-auto {
   width: auto;
 }
@@ -38241,6 +38245,10 @@ select {
     width: 24rem;
   }
 
+  .sm\:w-300 {
+    width: 300px;
+  }
+
   .sm\:w-auto {
     width: auto;
   }
@@ -69527,6 +69535,10 @@ select {
 
   .md\:w-96 {
     width: 24rem;
+  }
+
+  .md\:w-300 {
+    width: 300px;
   }
 
   .md\:w-auto {
@@ -100817,6 +100829,10 @@ select {
     width: 24rem;
   }
 
+  .lg\:w-300 {
+    width: 300px;
+  }
+
   .lg\:w-auto {
     width: auto;
   }
@@ -132105,6 +132121,10 @@ select {
     width: 24rem;
   }
 
+  .xl\:w-300 {
+    width: 300px;
+  }
+
   .xl\:w-auto {
     width: auto;
   }
@@ -163391,6 +163411,10 @@ select {
 
   .\32xl\:w-96 {
     width: 24rem;
+  }
+
+  .\32xl\:w-300 {
+    width: 300px;
   }
 
   .\32xl\:w-auto {
