@@ -1,4 +1,4 @@
-<x-app-layout>
+<x-auth-layout>
     <x-auth-card>
         <x-slot name="logo">
             <a href="/">
@@ -8,6 +8,10 @@
 
         <!-- Validation Errors -->
         <x-auth-validation-errors class="mb-4" :errors="$errors" />
+
+        <div class="text-2xl font-bold text-center mb-4">
+            AIGPS
+        </div>
 
         <form method="POST" action="{{ route('register') }}">
             @csrf
@@ -62,4 +66,4 @@
             </div>
         </form>
     </x-auth-card>
-</x-app-layout>
+</x-auth-layout>
