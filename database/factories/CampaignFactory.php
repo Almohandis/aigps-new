@@ -14,7 +14,11 @@ class CampaignFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'start_date' => $this->faker->dateTimeBetween('-1 years', '+1 years'),
+            'end_date' => $this->faker->dateTimeBetween('-1 years', '+1 years'),
+            'type' => $this->faker->randomElement(['sanitization', 'vaccination']),
+            'location' => 'location',
+            'address' => $this->faker->address,
         ];
     }
 }

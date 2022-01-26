@@ -14,7 +14,8 @@ class MedicalPassportFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'vaccine_name' => $this->faker->randomElement(['Hepatitis B', 'Hepatitis A', 'Hepatitis C']),
+            'vaccine_date' => $this->faker->dateTimeBetween('-1 years', '+1 years'),
         ];
     }
 }

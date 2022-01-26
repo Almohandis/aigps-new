@@ -14,7 +14,9 @@ class HospitalFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'name' => $this->faker->word,
+            'capacity' => $this->faker->numberBetween(1, 100),
+            'is_isolation' => $this->faker->boolean,
         ];
     }
 }
