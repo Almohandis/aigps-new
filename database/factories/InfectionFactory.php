@@ -14,7 +14,8 @@ class InfectionFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'infection_date' => $this->faker->dateTimeBetween('-1 years', '+1 years'),
+            'is_recovered' => $this->faker->boolean,
         ];
     }
 }

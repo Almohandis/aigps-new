@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
+use App\Models\NationalId;
 
 class RegisteredUserController extends Controller
 {
@@ -34,16 +35,25 @@ class RegisteredUserController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'confirmed', Rules\Password::defaults()],
+            'name'          => ['required', 'string', 'max:255'],
+            'email'         => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'password'      => ['required', 'confirmed', Rules\Password::defaults()],
+            'national_id'   => ['required', 'max:255', 'unique:users']
         ]);
+
+        $nationalId = NationalId::find($request->national_id);
+
+        if (!$nationalId) {
+            return redirect()->back()->withErrors(['national_id' => 'National ID is not valid']);
+        }
 
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
+            'national_id' => $request->national_id
         ]);
+
 
         event(new Registered($user));
 

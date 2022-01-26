@@ -9,6 +9,8 @@ class NationalId extends Model
 {
     use HasFactory;
 
+    protected $primaryKey = 'national_id';
+
     protected $fillable = [
         'national_id'
     ];
