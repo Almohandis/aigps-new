@@ -17,12 +17,12 @@ class CreateUsersTable extends Migration
             $table->id();
             $table->string('name');
             $table->biginteger('national_id')->unique();
-            $table->date('birthdate');
-            $table->string('address');
-            $table->string('telephone_number');
-            $table->string('gender');
-            $table->integer('role_id');
-            $table->char('blood_type', 3);
+            $table->date('birthdate')->nullable()->default(null);
+            $table->string('address')->nullable()->default(null);
+            $table->string('telephone_number')->nullable()->default(null);
+            $table->string('gender')->nullable()->default(null);
+            $table->integer('role_id')->default(0);
+            $table->char('blood_type', 3)->nullable()->default(null);
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
