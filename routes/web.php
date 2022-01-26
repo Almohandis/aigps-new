@@ -26,3 +26,10 @@ Route::get('/dashboard', function () {
 })->middleware(['auth'])->name('dashboard');
 
 require __DIR__.'/auth.php';
+
+Route::namespace('Citizen')->group(base_path('routes/citizen.php'));
+
+// later we might need middlewares
+// Route::namespace('Citizen')->middleware(['citizensmiddleware1'])->group(base_path('routes/citizen.php'));
+
+Route::namespace('Staff')->prefix('staff')->group(base_path('routes/staff.php'));

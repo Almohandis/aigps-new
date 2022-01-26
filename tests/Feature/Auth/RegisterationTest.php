@@ -20,7 +20,7 @@ test('registration screen can be rendered', function () {
 });
 
 
-it('new users can register', function () {
+test('new users can register', function () {
     $response = $this->post('/register', [
         'national_id'           =>  555,
         'name' => 'Test User',
@@ -33,4 +33,17 @@ it('new users can register', function () {
 
     $this->assertAuthenticated();
     $response->assertRedirect(RouteServiceProvider::HOME);
+});
+
+test('new users cannot register with invalid national id', function () {
+    $response = $this->post('/register', [
+        'national_id'           =>  333,
+        'name' => 'Test User',
+        'email' => 'test@example.com',
+        'password' => 'password',
+        'password_confirmation' => 'password'
+    ]);
+
+    $this->assertEquals(0, User::count());
+    $this->assertGuest();
 });
