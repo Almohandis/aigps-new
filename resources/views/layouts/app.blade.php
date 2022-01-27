@@ -37,42 +37,40 @@
                 <div class="flex items-center md:order-2">
                     <div class="flex mr-3 text-sm md:mr-0">
                         @auth
-                        <!--#-->
-                        <!-- Responsive Navigation Menu -->
-                        <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
-                            <div class="pt-2 pb-3 space-y-1">
-                                <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                                    {{ __('Dashboard') }}
-                                </x-responsive-nav-link>
-                            </div>
+                        <div class="hidden sm:flex sm:items-center sm:ml-6">
+                            <x-dropdown align="right" width="48">
+                                <x-slot name="trigger">
+                                    <button class="flex items-center text-sm font-medium text-gray-500 hover:text-gray-700 hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-gray-300 transition duration-150 ease-in-out">
+                                        <div>{{ Auth::user()->name }}</div>
 
-                            <!-- Responsive Settings Options -->
-                            <div class="pt-4 pb-1 border-t border-gray-200">
-                                <div class="px-4">
-                                    <div class="font-medium text-base text-gray-800">{{ Auth::user()->name }}</div>
-                                    <div class="font-medium text-sm text-gray-500">{{ Auth::user()->email }}</div>
-                                </div>
+                                        <div class="ml-1">
+                                            <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                                                <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+                                            </svg>
+                                        </div>
+                                    </button>
+                                </x-slot>
 
-                                <div class="mt-3 space-y-1">
+                                <x-slot name="content">
                                     <!-- Authentication -->
                                     <form method="POST" action="{{ route('logout') }}">
                                         @csrf
 
-                                        <x-responsive-nav-link :href="route('logout')" onclick="event.preventDefault();
-                                        this.closest('form').submit();">
-                                            {{ __('auth.lout') }}
-                                        </x-responsive-nav-link>
+                                        <x-dropdown-link :href="route('logout')"
+                                                onclick="event.preventDefault();
+                                                            this.closest('form').submit();">
+                                            {{ __('Log Out') }}
+                                        </x-dropdown-link>
                                     </form>
-                                </div>
-                            </div>
+                                </x-slot>
+                            </x-dropdown>
                         </div>
-                        <!--#-->
                         @else
-                        <a href="{{ route('login') }}" class="text-sm text-white hover:text-blue-100">Log in</a>
+                            <a href="{{ route('login') }}" class="text-sm text-white hover:text-blue-100">Log in</a>
 
-                        @if (Route::has('register'))
-                        <a href="{{ route('register') }}" class="ml-4 text-sm text-white hover:text-blue-100">Register</a>
-                        @endif
+                            @if (Route::has('register'))
+                            <a href="{{ route('register') }}" class="ml-4 text-sm text-white hover:text-blue-100">Register</a>
+                            @endif
                         @endauth
                     </div>
 
@@ -86,7 +84,8 @@
                         </svg>
                     </button>
                 </div>
-                <div class="hidden justify-between items-center w-full md:flex md:w-auto md:order-1" id="mobile-menu-2">
+
+                <div class="justify-between items-center w-full md:flex md:w-auto md:order-1" id="mobile-menu-2">
                     <ul class="flex flex-col mt-4 md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium">
                         <li>
                             <a href="/" class="block py-2 pr-4 pl-3 text-white bg-blue-700 rounded md:bg-transparent md:p-0 md:hover:text-blue-100">Home</a>
@@ -105,15 +104,14 @@
                         </li>
                         <!--# National id roles -->
                         @auth
-                        @if(Auth::user()->role_id == 2)
-                        <li>
-                            <a href="{{ url('/dashboard') }}" class="block py-2 pr-4 pl-3 text-white border-b border-gray-100 hover:bg-gray-50 md:hover:bg-transparent md:border-0 md:hover:text-blue-100 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Dashboard</a>
-                        </li>
-                        @endif
+                            @if(Auth::user()->role_id == 2)
+                                <li>
+                                    <a href="{{ url('/dashboard') }}" class="block py-2 pr-4 pl-3 text-white border-b border-gray-100 hover:bg-gray-50 md:hover:bg-transparent md:border-0 md:hover:text-blue-100 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Dashboard</a>
+                                </li>
+                            @endif
                         @endauth
                     </ul>
                 </div>
-            </div>
         </nav>
 
         {{ $slot }}
