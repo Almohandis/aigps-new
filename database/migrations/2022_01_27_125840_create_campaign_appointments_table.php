@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateCampaignDoctorsTable extends Migration
+class CreateCampaignAppointmentsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,10 @@ class CreateCampaignDoctorsTable extends Migration
      */
     public function up()
     {
-        Schema::create('campaign_doctors', function (Blueprint $table) {
+        Schema::create('campaign_appointments', function (Blueprint $table) {
             $table->id();
-            $table->integer('campaign_id');
             $table->integer('user_id');
-            $table->date('start_date');
-            $table->date('end_date');
+            $table->dateTime('date');
             $table->timestamps();
         });
     }
@@ -30,6 +28,6 @@ class CreateCampaignDoctorsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('campaign_doctors');
+        Schema::dropIfExists('campaign_appointments');
     }
 }

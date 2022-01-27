@@ -5,19 +5,14 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class MedicalPassport extends Model
+class CampaignUser extends Model
 {
     use HasFactory;
 
     protected $fillable = [
+        'campaign_id',
         'user_id',
-        'vaccine_name',
-        'vaccine_date',
+        'start_date',
+        'end_date',
     ];
-
-    //# Inverse relation to user
-    public function user()
-    {
-        return $this->belongsTo(User::class);
-    }
 }

@@ -16,4 +16,18 @@ class Campaign extends Model
         'location',
         'address',
     ];
+
+    //# Relation to campaign appointments
+    public function campaign_appointments()
+    {
+        return $this->hasMany(CampaignAppointment::class);
+    }
+
+    //# Relation to users (doctors)
+    public function users()
+    {
+        return $this->belongsToMany(User::class)->withPivot('start_date', 'end_date');
+    }
+
+
 }
