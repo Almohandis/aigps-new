@@ -11,7 +11,7 @@
 
         <!-- Validation Errors -->
         <x-auth-validation-errors class="mb-4" :errors="$errors" />
-        
+
         <div class="text-2xl font-bold text-center mb-4">
             AIGPS
         </div>
@@ -21,19 +21,16 @@
 
             <!-- National ID -->
             <div>
-                <x-label for="nationalid" value="National ID" />
+                <x-label for="national_id" value="National ID" />
 
-                <x-input id="nationalid" class="block mt-1 w-full" type="text" name="nationalid" :value="old('nationalid')" required autofocus />
+                <x-input id="national_id" class="block mt-1 w-full" type="text" name="national_id" :value="old('national_id')" required autofocus />
             </div>
 
             <!-- Password -->
             <div class="mt-4">
                 <x-label for="password" :value="__('Password')" />
 
-                <x-input id="password" class="block mt-1 w-full"
-                                type="password"
-                                name="password"
-                                required autocomplete="current-password" />
+                <x-input id="password" class="block mt-1 w-full" type="password" name="password" required autocomplete="current-password" />
             </div>
 
             <!-- Remember Me -->
@@ -47,9 +44,9 @@
             <div class="mt-4">
                 <div class="container">
                     @if (Route::has('password.request'))
-                        <a class="underline text-sm text-gray-600 hover:text-gray-900" href="{{ route('password.request') }}">
-                            {{ __('Forgot your password?') }}
-                        </a>
+                    <a class="underline text-sm text-gray-600 hover:text-gray-900" href="{{ route('password.request') }}">
+                        {{ __('Forgot your password?') }}
+                    </a>
                     @endif
                 </div>
 
