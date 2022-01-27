@@ -21,9 +21,9 @@
 
             <!-- National ID -->
             <div>
-                <x-label for="nationalid" value="National ID" />
+                <x-label for="national_id" value="National ID" />
 
-                <x-input id="nationalid" class="block mt-1 w-full" type="text" name="nationalid" :value="old('nationalid')" required autofocus />
+                <x-input id="national_id" class="block mt-1 w-full" type="text" name="national_id" :value="old('national_id')" required autofocus />
             </div>
 
             <!-- Password -->

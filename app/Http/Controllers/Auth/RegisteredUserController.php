@@ -41,6 +41,7 @@ class RegisteredUserController extends Controller
             'national_id'   => ['required', 'max:255', 'unique:users']
         ]);
 
+        //# check if the provided national id exists in the database
         $nationalId = NationalId::find($request->national_id);
 
         if (!$nationalId) {
