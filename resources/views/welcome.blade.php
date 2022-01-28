@@ -11,7 +11,7 @@
             </p>
 
             <div class="text-center mt-9">
-                <a href="#" class="mx-auto mt-8 text-center bg-blue-500 text-white text-lg font-semibold px-4 py-2 rounded-lg shadow-lg hover:bg-blue-400">
+                <a href="/reserve" class="mx-auto mt-8 text-center bg-blue-500 text-white text-lg font-semibold px-4 py-2 rounded-lg shadow-lg hover:bg-blue-400">
                     Reserve Vaccination
                 </a>
             </div>
