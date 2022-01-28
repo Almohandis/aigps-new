@@ -33,7 +33,7 @@
                     <div class="flex items-center md:order-2">
                         <div class="flex mr-3 text-sm md:mr-0">
                             @auth
-                                <a href="{{ url('/dashboard') }}" class="text-sm text-white hover:text-blue-100">Dashboard</a>
+                                <a href="{{ url('/') }}" class="text-sm text-white hover:text-blue-100">Dashboard</a>
                             @else
                                 <a href="{{ route('login') }}" class="text-sm text-white hover:text-blue-100">Log in</a>
 

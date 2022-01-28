@@ -23,11 +23,7 @@ Route::get('/view/{name}', function ($name) {
     return view($name);
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth'])->name('dashboard');
-
-require __DIR__ . '/auth.php';
+require __DIR__.'/auth.php';
 
 // Route::namespace('Citizen')->group(base_path('routes/citizen.php'));
 
