@@ -48,48 +48,4 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
-
-    //# Relation to medical passport
-    public function medical_passport()
-    {
-        return $this->hasOne(MedicalPassport::class);
-    }
-
-    //# Relation to infections
-    public function infections()
-    {
-        return $this->hasMany(Infection::class);
-    }
-
-    //# Relation to campaign appointments
-    public function appointments()
-    {
-        return $this->hasMany(CampaignAppointment::class);
-    }
-
-    //# Relation to hospital (hospitalize)
-    public function hospital()
-    {
-        return $this->belongsToMany(Hospital::class)->withPivot('checkin_date', 'checkout_date');
-    }
-
-    //# Relation to campaigns (campaign doctors)
-    public function campaigns()
-    {
-        return $this->belongsToMany(Campaign::class)->withPivot('start_date', 'end_date');
-    }
-
-    //# Relation to hospital (works in)
-    public function hospitals()
-    {
-        return $this->belongsTo(Hospital::class);
-    }
-
-    //# Relation to chronic diseases
-    public function chronic_diseases()
-    {
-        return $this->belongsToMany(ChronicDisease::class);
-    }
-
-
 }

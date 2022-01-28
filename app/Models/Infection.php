@@ -14,10 +14,4 @@ class Infection extends Model
         'infection_date',
         'is_recovered',
     ];
-
-    //# Inverse relation to user
-    public function user()
-    {
-        return $this->belongsTo(User::class);
-    }
 }

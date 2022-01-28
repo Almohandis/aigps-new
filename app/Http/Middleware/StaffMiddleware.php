@@ -16,7 +16,7 @@ class StaffMiddleware
      */
     public function handle(Request $request, Closure $next)
     {
-        if ($request->user() && $request->user()->role_id == 2) {
+        if ($request->user() && $request->user()->role_id > 0) {
             return $next($request);
         }
 

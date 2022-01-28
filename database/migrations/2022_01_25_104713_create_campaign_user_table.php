@@ -17,8 +17,7 @@ class CreateCampaignUserTable extends Migration
             $table->id();
             $table->integer('campaign_id');
             $table->integer('user_id');
-            $table->date('start_date');
-            $table->date('end_date');
+            $table->dateTime('date');
             $table->timestamps();
         });
     }
