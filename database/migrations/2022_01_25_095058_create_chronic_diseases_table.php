@@ -15,7 +15,6 @@ class CreateChronicDiseasesTable extends Migration
     {
         Schema::create('chronic_diseases', function (Blueprint $table) {
             $table->id();
-            $table->integer('user_id');
             $table->string('name');
             $table->timestamps();
         });

@@ -11,6 +11,11 @@ class ChronicDisease extends Model
 
     protected $fillable = [
         'name',
-        'user_id',
     ];
+
+    //# Relation to user (chronic disease)
+    public function users()
+    {
+        return $this->belongsToMany(User::class);
+    }
 }

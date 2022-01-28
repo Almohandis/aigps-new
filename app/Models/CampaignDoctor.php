@@ -12,5 +12,7 @@ class CampaignDoctor extends Model
     protected $fillable = [
         'campaign_id',
         'user_id',
+        'start_date',
+        'end_date',
     ];
 }

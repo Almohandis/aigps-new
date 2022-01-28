@@ -1,6 +1,8 @@
 <?php
 
+use Database\Factories\NationalIdFactory;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Staff\NationalIdController;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,6 +25,14 @@ Route::get('/view/{name}', function ($name) {
 
 require __DIR__.'/auth.php';
 
-Route::namespace('Citizen')->group(base_path('routes/citizen.php'));
+// Route::namespace('Citizen')->group(base_path('routes/citizen.php'));
 
-Route::namespace('Staff')->middleware(['staff'])->prefix('staff')->group(base_path('routes/staff.php'));
+// Route::namespace('Staff')->middleware(['staff'])->prefix('staff')->group(base_path('routes/staff.php'));
+
+//# National id routes
+Route::get('/nationalid/modify', function () {
+    return view('nationalid-modify');
+})->middleware('nationalid')->name('nationalid-modify');
+
+Route::post('/nationalid/add', [NationalIdController::class, 'modify'])->middleware('nationalid');
+Route::get('/nationalid/add', [NationalIdController::class, 'index'])->middleware('nationalid');
