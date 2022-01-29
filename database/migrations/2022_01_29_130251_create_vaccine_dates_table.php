@@ -15,6 +15,7 @@ class CreateVaccineDatesTable extends Migration
     {
         Schema::create('vaccine_dates', function (Blueprint $table) {
             $table->id();
+            $table->integer('medical_passport_id');
             $table->dateTime('vaccine_date');
             $table->timestamps();
         });

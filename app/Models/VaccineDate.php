@@ -10,6 +10,7 @@ class VaccineDate extends Model
     use HasFactory;
 
     protected $fillable = [
+        'medical_passport_id',
         'vaccine_date',
     ];
 }
