@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateCampaignAppointmentsTable extends Migration
+class CreateHospitalizationsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,12 @@ class CreateCampaignAppointmentsTable extends Migration
      */
     public function up()
     {
-        Schema::create('campaign_appointments', function (Blueprint $table) {
+        Schema::create('hospitalizations', function (Blueprint $table) {
             $table->id();
             $table->integer('user_id');
-            $table->dateTime('date');
+            $table->integer('hospital_id');
+            $table->dateTime('checkin_date');
+            $table->dateTime('checkout_date')->nullable()->default(null);
             $table->timestamps();
         });
     }
@@ -28,6 +30,6 @@ class CreateCampaignAppointmentsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('campaign_appointments');
+        Schema::dropIfExists('hospitalizations');
     }
 }
