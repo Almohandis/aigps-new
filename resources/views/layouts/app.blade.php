@@ -56,8 +56,7 @@
                                     <form method="POST" action="{{ route('logout') }}">
                                         @csrf
 
-                                        <x-dropdown-link :href="route('logout')"
-                                                onclick="event.preventDefault();
+                                        <x-dropdown-link :href="route('logout')" onclick="event.preventDefault();
                                                             this.closest('form').submit();">
                                             {{ __('Log Out') }}
                                         </x-dropdown-link>
@@ -66,11 +65,11 @@
                             </x-dropdown>
                         </div>
                         @else
-                            <a href="{{ route('login') }}" class="text-sm text-white hover:text-blue-100">Log in</a>
+                        <a href="{{ route('login') }}" class="text-sm text-white hover:text-blue-100">Log in</a>
 
-                            @if (Route::has('register'))
-                            <a href="{{ route('register') }}" class="ml-4 text-sm text-white hover:text-blue-100">Register</a>
-                            @endif
+                        @if (Route::has('register'))
+                        <a href="{{ route('register') }}" class="ml-4 text-sm text-white hover:text-blue-100">Register</a>
+                        @endif
                         @endauth
                     </div>
 
@@ -106,7 +105,11 @@
                         @auth
                             @if(Auth::user()->role_id == 2)
                                 <li>
-                                    <a href="{{ url('/') }}" class="block py-2 pr-4 pl-3 text-white border-b border-gray-100 hover:bg-gray-50 md:hover:bg-transparent md:border-0 md:hover:text-blue-100 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Dashboard</a>
+                                    <a href="{{ url('/staff/nationalid/modify') }}" class="block py-2 pr-4 pl-3 text-white border-b border-gray-100 hover:bg-gray-50 md:hover:bg-transparent md:border-0 md:hover:text-blue-100 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Modify national IDs</a>
+                                </li>
+                            @elseif(Auth::user()->role_id == 4)
+                                <li>
+                                    <a href="{{ url('/staff/moia/escorting') }}" class="block py-2 pr-4 pl-3 text-white border-b border-gray-100 hover:bg-gray-50 md:hover:bg-transparent md:border-0 md:hover:text-blue-100 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Campaign escorting</a>
                                 </li>
                             @endif
                         @endauth

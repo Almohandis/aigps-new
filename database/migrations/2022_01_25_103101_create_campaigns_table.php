@@ -20,6 +20,7 @@ class CreateCampaignsTable extends Migration
             $table->string('type');
             $table->string('location');
             $table->string('address');
+            $table->string('status')->default('pending'); //# pending, active, completed
             $table->timestamps();
         });
     }

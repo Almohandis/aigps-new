@@ -13,8 +13,4 @@ class Phone extends Model
         'user_id',
         'phone_number',
     ];
-
-    public function user() {
-        return $this->belongsTo('App\Models\User');
-    }
 }
