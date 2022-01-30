@@ -15,6 +15,7 @@ class Campaign extends Model
         'type',
         'location',
         'address',
+        'status',   //# pending, active, completed
     ];
 
     //# Relation to campaign appointments

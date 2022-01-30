@@ -65,6 +65,7 @@ class Kernel extends HttpKernel
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         //# Staff middlawares
         'nationalid' => \App\Http\Middleware\NationalId::class,
+        'moia'       => \App\Http\Middleware\Moia::class,
 
     ];
 }
