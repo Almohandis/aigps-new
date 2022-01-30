@@ -13,12 +13,16 @@ class ReseservationController extends Controller
             $request->user()->telephone_number != null &&
             $request->user()->birthdate != null &&
             $request->user()->address != null &&
+            $request->user()->gender != null &&
+            $request->user()->country != null &&
             $request->user()->phones->count() > 0
         ) {
             return redirect('/reserve/step2');
         }
 
-        return view('citizen.reservation1');
+        return view('citizen.reservation1')->with([
+            'countries'     =>      \Countries::getList('en')
+        ]);
     }
 
     public function store(Request $request) {
@@ -26,7 +30,8 @@ class ReseservationController extends Controller
             'address' => 'required|string',
             'telephone_number' => 'required',
             'birthdate' => 'required',
-            'gender' => 'required'
+            'gender' => 'required',
+            'country'   =>  'required|string'
         ]);
 
         $gender = ($request->gender === 'Male') ? 'Male' : 'Female';
@@ -35,7 +40,8 @@ class ReseservationController extends Controller
             'address'           =>  $request->address,
             'telephone_number'  =>  $request->telephone_number,
             'birthdate'         =>  $request->birthdate,
-            'gender'            =>  $gender
+            'gender'            =>  $gender,
+            'country'           =>  $request->country
         ]);
 
         //# user can have multiple phones, up to 10
@@ -61,6 +67,8 @@ class ReseservationController extends Controller
             $request->user()->telephone_number != null &&
             $request->user()->birthdate != null &&
             $request->user()->address != null &&
+            $request->user()->gender != null &&
+            $request->user()->country != null &&
             $request->user()->phones->count() > 0
         ) {
             $campaigns = Campaign::where('end_date', '>', now())->get();

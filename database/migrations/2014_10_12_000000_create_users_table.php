@@ -22,6 +22,7 @@ class CreateUsersTable extends Migration
             $table->string('telephone_number')->nullable()->default(null);
             $table->string('gender')->nullable()->default(null);
             $table->integer('role_id')->default(0);
+            $table->string('country')->nullable()->default(null);
             $table->char('blood_type', 3)->nullable()->default(null);
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();

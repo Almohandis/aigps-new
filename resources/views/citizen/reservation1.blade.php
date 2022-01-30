@@ -34,6 +34,16 @@
                     <x-input id="address" class="block mt-1 w-full" type="text" name="address" :value="old('address')" required autofocus />
                 </div>
 
+                <div>
+                    <x-label for="country" value="country" class="text-white" />
+
+                    <select name="country" id="country" class="block mt-1 w-full">
+                        @foreach($countries as $country)
+                            <option value="{{ $country }}">{{ $country }}</option>
+                        @endforeach
+                    </select>
+                </div>
+
                 <div class="mt-3">
                     <x-label for="telephone_number" value="Telephone Number" class="text-white" />
 

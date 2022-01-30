@@ -44,13 +44,15 @@ test('reservation page1 can can save user data correctly', function () {
         'birthdate' => '1999-01-01',
         'phone1'        =>  '123456789',
         'phone2'        =>  '123456789',
-        'gender'        =>  'Male'
+        'gender'        =>  'Male',
+        'country'       =>  'Egypt'
     ]);
 
     $this->assertEquals($this->user->address, 'address');
     $this->assertEquals($this->user->telephone_number, '123456789');
     $this->assertEquals($this->user->birthdate, '1999-01-01');
     $this->assertEquals($this->user->gender, 'Male');
+    $this->assertEquals($this->user->country, 'Egypt');
 
     $this->assertEquals($this->user->phones->count(), 2);
 
@@ -62,7 +64,8 @@ test('reservation page1 redirect to page2 when data is complete', function () {
         'address' => 'address',
         'telephone_number' => '123456789',
         'birthdate' => '1999-01-01',
-        'gender'        =>  'Male'
+        'gender'        =>  'Male',
+        'country'       =>  'Egypt'
     ]);
     $this->user->phones()->create([
         'phone_number'  =>  '123456789'
@@ -78,7 +81,8 @@ test('reservation page2 can be rendered', function () {
         'address' => 'address',
         'telephone_number' => '123456789',
         'birthdate' => '1999-01-01',
-        'gender'        =>  'Male'
+        'gender'        =>  'Male',
+        'country'       =>  'Egypt'
     ]);
 
     $this->user->phones()->create([

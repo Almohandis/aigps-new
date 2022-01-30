@@ -27,7 +27,8 @@ class User extends Authenticatable
         'telephone_number',
         'role_id',
         'gender',
-        'blood_type'
+        'blood_type',
+        'country'
     ];
 
     /**
