@@ -85,7 +85,7 @@ class ReseservationController extends Controller
             $request->user()->country != null &&
             $request->user()->phones->count() > 0
         ) {
-            return view('citizen.reservecomplete');//
+            return view('citizen.reservecomplete'); //#
         }
 
         return view('citizen.reservation1')->with([
