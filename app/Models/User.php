@@ -27,7 +27,8 @@ class User extends Authenticatable
         'telephone_number',
         'role_id',
         'gender',
-        'blood_type'
+        'blood_type',
+        'country'
     ];
 
     /**
@@ -55,5 +56,9 @@ class User extends Authenticatable
 
     public function reservations() {
         return $this->belongsToMany(Campaign::class)->withPivot('date');;
+    }
+    
+    public function survey() {
+        return $this->hasOne('App\Models\Survey');
     }
 }

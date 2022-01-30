@@ -23,6 +23,6 @@ Route::get('/view/{name}', function ($name) {
 
 require __DIR__.'/auth.php';
 
-Route::namespace('App\Http\Controllers\Citizen')->group(base_path('routes/citizen.php'));
+Route::namespace('App\Http\Controllers\Citizen')->middleware(['auth'])->group(base_path('routes/citizen.php'));
 
-Route::namespace('Staff')->middleware(['staff'])->prefix('staff')->group(base_path('routes/staff.php'));
+Route::namespace('App\Http\Controllers\Staff')->middleware(['staff', 'auth'])->prefix('staff')->group(base_path('routes/staff.php'));

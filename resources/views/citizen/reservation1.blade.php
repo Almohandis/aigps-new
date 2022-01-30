@@ -34,6 +34,16 @@
                     <x-input id="address" class="block mt-1 w-full" type="text" name="address" :value="old('address')" required autofocus />
                 </div>
 
+                <div>
+                    <x-label for="country" value="country" class="text-white" />
+
+                    <select name="country" id="country" class="block mt-1 w-full">
+                        @foreach($countries as $country)
+                            <option value="{{ $country }}">{{ $country }}</option>
+                        @endforeach
+                    </select>
+                </div>
+
                 <div class="mt-3">
                     <x-label for="telephone_number" value="Telephone Number" class="text-white" />
 
@@ -53,20 +63,6 @@
                     <label class="text-gray-400 text-sm mr-5">Male</label>
                     <input id="gender" type="radio" name="gender" value="Female" />
                     <label class="text-gray-400 text-sm">Female</label>
-                </div>
-
-                <div class="mt-3">
-                    <x-label for="blood_type" value="Blood Type" class="text-white" />
-                    <select id="blood_type" class="block mt-1 w-full" name="blood_type">
-                        <option value="A+">A+</option>
-                        <option value="A-">A-</option>
-                        <option value="B+">B+</option>
-                        <option value="B-">B-</option>
-                        <option value="AB+">AB+</option>
-                        <option value="AB-">AB-</option>
-                        <option value="O+">O+</option>
-                        <option value="O-">O-</option>
-                    </select>
                 </div>
 
                 <div class="mt-3">

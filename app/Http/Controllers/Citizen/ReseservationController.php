@@ -9,17 +9,9 @@ use App\Models\Campaign;
 class ReseservationController extends Controller
 {
     public function index(Request $request) {
-        if (
-            $request->user()->telephone_number != null &&
-            $request->user()->birthdate != null &&
-            $request->user()->address != null &&
-            $request->user()->blood_type != null &&
-            $request->user()->phones->count() > 0
-        ) {
-            return redirect('/reserve/step2');
-        }
+        $campaigns = Campaign::where('end_date', '>', now())->get();
 
-        return view('citizen.reservation1');
+        return view('citizen.reservation2')->with('campaigns', $campaigns);
     }
 
     public function store(Request $request) {
@@ -28,24 +20,17 @@ class ReseservationController extends Controller
             'telephone_number' => 'required',
             'birthdate' => 'required',
             'gender' => 'required',
-            'blood_type' => 'required',
+            'country'   =>  'required|string'
         ]);
 
         $gender = ($request->gender === 'Male') ? 'Male' : 'Female';
-
-        $blood_types = ['O+', 'O-', 'A-', 'A+', 'B+', 'B-', 'AB+', 'AB-'];
-        if (! in_array($request->blood_type, $blood_types) ) {
-            return back()->withErrors([
-                'blood_type' => 'Invalid blood type'
-            ]);
-        }
 
         $request->user()->update([
             'address'           =>  $request->address,
             'telephone_number'  =>  $request->telephone_number,
             'birthdate'         =>  $request->birthdate,
             'gender'            =>  $gender,
-            'blood_type'        =>  $request->blood_type
+            'country'           =>  $request->country
         ]);
 
         //# user can have multiple phones, up to 10
@@ -71,36 +56,40 @@ class ReseservationController extends Controller
             $request->user()->telephone_number != null &&
             $request->user()->birthdate != null &&
             $request->user()->address != null &&
-            $request->user()->blood_type != null &&
+            $request->user()->gender != null &&
+            $request->user()->country != null &&
             $request->user()->phones->count() > 0
         ) {
-            $campaigns = Campaign::where('end_date', '>', now())->get();
-
-            return view('citizen.reservation2')->with('campaigns', $campaigns);
+            return view('citizen.reservecomplete');
         }
 
-        return redirect('/reserve');
+        return view('citizen.reservation1')->with([
+            'countries'     =>      \Countries::getList('en')
+        ]);
     }
 
     public function reserve(Request $request, Campaign $campaign) {
-        $request->validate([
-            'date' => 'required|date|after_or_equal:today',
-        ]);
-
-        if ($request->date > $campaign->end_date || $request->date < $campaign->start_date) {
-            return back()->withErrors([
-                'date' => 'Invalid date'
-            ]);
-        }
-
         if ($campaign->end_date < now()) {
             return back()->withErrors([
                 'campaign' => 'Campaign has ended'
             ]);
         }
 
-        $request->user()->reservations()->attach($campaign->id, ['date' =>  $request->date]);
+        $date = rand(strtotime($campaign->start_date), strtotime($campaign->end_date));
 
-        return view('citizen.reservecomplete');
+        $request->user()->reservations()->attach($campaign->id, ['date' =>  date('Y-m-d H:i:s', $date)]);
+
+        if (
+            $request->user()->telephone_number != null &&
+            $request->user()->birthdate != null &&
+            $request->user()->address != null &&
+            $request->user()->gender != null &&
+            $request->user()->country != null &&
+            $request->user()->phones->count() > 0
+        ) {
+            return view('citizen.reservecomplete');
+        }
+
+        return redirect('/reserve/step2');
     }
 }
