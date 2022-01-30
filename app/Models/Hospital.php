@@ -12,6 +12,17 @@ class Hospital extends Model
     protected $fillable = [
         'name',
         'capacity',
+        'available_beds',
         'is_isolation',
     ];
+
+    public function statistics()
+    {
+        return $this->hasMany(HospitalStatistics::class);
+    }
+
+    public function clerks()
+    {
+        return $this->belongsToMany(User::class, 'hospital_clerks');
+    }
 }

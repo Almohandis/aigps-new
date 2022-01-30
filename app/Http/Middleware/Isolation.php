@@ -5,7 +5,7 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 
-class Moia
+class Isolation
 {
     /**
      * Handle an incoming request.
@@ -16,7 +16,7 @@ class Moia
      */
     public function handle(Request $request, Closure $next)
     {
-        if ($request->user() && $request->user()->role_id == 4) {
+        if ($request->user() && $request->user()->role_id == 6) {
             return $next($request);
         }
         return redirect('/');
