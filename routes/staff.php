@@ -8,7 +8,7 @@ use App\Http\Controllers\Staff\MoiaController;
 // all routes for staff will be here
 
 //# National id routes
-Route::get('/nationalid/modify', [NationalIdController::class, 'modify'])->middleware('nationalid')->name('nationalid-modify');
+Route::get('/nationalid/modify', [NationalIdController::class, 'index'])->middleware('nationalid')->name('nationalid-modify');
 Route::post('/nationalid/add', [NationalIdController::class, 'modify'])->middleware('nationalid');
 Route::get('/nationalid/add', [NationalIdController::class, 'index'])->middleware('nationalid');
 

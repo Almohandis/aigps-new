@@ -21,10 +21,11 @@ class CreateUsersTable extends Migration
             $table->string('address')->nullable()->default(null);
             $table->string('telephone_number')->nullable()->default(null);
             $table->string('gender')->nullable()->default(null);
-            $table->integer('role_id')->default(0);
+            $table->integer('role_id')->default(3);
             $table->string('country')->nullable()->default(null);
             $table->char('blood_type', 3)->nullable()->default(null);
             $table->string('email')->unique();
+            $table->integer('hospital_id')->nullable()->default(null);
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();

@@ -1,7 +1,7 @@
 <x-app-layout>
     <div class="max-w-6xl mx-auto sm:px-6 lg:px-8 mt-9">
         <div class="notification">
-            @if(session('message'))
+            @if (session('message'))
                 {{ session('message') }}
             @endif
         </div>
@@ -13,9 +13,6 @@
                 <input type="submit" value="Add" name="add">
                 <input type="submit" value="Delete" name="delete">
             </form>
-
-
-
         </div>
     </div>
 </x-app-layout>

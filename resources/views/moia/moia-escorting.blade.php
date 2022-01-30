@@ -20,7 +20,11 @@
                     <td>{{ $campaign->start_date }}</td>
                     <td>{{ $campaign->end_date }}</td>
                     <td>{{ $campaign->address }}</td>
-                    <td><input type="button" value="Escort" class='buttons' data-id="{{$campaign->id}}"></td>
+                    @if($campaign->status == 'active')
+                        <td><input type="button" value="Undo escorting" class='buttons' data-id="{{$campaign->id}}"></td>
+                    @else
+                        <td><input type="button" value="Escort" class='buttons' data-id="{{$campaign->id}}"></td>
+                    @endif
                 </tr>
                 @endforeach
             </table>
