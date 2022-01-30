@@ -99,10 +99,6 @@
         <div class="mt-6">
             <div class="mt-3 mx-auto text-right mr-5">
                 <form action="/reserve/final/-1" method="POST" id="procceed_form">
-                    <div>
-                        <span> Select Date: </span>
-                        <input type="date" id="datepicker" class="text-center text-xl" name="date">
-                    </div>
                     @csrf
                     <x-button type="submit" disabled id="procceed_button">
                         Procceed
