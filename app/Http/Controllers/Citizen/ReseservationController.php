@@ -14,6 +14,31 @@ class ReseservationController extends Controller
         return view('citizen.reservation2')->with('campaigns', $campaigns);
     }
 
+    public function reserve(Request $request, Campaign $campaign) {
+        if ($campaign->end_date < now()) {
+            return back()->withErrors([
+                'campaign' => 'Campaign has ended'
+            ]);
+        }
+
+        $date = rand(strtotime($campaign->start_date), strtotime($campaign->end_date));
+
+        $request->user()->reservations()->attach($campaign->id, ['date' =>  date('Y-m-d H:i:s', $date)]);
+
+        if (
+            $request->user()->telephone_number != null &&
+            $request->user()->birthdate != null &&
+            $request->user()->address != null &&
+            $request->user()->gender != null &&
+            $request->user()->country != null &&
+            $request->user()->phones->count() > 0
+        ) {
+            return view('citizen.reservecomplete');
+        }
+
+        return redirect('/reserve/step2');
+    }
+
     public function store(Request $request) {
         $request->validate([
             'address' => 'required|string',
@@ -51,7 +76,7 @@ class ReseservationController extends Controller
         return redirect('/reserve/step2');
     }
 
-    public function campaigns(Request $request) {
+    public function form(Request $request) {
         if (
             $request->user()->telephone_number != null &&
             $request->user()->birthdate != null &&
@@ -66,30 +91,5 @@ class ReseservationController extends Controller
         return view('citizen.reservation1')->with([
             'countries'     =>      \Countries::getList('en')
         ]);
-    }
-
-    public function reserve(Request $request, Campaign $campaign) {
-        if ($campaign->end_date < now()) {
-            return back()->withErrors([
-                'campaign' => 'Campaign has ended'
-            ]);
-        }
-
-        $date = rand(strtotime($campaign->start_date), strtotime($campaign->end_date));
-
-        $request->user()->reservations()->attach($campaign->id, ['date' =>  date('Y-m-d H:i:s', $date)]);
-
-        if (
-            $request->user()->telephone_number != null &&
-            $request->user()->birthdate != null &&
-            $request->user()->address != null &&
-            $request->user()->gender != null &&
-            $request->user()->country != null &&
-            $request->user()->phones->count() > 0
-        ) {
-            return view('citizen.reservecomplete');
-        }
-
-        return redirect('/reserve/step2');
     }
 }
