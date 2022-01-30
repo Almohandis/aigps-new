@@ -32,7 +32,7 @@ test('new users can register', function () {
     $this->assertEquals(1, User::count());
 
     $this->assertAuthenticated();
-    $response->assertRedirect(RouteServiceProvider::HOME);
+    $response->assertRedirect('/survey');
 });
 
 test('new users cannot register with invalid national id', function () {
