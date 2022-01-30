@@ -2,12 +2,8 @@
 
 namespace Database\Seeders;
 
-use Brick\Math\BigInteger;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Str;
-use Ramsey\Uuid\Type\Integer;
+use Illuminate\Database\Eloquent\Factories\Sequence;
 
 class NationalIdSeeder extends Seeder
 {
@@ -18,9 +14,11 @@ class NationalIdSeeder extends Seeder
      */
     public function run()
     {
-        //# Seeder
-        DB::table('national_ids')->insert([
-            'national_id' => BigInteger::randomBits(9),
-        ]);
+        \App\Models\NationalId::factory(2)
+        ->state(new Sequence(
+            ['national_id' => '1234'],
+            ['national_id' => '12345'],
+        ))
+        ->create();
     }
 }

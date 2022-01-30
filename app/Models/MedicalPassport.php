@@ -13,10 +13,4 @@ class MedicalPassport extends Model
         'user_id',
         'vaccine_name',
     ];
-
-    //# Inverse relation to user
-    public function user()
-    {
-        return $this->belongsTo(User::class);
-    }
 }

@@ -29,6 +29,7 @@ class User extends Authenticatable
         'gender',
         'blood_type',
         'hospital_id',
+        'country'
     ];
 
     /**
@@ -50,47 +51,15 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    //# Relation to medical passport
-    public function medical_passport()
-    {
-        return $this->hasOne(MedicalPassport::class);
+    public function phones(){
+        return $this->hasMany('App\Models\Phone');
     }
 
-    //# Relation to infections
-    public function infections()
-    {
-        return $this->hasMany(Infection::class);
+    public function reservations() {
+        return $this->belongsToMany(Campaign::class)->withPivot('date');;
     }
-
-    //# Relation to campaign appointments
-    public function appointments()
-    {
-        return $this->hasMany(CampaignAppointment::class);
+    
+    public function survey() {
+        return $this->hasOne('App\Models\Survey');
     }
-
-    //# Relation to hospital (hospitalize)
-    public function hospital()
-    {
-        return $this->belongsToMany(Hospital::class)->withPivot('checkin_date', 'checkout_date');
-    }
-
-    //# Relation to campaigns (campaign doctors)
-    public function campaigns()
-    {
-        return $this->belongsToMany(Campaign::class)->withPivot('start_date', 'end_date');
-    }
-
-    //# Relation to hospital (works in)
-    public function hospitals()
-    {
-        return $this->belongsTo(Hospital::class);
-    }
-
-    //# Relation to chronic diseases
-    public function chronic_diseases()
-    {
-        return $this->belongsToMany(ChronicDisease::class);
-    }
-
-
 }

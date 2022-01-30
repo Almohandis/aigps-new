@@ -13,11 +13,10 @@ class CreatePhonesTable extends Migration
      */
     public function up()
     {
-        Schema::create('campaign_appointments', function (Blueprint $table) {
+        Schema::create('phones', function (Blueprint $table) {
             $table->id();
-            $table->integer('campaign_id');
             $table->integer('user_id');
-            $table->date('date');
+            $table->string('phone_number');
             $table->timestamps();
         });
     }
@@ -29,6 +28,6 @@ class CreatePhonesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('campaign_appointments');
+        Schema::dropIfExists('phones');
     }
 }

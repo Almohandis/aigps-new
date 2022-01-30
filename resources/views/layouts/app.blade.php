@@ -103,15 +103,15 @@
                         </li>
                         <!--# National id roles -->
                         @auth
-                        @if(Auth::user()->role_id == 2)
-                        <li>
-                            <a href="{{ url('/staff/nationalid/modify') }}" class="block py-2 pr-4 pl-3 text-white border-b border-gray-100 hover:bg-gray-50 md:hover:bg-transparent md:border-0 md:hover:text-blue-100 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Modify national IDs</a>
-                        </li>
-                        @elseif(Auth::user()->role_id == 4)
-                        <li>
-                            <a href="{{ url('/staff/moia/escorting') }}" class="block py-2 pr-4 pl-3 text-white border-b border-gray-100 hover:bg-gray-50 md:hover:bg-transparent md:border-0 md:hover:text-blue-100 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Campaign escorting</a>
-                        </li>
-                        @endif
+                            @if(Auth::user()->role_id == 2)
+                                <li>
+                                    <a href="{{ url('/staff/nationalid/modify') }}" class="block py-2 pr-4 pl-3 text-white border-b border-gray-100 hover:bg-gray-50 md:hover:bg-transparent md:border-0 md:hover:text-blue-100 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Modify national IDs</a>
+                                </li>
+                            @elseif(Auth::user()->role_id == 4)
+                                <li>
+                                    <a href="{{ url('/staff/moia/escorting') }}" class="block py-2 pr-4 pl-3 text-white border-b border-gray-100 hover:bg-gray-50 md:hover:bg-transparent md:border-0 md:hover:text-blue-100 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Campaign escorting</a>
+                                </li>
+                            @endif
                         @endauth
                     </ul>
                 </div>

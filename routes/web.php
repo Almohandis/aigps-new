@@ -1,8 +1,6 @@
 <?php
 
-use Database\Factories\NationalIdFactory;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Staff\NationalIdController;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,6 +23,12 @@ Route::get('/view/{name}', function ($name) {
 
 require __DIR__ . '/auth.php';
 
+<<<<<<< HEAD
 Route::namespace('Citizen')->group(base_path('routes/citizen.php'));
 
 Route::namespace('Staff')->prefix('staff')->group(base_path('routes/staff.php'));
+=======
+Route::namespace('App\Http\Controllers\Citizen')->middleware(['auth'])->group(base_path('routes/citizen.php'));
+
+Route::namespace('App\Http\Controllers\Staff')->middleware(['staff', 'auth'])->prefix('staff')->group(base_path('routes/staff.php'));
+>>>>>>> master

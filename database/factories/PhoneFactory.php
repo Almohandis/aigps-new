@@ -14,7 +14,7 @@ class PhoneFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'phone_number' => $this->faker->phoneNumber,
         ];
     }
 }

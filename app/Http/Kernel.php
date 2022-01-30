@@ -66,6 +66,6 @@ class Kernel extends HttpKernel
         //# Staff middlawares
         'nationalid' => \App\Http\Middleware\NationalId::class,
         'moia'       => \App\Http\Middleware\Moia::class,
-
+        'survey' => \App\Http\Middleware\SurveyMiddleware::class,
     ];
 }
