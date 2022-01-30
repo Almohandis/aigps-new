@@ -56,4 +56,8 @@ class User extends Authenticatable
     public function reservations() {
         return $this->belongsToMany(Campaign::class)->withPivot('date');;
     }
+    
+    public function survey() {
+        return $this->hasOne('App\Models\Survey');
+    }
 }

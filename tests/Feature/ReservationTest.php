@@ -16,6 +16,12 @@ beforeEach(function () {
     ]);
 
     $this->user = User::factory()->create();
+    $this->user->survey()->create([
+        'question1' => '1',
+        'question2' => '2',
+        'question3' => '3',
+        'question4' => '4',
+    ]);
 
     Campaign::factory()->create([
         'start_date' => '2020-01-01',
