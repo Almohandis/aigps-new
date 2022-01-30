@@ -13,11 +13,4 @@ class Phone extends Model
         'user_id',
         'phone_number',
     ];
-<<<<<<< HEAD
-=======
-
-    public function user() {
-        return $this->belongsTo('App\Models\User');
-    }
->>>>>>> master
 }

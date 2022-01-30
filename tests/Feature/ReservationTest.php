@@ -108,9 +108,9 @@ test('reservation page2 can save data', function () {
 
     $response = $this->post('/reserve/final/1');
 
-    $this->assertEquals(DB::table('campaign_user')->count(), 1);
+    $this->assertEquals(DB::table('campaign_appointments')->count(), 1);
 
-    $this->assertTrue(DB::table('campaign_user')->where('campaign_id', 1)->where('user_id', $this->user->id)->where('date', '>=', '2020-01-01')->where('date', '<=', now()->addDays(10))->exists());
+    $this->assertTrue(DB::table('campaign_appointments')->where('campaign_id', 1)->where('user_id', $this->user->id)->where('date', '>=', '2020-01-01')->where('date', '<=', now()->addDays(10))->exists());
 
     $response->assertStatus(200);
 });
