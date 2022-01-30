@@ -10,8 +10,8 @@ Route::post('/survey', 'SurveyController@survey');
 
 Route::middleware('survey')->group(function () {
     Route::get('/reserve', 'ReseservationController@index');
-    Route::post('/reserve', 'ReseservationController@store');
+    Route::post('/reserve/map/{campaign}', 'ReseservationController@reserve');
 
-    Route::get('/reserve/step2', 'ReseservationController@campaigns');
-    Route::post('/reserve/final/{campaign}', 'ReseservationController@reserve');
+    Route::get('/reserve/step2', 'ReseservationController@form');
+    Route::post('/reserve/step2', 'ReseservationController@store');
 });

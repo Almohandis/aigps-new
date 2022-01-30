@@ -98,7 +98,7 @@
 
         <div class="mt-6">
             <div class="mt-3 mx-auto text-right mr-5">
-                <form action="/reserve/final/-1" method="POST" id="procceed_form">
+                <form action="/reserve/map/-1" method="POST" id="procceed_form">
                     @csrf
                     <x-button type="submit" disabled id="procceed_button">
                         Procceed

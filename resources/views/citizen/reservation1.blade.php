@@ -12,7 +12,7 @@
 
         <div class="mx-auto text-center mt-5">
             
-            <form class="inline-block bg-black bg-opacity-50 p-8 text-justify" method="POST" action="/reserve">
+            <form class="inline-block bg-black bg-opacity-50 p-8 text-justify" method="POST" action="/reserve/step2">
                 @if ($errors->any())
                     <div>
                         <div class="font-medium text-red-600">
