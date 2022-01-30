@@ -9,20 +9,9 @@ use App\Models\Campaign;
 class ReseservationController extends Controller
 {
     public function index(Request $request) {
-        if (
-            $request->user()->telephone_number != null &&
-            $request->user()->birthdate != null &&
-            $request->user()->address != null &&
-            $request->user()->gender != null &&
-            $request->user()->country != null &&
-            $request->user()->phones->count() > 0
-        ) {
-            return redirect('/reserve/step2');
-        }
+        $campaigns = Campaign::where('end_date', '>', now())->get();
 
-        return view('citizen.reservation1')->with([
-            'countries'     =>      \Countries::getList('en')
-        ]);
+        return view('citizen.reservation2')->with('campaigns', $campaigns);
     }
 
     public function store(Request $request) {
@@ -71,12 +60,12 @@ class ReseservationController extends Controller
             $request->user()->country != null &&
             $request->user()->phones->count() > 0
         ) {
-            $campaigns = Campaign::where('end_date', '>', now())->get();
-
-            return view('citizen.reservation2')->with('campaigns', $campaigns);
+            return view('citizen.reservecomplete');
         }
 
-        return redirect('/reserve');
+        return view('citizen.reservation1')->with([
+            'countries'     =>      \Countries::getList('en')
+        ]);
     }
 
     public function reserve(Request $request, Campaign $campaign) {
@@ -90,6 +79,17 @@ class ReseservationController extends Controller
 
         $request->user()->reservations()->attach($campaign->id, ['date' =>  date('Y-m-d H:i:s', $date)]);
 
-        return view('citizen.reservecomplete');
+        if (
+            $request->user()->telephone_number != null &&
+            $request->user()->birthdate != null &&
+            $request->user()->address != null &&
+            $request->user()->gender != null &&
+            $request->user()->country != null &&
+            $request->user()->phones->count() > 0
+        ) {
+            return view('citizen.reservecomplete');
+        }
+
+        return redirect('/reserve/step2');
     }
 }
