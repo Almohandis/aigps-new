@@ -12,7 +12,7 @@ window.onload = () => {
                 alert("Something went wrong, please try again");
             }
         }
-        xhttp.open("GET", "/staff/moia/modify?id=" + id + `&status=${document.querySelector(`[data-id="${id}"]`).value}`);
+        xhttp.open("GET", "/staff/moia/modify?id=" + id + `&action=${document.querySelector(`[data-id="${id}"]`).value}`);
         xhttp.send();
     }
 
