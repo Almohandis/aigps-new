@@ -12,6 +12,7 @@ class Hospital extends Model
     protected $fillable = [
         'name',
         'capacity',
+        'city',
         'available_beds',
         'is_isolation',
     ];

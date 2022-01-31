@@ -12,9 +12,6 @@ use App\Models\User;
 uses(RefreshDatabase::class);
 
 beforeEach(function () {
-    // NationalId::create([
-    //     'national_id' => 123,
-    // ]);
 
     //# Future campaign
     Campaign::create([
