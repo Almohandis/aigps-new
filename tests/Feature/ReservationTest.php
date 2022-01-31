@@ -47,7 +47,7 @@ test('reservation page1 can create appointment', function () {
     $response->assertRedirect('/reserve/step2');
 });
 
-test('reservation page2 can can save user data correctly', function () {
+test('reservation page2 can save user data correctly', function () {
     $response = $this->post('/reserve/step2', [
         'address' => 'address',
         'telephone_number' => '123456789',

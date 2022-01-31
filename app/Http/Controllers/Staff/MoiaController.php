@@ -16,13 +16,13 @@ class MoiaController extends Controller
 
     public function modify(Request $request)
     {
-        $campaignStatus = $request->input('status');
+        $action = $request->query('action');
         $campaignId = $request->query('id');
 
-        if ($campaignStatus == 'Escort') {
-            $status = Campaign::where('id', $campaignId)->update(['status' => 'active']);
+        if ($action == 'Escort') {
+            $status = Campaign::find($campaignId)->update(['status' => 'active']);
         } else {
-            $status = Campaign::where('id', $campaignId)->update(['status' => 'pending']);
+            $status = Campaign::find($campaignId)->update(['status' => 'pending']);
         }
         echo $status;
     }
