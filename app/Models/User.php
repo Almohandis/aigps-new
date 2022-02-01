@@ -62,4 +62,8 @@ class User extends Authenticatable
     public function survey() {
         return $this->hasOne('App\Models\Survey');
     }
+
+    public function diseases() {
+        return $this->hasMany(ChronicDisease::class);
+    }
 }

@@ -15,4 +15,6 @@ Route::get('/nationalid/add', [NationalIdController::class, 'index'])->middlewar
 //# Moia routes
 Route::get('/moia/escorting', [MoiaController::class, 'index'])->middleware('moia');
 Route::get('/moia/modify', [MoiaController::class, 'modify'])->middleware('moia');
+
 Route::get('/clerk', 'CampaignClerkController@index');
+Route::post('/clerk', 'CampaignClerkController@store');
