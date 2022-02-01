@@ -58,12 +58,17 @@ class User extends Authenticatable
     public function reservations() {
         return $this->belongsToMany(Campaign::class, 'campaign_appointments')->withPivot('date');;
     }
-    
+
     public function survey() {
         return $this->hasOne('App\Models\Survey');
     }
 
+<<<<<<< HEAD
     public function diseases() {
         return $this->hasMany(ChronicDisease::class);
+=======
+    public function hospitals(){
+        return $this->belongsToMany(Hospital::class, 'hospital_clerks');
+>>>>>>> master
     }
 }

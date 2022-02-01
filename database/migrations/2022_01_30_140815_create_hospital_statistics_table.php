@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateHospitalsTable extends Migration
+class CreateHospitalStatisticsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,12 @@ class CreateHospitalsTable extends Migration
      */
     public function up()
     {
-        Schema::create('hospitals', function (Blueprint $table) {
+        Schema::create('hospital_statistics', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('city');
-            $table->integer('capacity')->default(0);
-            $table->integer('available_beds')->default(0);
-            $table->boolean('is_isolation');
+            $table->integer('hospital_id');
+            $table->dateTime('date');
+            $table->integer('recoveries');
+            $table->integer('deaths');
             $table->timestamps();
         });
     }
@@ -31,6 +30,6 @@ class CreateHospitalsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('hospitals');
+        Schema::dropIfExists('hospital_statistics');
     }
 }

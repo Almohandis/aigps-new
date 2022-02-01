@@ -5,7 +5,7 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 
-class Moia
+class NationalId
 {
     /**
      * Handle an incoming request.
@@ -16,7 +16,8 @@ class Moia
      */
     public function handle(Request $request, Closure $next)
     {
-        if ($request->user() && $request->user()->role_id == 4) {
+        //# Validate user with role id =2 (national id)
+        if ($request->user() && $request->user()->role_id == 2) {
             return $next($request);
         }
         return redirect('/');
