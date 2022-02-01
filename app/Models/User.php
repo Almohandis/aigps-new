@@ -63,12 +63,11 @@ class User extends Authenticatable
         return $this->hasOne('App\Models\Survey');
     }
 
-<<<<<<< HEAD
     public function diseases() {
         return $this->hasMany(ChronicDisease::class);
-=======
+    }
+
     public function hospitals(){
         return $this->belongsToMany(Hospital::class, 'hospital_clerks');
->>>>>>> master
     }
 }
