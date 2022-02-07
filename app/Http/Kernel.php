@@ -67,6 +67,7 @@ class Kernel extends HttpKernel
         'nationalid' => \App\Http\Middleware\NationalId::class,
         'moia'       => \App\Http\Middleware\Moia::class,
         'survey' => \App\Http\Middleware\SurveyMiddleware::class,
+        'clerk' => \App\Http\Middleware\ClerkMiddleware::class,
         'isolation' => \App\Http\Middleware\Isolation::class,
     ];
 }

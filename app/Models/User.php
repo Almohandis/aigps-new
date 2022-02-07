@@ -29,7 +29,8 @@ class User extends Authenticatable
         'gender',
         'blood_type',
         'hospital_id',
-        'country'
+        'country',
+        'is_diagnosed'
     ];
 
     /**
@@ -61,6 +62,10 @@ class User extends Authenticatable
 
     public function survey() {
         return $this->hasOne('App\Models\Survey');
+    }
+
+    public function diseases() {
+        return $this->hasMany(ChronicDisease::class);
     }
 
     public function hospitals(){

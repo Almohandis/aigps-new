@@ -17,7 +17,9 @@ Route::get('/nationalid/add', [NationalIdController::class, 'index'])->middlewar
 //# Moia routes
 Route::get('/moia/escorting', [MoiaController::class, 'index'])->middleware('moia');
 Route::get('/moia/modify', [MoiaController::class, 'modify'])->middleware('moia')->name('unescort');
-Route::get('/clerk', 'CampaignClerkController@index');
+
+Route::get('/clerk', 'CampaignClerkController@index')->middleware('clerk');
+Route::post('/clerk', 'CampaignClerkController@store')->middleware('clerk');
 
 //# Isolation hospital routes
 Route::get('/isohospital/modify', 'IsolationHospitalController@index')->middleware('isolation');
