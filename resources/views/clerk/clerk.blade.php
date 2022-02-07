@@ -48,6 +48,11 @@
                         <option value="O-">O-</option>
                     </select>
                 </div>
+
+                <div class="mt-3">
+                    <input type="checkbox" name="is_diagnosed" value="true" />
+                    <x-label value="is_diagnosed" class="text-white inline-block" />
+                </div>
                 
                 <div class="mt-3">
                     <x-label value="chronic diseases" class="text-white" />

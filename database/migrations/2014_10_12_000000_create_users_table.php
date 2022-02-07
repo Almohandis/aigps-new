@@ -27,6 +27,7 @@ class CreateUsersTable extends Migration
             $table->string('email')->unique();
             $table->integer('hospital_id')->nullable()->default(null);
             $table->timestamp('email_verified_at')->nullable();
+            $table->boolean('is_diagnosed')->default(false);
             $table->string('password');
             $table->rememberToken();
             $table->timestamps();

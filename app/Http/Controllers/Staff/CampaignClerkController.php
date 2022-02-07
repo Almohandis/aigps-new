@@ -30,7 +30,8 @@ class CampaignClerkController extends Controller
         }
 
         $user->update([
-            'blood_type' => $request->blood_type
+            'blood_type'    => $request->blood_type,
+            'is_diagnosed'  => $request->is_diagnosed == 'true' ? true : false
         ]);
 
         $disease = 1;

@@ -29,7 +29,8 @@ class User extends Authenticatable
         'gender',
         'blood_type',
         'hospital_id',
-        'country'
+        'country',
+        'is_diagnosed'
     ];
 
     /**
