@@ -39,7 +39,7 @@
                     document.getElementById('campaign_selection').children[0].children[0].innerHTML = campaign[0];
                     
                     document.getElementById('procceed_button').removeAttribute('disabled');
-                    document.getElementById('procceed_form').action = '/reserve/final/' + campaign[3];
+                    document.getElementById('procceed_form').action = '/reserve/map/' + campaign[3];
                 }
 
                 function initMap() {
