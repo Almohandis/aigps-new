@@ -21,7 +21,10 @@ class ReseservationController extends Controller
             ]);
         }
 
-        $date = rand(strtotime($campaign->start_date), strtotime($campaign->end_date));
+        $start = max(strtotime($campaign->start_date), strtotime(today()));
+        $end = strtotime($campaign->end_date);
+
+        $date = rand($start, $end);
 
         $request->user()->reservations()->attach($campaign->id, ['date' =>  date('Y-m-d H:i:s', $date)]);
 

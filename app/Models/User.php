@@ -71,4 +71,8 @@ class User extends Authenticatable
     public function hospitals(){
         return $this->belongsToMany(Hospital::class, 'hospital_clerks');
     }
+
+    public function relatives() {
+        return $this->belongsToMany(User::class, 'user_relative')->withPivot('relation');
+    }
 }
