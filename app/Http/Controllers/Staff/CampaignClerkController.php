@@ -48,6 +48,18 @@ class CampaignClerkController extends Controller
             $disease++;
         }
 
+        if ($request->input('is_infected') == 'true' && ! $user->infection()->exists()) {
+            $user->infection()->create([
+                'infection_date'  => now()
+            ]);
+        }
+
+        if ($request->input('is_recovered') == 'true' && $user->infection()->exists()) {
+            $user->infection()->update([
+                'is_recovered'      =>  true,
+            ]);
+        }
+
         return view('clerk.clerk')->with('success', 'User updated successfully');
     }
 }

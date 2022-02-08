@@ -51,11 +51,20 @@
 
                 <div class="mt-3">
                     <input type="checkbox" name="is_diagnosed" value="true" />
-                    <x-label value="is_diagnosed" class="text-white inline-block" />
+                    <x-label value="Is Diagnosed" class="text-white inline-block" />
+                </div>
+
+                <div class="mt-4 text-white">
+                    <p class="text-xl"> Infection status </p>
+                    <input type="checkbox" name="is_infected" value="true" />
+                    <x-label value="Is Infected" class="text-white inline-block" />
+                    <br>
+                    <input type="checkbox" name="is_recovered" value="true" />
+                    <x-label value="Is Recovered" class="text-white inline-block" />
                 </div>
                 
                 <div class="mt-3">
-                    <x-label value="chronic diseases" class="text-white" />
+                    <p class="text-xl text-white"> Chronic Diseases </p>
 
                     <div id="diseases">
                     </div>
