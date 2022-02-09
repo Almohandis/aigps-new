@@ -24,6 +24,6 @@ class Hospital extends Model
 
     public function clerks()
     {
-        return $this->belongsToMany(User::class, 'hospital_clerks');
+        return $this->hasMany(User::class);
     }
 }

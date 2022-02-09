@@ -24,6 +24,7 @@ Route::post('/clerk', 'CampaignClerkController@store')->middleware('clerk');
 //# Isolation hospital routes
 Route::get('/isohospital/modify', 'IsolationHospitalController@index')->middleware('isolation');
 Route::post('/isohospital/update', 'IsolationHospitalController@modify')->middleware('isolation');
+Route::get('/isohospital/infection', 'IsolationHospitalController@infection')->middleware('isolation');
 
 Route::get('/test', function () {
     $hospital = Hospital::find(1);

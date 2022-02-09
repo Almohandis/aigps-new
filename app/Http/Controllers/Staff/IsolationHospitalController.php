@@ -51,4 +51,9 @@ class IsolationHospitalController extends Controller
             return redirect()->back()->with('message', 'You are not authorized to modify this hospital');
         }
     }
+
+    public function infection(Request $request)
+    {
+
+    }
 }
