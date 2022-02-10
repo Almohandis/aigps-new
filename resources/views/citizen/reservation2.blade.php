@@ -107,15 +107,11 @@
                         anchor: new google.maps.Point(15, 30),
                     };
 
-                    if (new Date(location[4]).getTime() > new Date().getTime()) {
-                        if (location[5] == 'active') {
-                            return greenMarker;
-                        } else {
-                            return blackMarker;
-                        }
+                    if (location[5] == 'active') {
+                        return greenMarker;
                     }
 
-                    return redMarker;
+                    return blackMarker;
                 } 
             </script>
         </div>
