@@ -24,15 +24,13 @@ Route::post('/clerk', 'CampaignClerkController@store')->middleware('clerk');
 //# Isolation hospital routes
 Route::get('/isohospital/modify', 'IsolationHospitalController@index')->middleware('isolation');
 Route::post('/isohospital/update', 'IsolationHospitalController@modify')->middleware('isolation');
+Route::get('/isohospital/infection', 'IsolationHospitalController@infection')->middleware('isolation');
+Route::get('/isohospital/infection/edit', 'IsolationHospitalController@edit')->middleware('isolation');
+Route::post('/isohospital/infection/save/{id}', 'IsolationHospitalController@save')->middleware('isolation');
+Route::get('/isohospital/infection/more/{id}', 'IsolationHospitalController@more')->middleware('isolation')->name('infection-more');
+Route::post('/isohospital/infection/more/{id}', 'IsolationHospitalController@submit')->middleware('isolation');
 
 Route::get('/test', function () {
-    $hospital = Hospital::find(1);
-    // return $hospital;
-    $user = User::find(1);
-    $hospital->clerks()->attach($user);
-    // $user->hospitals()->attach(1);
-
-    return $user->hospitals()->find(1)->first()->capacity;
-
-    return $user->hospitals()->first();
+    $phones = User::find(1)->phones()->get();
+    var_dump($phones);
 });
