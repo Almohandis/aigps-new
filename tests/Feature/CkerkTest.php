@@ -43,13 +43,18 @@ test('clerk can save user data', function () {
         'blood_type' => 'A+',
         'is_diagnosed'  =>  'true',
         'disease1'  =>  'disease1',
-        'disease2'  =>  'disease2'
+        'disease2'  =>  'disease2',
+        'is_infected'  =>  'true',
+        'is_recovered'  =>  'true',
     ]);
 
     $this->assertEquals($this->user->diseases()->count(), 2);
     $this->assertEquals(ChronicDisease::find(1)->name, 'disease1');
     $this->assertEquals(ChronicDisease::find(2)->name, 'disease2');
     $this->assertEquals(User::first()->is_diagnosed, '1');
+
+    $this->assertTrue(User::first()->infection()->exists());
+    $this->assertEquals(User::first()->infection()->first()->is_recovered, '1');
 
 
     $this->assertEquals(User::first()->blood_type, 'A+');

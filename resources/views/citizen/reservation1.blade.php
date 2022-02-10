@@ -76,6 +76,10 @@
                         Add Phone
                     </div>
 
+                    <div id="removePhone" onclick="removePhone()" class="hidden text-center bg-red-500 text-white text-medium px-3 py-2 mt-3 rounded-md shadow-sm hover:bg-red-400">
+                        Remove Phone
+                    </div>
+
                     <script>
                         var phones = 2;
                         var phone_input = document.getElementById('phones');
@@ -89,8 +93,23 @@
                             phone.setAttribute('class', 'block mt-1');
 
                             phone_input.appendChild(phone);
-
+                            
                             phones++;
+                            
+                            if (phones > 2) {
+                                document.getElementById('removePhone').classList.remove('hidden');
+                            }
+                        }
+                        
+                        function removePhone() {
+                            if (phones > 2) {
+                                phone_input.removeChild(phone_input.lastChild);
+                                phones--;
+                                
+                                if (phones == 2) {
+                                    document.getElementById('removePhone').classList.add('hidden');
+                                }
+                            }
                         }
                     </script>
                 </div>
