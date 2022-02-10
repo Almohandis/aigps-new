@@ -6,6 +6,7 @@
             @endif
         </div>
         <form action="/staff/isohospital/infection/more/{{ $data['user']['national_id'] }}" method="POST">
+            @csrf
             <div class="pt-8 sm:pt-0">
                 <h1>Patient data</h1>
                 <label for="national-id">National ID</label>
@@ -43,25 +44,28 @@
                 <h2>Mobile phones</h2>
                 <div id="phones">
                     @foreach ($data['phones'] as $phone)
-                        <label for="phone_number">Phone number</label>
-                        <input type="text" name="phones[]" id="phone_number" class="mt-2"
-                            value="{{ $phone['phone_number'] }}">
-                        <input type="button" id="{{ $phone['id'] }}" class="delete" value="Delete"><br>
+                        <label class="phone {{ $phone['id'] }}" for="phone_number">Phone number</label>
+                        <input type="text" name="phones[]" id="{{ $phone['id'] }}"
+                            class="mt-2 phone {{ $phone['id'] }}" value="{{ $phone['phone_number'] }}">
+                        <input type="button" id="{{ $phone['id'] }}" onclick="deletePhone(event)"
+                            class="phone {{ $phone['id'] }}" value="Delete"><br>
                     @endforeach
                 </div>
-                <button class="mt-2" onclick="addPhone()">Add phone</button>
+                <input type="button" id="add-phone" value="Add phone">
                 <br><br>
 
                 <h1>Infections</h1>
                 <div id="infections">
                     @foreach ($data['infections'] as $infection)
-                        <label for="infection">Infection</label>
-                        <input type="text" name="infections[]" id="infection" class="mt-2"
-                            value="{{ $infection['infection'] }}">
-                        <input type="button" id="{{ $infection['id'] }}" class="delete" value="Delete"><br>
+                        <label class="infection {{ $infection['id'] }}" for="infection">Infection</label>
+                        <input type="date" name="infections[]" id="{{ $infection['id'] }}"
+                            class="mt-2 infection {{ $infection['id'] }}"
+                            value="{{ $infection['infection_date'] }}">
+                        <input type="button" id="{{ $infection['id'] }}" onclick="deleteInfection(event)"
+                            class="infection {{ $infection['id'] }}" value="Delete"><br>
                     @endforeach
                 </div>
-                <button class="mt-2" onclick="addInfection">Add infection</button>
+                <input type="button" id="add-infection" value="Add infection">
                 <br><br>
 
                 <input type="submit" value="Submit">
@@ -69,5 +73,24 @@
 
     </div>
     </div>
+    <script>
+        function deletePhone(event) {
+            let elements = document.getElementsByClassName(event.target.id);
+            for (let i = elements.length - 1; i >= 0; i--) {
+                if (elements[i].classList.contains('phone')) {
+                    elements[i].remove();
+                }
+            }
+        }
+
+        function deleteInfection(event) {
+            let elements = document.getElementsByClassName(event.target.id);
+            for (let i = elements.length - 1; i >= 0; i--) {
+                if (elements[i].classList.contains('infection')) {
+                    elements[i].remove();
+                }
+            }
+        }
+    </script>
     <script src="{{ asset('js/isohospital-edit-user.js') }}"></script>
 </x-app-layout>

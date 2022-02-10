@@ -104,7 +104,45 @@ class IsolationHospitalController extends Controller
     }
 
     //# Detailed patient data submit
-    public function submit()
+    public function submit(Request $request, $id)
     {
+        $success = true;
+        $user = User::where('national_id', $id)->first();
+        $userUpdate = $user->update([
+            'name' => $request->name,
+            'birthdate' => $request->birthdate,
+            'address' => $request->address,
+            'telephone_number' => $request->telephone_number,
+            'gender' => $request->gender,
+            'country'   =>  $request->country,
+            'blood_type'    =>  $request->blood_type,
+            'is_diagnosed'  =>  $request->is_diagnosed,
+        ]);
+        if (!$userUpdate)
+            $success = false;
+
+        // return $userUpdate;
+        $user->phones()->delete();
+        if ($request->phones)
+            foreach ($request->phones as $phone) {
+                if (!$user->phones()->create([
+                    'phone_number' => $phone,
+                ]))
+                    $success = false;
+            }
+        // return $phonesDelete;
+        $user->infections()->delete();
+        if ($request->infections)
+            foreach ($request->infections as $infection) {
+                if (!$user->infections()->create([
+                    'infection_date'    => $infection,
+                ]))
+                    $success = false;
+            }
+        // return $infectionsDelete;
+        if ($success)
+            return redirect('/staff/isohospital/infection')->with('message', 'Patient information updated successfully');
+        else
+            return redirect('/staff/isohospital/infection')->with('message', 'Patient information could not be updated');
     }
 }

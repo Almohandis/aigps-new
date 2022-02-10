@@ -33,14 +33,4 @@ Route::post('/isohospital/infection/more/{id}', 'IsolationHospitalController@sub
 Route::get('/test', function () {
     $phones = User::find(1)->phones()->get();
     var_dump($phones);
-
-    // $hospital = Hospital::find(1);
-    // // return $hospital;
-    // $user = User::find(1);
-    // $hospital->clerks()->attach($user);
-    // // $user->hospitals()->attach(1)ك
-
-    // return $user->hospitals()->find(1)->first()->capacity;
-
-    // return $user->hospitals()->first();
 });
