@@ -76,4 +76,14 @@ class User extends Authenticatable
     {
         return $this->hasOne(Hospital::class);
     }
+
+    public function hospitalizations()
+    {
+        return $this->belongsToMany(Hospital::class, 'hospitalizations')->withPivot('checkin_date', 'checkout_date');
+    }
+
+    public function infections()
+    {
+        return $this->hasMany(Infection::class);
+    }
 }

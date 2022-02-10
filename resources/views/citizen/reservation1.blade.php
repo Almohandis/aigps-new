@@ -3,7 +3,7 @@
         <h1 class="ml-5 text-left text-4xl text-white" style="text-shadow: 2px 2px 8px #000000;">
             Vaccination Reserve
         </h1>
-        
+
         <div class="mx-auto text-center mt-2">
             <p class="inline-block text-center text-xl bg-blue-500 font-bold rounded-full text-white w-8 h-8 pt-1">1</p>
             <div class="inline-block mx-3 bg-black w-10 h-1 mb-1 bg-opacity-50"></div>
@@ -11,7 +11,7 @@
         </div>
 
         <div class="mx-auto text-center mt-5">
-            
+
             <form class="inline-block bg-black bg-opacity-50 p-8 text-justify" method="POST" action="/reserve/step2">
                 @if ($errors->any())
                     <div>
@@ -26,7 +26,7 @@
                         </ul>
                     </div>
                 @endif
-            
+
                 @csrf
                 <div>
                     <x-label for="address" value="Adress" class="text-white" />
@@ -71,7 +71,7 @@
                     <div id="phones">
                         <x-input placeholder="+20" class="block mt-1" type="text" name="phone1" required />
                     </div>
-                    
+
                     <div onclick="addPhone()" class="text-center bg-blue-500 text-white text-medium px-3 py-2 mt-3 rounded-md shadow-sm hover:bg-blue-400">
                         Add Phone
                     </div>
