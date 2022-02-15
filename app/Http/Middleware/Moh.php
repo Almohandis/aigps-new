@@ -16,6 +16,9 @@ class Moh
      */
     public function handle(Request $request, Closure $next)
     {
-        return $next($request);
+        if ($request->user() && $request->user()->role_id == 1) {
+            return $next($request);
+        }
+        return redirect('/');
     }
 }

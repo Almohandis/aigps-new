@@ -29,7 +29,12 @@ Route::get('/isohospital/infection/edit', 'IsolationHospitalController@edit')->m
 Route::post('/isohospital/infection/save/{id}', 'IsolationHospitalController@save')->middleware('isolation');
 Route::get('/isohospital/infection/more/{id}', 'IsolationHospitalController@more')->middleware('isolation')->name('infection-more');
 Route::post('/isohospital/infection/more/{id}', 'IsolationHospitalController@submit')->middleware('isolation');
+
+//# Moh routes
+Route::get('/moh/manage-hospitals', 'MohController@manageHospitals')->middleware('moh');
+Route::post('/moh/manage-hospitals/update', 'MohController@updateHospitals')->middleware('moh')->name('update-hospitals');
 Route::get('/moh/manage-doctors', 'MohController@manageDoctors')->middleware('moh');
+Route::get('/moh/manage-campaigns', 'MohController@manageCampaigns')->middleware('moh');
 
 Route::get('/test', function () {
     $phones = User::find(1)->phones()->get();
