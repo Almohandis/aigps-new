@@ -36,6 +36,7 @@ Route::post('/moh/manage-hospitals/update', 'MohController@updateHospitals')->mi
 Route::get('/moh/manage-doctors', 'MohController@manageDoctors')->middleware('moh');
 Route::get('/moh/manage-doctors/{id}', 'MohController@getDoctors')->middleware('moh');
 Route::get('/moh/manage-doctors/remove-doctor/{id}', 'MohController@removeDoctor')->middleware('moh');
+Route::post('/moh/manage-doctors/add', 'MohController@addDoctor')->middleware('moh');
 Route::get('/moh/manage-campaigns', 'MohController@manageCampaigns')->middleware('moh');
 
 Route::get('/test', function () {

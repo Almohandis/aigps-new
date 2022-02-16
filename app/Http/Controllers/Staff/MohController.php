@@ -58,6 +58,24 @@ class MohController extends Controller
         echo $doctor;
     }
 
+    //# Add new doctor to a hospital
+    public function addDoctor(Request $request)
+    {
+        if (!$request->hospital_id)
+            return redirect('/staff/moh/manage-doctors')->with('message', 'Please select a hospital');
+        $hospital = Hospital::find($request->hospital_id);
+        if ($hospital)
+            $added = User::where('national_id', $request->national_id)->update([
+                'hospital_id' => $hospital->id,
+            ]);
+        else
+            $added = false;
+        if ($added)
+            return redirect('/staff/moh/manage-doctors')->with('message', 'Doctor added successfully');
+        else
+            return redirect('/staff/moh/manage-doctors')->with('message', 'Doctor could not be added');
+    }
+
     public function manageCampaigns(Request $request)
     {
     }
