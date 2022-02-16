@@ -39,6 +39,11 @@ Route::get('/moh/manage-doctors/remove-doctor/{id}', 'MohController@removeDoctor
 Route::get('/moh/manage-campaigns', 'MohController@manageCampaigns')->middleware('moh');
 
 Route::get('/test', function () {
+    $doctors = Hospital::find(1)->clerks()->get();
+    // echo json_encode($doctors);
+    dd($doctors);
+    print_r($doctors);
+    return 34;
     $doctor = User::find(1)->update([
         'hospital_id' => null,
     ]);

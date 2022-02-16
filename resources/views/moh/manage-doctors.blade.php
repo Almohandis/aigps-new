@@ -17,6 +17,12 @@
             <form action="/staff/moh/manage-hospitals/update" method="POST">
                 @csrf
                 <table>
+                    <th>
+                    <td>#</td>
+                    <td>Name</td>
+                    <td>National ID</td>
+                    <td></td>
+                    </th>
                 </table>
                 <input type="submit" value="Update">
             </form>
@@ -25,12 +31,11 @@
     <script>
         window.onload = () => {
 
-            //# Constants
+            //#list is the id of the select element
             const list = document.getElementById('list');
-            const table = document.querySelector('table');
 
-            //# Append table header
-            function appendHeader() {
+            //# Get doctors of the selected hospital
+            function getDoctors() {
                 let headerId = document.createElement('td');
                 headerId.innerHTML = '#';
                 let headerName = document.createElement('td');
@@ -39,52 +44,42 @@
                 headerNid.innerHTML = 'National ID';
                 let headerAction = document.createElement('td');
                 headerAction.innerHTML = 'Action';
-                let headerTh = document.createElement('th');
-                headerTh.appendChild(headerId);
-                headerTh.appendChild(headerName);
-                headerTh.appendChild(headerNid);
-                headerTh.appendChild(headerAction);
-                table.appendChild(headerTh);
-            }
-
-            //# Append table rows
-            function appendRow(data, i) {
-                let id = document.createElement('td');
-                id.innerHTML = i + 1;
-                let name = document.createElement('td');
-                name.innerHTML = data.name;
-                let national_id = document.createElement('td');
-                national_id.innerHTML = data.national_id;
-                let action = document.createElement('td');
-                let btn = document.createElement('input');
-                btn.setAttribute('type', 'button');
-                btn.value = 'Remove';
-                btn.addEventListener('click', () => {
-                    deleteDoctor(data.id);
-                });
-                action.appendChild(btn);
-                let tr = document.createElement('tr');
-                tr.appendChild(id);
-                tr.appendChild(name);
-                tr.appendChild(national_id);
-                tr.appendChild(action);
-                table.appendChild(tr);
-            }
-
-            //# Get doctors of the selected hospital
-            function getDoctors() {
-                appendHeader();
+                let headerTr = document.createElement('tr');
+                headerTr.appendChild(headerId);
+                headerTr.appendChild(headerName);
+                headerTr.appendChild(headerNid);
+                headerTr.appendChild(headerAction);
                 let id = list.value;
                 let xhttp = new XMLHttpRequest();
                 xhttp.onload = function() {
-                    // console.log(xhttp.response);
-                    let data = JSON.parse(xhttp.response);
+                    let data = xhttp.response;
+                    console.log(data);
                     let table = document.querySelector('table');
                     for (let i = 0; i < data.length; i++) {
-                        appendRow(data[i], i);
+                        let id = document.createElement('td');
+                        id.innerHTML = i + 1;
+                        let name = document.createElement('td');
+                        name.innerHTML = data[i].name;
+                        let national_id = document.createElement('td');
+                        national_id.innerHTML = data[i].national_id;
+                        let button = document.createElement('td');
+                        let btn = document.createElement('input');
+                        btn.setAttribute('type', 'button');
+                        btn.value = 'Remove';
+                        btn.addEventListener('click', () => {
+                            deleteDoctor(data[i].id);
+                        });
+                        button.appendChild(btn);
+                        let tr = document.createElement('tr');
+                        tr.appendChild(id);
+                        tr.appendChild(name);
+                        tr.appendChild(national_id);
+                        tr.appendChild(button);
+                        table.appendChild(tr);
                     }
                 }
                 xhttp.open("GET", "/staff/moh/manage-doctors/" + id);
+                xhttp.responseType = 'json';
                 xhttp.send();
             }
 
@@ -107,7 +102,7 @@
                 }
             }
 
-            list.addEventListener('change', getDoctors());
+            list.addEventListener('change', getDoctors);
 
         }
     </script>

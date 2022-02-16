@@ -44,7 +44,9 @@ class MohController extends Controller
     public function getDoctors(Request $request, $id)
     {
         $doctors = Hospital::find($id)->clerks()->get();
-        echo json_encode($doctors);
+        $doctors = json_encode($doctors);
+        // print_r($doctors);
+        echo $doctors;
     }
 
     //# Remove doctor from a hospital
