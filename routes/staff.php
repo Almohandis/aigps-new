@@ -34,9 +34,17 @@ Route::post('/isohospital/infection/more/{id}', 'IsolationHospitalController@sub
 Route::get('/moh/manage-hospitals', 'MohController@manageHospitals')->middleware('moh');
 Route::post('/moh/manage-hospitals/update', 'MohController@updateHospitals')->middleware('moh')->name('update-hospitals');
 Route::get('/moh/manage-doctors', 'MohController@manageDoctors')->middleware('moh');
+Route::get('/moh/manage-doctors/{id}', 'MohController@getDoctors')->middleware('moh');
+Route::get('/moh/manage-doctors/remove-doctor/{id}', 'MohController@removeDoctor')->middleware('moh');
 Route::get('/moh/manage-campaigns', 'MohController@manageCampaigns')->middleware('moh');
 
 Route::get('/test', function () {
-    $phones = User::find(1)->phones()->get();
-    var_dump($phones);
+    $doctor = User::find(1)->update([
+        'hospital_id' => null,
+    ]);
+    return $doctor;
+    $hospital = Hospital::find($doctor->hospital_id);
+    // $hospital->clerks()->detach($doctor->id);
+    // $doctor->update(['hospital_id' => null]);
+    echo 66;
 });
