@@ -61,8 +61,9 @@
                                         <form method="POST" action="{{ route('logout') }}">
                                             @csrf
 
-                                            <x-dropdown-link :href="route('logout')" onclick="event.preventDefault();
-                                                                            this.closest('form').submit();">
+                                            <x-dropdown-link :href="route('logout')"
+                                                onclick="event.preventDefault();
+                                                                                                        this.closest('form').submit();">
                                                 {{ __('Log Out') }}
                                             </x-dropdown-link>
                                         </form>
@@ -145,6 +146,22 @@
                                 <li>
                                     <a href="{{ url('/staff/isohospital/infection') }}"
                                         class="block py-2 pr-4 pl-3 text-white border-b border-gray-100 hover:bg-gray-50 md:hover:bg-transparent md:border-0 md:hover:text-blue-100 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Hospitalization</a>
+                                </li>
+                            @elseif(Auth::user()->role_id == 1)
+                                <li>
+                                    <a href="{{ url('/staff/moh/manage-hospitals') }}"
+                                        class="block py-2 pr-4 pl-3 text-white border-b border-gray-100 hover:bg-gray-50 md:hover:bg-transparent md:border-0 md:hover:text-blue-100 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Manage
+                                        hospitals</a>
+                                </li>
+                                <li>
+                                    <a href="{{ url('/staff/moh/manage-doctors') }}"
+                                        class="block py-2 pr-4 pl-3 text-white border-b border-gray-100 hover:bg-gray-50 md:hover:bg-transparent md:border-0 md:hover:text-blue-100 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Manage
+                                        doctors</a>
+                                </li>
+                                <li>
+                                    <a href="{{ url('/staff/moh/manage-campaigns') }}"
+                                        class="block py-2 pr-4 pl-3 text-white border-b border-gray-100 hover:bg-gray-50 md:hover:bg-transparent md:border-0 md:hover:text-blue-100 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Manage
+                                        campaigns</a>
                                 </li>
                             @endif
                         @endauth

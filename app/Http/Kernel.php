@@ -69,5 +69,6 @@ class Kernel extends HttpKernel
         'survey' => \App\Http\Middleware\SurveyMiddleware::class,
         'clerk' => \App\Http\Middleware\ClerkMiddleware::class,
         'isolation' => \App\Http\Middleware\Isolation::class,
+        'moh'   =>  \App\Http\Middleware\Moh::class,
     ];
 }

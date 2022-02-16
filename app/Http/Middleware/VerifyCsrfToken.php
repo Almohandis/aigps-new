@@ -12,6 +12,7 @@ class VerifyCsrfToken extends Middleware
      * @var array<int, string>
      */
     protected $except = [
-        //
+        //# Disable csrf from this routes
+        '/staff/moh/manage-hospitals/update',
     ];
 }
