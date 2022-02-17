@@ -6,6 +6,7 @@ use App\Http\Controllers\Staff\NationalIdController;
 use App\Http\Controllers\Staff\MoiaController;
 use App\Models\Hospital;
 use App\Models\User;
+use App\Models\Campaign;
 
 // all routes for staff will be here
 
@@ -18,39 +19,38 @@ Route::get('/nationalid/add', [NationalIdController::class, 'index'])->middlewar
 Route::get('/moia/escorting', [MoiaController::class, 'index'])->middleware('moia');
 Route::get('/moia/modify', [MoiaController::class, 'modify'])->middleware('moia')->name('unescort');
 
+//# Campaign clerk routes
 Route::get('/clerk', 'CampaignClerkController@index')->middleware('clerk');
 Route::post('/clerk', 'CampaignClerkController@store')->middleware('clerk');
 
 //# Isolation hospital routes
-Route::get('/isohospital/modify', 'IsolationHospitalController@index')->middleware('isolation');
-Route::post('/isohospital/update', 'IsolationHospitalController@modify')->middleware('isolation');
-Route::get('/isohospital/infection', 'IsolationHospitalController@infection')->middleware('isolation');
-Route::get('/isohospital/infection/edit', 'IsolationHospitalController@edit')->middleware('isolation');
-Route::post('/isohospital/infection/save/{id}', 'IsolationHospitalController@save')->middleware('isolation');
-Route::get('/isohospital/infection/more/{id}', 'IsolationHospitalController@more')->middleware('isolation')->name('infection-more');
-Route::post('/isohospital/infection/more/{id}', 'IsolationHospitalController@submit')->middleware('isolation');
+// group the Isolation hospital routes into a single middleware group
+Route::middleware('isolation')->group(function () {
+    Route::get('/isohospital/modify', 'IsolationHospitalController@index');
+    Route::post('/isohospital/update', 'IsolationHospitalController@modify');
+    Route::get('/isohospital/infection', 'IsolationHospitalController@infection');
+    Route::get('/isohospital/infection/edit', 'IsolationHospitalController@edit');
+    Route::post('/isohospital/infection/save/{id}', 'IsolationHospitalController@save');
+    Route::get('/isohospital/infection/more/{id}', 'IsolationHospitalController@more')->name('infection-more');
+    Route::post('/isohospital/infection/more/{id}', 'IsolationHospitalController@submit');
+});
+
 
 //# Moh routes
-Route::get('/moh/manage-hospitals', 'MohController@manageHospitals')->middleware('moh');
-Route::post('/moh/manage-hospitals/update', 'MohController@updateHospitals')->middleware('moh')->name('update-hospitals');
-Route::get('/moh/manage-doctors', 'MohController@manageDoctors')->middleware('moh');
-Route::get('/moh/manage-doctors/{id}', 'MohController@getDoctors')->middleware('moh');
-Route::get('/moh/manage-doctors/remove-doctor/{id}', 'MohController@removeDoctor')->middleware('moh');
-Route::post('/moh/manage-doctors/add', 'MohController@addDoctor')->middleware('moh');
-Route::get('/moh/manage-campaigns', 'MohController@manageCampaigns')->middleware('moh');
+// group the Moh routes into one middleware group
+Route::middleware('moh')->group(function () {
+    Route::get('/moh/manage-hospitals', 'MohController@manageHospitals');
+    Route::post('/moh/manage-hospitals/update', 'MohController@updateHospitals')->name('update-hospitals');
+    Route::get('/moh/manage-doctors', 'MohController@manageDoctors');
+    Route::get('/moh/manage-doctors/{id}', 'MohController@getDoctors');
+    Route::get('/moh/manage-doctors/remove-doctor/{id}', 'MohController@removeDoctor');
+    Route::post('/moh/manage-doctors/add', 'MohController@addDoctor');
+    Route::get('/moh/manage-campaigns', 'MohController@manageCampaigns');
+    Route::post('/moh/manage-campaigns/add', 'MohController@addCampaign');
+});
 
 Route::get('/test', function () {
-    $doctors = Hospital::find(1)->clerks()->get();
-    // echo json_encode($doctors);
-    dd($doctors);
-    print_r($doctors);
-    return 34;
-    $doctor = User::find(1)->update([
-        'hospital_id' => null,
-    ]);
-    return $doctor;
-    $hospital = Hospital::find($doctor->hospital_id);
-    // $hospital->clerks()->detach($doctor->id);
-    // $doctor->update(['hospital_id' => null]);
-    echo 66;
+    $campaigns = Campaign::where('end_date', '>', now())->get();
+    return $campaigns;
+    return view('citizen.reservation2')->with('campaigns', $campaigns);
 });

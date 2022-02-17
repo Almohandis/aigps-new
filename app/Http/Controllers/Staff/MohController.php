@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Staff;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Campaign;
 use App\Models\Hospital;
 use App\Models\User;
 
@@ -76,7 +77,33 @@ class MohController extends Controller
             return redirect('/staff/moh/manage-doctors')->with('message', 'Doctor could not be added');
     }
 
+    //# Get all campaigns
     public function manageCampaigns(Request $request)
     {
+        $campaigns = Campaign::where('start_date', '>', now())->get();
+        return view('moh.manage-campaigns')->with('campaigns', $campaigns); //compact('campaigns'));
+    }
+
+    //# Add new campaign
+    public function addCampaign(Request $request)
+    {
+        // return $request->all();
+        if ($request->end_date < $request->start_date)
+            return redirect('/staff/moh/manage-campaigns')->with('message', 'End date cannot be before start date');
+        if (!$request->type)
+            return redirect('/staff/moh/manage-campaigns')->with('message', 'Please select a campaign type');
+        if (!$request->location)
+            return redirect('/staff/moh/manage-campaigns')->with('message', 'Please select a location');
+        $campaign = Campaign::create([
+            'start_date' => $request->start_date,
+            'end_date' => $request->end_date,
+            'type' => $request->type,
+            'location' => preg_replace(array('/\(/', '/\)/'), array('', ''), $request->location),
+            'address' => $request->address,
+        ]);
+        if ($campaign)
+            return redirect('/staff/moh/manage-campaigns')->with('message', 'Campaign added successfully');
+        else
+            return redirect('/staff/moh/manage-campaigns')->with('message', 'Campaign could not be added');
     }
 }

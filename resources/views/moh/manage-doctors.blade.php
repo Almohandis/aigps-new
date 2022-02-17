@@ -113,5 +113,4 @@
 
         }
     </script>
-    <script src="{{ asset('js/manage-doctors.js') }}"></script>
 </x-app-layout>
