@@ -17,6 +17,8 @@ class CreateCampaignDoctorsTable extends Migration
             $table->id();
             $table->integer('campaign_id');
             $table->integer('user_id');
+            $table->dateTime('from');
+            $table->dateTime('to');
             $table->timestamps();
         });
     }

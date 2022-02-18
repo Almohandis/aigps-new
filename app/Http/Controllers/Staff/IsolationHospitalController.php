@@ -22,7 +22,8 @@ class IsolationHospitalController extends Controller
         //# Check if the user is authorized to modify the hospital
         if (!$request->hospital)
             return redirect()->back()->with('message', 'Please choose a hospital');
-        if (Auth::user()->hospital()->find($request->hospital)->first()) {
+        //('hospital_id',$request->hospital)
+        if (Auth::user()->hospital_id == $request->hospital) {
             $hospital = Hospital::find($request->hospital);
             if (
                 $request->total_capacity === null

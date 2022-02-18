@@ -11,7 +11,7 @@ use App\Models\Campaign;
 // all routes for staff will be here
 
 //# National id routes
-Route::get('/nationalid/modify', [NationalIdController::class, 'index'])->middleware('nationalid')->name('nationalid-modify');
+Route::get('/nationalid/modify', [NationalIdController::class, 'index'])->middleware('nationalid'); //->name('nationalid-modify');
 Route::post('/nationalid/add', [NationalIdController::class, 'modify'])->middleware('nationalid');
 Route::get('/nationalid/add', [NationalIdController::class, 'index'])->middleware('nationalid');
 
@@ -50,7 +50,17 @@ Route::middleware('moh')->group(function () {
 });
 
 Route::get('/test', function () {
-    $campaigns = Campaign::where('end_date', '>', now())->get();
-    return $campaigns;
-    return view('citizen.reservation2')->with('campaigns', $campaigns);
+    $user = User::where('national_id', 1234)->first();
+    if (!$user)
+        return 0;
+
+    //# Check if doctor is already working in a campaign
+    return $user->campaigns()->where('start_date', now())->first();
+    if ($user->campaigns()->first()) {
+        $busy_doctor = $user->campaigns()->where('start_date', '>', now())->first();
+        $unavailable_doctor = $user->campaigns()->where('end_date', '>', now())->first();
+        if ($busy_doctor || $unavailable_doctor)
+            return 12;
+    }
+    return 6;
 });

@@ -13,7 +13,7 @@ class NationalIdController extends Controller
     public function index()
     {
         // $nationalIds = NationalId::all();
-        return view('nationalid-modify');
+        return view('nationalID.modify');
     }
 
     //# Modify national id
