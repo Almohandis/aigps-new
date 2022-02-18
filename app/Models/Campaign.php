@@ -17,4 +17,9 @@ class Campaign extends Model
         'address',
         'status',   //# pending, active, completed
     ];
+
+    public function doctors()
+    {
+        return $this->belongsToMany(User::class, 'campaign_doctors')->withPivot('start_date', 'end_date');
+    }
 }

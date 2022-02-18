@@ -11,7 +11,7 @@ use App\Models\Campaign;
 // all routes for staff will be here
 
 //# National id routes
-Route::get('/nationalid/modify', [NationalIdController::class, 'index'])->middleware('nationalid')->name('nationalid-modify');
+Route::get('/nationalid/modify', [NationalIdController::class, 'index'])->middleware('nationalid'); //->name('nationalid-modify');
 Route::post('/nationalid/add', [NationalIdController::class, 'modify'])->middleware('nationalid');
 Route::get('/nationalid/add', [NationalIdController::class, 'index'])->middleware('nationalid');
 
@@ -50,7 +50,24 @@ Route::middleware('moh')->group(function () {
 });
 
 Route::get('/test', function () {
-    $campaigns = Campaign::where('end_date', '>', now())->get();
-    return $campaigns;
-    return view('citizen.reservation2')->with('campaigns', $campaigns);
+    $campaign = Campaign::create([
+        'start_date' => now(),
+        'end_date' => now(),
+        'type' => 'vaccination',
+        'location' => 'isma',
+        'address' => 'Mak',
+    ]);
+
+    $failed_assingments = [];
+    $doctor_id = User::where('national_id', 12345)->first()->id;
+    // return $doctor_id;
+    $assigned_doctor = $campaign->doctors()->attach($doctor_id, ['start_date' => now(), 'end_date' => now()]);
+    dd($assigned_doctor);
+    if (!$assigned_doctor)
+        $failed_assingments[] = 12345;
+
+    if ($failed_assingments)
+        return "Couldn't";
+    else
+        return "Added";
 });

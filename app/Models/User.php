@@ -72,11 +72,6 @@ class User extends Authenticatable
         return $this->hasMany(ChronicDisease::class);
     }
 
-    public function hospital()
-    {
-        return $this->belongsTo(Hospital::class);
-    }
-
     public function hospitalizations()
     {
         return $this->belongsToMany(Hospital::class, 'hospitalizations')->withPivot('checkin_date', 'checkout_date');

@@ -71,6 +71,7 @@ class MohController extends Controller
             ]);
         else
             $added = false;
+        // return $added;
         if ($added)
             return redirect('/staff/moh/manage-doctors')->with('message', 'Doctor added successfully');
         else
@@ -94,6 +95,16 @@ class MohController extends Controller
             return redirect('/staff/moh/manage-campaigns')->with('message', 'Please select a campaign type');
         if (!$request->location)
             return redirect('/staff/moh/manage-campaigns')->with('message', 'Please select a location');
+
+
+        //# Check if doctors with given IDs exist
+        foreach ($request->doctors as $doctor) {
+            $user = User::where('national_id', $doctor)->first();
+            if (!$user)
+                return redirect('/staff/moh/manage-campaigns')->with('message', 'Doctor with ID ' . $doctor . ' does not exist');
+        }
+
+        //# Create new campaign
         $campaign = Campaign::create([
             'start_date' => $request->start_date,
             'end_date' => $request->end_date,
@@ -101,6 +112,13 @@ class MohController extends Controller
             'location' => preg_replace(array('/\(/', '/\)/'), array('', ''), $request->location),
             'address' => $request->address,
         ]);
+
+        //# Assign doctors to campaign
+        foreach ($request->doctors as $doctor) {
+            $doctor_id = User::where('national_id', $doctor)->first()->id;
+            $campaign->doctors()->attach($doctor_id, ['start_date' => $request->start_date, 'end_date' => $request->end_date]);
+        }
+
         if ($campaign)
             return redirect('/staff/moh/manage-campaigns')->with('message', 'Campaign added successfully');
         else

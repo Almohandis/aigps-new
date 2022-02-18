@@ -35,16 +35,16 @@
                 <h2>Add new campaign</h2>
                 <div class="mt-4">
                     <label for="start_date">Start date</label>
-                    <input type="date" name="start_date" required><br>
+                    <input type="datetime-local" name="start_date" required><br>
                     <label for="end_date">End date</label>
-                    <input type="date" name="end_date" required><br>
+                    <input type="datetime-local" name="end_date" required><br>
                     <label for="type">Type</label>
-                    <select name="type" id="">
-                        <option value="" selected hidden disabled >Select campaign type</option>
+                    <select name="type" id="type">
+                        <option value="" selected hidden disabled>Select campaign type</option>
                         <option value="Vaccination">Vaccination</option>
                         <option value="Sanitization">Sanitization</option>
                     </select><br>
-                    <label for="address">Address</label>
+                    <label id="addressLabel" for="address">Address</label>
                     <input type="text" name="address" id="address" required><input type="button" id="search-button"
                         value="Search"><br>
                     <h3>Choose a location on the map</h3>
@@ -137,4 +137,5 @@
             </form>
         </div>
     </div>
+    <script src="{{ asset('js/manage-campaigns.js') }}"></script>
 </x-app-layout>
