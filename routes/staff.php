@@ -50,24 +50,17 @@ Route::middleware('moh')->group(function () {
 });
 
 Route::get('/test', function () {
-    $campaign = Campaign::create([
-        'start_date' => now(),
-        'end_date' => now(),
-        'type' => 'vaccination',
-        'location' => 'isma',
-        'address' => 'Mak',
-    ]);
+    $user = User::where('national_id', 1234)->first();
+    if (!$user)
+        return 0;
 
-    $failed_assingments = [];
-    $doctor_id = User::where('national_id', 12345)->first()->id;
-    // return $doctor_id;
-    $assigned_doctor = $campaign->doctors()->attach($doctor_id, ['start_date' => now(), 'end_date' => now()]);
-    dd($assigned_doctor);
-    if (!$assigned_doctor)
-        $failed_assingments[] = 12345;
-
-    if ($failed_assingments)
-        return "Couldn't";
-    else
-        return "Added";
+    //# Check if doctor is already working in a campaign
+    return $user->campaigns()->where('start_date', now())->first();
+    if ($user->campaigns()->first()) {
+        $busy_doctor = $user->campaigns()->where('start_date', '>', now())->first();
+        $unavailable_doctor = $user->campaigns()->where('end_date', '>', now())->first();
+        if ($busy_doctor || $unavailable_doctor)
+            return 12;
+    }
+    return 6;
 });

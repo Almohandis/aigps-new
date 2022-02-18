@@ -82,15 +82,23 @@ class User extends Authenticatable
         return $this->hasMany(Infection::class);
     }
 
-    public function relatives() {
+    public function relatives()
+    {
         return $this->belongsToMany(User::class, 'user_relative')->withPivot('relation');
     }
 
-    public function notifications() {
+    public function notifications()
+    {
         return $this->hasMany(Notification::class);
     }
 
-    public function infection() {
+    public function infection()
+    {
         return $this->hasOne(Infection::class);
+    }
+
+    public function campaigns()
+    {
+        return $this->belongsToMany(Campaign::class, 'campaign_doctors')->withPivot('from', 'to');
     }
 }

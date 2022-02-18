@@ -102,6 +102,14 @@ class MohController extends Controller
             $user = User::where('national_id', $doctor)->first();
             if (!$user)
                 return redirect('/staff/moh/manage-campaigns')->with('message', 'Doctor with ID ' . $doctor . ' does not exist');
+
+            //# Check if doctor is already working in a campaign
+            if ($user->campaigns()->first()) {
+                $busy_doctor = $user->campaigns()->where('start_date', '>', now())->first();
+                $unavailable_doctor = $user->campaigns()->where('end_date', '>', now())->first();
+                if ($busy_doctor || $unavailable_doctor)
+                    return redirect('/staff/moh/manage-campaigns')->with('message', 'Doctor with ID ' . $doctor . ' is already assigned to a campaign');
+            }
         }
 
         //# Create new campaign
@@ -116,7 +124,7 @@ class MohController extends Controller
         //# Assign doctors to campaign
         foreach ($request->doctors as $doctor) {
             $doctor_id = User::where('national_id', $doctor)->first()->id;
-            $campaign->doctors()->attach($doctor_id, ['start_date' => $request->start_date, 'end_date' => $request->end_date]);
+            $campaign->doctors()->attach($doctor_id, ['from' => $request->start_date, 'to' => $request->end_date]);
         }
 
         if ($campaign)

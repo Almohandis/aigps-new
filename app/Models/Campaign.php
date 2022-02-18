@@ -20,6 +20,6 @@ class Campaign extends Model
 
     public function doctors()
     {
-        return $this->belongsToMany(User::class, 'campaign_doctors')->withPivot('start_date', 'end_date');
+        return $this->belongsToMany(User::class, 'campaign_doctors')->withPivot('from', 'to');
     }
 }
