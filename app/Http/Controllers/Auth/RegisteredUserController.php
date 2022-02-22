@@ -34,12 +34,6 @@ class RegisteredUserController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'name'          => ['required', 'string', 'max:255'],
-            'email'         => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password'      => ['required', 'confirmed', Rules\Password::defaults()],
-            'national_id'   => ['required', 'max:255', 'unique:users']
-        ]);
 
         //# check if the provided national id exists in the database
         $nationalId = NationalId::find($request->national_id);
@@ -48,13 +42,53 @@ class RegisteredUserController extends Controller
             return redirect()->back()->withErrors(['national_id' => 'National ID is not valid']);
         }
 
-        $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-            'national_id' => $request->national_id
-        ]);
+        //# check if the user already has a record in the users table, may be his/her data was entered by a hospital staff before
+        $user = User::where('national_id', $request->national_id)->first();
+        $email = $user->email;
+        $password = $user->password;
 
+        // return array($email, $password);
+
+        //# check if user exists
+        if ($user) {
+
+            //# check if user is registered
+            if ($email && $password) {
+                $request->validate([
+                    'name'          => ['required', 'string', 'max:255'],
+                    'email'         => ['required', 'string', 'email', 'max:255', 'unique:users'],
+                    'password'      => ['required', 'confirmed', Rules\Password::defaults()],
+                    'national_id'   => ['required', 'max:255', 'unique:users']
+                ]);
+
+                //# check if user is not registered
+            } else if ((!$email) && (!$password)) {
+                $request->validate([
+                    'name'          => ['required', 'string', 'max:255'],
+                    'email'         => ['required', 'string', 'email', 'max:255', 'unique:users'],
+                    'password'      => ['required', 'confirmed', Rules\Password::defaults()],
+                    'national_id'   => ['required', 'max:255',] //# 'unique:users'
+                ]);
+            }
+        }
+
+        //# if the user already exists, update his/her data
+        if ($user) {
+            $user->update([
+                'name' => $request->name,
+                'email' => $request->email,
+                'password' => Hash::make($request->password),
+            ]);
+        } else {
+
+            //# if the user does not exist, create a new record
+            $user = User::create([
+                'name' => $request->name,
+                'email' => $request->email,
+                'password' => Hash::make($request->password),
+                'national_id' => $request->national_id
+            ]);
+        }
 
         event(new Registered($user));
 
