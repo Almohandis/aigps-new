@@ -6,6 +6,29 @@
             @endif
         </div>
         <div class="pt-8 sm:pt-0">
+
+            <div>
+                <h1>Add new hospital</h1>
+                <form action="/staff/moh/manage-hospitals/add" method="POST">
+                    @csrf
+                    <label for="hospital">Hospital name</label>
+                    <input required type="text" name="name"><br>
+                    <label for="city">City</label>
+                    <select required name="city" id="city">
+                        <option value="" hidden selected disabled>Select city</option>
+                        @foreach ($cities as $city)
+                            <option value="{{ $city }}">{{ $city }}</option>
+                        @endforeach
+                    </select><br>
+                    <label for="capacity">Capacity</label>
+                    <input required type="number" name="capacity"><br>
+                    <input type="checkbox" name="is_isolation"> Isolation<br>
+
+                    <input type="submit" value="Add hospital">
+
+                </form>
+            </div>
+
             <h1>All hospitals</h1>
             <h2>Determine which hospital to be an isolation</h2><br>
             <form action="/staff/moh/manage-hospitals/update" method="POST">
@@ -21,7 +44,7 @@
                     </th>
                     @foreach ($hospitals as $hospital)
                         <tr>
-                            <input type="hidden" class="id" value="{{$hospital->id}}" name="id[]">
+                            <input type="hidden" class="id" value="{{ $hospital->id }}" name="id[]">
                             <td>{{ $hospital->id }}</td>
                             <td>{{ $hospital->name }}</td>
                             <td>{{ $hospital->city }}</td>

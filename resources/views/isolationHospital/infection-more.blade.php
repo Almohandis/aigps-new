@@ -5,7 +5,8 @@
                 {{ session('message') }}
             @endif
         </div>
-        <form action="/staff/isohospital/infection/more/{{ $data['user']['national_id'] }}" method="POST">
+
+        <form action="/staff/isohospital/infection/add/{{ $data['user']['national_id'] }}" method="POST">
             @csrf
             <div class="pt-8 sm:pt-0">
                 <h1>Patient data</h1>
@@ -68,7 +69,7 @@
                 <input type="button" id="add-infection" value="Add infection">
                 <br><br>
 
-                <input type="submit" value="Submit">
+                <input type="submit" value="Update">
         </form>
 
     </div>

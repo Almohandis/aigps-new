@@ -7,28 +7,30 @@ use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
+use App\Models\NationalId;
 
 uses(RefreshDatabase::class);
 
 beforeEach(function () {
 
-
-
-
-
-    $this->user = User::factory()->make([
-        'id' => 1,
-        'role_id' => 6,
+    NationalId::create([
+        'national_id' => 123,
     ]);
 
     Hospital::create([
         'id' => 1,
         'name' => 'Kampala',
         'city' => 'Kampala',
+        'capacity' => 100,
         'is_isolation' => 1,
     ]);
 
-    $this->user->hospitals()->attach(1);
+    $this->user = User::factory()->make([
+        'id' => 1,
+        'national_id' => 123,
+        'role_id' => 6,
+        'hospital_id' => 1,
+    ]);
 
     $this->actingAs($this->user);
 });
@@ -52,10 +54,10 @@ test('isolation hospital can modify hospital statistics', function () {
     ]);
 
 
-    $this->assertEquals($this->user->hospitals()->find(1)->first()->capacity,100);
-    $this->assertEquals($this->user->hospitals()->find(1)->first()->available_beds,50);
-    $this->assertEquals($this->user->hospitals()->find(1)->first()->statistics()->first()->recoveries,10);
-    $this->assertEquals($this->user->hospitals()->find(1)->first()->statistics()->first()->deaths,5);
+    $this->assertEquals(Hospital::find($this->user->hospital_id)->capacity, 100);
+    $this->assertEquals(Hospital::find($this->user->hospital_id)->available_beds, 50);
+    $this->assertEquals(Hospital::find($this->user->hospital_id)->statistics()->first()->recoveries, 10);
+    $this->assertEquals(Hospital::find($this->user->hospital_id)->statistics()->first()->deaths, 5);
 
     $response->assertRedirect('/staff/isohospital/modify');
 });

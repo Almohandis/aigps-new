@@ -33,6 +33,8 @@ Route::middleware('isolation')->group(function () {
     Route::post('/isohospital/infection/save/{id}', 'IsolationHospitalController@save');
     Route::get('/isohospital/infection/more/{id}', 'IsolationHospitalController@more')->name('infection-more');
     Route::post('/isohospital/infection/more/{id}', 'IsolationHospitalController@submit');
+    Route::get('/isohospital/infection/add', 'IsolationHospitalController@addPatient');
+    Route::post('/isohospital/infection/add', 'IsolationHospitalController@submitAddPatient');
 });
 
 
@@ -47,6 +49,7 @@ Route::middleware('moh')->group(function () {
     Route::post('/moh/manage-doctors/add', 'MohController@addDoctor');
     Route::get('/moh/manage-campaigns', 'MohController@manageCampaigns');
     Route::post('/moh/manage-campaigns/add', 'MohController@addCampaign');
+    Route::post('/moh/manage-hospitals/add', 'MohController@addHospital');
 });
 
 Route::get('/test', function () {

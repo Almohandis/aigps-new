@@ -6,9 +6,15 @@
             @endif
         </div>
         <div class="pt-8 sm:pt-0">
-            <h1>Hospital patients</h1>
 
-            {{ $id = 1 }}
+            <form action="/staff/isohospital/infection/add" method="GET">
+                <input type="submit" value="Add new patient">
+            </form>
+
+            <h1>Hospital patients</h1>
+            @php
+                $i = 1;
+            @endphp
             <table>
                 <tr>
                     <th>National ID</th>
