@@ -30,7 +30,8 @@ class User extends Authenticatable
         'blood_type',
         'hospital_id',
         'country',
-        'is_diagnosed'
+        'is_diagnosed',
+        'city'
     ];
 
     /**
