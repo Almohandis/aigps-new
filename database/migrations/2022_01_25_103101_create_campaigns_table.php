@@ -21,6 +21,7 @@ class CreateCampaignsTable extends Migration
             $table->string('location');
             $table->string('address');
             $table->string('status')->default('pending'); //# pending, active, completed
+            $table->integer('capacity_per_day')->default(20);
             $table->timestamps();
         });
     }

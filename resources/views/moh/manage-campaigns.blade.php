@@ -38,6 +38,8 @@
                     <input type="datetime-local" name="start_date" required><br>
                     <label for="end_date">End date</label>
                     <input type="datetime-local" name="end_date" required><br>
+                    <label for="capacity">Capacity per day</label>
+                    <input type="number" min="1" name="capacity_per_day" id="capacity"><br>
                     <label for="type">Type</label>
                     <select name="type" id="type">
                         <option value="" selected hidden disabled>Select campaign type</option>
@@ -47,6 +49,7 @@
                     <label id="addressLabel" for="address">Address</label>
                     <input type="text" name="address" id="address" required><input type="button" id="search-button"
                         value="Search"><br>
+
                     <h3>Choose a location on the map</h3>
                     {{-- !! --}}
                     <div class="mx-auto text-center mt-5">

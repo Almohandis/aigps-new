@@ -136,6 +136,7 @@ class MohController extends Controller
             'type' => $request->type,
             'location' => preg_replace(array('/\(/', '/\)/'), array('', ''), $request->location),
             'address' => $request->address,
+            'capacity_per_day' => $request->capacity_per_day ?? 20,
         ]);
 
         //# Assign doctors to campaign
