@@ -14,7 +14,8 @@ class MohController extends Controller
     public function manageHospitals(Request $request)
     {
         $hospitals = Hospital::all();
-        return view('moh.manage-hospitals', compact('hospitals'));
+        $cities = ['Alexandria', 'Aswan', 'Asyut', 'Beheira', 'Beni Suef', 'Cairo', 'Dakahlia', 'Damietta', 'Faiyum', 'Gharbia', 'Giza', 'Helwan', 'Ismailia', 'Kafr El Sheikh', 'Luxor', 'Matruh', 'Minya', 'Monufia', 'New Valley', 'North Sinai', 'Port Said', 'Qalyubia', 'Qena', 'Red Sea', 'Sharqia', 'Sohag', 'South Sinai', 'Suez', '6th of October'];
+        return view('moh.manage-hospitals', compact('hospitals', 'cities'));
     }
 
     //# Update hospitals
@@ -32,6 +33,22 @@ class MohController extends Controller
             return redirect('/staff/moh/manage-hospitals')->with('message', 'Hospitals updated successfully');
         else
             return redirect('/staff/moh/manage-hospitals')->with('message', 'Hospitals could not be updated');
+    }
+
+    //# Add new hospital
+    public function addHospital(Request $request)
+    {
+        // return $request->all();
+        $hospital_insertion = Hospital::create([
+            'name' => $request->name,
+            'city' => $request->city,
+            'capacity' => $request->capacity,
+            'is_isolation' => $request->is_isolation ? 1 : 0,
+        ]);
+        if ($hospital_insertion)
+            return redirect('/staff/moh/manage-hospitals')->with('message', 'Hospital added successfully');
+        else
+            return redirect('/staff/moh/manage-hospitals')->with('message', 'Hospital could not be added');
     }
 
     //# Get all hospitals to manage each hospital's doctors

@@ -49,6 +49,7 @@ Route::middleware('moh')->group(function () {
     Route::post('/moh/manage-doctors/add', 'MohController@addDoctor');
     Route::get('/moh/manage-campaigns', 'MohController@manageCampaigns');
     Route::post('/moh/manage-campaigns/add', 'MohController@addCampaign');
+    Route::post('/moh/manage-hospitals/add', 'MohController@addHospital');
 });
 
 Route::get('/test', function () {
