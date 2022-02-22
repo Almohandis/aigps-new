@@ -44,13 +44,12 @@ class RegisteredUserController extends Controller
 
         //# check if the user already has a record in the users table, may be his/her data was entered by a hospital staff before
         $user = User::where('national_id', $request->national_id)->first();
-        $email = $user->email;
-        $password = $user->password;
-
-        // return array($email, $password);
 
         //# check if user exists
         if ($user) {
+
+            $email = $user->email ? $user->email : null;
+            $password = $user->password ? $user->password : null;
 
             //# check if user is registered
             if ($email && $password) {
