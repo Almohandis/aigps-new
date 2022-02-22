@@ -15,7 +15,7 @@
 
     <style>
         body {
-            background-image: url('bg.png');
+            background-image: url('/bg.png');
             background-color: #010920;
             background-repeat: no-repeat;
             background-size: 1000px;
@@ -162,6 +162,11 @@
                                     <a href="{{ url('/staff/moh/manage-campaigns') }}"
                                         class="block py-2 pr-4 pl-3 text-white border-b border-gray-100 hover:bg-gray-50 md:hover:bg-transparent md:border-0 md:hover:text-blue-100 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Manage
                                         campaigns</a>
+                                </li>
+                            @elseif(Auth::user()->role_id == 5)
+                                <li>
+                                    <a href="/staff/clerk"
+                                        class="block py-2 pr-4 pl-3 text-white border-b border-gray-100 hover:bg-gray-50 md:hover:bg-transparent md:border-0 md:hover:text-blue-100 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Campaign Clerk</a>
                                 </li>
                             @endif
                         @endauth
