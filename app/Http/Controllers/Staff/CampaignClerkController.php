@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Staff;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Jobs\InfectionNotificationJob;
 
 class CampaignClerkController extends Controller
 {
@@ -48,14 +49,16 @@ class CampaignClerkController extends Controller
             $disease++;
         }
 
-        if ($request->input('is_infected') == 'true' && ! $user->infection()->exists()) {
-            $user->infection()->create([
+        if ($request->input('is_infected') == 'true') {
+            $user->infections()->create([
                 'infection_date'  => now()
             ]);
+
+            InfectionNotificationJob::dispatch($user);
         }
 
-        if ($request->input('is_recovered') == 'true' && $user->infection()->exists()) {
-            $user->infection()->update([
+        if ($request->input('is_recovered') == 'true') {
+            $user->infections()->update([
                 'is_recovered'      =>  true,
             ]);
         }
