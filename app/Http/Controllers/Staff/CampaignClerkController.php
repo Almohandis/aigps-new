@@ -16,7 +16,8 @@ class CampaignClerkController extends Controller
     public function store(Request $request) {
         $request->validate([
             'national_id' => 'required|string|max:255',
-            'blood_type' => 'required|string|max:3'
+            'blood_type' => 'required|string|max:3',
+            'city'      =>      'required|string'
         ]);
 
         $user = User::where('national_id', $request->national_id)->first();
@@ -32,7 +33,8 @@ class CampaignClerkController extends Controller
 
         $user->update([
             'blood_type'    => $request->blood_type,
-            'is_diagnosed'  => $request->is_diagnosed == 'true' ? true : false
+            'is_diagnosed'  => $request->is_diagnosed == 'true' ? true : false,
+            'city'          => $request->city
         ]);
 
         $disease = 1;
