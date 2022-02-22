@@ -5,6 +5,8 @@ use App\Models\User;
 use App\Models\ChronicDisease;
 use App\Models\NationalId;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Bus;
+use App\Jobs\InfectionNotificationJob;
 
 uses(RefreshDatabase::class);
 
@@ -38,6 +40,8 @@ test('clerk page doesnt rendered when user is not clerk', function () {
 });
 
 test('clerk can save user data', function () {
+    Bus::fake();
+
     $response = $this->post('/staff/clerk', [
         'national_id'   =>  '555',
         'blood_type' => 'A+',
@@ -58,6 +62,8 @@ test('clerk can save user data', function () {
 
 
     $this->assertEquals(User::first()->blood_type, 'A+');
+
+    Bus::assertDispatched(InfectionNotificationJob::class);
 
     $response->assertStatus(200);
 });

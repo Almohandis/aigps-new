@@ -84,7 +84,7 @@ class User extends Authenticatable
 
     public function relatives()
     {
-        return $this->belongsToMany(User::class, 'user_relative')->withPivot('relation');
+        return $this->belongsToMany(User::class, 'user_relative', 'user_id', 'relative_id')->withPivot('relation', 'relative_id')->withTimestamps();
     }
 
     public function notifications()
