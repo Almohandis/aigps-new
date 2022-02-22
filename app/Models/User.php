@@ -52,35 +52,53 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function phones(){
+    public function phones()
+    {
         return $this->hasMany('App\Models\Phone');
     }
 
-    public function reservations() {
+    public function reservations()
+    {
         return $this->belongsToMany(Campaign::class, 'campaign_appointments')->withPivot('date');;
     }
 
-    public function survey() {
+    public function survey()
+    {
         return $this->hasOne('App\Models\Survey');
     }
 
-    public function diseases() {
+    public function diseases()
+    {
         return $this->hasMany(ChronicDisease::class);
     }
 
-    public function hospitals(){
-        return $this->belongsToMany(Hospital::class, 'hospital_clerks');
+    public function hospitalizations()
+    {
+        return $this->belongsToMany(Hospital::class, 'hospitalizations')->withPivot('checkin_date', 'checkout_date');
     }
 
-    public function relatives() {
+    public function infections()
+    {
+        return $this->hasMany(Infection::class);
+    }
+
+    public function relatives()
+    {
         return $this->belongsToMany(User::class, 'user_relative')->withPivot('relation');
     }
 
-    public function notifications() {
+    public function notifications()
+    {
         return $this->hasMany(Notification::class);
     }
 
-    public function infection() {
+    public function infection()
+    {
         return $this->hasOne(Infection::class);
+    }
+
+    public function campaigns()
+    {
+        return $this->belongsToMany(Campaign::class, 'campaign_doctors')->withPivot('from', 'to');
     }
 }

@@ -3,7 +3,7 @@
         <h1 class="ml-5 text-left text-4xl text-white" style="text-shadow: 2px 2px 8px #000000;">
             Vaccination Reserve
         </h1>
-        
+
         <div class="mx-auto text-center mt-2">
             <p class="inline-block text-center text-xl bg-white font-bold rounded-full text-blue-500 w-8 h-8 pt-1">1</p>
             <div class="inline-block mx-3 bg-black w-10 h-1 mb-1 bg-opacity-50"></div>
@@ -37,13 +37,13 @@
                 function selectCampaign(campaign) {
                     document.getElementById('campaign_selection').classList.remove('hidden');
                     document.getElementById('campaign_selection').children[0].children[0].innerHTML = campaign[0];
-                    
+
                     document.getElementById('procceed_button').removeAttribute('disabled');
                     document.getElementById('procceed_form').action = '/reserve/map/' + campaign[3];
                 }
 
                 function initMap() {
-                    
+
                     var locations = [
                         @foreach($campaigns as $campaign)
                             ["{{ preg_replace('/\s+/', ' ', trim($campaign->address)); }}", {{ $campaign->location }}, {{$campaign->id}}, "{{$campaign->start_date}}", "{{$campaign->status}}"],
@@ -54,17 +54,17 @@
                         zoom: 6,
                         center: new google.maps.LatLng(26.8206, 30.8025)
                     });
-                    
+
                     var infowindow = new google.maps.InfoWindow();
                     var marker, i;
-                    
-                    for (i = 0; i < locations.length; i++) {  
+
+                    for (i = 0; i < locations.length; i++) {
                         marker = new google.maps.Marker({
                             position: new google.maps.LatLng(locations[i][1], locations[i][2]),
                             map: map,
                             icon: getMarker(locations[i]),
                         });
-                        
+
                         google.maps.event.addListener(marker, 'click', (function(marker, i) {
                             return function() {
                                 infowindow.setContent(locations[i][0]);
@@ -86,7 +86,7 @@
                         anchor: new google.maps.Point(15, 30),
                     };
 
-                    
+
                     const greenMarker = {
                         path: "M10.453 14.016l6.563-6.609-1.406-1.406-5.156 5.203-2.063-2.109-1.406 1.406zM12 2.016q2.906 0 4.945 2.039t2.039 4.945q0 1.453-0.727 3.328t-1.758 3.516-2.039 3.070-1.711 2.273l-0.75 0.797q-0.281-0.328-0.75-0.867t-1.688-2.156-2.133-3.141-1.664-3.445-0.75-3.375q0-2.906 2.039-4.945t4.945-2.039z",
                         fillColor: "green",
@@ -111,8 +111,8 @@
                         return greenMarker;
                     }
 
-                    return blackMarker;
-                } 
+                    return redMarker;
+                }
             </script>
         </div>
 

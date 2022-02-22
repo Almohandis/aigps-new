@@ -24,6 +24,10 @@ class Hospital extends Model
 
     public function clerks()
     {
-        return $this->belongsToMany(User::class, 'hospital_clerks');
+        return $this->hasMany(User::class);
+    }
+    public function patients()
+    {
+        return $this->belongsToMany(User::class, 'hospitalizations')->withPivot('checkin_date', 'checkout_date');
     }
 }
