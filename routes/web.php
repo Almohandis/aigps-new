@@ -13,9 +13,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', 'App\Http\Controllers\Citizen\HomePageController@index');
 
 Route::get('/view/{name}', function ($name) {
     return view($name);

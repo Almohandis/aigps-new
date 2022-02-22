@@ -9,9 +9,9 @@ use App\Models\Campaign;
 class ReseservationController extends Controller
 {
     public function index(Request $request) {
-        $campaigns = Campaign::where('end_date', '>', now())->get();
+        $campaigns = Campaign::where('end_date', '>', now())->where('type', 'vaccination')->get();
 
-        return view('citizen.reservation2')->with('campaigns', $campaigns);
+        return view('citizen.reservation1')->with('campaigns', $campaigns);
     }
 
     public function reserve(Request $request, Campaign $campaign) {
@@ -91,7 +91,7 @@ class ReseservationController extends Controller
             return view('citizen.reservecomplete'); //#
         }
 
-        return view('citizen.reservation1')->with([
+        return view('citizen.reservation2')->with([
             'countries'     =>      \Countries::getList('en')
         ]);
     }

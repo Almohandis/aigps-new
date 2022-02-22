@@ -17,3 +17,6 @@ Route::middleware('survey')->group(function () {
 });
 
 Route::get('/notifications', 'NotificationController@index');
+
+Route::get('/articles', 'ArticleController@index');
+Route::get('/articles/{article}', 'ArticleController@show');

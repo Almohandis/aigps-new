@@ -1,4 +1,4 @@
-<x-base-layout>
+<x-app-layout>
     <div class="mt-6">
         <h1 class="ml-5 text-left text-4xl text-white" style="text-shadow: 2px 2px 8px #000000;">
             Campaign Clerk
@@ -103,4 +103,4 @@
             </form>
         </div>
     </div>
-</x-base-layout>
+</x-app-layout>
