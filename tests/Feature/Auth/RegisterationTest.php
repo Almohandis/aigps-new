@@ -26,8 +26,7 @@ test('new users can register', function () {
         'name' => 'Test User',
         'email' => 'test@example.com',
         'password' => 'password',
-        'password_confirmation' => 'password',
-        'city'                  =>  'Cairo'
+        'password_confirmation' => 'password'
     ]);
 
     $this->assertEquals(1, User::count());
@@ -42,8 +41,7 @@ test('new users cannot register with invalid national id', function () {
         'name' => 'Test User',
         'email' => 'test@example.com',
         'password' => 'password',
-        'password_confirmation' => 'password',
-        'city'                  =>  'Cairo'
+        'password_confirmation' => 'password'
     ]);
 
     $this->assertEquals(0, User::count());
