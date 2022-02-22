@@ -17,6 +17,8 @@
                 <input required type="date" name="birthdate" id="birthdate" class="mt-2" value=""><br>
                 <label for="address">Address</label>
                 <input required type="text" name="address" id="address" class="mt-2" value=""><br>
+                <label for="city">City</label>
+                <input required type="text" name="city" id="city" class="mt-2" value=""><br>
                 <label for="telephone_number">Telephone number</label>
                 <input type="number" name="telephone_number" id="telephone_number" class="mt-2" value=""><br>
                 <label for="gender">Gender</label>
