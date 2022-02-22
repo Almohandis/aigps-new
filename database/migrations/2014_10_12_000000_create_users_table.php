@@ -23,7 +23,7 @@ class CreateUsersTable extends Migration
             $table->string('gender')->nullable()->default(null);
             $table->integer('role_id')->default(3);
             $table->string('country')->nullable()->default(null);
-            $table->string('city');
+            $table->string('city')->nullable()->default(NULL);
             $table->char('blood_type', 3)->nullable()->default(null);
             $table->string('email')->unique();
             $table->integer('hospital_id')->nullable()->default(null);

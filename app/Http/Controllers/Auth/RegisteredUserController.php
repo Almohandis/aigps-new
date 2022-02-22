@@ -38,8 +38,7 @@ class RegisteredUserController extends Controller
             'name'          => ['required', 'string', 'max:255'],
             'email'         => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password'      => ['required', 'confirmed', Rules\Password::defaults()],
-            'national_id'   => ['required', 'max:255', 'unique:users'],
-            'city'          => ['required', 'max:255'],
+            'national_id'   => ['required', 'max:255', 'unique:users']
         ]);
 
         //# check if the provided national id exists in the database
@@ -53,8 +52,7 @@ class RegisteredUserController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'national_id' => $request->national_id,
-            'city'          =>  $request->city
+            'national_id' => $request->national_id
         ]);
 
 
