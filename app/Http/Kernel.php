@@ -70,5 +70,6 @@ class Kernel extends HttpKernel
         'clerk' => \App\Http\Middleware\ClerkMiddleware::class,
         'isolation' => \App\Http\Middleware\Isolation::class,
         'moh'   =>  \App\Http\Middleware\Moh::class,
+        'admin' => \App\Http\Middleware\AdminMiddleware::class,
     ];
 }

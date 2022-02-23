@@ -52,6 +52,14 @@ Route::middleware('moh')->group(function () {
     Route::post('/moh/manage-hospitals/add', 'MohController@addHospital');
 });
 
+//# Admin routes
+// group the Admin routes into one middleware group
+Route::middleware('admin')->group(function () {
+    Route::get('/admin', 'AdminController@index');
+    Route::post('/admin/update', 'AdminController@update');
+    Route::post('/admin/add', 'AdminController@add');
+});
+
 Route::get('/test', function () {
     $user = User::where('national_id', 1234)->first();
     if (!$user)

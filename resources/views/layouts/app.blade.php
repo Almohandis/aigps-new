@@ -63,7 +63,7 @@
 
                                             <x-dropdown-link :href="route('logout')"
                                                 onclick="event.preventDefault();
-                                                                                                                this.closest('form').submit();">
+                                                                                                                        this.closest('form').submit();">
                                                 {{ __('Log Out') }}
                                             </x-dropdown-link>
                                         </form>
@@ -166,7 +166,13 @@
                             @elseif(Auth::user()->role_id == 5)
                                 <li>
                                     <a href="/staff/clerk"
-                                        class="block py-2 pr-4 pl-3 text-white border-b border-gray-100 hover:bg-gray-50 md:hover:bg-transparent md:border-0 md:hover:text-blue-100 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Campaign Clerk</a>
+                                        class="block py-2 pr-4 pl-3 text-white border-b border-gray-100 hover:bg-gray-50 md:hover:bg-transparent md:border-0 md:hover:text-blue-100 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Insert
+                                        patient data</a>
+                                </li>
+                            @elseif(Auth::user()->role_id == 9)
+                                <li>
+                                    <a href="/staff/admin"
+                                        class="block py-2 pr-4 pl-3 text-white border-b border-gray-100 hover:bg-gray-50 md:hover:bg-transparent md:border-0 md:hover:text-blue-100 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Manage roles</a>
                                 </li>
                             @endif
                         @endauth
