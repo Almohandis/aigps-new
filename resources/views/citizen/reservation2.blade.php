@@ -54,7 +54,7 @@
                 <div class="mt-3">
                     <x-label for="telephone_number" value="Telephone Number" class="text-white" />
 
-                    <x-input id="telephone_number" class="block mt-1 w-full" type="text" name="telephone_number"
+                    <x-input id="telephone_number" class="block mt-1 w-full" type="number" name="telephone_number"
                         :value="old('telephone_number')" required />
                 </div>
 
@@ -78,7 +78,7 @@
                     <x-label value="Mobile Numbers" class="text-white" />
 
                     <div id="phones">
-                        <x-input placeholder="+20" class="block mt-1" type="text" name="phone1" required />
+                        <x-input placeholder="+20" class="block mt-1" type="number" name="phone1" required />
                     </div>
 
                     <div onclick="addPhone()"
@@ -97,7 +97,7 @@
 
                         function addPhone() {
                             var phone = document.createElement('input');
-                            phone.setAttribute('type', 'text');
+                            phone.setAttribute('type', 'number');
                             phone.setAttribute('name', 'phone' + phones);
                             phone.setAttribute('placeholder', '+20');
                             phone.setAttribute('required', '');
