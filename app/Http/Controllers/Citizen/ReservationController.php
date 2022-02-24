@@ -9,6 +9,7 @@ use App\Models\Campaign;
 class ReservationController extends Controller
 {
     public function index(Request $request) {
+        return $request->all();
         $campaigns = Campaign::where('end_date', '>', now())->where('type', 'vaccination')->get();
 
         return view('citizen.reservation1')->with('campaigns', $campaigns);
