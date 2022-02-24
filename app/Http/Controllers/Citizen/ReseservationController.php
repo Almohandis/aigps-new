@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Campaign;
 
-class ReseservationController extends Controller
+class ReservationController extends Controller
 {
     public function index(Request $request) {
         $campaigns = Campaign::where('end_date', '>', now())->where('type', 'vaccination')->get();
