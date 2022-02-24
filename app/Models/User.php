@@ -97,4 +97,9 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Campaign::class, 'campaign_doctors')->withPivot('from', 'to');
     }
+
+    public function passport()
+    {
+        return $this->hasOne(MedicalPassport::class);
+    }
 }

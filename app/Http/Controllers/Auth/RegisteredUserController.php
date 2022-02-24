@@ -87,6 +87,9 @@ class RegisteredUserController extends Controller
                 'password' => Hash::make($request->password),
                 'national_id' => $request->national_id
             ]);
+
+            //# create a new record in medical passport for the user
+            $user->passport()->create();
         }
 
         event(new Registered($user));

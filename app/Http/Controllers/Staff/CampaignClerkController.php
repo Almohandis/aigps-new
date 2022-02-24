@@ -6,14 +6,18 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Jobs\InfectionNotificationJob;
+use App\Models\MedicalPassport;
 
 class CampaignClerkController extends Controller
 {
-    public function index() {
+    public function index()
+    {
         return view('clerk.clerk');
     }
 
-    public function store(Request $request) {
+    public function store(Request $request)
+    {
+        return $request;
         $request->validate([
             'national_id' => 'required|string|max:255',
             'blood_type' => 'required|string|max:3',
@@ -22,13 +26,19 @@ class CampaignClerkController extends Controller
 
         $user = User::where('national_id', $request->national_id)->first();
 
-        if (! $user) {
+        if (!$user) {
             return redirect()->back()->withErrors(['national_id' => 'User not found']);
         }
 
         $blood_types = ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'];
-        if (! in_array($request->blood_type, $blood_types)) {
+        if (!in_array($request->blood_type, $blood_types)) {
             return redirect()->back()->withErrors(['blood_type' => 'Invalid blood type']);
+        }
+
+        if ($user->is_diagnosed && $request->is_diagnosed == 'true') {
+            $medical_passport = $user->passport;
+            //###############################################################################################################
+
         }
 
         $user->update([
@@ -40,7 +50,7 @@ class CampaignClerkController extends Controller
         $disease = 1;
         while (1) {
             $disease_name = $request->input('disease' . $disease);
-            if (! $disease_name) {
+            if (!$disease_name) {
                 break;
             }
 
