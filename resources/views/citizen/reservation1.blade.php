@@ -1,7 +1,11 @@
 <x-base-layout>
     <div class="mt-6">
         <h1 class="ml-5 text-left text-4xl text-white" style="text-shadow: 2px 2px 8px #000000;">
-            Vaccination Reserve
+            @if ($message)
+                Diagnose reservation
+            @else
+                Vaccination reservation
+            @endif
         </h1>
 
         <div class="mx-auto text-center mt-2">
@@ -9,6 +13,12 @@
             <div class="inline-block mx-3 bg-black w-10 h-1 mb-1 bg-opacity-50"></div>
             <p class="inline-block text-center text-xl bg-blue-500 font-bold rounded-full text-white w-8 h-8 pt-1">2</p>
         </div>
+
+        @if ($message)
+            <div class="font-medium text-red-600">
+                {{ $message }}
+            </div>
+        @endif
 
         @if ($errors->any())
             <div>
@@ -24,6 +34,7 @@
             </div>
         @endif
 
+
         <p class="text-white text-center mt-2">Select a location</p>
 
         <div id="campaign_selection" class="text-center text-xl mt-2 hidden">
@@ -31,8 +42,10 @@
         </div>
 
         <div class="mx-auto text-center mt-5">
-            <div id="map" class="mt-8 rounded-md border-solid border-4 border-black" style="width: 80%; height: 600px; max-height: 90vh; margin: 0 auto;"></div>
-            <script src="https://maps.googleapis.com/maps/api/js?key={{ config('app.google_maps_api') }}&callback=initMap" defer></script>
+            <div id="map" class="mt-8 rounded-md border-solid border-4 border-black"
+                style="width: 80%; height: 600px; max-height: 90vh; margin: 0 auto;"></div>
+            <script src="https://maps.googleapis.com/maps/api/js?key={{ config('app.google_maps_api') }}&callback=initMap" defer>
+            </script>
             <script>
                 function selectCampaign(campaign) {
                     document.getElementById('campaign_selection').classList.remove('hidden');
@@ -45,8 +58,9 @@
                 function initMap() {
 
                     var locations = [
-                        @foreach($campaigns as $campaign)
-                            ["{{ preg_replace('/\s+/', ' ', trim($campaign->address)); }}", {{ $campaign->location }}, {{$campaign->id}}, "{{$campaign->start_date}}", "{{$campaign->status}}"],
+                        @foreach ($campaigns as $campaign)
+                            ["{{ preg_replace('/\s+/', ' ', trim($campaign->address)) }}", {{ $campaign->location }}, {{ $campaign->id }},
+                            "{{ $campaign->start_date }}", "{{ $campaign->status }}"],
                         @endforeach
                     ];
 

@@ -29,6 +29,8 @@ class IsolationHospitalController extends Controller
             $hospital = Hospital::find($request->hospital);
             if (
                 $request->total_capacity === null
+                || $request->care_beds === null
+                || $request->avail_care_beds === null
                 || $request->available_beds === null
                 || $request->recoveries === null
                 || $request->deaths === null
@@ -36,11 +38,13 @@ class IsolationHospitalController extends Controller
                 return redirect()->back()->with('message', 'Please fill in the fields');
             }
             if (
-                $request->total_capacity >= 0 && $request->available_beds >= 0
+                $request->total_capacity >= 0 && $request->available_beds >= 0 && $request->care_beds >= 0 && $request->avail_care_beds >= 0
                 && $request->recoveries >= 0 && $request->deaths >= 0
             ) {
                 $hospital->update([
                     'capacity' => $request->total_capacity,
+                    'care_beds' => $request->care_beds,
+                    'avail_care_beds' => $request->avail_care_beds,
                     'available_beds' => $request->available_beds,
                 ]);
                 HospitalStatistics::create([

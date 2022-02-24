@@ -1,7 +1,11 @@
 <x-base-layout>
     <div class="mt-6">
         <h1 class="ml-5 text-left text-4xl text-white" style="text-shadow: 2px 2px 8px #000000;">
-            Vaccination Reserve
+            @if (session('message'))
+                Diagnose reservation
+            @elseif($message)
+                Vaccination reservation
+            @endif
         </h1>
 
         <div class="mx-auto text-center mt-2">
@@ -11,6 +15,8 @@
         </div>
 
         <div class="mx-auto text-center mt-5">
+
+
 
             <form class="inline-block bg-black bg-opacity-50 p-8 text-justify" method="POST" action="/reserve/step2">
                 @if ($errors->any())
@@ -31,14 +37,15 @@
                 <div>
                     <x-label for="address" value="Adress" class="text-white" />
 
-                    <x-input id="address" class="block mt-1 w-full" type="text" name="address" :value="old('address')" required autofocus />
+                    <x-input id="address" class="block mt-1 w-full" type="text" name="address" :value="old('address')"
+                        required autofocus />
                 </div>
 
                 <div>
                     <x-label for="country" value="country" class="text-white" />
 
                     <select name="country" id="country" class="block mt-1 w-full">
-                        @foreach($countries as $country)
+                        @foreach ($countries as $country)
                             <option value="{{ $country }}">{{ $country }}</option>
                         @endforeach
                     </select>
@@ -47,19 +54,21 @@
                 <div class="mt-3">
                     <x-label for="telephone_number" value="Telephone Number" class="text-white" />
 
-                    <x-input id="telephone_number" class="block mt-1 w-full" type="text" name="telephone_number" :value="old('telephone_number')" required />
+                    <x-input id="telephone_number" class="block mt-1 w-full" type="number" name="telephone_number"
+                        :value="old('telephone_number')" required />
                 </div>
 
                 <div class="mt-3">
                     <x-label for="birthdate" value="Birthdate" class="text-white" />
 
-                    <x-input id="birthdate" class="block mt-1 w-full" type="date" name="birthdate" :value="old('birthdate')" required />
+                    <x-input id="birthdate" class="block mt-1 w-full" type="date" name="birthdate"
+                        :value="old('birthdate')" required />
                 </div>
 
                 <div class="mt-3">
                     <label for="gender" value="Gender" class="text-white font-medium text-sm">Gender</label>
 
-                    <input id="gender" class="ml-5" type="radio" name="gender" value="Male"/>
+                    <input id="gender" class="ml-5" type="radio" name="gender" value="Male" />
                     <label class="text-gray-400 text-sm mr-5">Male</label>
                     <input id="gender" type="radio" name="gender" value="Female" />
                     <label class="text-gray-400 text-sm">Female</label>
@@ -69,14 +78,16 @@
                     <x-label value="Mobile Numbers" class="text-white" />
 
                     <div id="phones">
-                        <x-input placeholder="+20" class="block mt-1" type="text" name="phone1" required />
+                        <x-input placeholder="+20" class="block mt-1" type="number" name="phone1" required />
                     </div>
 
-                    <div onclick="addPhone()" class="text-center bg-blue-500 text-white text-medium px-3 py-2 mt-3 rounded-md shadow-sm hover:bg-blue-400">
+                    <div onclick="addPhone()"
+                        class="text-center bg-blue-500 text-white text-medium px-3 py-2 mt-3 rounded-md shadow-sm hover:bg-blue-400">
                         Add Phone
                     </div>
 
-                    <div id="removePhone" onclick="removePhone()" class="hidden text-center bg-red-500 text-white text-medium px-3 py-2 mt-3 rounded-md shadow-sm hover:bg-red-400">
+                    <div id="removePhone" onclick="removePhone()"
+                        class="hidden text-center bg-red-500 text-white text-medium px-3 py-2 mt-3 rounded-md shadow-sm hover:bg-red-400">
                         Remove Phone
                     </div>
 
@@ -86,26 +97,26 @@
 
                         function addPhone() {
                             var phone = document.createElement('input');
-                            phone.setAttribute('type', 'text');
+                            phone.setAttribute('type', 'number');
                             phone.setAttribute('name', 'phone' + phones);
                             phone.setAttribute('placeholder', '+20');
                             phone.setAttribute('required', '');
                             phone.setAttribute('class', 'block mt-1');
 
                             phone_input.appendChild(phone);
-                            
+
                             phones++;
-                            
+
                             if (phones > 2) {
                                 document.getElementById('removePhone').classList.remove('hidden');
                             }
                         }
-                        
+
                         function removePhone() {
                             if (phones > 2) {
                                 phone_input.removeChild(phone_input.lastChild);
                                 phones--;
-                                
+
                                 if (phones == 2) {
                                     document.getElementById('removePhone').classList.add('hidden');
                                 }

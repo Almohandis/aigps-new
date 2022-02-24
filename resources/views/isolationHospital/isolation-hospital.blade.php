@@ -19,7 +19,11 @@
                 @csrf
                 Total capacity: <input type="number" min="0" name="total_capacity" placeholder="Total capacity">
                 <br>
-                Available beds: <input type="number" min="0" name="available_beds" placeholder="Available beds">
+                Intensive care capacity: <input type="number" min="0" name="care_beds" placeholder="Intensive care capacity">
+                <br>
+                Available intensive care beds: <input type="number" min="0" name="avail_care_beds" placeholder="Available intensive care beds">
+                <br>
+                Available regular beds: <input type="number" min="0" name="available_beds" placeholder="Available beds">
                 <br>
                 Recoveries: <input type="number" min="0" name="recoveries" placeholder="Number of recoveries">
                 <br>
