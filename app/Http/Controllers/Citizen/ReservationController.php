@@ -8,14 +8,23 @@ use App\Models\Campaign;
 
 class ReservationController extends Controller
 {
-    public function index(Request $request) {
-        return $request->all();
+    public function index(Request $request)
+    {
         $campaigns = Campaign::where('end_date', '>', now())->where('type', 'vaccination')->get();
-
-        return view('citizen.reservation1')->with('campaigns', $campaigns);
+        // return $request->user()->is_diagnosed;
+        if ($request->user()->is_diagnosed) {
+            return view('citizen.reservation1')->with('campaigns', $campaigns);
+        } else {
+            return view('citizen.reservation1')
+                ->with([
+                    'campaigns' => $campaigns,
+                    'message' => 'You have to get a diagnosis appointment first'
+                ]);
+        }
     }
 
-    public function reserve(Request $request, Campaign $campaign) {
+    public function reserve(Request $request, Campaign $campaign)
+    {
         if ($campaign->end_date < now()) {
             return back()->withErrors([
                 'campaign' => 'Campaign has ended'
@@ -26,6 +35,8 @@ class ReservationController extends Controller
         $end = strtotime($campaign->end_date);
 
         $date = rand($start, $end);
+
+        //# Here, you must check campaign capacity, retrieve all reservations for the campaign in that day and check if the date is available
 
         $request->user()->reservations()->attach($campaign->id, ['date' =>  date('Y-m-d H:i:s', $date)]);
 
@@ -40,10 +51,17 @@ class ReservationController extends Controller
             return view('citizen.reservecomplete');
         }
 
-        return redirect('/reserve/step2');
+        if ($request->user()->is_diagnosed) {
+            return redirect('/reserve/step2')->with('message', null);
+        } else {
+            return redirect('/reserve/step2')->with('message', 'You have to get a diagnosis appointment first');
+        }
+
+        // return redirect('/reserve/step2');
     }
 
-    public function store(Request $request) {
+    public function store(Request $request)
+    {
         $request->validate([
             'address' => 'required|string',
             'telephone_number' => 'required',
@@ -64,8 +82,8 @@ class ReservationController extends Controller
 
         //# user can have multiple phones, up to 10
         $phone = 1;
-        while($phone < 10) {
-            $phone_number = $request->input('phone'.$phone);
+        while ($phone < 10) {
+            $phone_number = $request->input('phone' . $phone);
             if ($phone_number) {
                 $request->user()->phones()->create([
                     'phone_number' => $phone_number
@@ -80,7 +98,8 @@ class ReservationController extends Controller
         return redirect('/reserve/step2');
     }
 
-    public function form(Request $request) {
+    public function form(Request $request)
+    {
         if (
             $request->user()->telephone_number != null &&
             $request->user()->birthdate != null &&
@@ -94,6 +113,6 @@ class ReservationController extends Controller
 
         return view('citizen.reservation2')->with([
             'countries'     =>      \Countries::getList('en')
-        ]);
+        ])->with('message', null);
     }
 }
