@@ -102,4 +102,8 @@ class User extends Authenticatable
     {
         return $this->hasOne(MedicalPassport::class);
     }
+    public function hospital()
+    {
+        return $this->belongsTo(Hospital::class);
+    }
 }

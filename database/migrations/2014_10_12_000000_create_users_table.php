@@ -25,11 +25,11 @@ class CreateUsersTable extends Migration
             $table->string('country')->nullable()->default(null);
             $table->string('city')->nullable()->default(NULL);
             $table->char('blood_type', 3)->nullable()->default(null);
-            $table->string('email')->unique();
+            $table->string('email')->unique()->nullable()->default(null);
             $table->integer('hospital_id')->nullable()->default(null);
             $table->timestamp('email_verified_at')->nullable();
             $table->boolean('is_diagnosed')->default(false);
-            $table->string('password');
+            $table->string('password')->nullable()->default(null);;
             $table->rememberToken();
             $table->timestamps();
         });

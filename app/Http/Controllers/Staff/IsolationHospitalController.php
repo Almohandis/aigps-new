@@ -62,6 +62,10 @@ class IsolationHospitalController extends Controller
 
     public function infection(Request $request)
     {
+        if (! Auth::user()->hospital_id) {
+            return redirect()->back();
+        }
+
         $hospital_id = Hospital::find(Auth::user()->hospital_id)->id;
         $patients = Hospital::find($hospital_id)->patients()->where('checkout_date', null)->get();
         return view('isolationHospital.infection', compact('patients'));
@@ -182,88 +186,37 @@ class IsolationHospitalController extends Controller
             return redirect()->back()->with('message', 'National ID is not valid');
 
         //# check if patient has a record in users table
-        $user = User::where('national_id', $request->national_id)->first();
+        $user = User::where('national_id', $request->national_id)->updateOrCreate([
+            'national_id'   =>  $request->national_id,
+            'name' => $request->name,
+            'birthdate' => $request->birthdate,
+            'address' => $request->address,
+            'telephone_number' => $request->telephone_number,
+            'gender' => $request->gender,
+            'country'   => $request->country,
+            'blood_type'    =>  $request->blood_type,
+            'is_diagnosed'  =>  $request->is_diagnosed,
+            'city'          =>  $request->city
+        ]);
 
-        $success = true;
-        if ($user) {
+        $user->phones()->delete();
 
-            //# update user data
-            $success =  $user->update([
-                'name' => $request->name,
-                'birthdate' => $request->birthdate,
-                'address' => $request->address,
-                'telephone_number' => $request->telephone_number,
-                'gender' => $request->gender,
-                'country'   => $request->country,
-                'blood_type'    =>  $request->blood_type,
-                'is_diagnosed'  =>  $request->is_diagnosed,
-            ]);
-
-            //# update phones
-            $user->phones()->delete();
-            if ($request->phones)
-                foreach ($request->phones as $phone) {
-                    if (!$user->phones()->create([
-                        'phone_number' => $phone,
-                    ]))
-                        $success = false;
-                }
-
-            // return $phonesDelete;
-            //# update infections
-            $user->infections()->delete();
-            if ($request->infections)
-                foreach ($request->infections as $infection) {
-                    if (!$user->infections()->create([
-                        'infection_date'    => $infection,
-                    ]))
-                        $success = false;
-                }
-
-            if ($success) {
-                return redirect('/staff/isohospital/infection')->with('message', 'Patient information updated successfully');
-            } else {
-                return redirect('/staff/isohospital/infection')->with('message', 'Patient information could not be updated');
-            }
-        } else {
-            //# create user data
-            $user = User::create([
-                'national_id' => $request->national_id,
-                'email'  => 0,
-                'password' => 0,
-                'name' => $request->name,
-                'birthdate' => $request->birthdate,
-                'address' => $request->address,
-                'telephone_number' => $request->telephone_number,
-                'gender' => $request->gender,
-                'country'   => $request->country,
-                'blood_type'    =>  $request->blood_type,
-                'is_diagnosed'  =>  $request->is_diagnosed,
-            ]);
-
-            //# insert phones
-            if ($request->phones)
-                foreach ($request->phones as $phone) {
-                    if (!$user->phones()->create([
-                        'phone_number' => $phone,
-                    ]))
-                        $success = false;
-                }
-
-            //# insert infections
-            if ($request->infections)
-                foreach ($request->infections as $infection) {
-                    if (!$user->infections()->create([
-                        'infection_date'    => $infection,
-                    ]))
-                        $success = false;
-                }
-
-            if ($success) {
-                return redirect('/staff/isohospital/infection')->with('message', 'Patient information added successfully');
-            } else {
-                return redirect('/staff/isohospital/infection')->with('message', 'Patient information could not be added');
+        if ($request->phones) {
+            foreach ($request->phones as $phone) {
+                $user->phones()->create([
+                    'phone_number' => $phone,
+                ]);
             }
         }
+
+        if ($request->infections) {
+            foreach ($request->infections as $infection) {
+                $user->infections()->create([
+                    'infection_date'    => $infection,
+                ]);
+            }
+        }
+
+        return redirect('/staff/isohospital/infection')->with('message', 'Patient information added successfully');
     }
 }
