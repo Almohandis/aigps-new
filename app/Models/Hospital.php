@@ -13,6 +13,8 @@ class Hospital extends Model
         'name',
         'capacity',
         'city',
+        'care_beds',
+        'avail_care_beds',
         'available_beds',
         'is_isolation',
     ];

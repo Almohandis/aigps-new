@@ -38,8 +38,10 @@
                     <td>#</td>
                     <td>Name</td>
                     <td>City</td>
-                    <td>Capacity</td>
-                    <td>Available beds</td>
+                    <td>Total capacity</td>
+                    <td>Intensive care beds</td>
+                    <td>Available intensive care beds</td>
+                    <td>Available regular beds</td>
                     <td>Isolation</td>
                     </th>
                     @foreach ($hospitals as $hospital)
@@ -49,6 +51,8 @@
                             <td>{{ $hospital->name }}</td>
                             <td>{{ $hospital->city }}</td>
                             <td>{{ $hospital->capacity }}</td>
+                            <td>{{ $hospital->care_beds }}</td>
+                            <td>{{ $hospital->avail_care_beds }}</td>
                             <td>{{ $hospital->available_beds }}</td>
                             <td><input type="number" min="0" max="1" name="is_isolation[]"
                                     value="{{ $hospital->is_isolation }}"> </td>
