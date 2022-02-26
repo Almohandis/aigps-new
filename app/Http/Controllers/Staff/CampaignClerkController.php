@@ -17,7 +17,6 @@ class CampaignClerkController extends Controller
 
     public function store(Request $request)
     {
-        return $request;
         $request->validate([
             'national_id' => 'required|string|max:255',
             'blood_type' => 'required|string|max:3',
@@ -37,8 +36,6 @@ class CampaignClerkController extends Controller
 
         if ($user->is_diagnosed && $request->is_diagnosed == 'true') {
             $medical_passport = $user->passport;
-            //###############################################################################################################
-
         }
 
         $user->update([
@@ -50,6 +47,7 @@ class CampaignClerkController extends Controller
         $disease = 1;
         while (1) {
             $disease_name = $request->input('disease' . $disease);
+
             if (!$disease_name) {
                 break;
             }
@@ -61,9 +59,9 @@ class CampaignClerkController extends Controller
             $disease++;
         }
 
-        if ($request->input('is_infected') == 'true') {
+        if ($request->input('infection')) {
             $user->infections()->create([
-                'infection_date'  => now()
+                'infection_date'  => $request->infection
             ]);
 
             InfectionNotificationJob::dispatch($user);
