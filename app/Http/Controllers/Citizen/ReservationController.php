@@ -5,13 +5,24 @@ namespace App\Http\Controllers\Citizen;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Campaign;
+use Carbon\Carbon;
 
 class ReservationController extends Controller
 {
-    public function index(Request $request)
-    {
-        $campaigns = Campaign::where('end_date', '>', now())->where('type', 'vaccination')->get();
-        // return $request->user()->is_diagnosed;
+    public function index(Request $request) {
+        $campaigns = Campaign::where('end_date', '>', now())->where('type', 'vaccination')->where('status', 'active')->get();
+
+        //# capacity check
+        foreach($campaigns as $campaign) {
+            $start = Carbon::parse($campaign->start_date);
+            $end = Carbon::parse($campaign->end_date);
+            $days = $start->diffInDays($end) + 1;
+
+            if ($campaign->appointments()->count() >= $days * $campaign->capacity_per_day) {
+                $campaigns->forget($campaign->id);
+            }
+        }
+
         if ($request->user()->is_diagnosed) {
             return view('citizen.reservation1')->with('campaigns', $campaigns);
         } else {
@@ -23,22 +34,33 @@ class ReservationController extends Controller
         }
     }
 
-    public function reserve(Request $request, Campaign $campaign)
-    {
+    public function reserve(Request $request, Campaign $campaign) {
         if ($campaign->end_date < now()) {
             return back()->withErrors([
                 'campaign' => 'Campaign has ended'
             ]);
         }
 
-        $start = max(strtotime($campaign->start_date), strtotime(today()));
-        $end = strtotime($campaign->end_date);
+        $start = new Carbon($campaign->start_date);
+        $end = new Carbon($campaign->end_date);
+        $day = 0;
+        $totalDays = $end->diffInDays($start);
 
-        $date = rand($start, $end);
+        $reservations = $campaign->appointments()->where('date', $start->format('Y-m-d'))->count();
 
-        //# Here, you must check campaign capacity, retrieve all reservations for the campaign in that day and check if the date is available
+        while($reservations >= $campaign->capacity_per_day && $day < $totalDays) {
+            $day++;
+            $start->addDays($day);
+            $reservations = $campaign->appointments()->where('date', $start->format('Y-m-d'))->count();
+        }
 
-        $request->user()->reservations()->attach($campaign->id, ['date' =>  date('Y-m-d H:i:s', $date)]);
+        if ($reservations >= $campaign->capacity_per_day || $day > $totalDays) {
+            return back()->withErrors([
+                'campaign' => 'No slots available in that campaign'
+            ]);
+        }
+
+        $request->user()->reservations()->attach($campaign->id, ['date' =>  $start->format('Y-m-d')]);
 
         if (
             $request->user()->telephone_number != null &&
@@ -60,8 +82,7 @@ class ReservationController extends Controller
         // return redirect('/reserve/step2');
     }
 
-    public function store(Request $request)
-    {
+    public function store(Request $request) {
         $request->validate([
             'address' => 'required|string',
             'telephone_number' => 'required',
@@ -98,8 +119,7 @@ class ReservationController extends Controller
         return redirect('/reserve/step2');
     }
 
-    public function form(Request $request)
-    {
+    public function form(Request $request) {
         if (
             $request->user()->telephone_number != null &&
             $request->user()->birthdate != null &&

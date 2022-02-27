@@ -29,44 +29,16 @@
 
                 @csrf
 
-                <div class="mt-3">
-                    <label class="text-white font-medium text-sm">Question 1</label>
-
-                    <input class="ml-5" type="radio" name="question1" value="Yes"/>
-                    <label class="text-gray-400 text-sm mr-5">Yes</label>
-                    <input type="radio" name="question1" value="No" />
-                    <label class="text-gray-400 text-sm">No</label>
-                </div>
-
-                
-                <div class="mt-3">
-                    <label class="text-white font-medium text-sm">Question 2</label>
-
-                    <input class="ml-5" type="radio" name="question2" value="Yes"/>
-                    <label class="text-gray-400 text-sm mr-5">Yes</label>
-                    <input type="radio" name="question2" value="No" />
-                    <label class="text-gray-400 text-sm">No</label>
-                </div>
-
-                
-                <div class="mt-3">
-                    <label class="text-white font-medium text-sm">Question 3</label>
-
-                    <input class="ml-5" type="radio" name="question3" value="Yes"/>
-                    <label class="text-gray-400 text-sm mr-5">Yes</label>
-                    <input type="radio" name="question3" value="No" />
-                    <label class="text-gray-400 text-sm">No</label>
-                </div>
-
-                
-                <div class="mt-3">
-                    <label class="text-white font-medium text-sm">Question 4</label>
-
-                    <input class="ml-5" type="radio" name="question4" value="Yes"/>
-                    <label class="text-gray-400 text-sm mr-5">Yes</label>
-                    <input type="radio" name="question4" value="No" />
-                    <label class="text-gray-400 text-sm">No</label>
-                </div>
+                @foreach($questions as $question)
+                    <div class="mt-3">
+                        <label class="text-white font-medium text-sm"> {{ $question->title }} </label>
+                        <br>
+                        <input class="ml-5" type="radio" name="answers[{{ $question->id }}]" value="Yes"/>
+                        <label class="text-gray-400 text-sm mr-5">Yes</label>
+                        <input type="radio" name="answers[{{ $question->id }}]" value="No" />
+                        <label class="text-gray-400 text-sm">No</label>
+                    </div>
+                @endforeach
 
                 <div class="mt-6">
                     <div class="mt-3 mx-auto text-right">

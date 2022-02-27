@@ -90,11 +90,13 @@
                     <x-label value="Is Diagnosed" class="text-white inline-block" />
                 </div>
 
-                <div class="mt-4 text-white">
-                    <p class="text-xl"> Infection status </p>
-                    <input type="checkbox" name="is_infected" value="true" />
-                    <x-label value="Is Infected" class="text-white inline-block" />
+                <div class="mt-4">
+                    <p class="text-xl text-white"> Infection status </p>
+                    <x-label value="Infection:" class="text-white inline-block" />
+                    <input type="date" name="infection" />
+
                     <br>
+
                     <input type="checkbox" name="is_recovered" value="true" />
                     <x-label value="Is Recovered" class="text-white inline-block" />
                 </div>

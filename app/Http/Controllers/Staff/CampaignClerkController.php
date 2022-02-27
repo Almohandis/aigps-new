@@ -51,6 +51,7 @@ class CampaignClerkController extends Controller
         $disease = 1;
         while (1) {
             $disease_name = $request->input('disease' . $disease);
+
             if (!$disease_name) {
                 break;
             }
@@ -62,9 +63,9 @@ class CampaignClerkController extends Controller
             $disease++;
         }
 
-        if ($request->input('is_infected') == 'true') {
+        if ($request->input('infection')) {
             $user->infections()->create([
-                'infection_date'  => now()
+                'infection_date'  => $request->infection
             ]);
 
             InfectionNotificationJob::dispatch($user);

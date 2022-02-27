@@ -59,6 +59,3 @@ Route::middleware('admin')->group(function () {
     Route::post('/admin/update', 'AdminController@update');
     Route::post('/admin/add', 'AdminController@add');
 });
-
-Route::get('/test', function () {
-});

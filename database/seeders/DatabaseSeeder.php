@@ -18,6 +18,7 @@ class DatabaseSeeder extends Seeder
             CampaignSeeder::class,
             NationalIdSeeder::class,
             ArticleSeeder::class,
+            QuestionSeeder::class,
         ]);
     }
 }
