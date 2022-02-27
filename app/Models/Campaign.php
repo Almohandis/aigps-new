@@ -22,4 +22,8 @@ class Campaign extends Model
     {
         return $this->belongsToMany(User::class, 'campaign_doctors')->withPivot('from', 'to');
     }
+
+    public function appointments() {
+        return $this->belongsToMany(Campaign::class, 'campaign_appointments')->withPivot('date');
+    }
 }

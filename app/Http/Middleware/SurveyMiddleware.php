@@ -16,7 +16,7 @@ class SurveyMiddleware
      */
     public function handle(Request $request, Closure $next)
     {
-        if ($request->user()->survey()->exists()) {
+        if ($request->user()->answers()->exists()) {
             return $next($request);
             
         }

@@ -16,8 +16,8 @@ class CampaignSeeder extends Seeder
     {
         \App\Models\Campaign::factory(2)
         ->state(new Sequence(
-            ['location' => '31.233334, 30.033333'],
-            ['location' => '30.128611, 31.242222'],
+            ['location' => '31.233334, 30.033333', 'status'     =>      'active'],
+            ['location' => '30.128611, 31.242222', 'status'     =>      'active'],
         ))
         ->create();
     }

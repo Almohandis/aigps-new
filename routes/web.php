@@ -15,10 +15,6 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', 'App\Http\Controllers\Citizen\HomePageController@index');
 
-Route::get('/view/{name}', function ($name) {
-    return view($name);
-});
-
 require __DIR__ . '/auth.php';
 
 Route::namespace('App\Http\Controllers\Citizen')->middleware('auth')->group(base_path('routes/citizen.php'));
