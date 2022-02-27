@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\StatisticsController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -24,3 +25,6 @@ require __DIR__ . '/auth.php';
 Route::namespace('App\Http\Controllers\Citizen')->middleware('auth')->group(base_path('routes/citizen.php'));
 
 Route::namespace('App\Http\Controllers\Staff')->middleware('auth')->prefix('staff')->group(base_path('routes/staff.php'));
+
+//# Statistics
+Route::get('/stats', [StatisticsController::class, 'index'])->middleware('auth');
