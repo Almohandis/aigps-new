@@ -3,7 +3,7 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use \App\Models\Survey;
+use \App\Models\Question;
 
 class QuestionSeeder extends Seeder
 {
@@ -14,6 +14,7 @@ class QuestionSeeder extends Seeder
      */
     public function run()
     {
-        Survey::factory(1)->hasQuestions(5)->create();
+        Question::factory(7)->create();
+
     }
 }

@@ -4,6 +4,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\Models\NationalId;
 use App\Models\User;
 use App\Models\Campaign;
+use App\Models\Question;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
@@ -17,11 +18,11 @@ beforeEach(function () {
     ]);
 
     $this->user = User::factory()->create();
-    $this->user->survey()->create([
-        'question1' => '1',
-        'question2' => '2',
-        'question3' => '3',
-        'question4' => '4',
+    Question::factory(1)->create();
+    DB::table('question_user')->insert([
+        'user_id' => $this->user->id,
+        'question_id' => 1,
+        'answer' => 'Yes',
     ]);
 
     Campaign::factory()->create([

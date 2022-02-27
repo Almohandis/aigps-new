@@ -8,4 +8,14 @@ use Illuminate\Database\Eloquent\Model;
 class Question extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'title',
+        'type',
+    ];
+
+    public function answers()
+    {
+        return $this->hasMany(User::class)->withPivot('answer');
+    }
 }

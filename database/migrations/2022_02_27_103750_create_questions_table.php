@@ -17,7 +17,6 @@ class CreateQuestionsTable extends Migration
             $table->id();
             $table->string('title');
             $table->string('type');
-            $table->integer('survey_id');
             $table->timestamps();
         });
     }

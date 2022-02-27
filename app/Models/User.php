@@ -102,7 +102,7 @@ class User extends Authenticatable
         return $this->belongsTo(Hospital::class);
     }
 
-    public function survey() {
-        return $this->hasOne(Survey::class);
+    public function answers() {
+        return $this->belongsToMany(Question::class)->withPivot('answer')->withTimestamps();
     }
 }
