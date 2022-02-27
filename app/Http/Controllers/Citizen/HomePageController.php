@@ -9,7 +9,7 @@ use App\Models\Article;
 class HomePageController extends Controller {
     public function index() {
         $articles = Article::all();
-        
+
         return view('welcome', [
             'articles' => $articles
         ]);

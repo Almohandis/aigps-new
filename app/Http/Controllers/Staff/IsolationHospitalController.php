@@ -62,7 +62,7 @@ class IsolationHospitalController extends Controller
 
     public function infection(Request $request)
     {
-        if (! Auth::user()->hospital_id) {
+        if (!Auth::user()->hospital_id) {
             return redirect()->back();
         }
 
@@ -182,8 +182,16 @@ class IsolationHospitalController extends Controller
     public function submitAddPatient(Request $request)
     {
         // return $request->all();
-        if (!NationalId::find($request->national_id))
+        if (!NationalId::find($request->national_id)) {
             return redirect()->back()->with('message', 'National ID is not valid');
+        }
+
+        //# if patient doesn't have a record in users table, create a record in both users and medical passport tables
+        $user = User::where('national_id', $request->national_id)->first();
+        $create_passport = false;
+        if (!$user) {
+            $create_passport = true;
+        }
 
         //# check if patient has a record in users table
         $user = User::where('national_id', $request->national_id)->updateOrCreate([
@@ -198,6 +206,11 @@ class IsolationHospitalController extends Controller
             'is_diagnosed'  =>  $request->is_diagnosed,
             'city'          =>  $request->city
         ]);
+
+        //# create new passport if user doesn't have a record in medical passport table (new patient)
+        if ($create_passport) {
+            $user->passport()->create();
+        }
 
         $user->phones()->delete();
 
