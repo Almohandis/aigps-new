@@ -4,7 +4,7 @@ namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class SurveyFactory extends Factory
+class QuestionFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -14,7 +14,8 @@ class SurveyFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'title'     =>      $this->faker->sentence,
+            'type'      =>      'trueorfalse'
         ];
     }
 }

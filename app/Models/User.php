@@ -63,11 +63,6 @@ class User extends Authenticatable
         return $this->belongsToMany(Campaign::class, 'campaign_appointments')->withPivot('date');
     }
 
-    public function survey()
-    {
-        return $this->hasOne('App\Models\Survey');
-    }
-
     public function diseases()
     {
         return $this->hasMany(ChronicDisease::class);
@@ -105,5 +100,9 @@ class User extends Authenticatable
     public function hospital()
     {
         return $this->belongsTo(Hospital::class);
+    }
+
+    public function survey() {
+        return $this->hasOne(Survey::class);
     }
 }

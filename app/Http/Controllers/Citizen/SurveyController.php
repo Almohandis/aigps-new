@@ -13,7 +13,9 @@ class SurveyController extends Controller
             return redirect('/');
         }
 
-        return view('citizen.survey');
+        return view('citizen.survey')->with([
+            'survey'    =>  $request->user()->survey()->create(),
+        ]);
     }
 
     public function survey(Request $request) {
