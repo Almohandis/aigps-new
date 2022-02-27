@@ -10,8 +10,19 @@ use Carbon\Carbon;
 class ReservationController extends Controller
 {
     public function index(Request $request) {
-        $campaigns = Campaign::where('end_date', '>', now())->where('type', 'vaccination')->get();
-        // return $request->user()->is_diagnosed;
+        $campaigns = Campaign::where('end_date', '>', now())->where('type', 'vaccination')->where('status', 'active')->get();
+
+        //# capacity check
+        foreach($campaigns as $campaign) {
+            $start = Carbon::parse($campaign->start_date);
+            $end = Carbon::parse($campaign->end_date);
+            $days = $start->diffInDays($end) + 1;
+
+            if ($campaign->appointments()->count() >= $days * $campaign->capacity_per_day) {
+                $campaigns->forget($campaign->id);
+            }
+        }
+
         if ($request->user()->is_diagnosed) {
             return view('citizen.reservation1')->with('campaigns', $campaigns);
         } else {
@@ -37,13 +48,13 @@ class ReservationController extends Controller
 
         $reservations = $campaign->appointments()->where('date', $start->format('Y-m-d'))->count();
 
-        while($reservations >= 20 && $day < $totalDays) {
+        while($reservations >= $campaign->capacity_per_day && $day < $totalDays) {
             $day++;
             $start->addDays($day);
             $reservations = $campaign->appointments()->where('date', $start->format('Y-m-d'))->count();
         }
 
-        if ($reservations >= 20 || $day > $totalDays) {
+        if ($reservations >= $campaign->capacity_per_day || $day > $totalDays) {
             return back()->withErrors([
                 'campaign' => 'No slots available in that campaign'
             ]);
