@@ -60,7 +60,7 @@ class User extends Authenticatable
 
     public function reservations()
     {
-        return $this->belongsToMany(Campaign::class, 'campaign_appointments')->withPivot('date');
+        return $this->belongsToMany(Campaign::class, 'campaign_appointments')->withPivot('date', 'id')->withTimestamps();
     }
 
     public function diseases()
