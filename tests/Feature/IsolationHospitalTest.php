@@ -75,3 +75,17 @@ test('isolation hospital can modify hospital statistics', function () {
 
     $response->assertRedirect('/staff/isohospital/modify');
 });
+
+//# Isolation hospital can access the first page to modify patient's data
+test('isolation hospital can access the first page to modify patient\'s data', function () {
+    $response = $this->get('/staff/isohospital/infection');
+
+    $response->assertStatus(200);
+});
+
+//# Isolation hospital can access the second page to modify patient's data
+test('isolation hospital can access the second page to modify patient\'s data', function () {
+    $response = $this->get('/staff/isohospital/infection');
+
+    $response->assertStatus(200);
+});

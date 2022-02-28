@@ -29,7 +29,7 @@ class CreateUsersTable extends Migration
             $table->integer('hospital_id')->nullable()->default(null);
             $table->timestamp('email_verified_at')->nullable();
             $table->boolean('is_diagnosed')->default(false);
-            $table->string('password')->nullable()->default(null);;
+            $table->string('password')->nullable()->default(null);
             $table->rememberToken();
             $table->timestamps();
         });

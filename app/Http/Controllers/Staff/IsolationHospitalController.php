@@ -66,9 +66,14 @@ class IsolationHospitalController extends Controller
             return redirect()->back();
         }
 
-        $hospital_id = Hospital::find(Auth::user()->hospital_id)->id;
-        $patients = Hospital::find($hospital_id)->patients()->where('checkout_date', null)->get();
-        return view('isolationHospital.infection', compact('patients'));
+        $hospital = Hospital::find(Auth::user()->hospital_id);
+        if ($hospital) {
+            $hospital_id = $hospital->id;
+            $patients = Hospital::find($hospital_id)->patients()->where('checkout_date', null)->get();
+            return view('isolationHospital.infection', compact('patients'));
+        } else {
+            return redirect()->back();
+        }
     }
 
     public function edit(Request $request)
