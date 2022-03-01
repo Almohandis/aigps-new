@@ -62,42 +62,5 @@ Route::middleware('admin')->group(function () {
 });
 
 Route::get('/test', function () {
-    // NationalId::create([
-    //     'national_id' => 666,
-    // ]);
-    // NationalId::create([
-    //     'national_id' => 777,
-    // ]);
 
-    // Hospital::create([
-    //     'id' => 9,
-    //     'name' => 'Kampala',
-    //     'city' => 'Kampala',
-    //     'capacity' => 1020,
-    //     'is_isolation' => 1,
-    // ]);
-
-    //# Hospital clerk
-    // User::create([
-    //     'id' => 10,
-    //     'name' => 'admin',
-    //     'national_id' => 666,
-    //     'role_id' => 6,
-    //     'hospital_id' => 9,
-    // ]);
-
-    //# Patient
-    // User::create([
-    //     'id' => 11,
-    //     'name' => 'dm',
-    //     'national_id' => 777,
-    //     'role_id' => 3,
-    // ]);
-
-    // Hospital::find(8)->patients()->attach(9, [
-    //     'checkin_date' => '2020-01-01',
-    // ]);
-
-    $patient = Hospital::find(8)->patients()->find(9);//->find(9);
-    return $patient;
 });
