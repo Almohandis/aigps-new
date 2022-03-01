@@ -69,8 +69,14 @@ class IsolationHospitalController extends Controller
         $hospital = Hospital::find(Auth::user()->hospital_id);
         if ($hospital) {
             $hospital_id = $hospital->id;
-            $patients = Hospital::find($hospital_id)->patients()->where('checkout_date', null)->get();
-            return view('isolationHospital.infection', compact('patients'));
+
+            $patients = Hospital::find($hospital_id)->patients()->get(); //->where('checkout_date', null)->get();
+            // return $patients;
+            if (!$patients) {
+                return view('isolationHospital.infection');
+            } else {
+                return view('isolationHospital.infection', compact('patients'));
+            }
         } else {
             return redirect()->back();
         }
@@ -108,15 +114,19 @@ class IsolationHospitalController extends Controller
     public function more(Request $request, $id)
     {
         $user = User::where('national_id', $id)->first();
-        $phones = $user->phones;
-        $infections = $user->infections()->get();
-        $data = array(
-            'user' => $user,
-            'phones' => $phones,
-            'infections' => $infections,
-            'countries' => \Countries::getList('en'),
-        );
-        return view('isolationHospital.infection-more', compact('data'));
+        if ($user) {
+            $phones = $user->phones;
+            $infections = $user->infections()->get();
+            $data = array(
+                'user' => $user,
+                'phones' => $phones,
+                'infections' => $infections,
+                'countries' => \Countries::getList('en'),
+            );
+            return view('isolationHospital.infection-more', compact('data'));
+        } else {
+            return redirect()->back()->with('message', 'Patient not found');
+        }
     }
 
     //# Detailed patient data submit
@@ -126,19 +136,24 @@ class IsolationHospitalController extends Controller
         if (!$hospital_id)
             return redirect('/staff/isohospital/infection')->with('message', 'You are not authorized to modify this patient');
 
-        $patients = Hospital::find($hospital_id)->first()->patients();
+        $patients = Hospital::find($hospital_id)->patients()->get();
+        // dd($patients->toArray());
 
-        if (!$patients)
+        if (!$patients) {
             return redirect('/staff/isohospital/infection')->with('message', 'There is no patient in this hospital');
+        }
 
-        $patient = $patients->where('national_id', $id)->where('checkout_date', null)->first();
-
-        if (!$patient)
+        $patient = Hospital::find($hospital_id)->patients()->where('national_id', $id)->where('checkout_date', null)->first();
+        // return $patient;
+        // dd($patient->toArray());
+        if (!$patient) {
             return redirect('/staff/isohospital/infection')->with('message', 'This is not a valid patient data');
+        }
 
 
         $success = true;
-        $userUpdate = $patient->update([
+        // return $request->getContent();
+        $patient->update([
             'name' => $request->name,
             'birthdate' => $request->birthdate,
             'address' => $request->address,
@@ -148,9 +163,6 @@ class IsolationHospitalController extends Controller
             'blood_type'    =>  $request->blood_type,
             'is_diagnosed'  =>  $request->is_diagnosed,
         ]);
-        if (!$userUpdate)
-            $success = false;
-
         // return $userUpdate;
         $patient->phones()->delete();
         if ($request->phones)
@@ -186,7 +198,12 @@ class IsolationHospitalController extends Controller
 
     public function submitAddPatient(Request $request)
     {
-        // return $request->all();
+        return $request;
+        $hospital = Hospital::find($request->user()->hospital_id);
+        if (!$hospital) {
+            return redirect()->back()->with('message', 'You are not authorized to add new patients');
+        }
+
         if (!NationalId::find($request->national_id)) {
             return redirect()->back()->with('message', 'National ID is not valid');
         }
@@ -234,6 +251,14 @@ class IsolationHospitalController extends Controller
                 ]);
             }
         }
+
+
+
+        $hospital->patients()
+            ->attach($user->id, [
+                'checkin_date' => now(),
+            ]);
+
 
         return redirect('/staff/isohospital/infection')->with('message', 'Patient information added successfully');
     }

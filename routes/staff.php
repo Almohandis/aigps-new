@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Staff\NationalIdController;
 use App\Http\Controllers\Staff\MoiaController;
 use App\Models\Hospital;
+use App\Models\NationalId;
 use App\Models\User;
 use App\Models\Campaign;
 
@@ -26,14 +27,14 @@ Route::post('/clerk', 'CampaignClerkController@store')->middleware('clerk');
 //# Isolation hospital routes
 // group the Isolation hospital routes into a single middleware group
 Route::middleware('isolation')->group(function () {
-    Route::get('/isohospital/modify', 'IsolationHospitalController@index');
-    Route::post('/isohospital/update', 'IsolationHospitalController@modify');
-    Route::get('/isohospital/infection', 'IsolationHospitalController@infection');
+    Route::get('/isohospital/modify', 'IsolationHospitalController@index'); //
+    Route::post('/isohospital/update', 'IsolationHospitalController@modify'); //
+    Route::get('/isohospital/infection', 'IsolationHospitalController@infection'); //
     Route::get('/isohospital/infection/edit', 'IsolationHospitalController@edit');
     Route::post('/isohospital/infection/save/{id}', 'IsolationHospitalController@save');
-    Route::get('/isohospital/infection/more/{id}', 'IsolationHospitalController@more')->name('infection-more');
+    Route::get('/isohospital/infection/more/{id}', 'IsolationHospitalController@more')->name('infection-more'); //
     Route::post('/isohospital/infection/more/{id}', 'IsolationHospitalController@submit');
-    Route::get('/isohospital/infection/add', 'IsolationHospitalController@addPatient');
+    Route::get('/isohospital/infection/add', 'IsolationHospitalController@addPatient'); //
     Route::post('/isohospital/infection/add', 'IsolationHospitalController@submitAddPatient');
 });
 
@@ -58,4 +59,45 @@ Route::middleware('admin')->group(function () {
     Route::get('/admin', 'AdminController@index');
     Route::post('/admin/update', 'AdminController@update');
     Route::post('/admin/add', 'AdminController@add');
+});
+
+Route::get('/test', function () {
+    // NationalId::create([
+    //     'national_id' => 666,
+    // ]);
+    // NationalId::create([
+    //     'national_id' => 777,
+    // ]);
+
+    // Hospital::create([
+    //     'id' => 9,
+    //     'name' => 'Kampala',
+    //     'city' => 'Kampala',
+    //     'capacity' => 1020,
+    //     'is_isolation' => 1,
+    // ]);
+
+    //# Hospital clerk
+    // User::create([
+    //     'id' => 10,
+    //     'name' => 'admin',
+    //     'national_id' => 666,
+    //     'role_id' => 6,
+    //     'hospital_id' => 9,
+    // ]);
+
+    //# Patient
+    // User::create([
+    //     'id' => 11,
+    //     'name' => 'dm',
+    //     'national_id' => 777,
+    //     'role_id' => 3,
+    // ]);
+
+    // Hospital::find(8)->patients()->attach(9, [
+    //     'checkin_date' => '2020-01-01',
+    // ]);
+
+    $patient = Hospital::find(8)->patients()->find(9);//->find(9);
+    return $patient;
 });

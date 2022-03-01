@@ -18,20 +18,16 @@ class UserSeeder extends Seeder
     public function run()
     {
         NationalId::factory()->count(3)->create();
-        $nationalIds = NationalId::get();
-        $ids = array();
-        foreach ($nationalIds as $nationalId) {
-            $ids[] = $nationalId->national_id;
-        }
+        $nationalIds = NationalId::pluck('national_id');
 
-        for ($i = 0; $i < 3; $i++) {
+        foreach($nationalIds as $nid) {
             User::factory()
-                ->hasPhones(2)
-                ->for(Hospital::factory())
-                ->has(Infection::factory(2))
-                ->create([
-                    'national_id' => $ids[$i],
-                ]);
+            ->hasPhones(2)
+            ->for(Hospital::factory())
+            ->has(Infection::factory(2))
+            ->create([
+                'national_id' => $nid
+            ]);
         }
     }
 }
