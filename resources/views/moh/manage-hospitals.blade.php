@@ -11,14 +11,14 @@
             <form action="/staff/moh/manage-hospitals/update" method="POST">
                 @csrf
                 <table>
-                    <th>
-                    <td>#</td>
-                    <td>Name</td>
-                    <td>City</td>
-                    <td>Capacity</td>
-                    <td>Available beds</td>
-                    <td>Isolation</td>
-                    </th>
+                    <tr>
+                    <th>#</th>
+                    <th>Name</th>
+                    <th>City</th>
+                    <th>Capacity</th>
+                    <th>Available beds</th>
+                    <th>Isolation</th>
+                    </tr>
                     @foreach ($hospitals as $hospital)
                         <tr>
                             <input type="hidden" class="id" value="{{$hospital->id}}" name="id[]">

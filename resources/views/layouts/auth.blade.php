@@ -3,14 +3,15 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-
-        <title>Laravel</title>
+        <link rel="icon" type="image/x-icon" href="EDIT3.png">
+        <title>AIGPS</title>
 
         <!-- Fonts -->
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap">
 
         <!-- Styles -->
         <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+        <link rel="stylesheet" href="{{ asset('css/style.css') }}">
 
         <style>
             body {
@@ -26,10 +27,10 @@
     </head>
     <body class="antialiased">
         <div class="relative items-top justify-center min-h-screen sm:items-center py-4 sm:pt-0">
-            <nav class="bg-black px-2 bg-opacity-50 sm:px-4 py-2.5 rounded">
+            <nav class="header">
                 <div class="container flex flex-wrap justify-between items-center mx-auto">
                     <a href="/" class="flex">
-                        <img class="mr-3 h-10" src="{{ asset('logo.png') }}" alt="Logo">
+                        <img class="logo2" src="{{ asset('EDIT3.png') }}" alt="Logo">
                     </a>
 
                     <div class="flex items-center md:order-2">

@@ -1,13 +1,18 @@
-<x-base-layout>
-    <div class="mt-6">
-        <h1 class="ml-5 text-left text-4xl text-white" style="text-shadow: 2px 2px 8px #000000;">
-            Vaccination Reserve
-        </h1>
 
+
+<x-base-layout>
+    <x-slot name="title">Reservation</x-slot>
+    <div class="mt-6">
+        <img src="vaccine-reserve.jpg" class="sec-header">
+        <div class="divide"></div>
+        <div class="wrap"></div>
+            <h1 class="ml-5 text-left text-4xl text-white" style="text-shadow: 2px 2px 8px #000000;">
+                Vaccination Reservation
+            </h1>
         <div class="mx-auto text-center mt-2">
-            <p class="inline-block text-center text-xl bg-white font-bold rounded-full text-blue-500 w-8 h-8 pt-1">1</p>
+            <p class="inline-block text-center text-xl bg-blue-500 font-bold rounded-full text-white w-8 h-8 pt-1">1</p>
             <div class="inline-block mx-3 bg-black w-10 h-1 mb-1 bg-opacity-50"></div>
-            <p class="inline-block text-center text-xl bg-blue-500 font-bold rounded-full text-white w-8 h-8 pt-1">2</p>
+            <p class="inline-block text-center text-xl bg-white  font-bold rounded-full text-blue-500  w-8 h-8 pt-1">2</p>
         </div>
 
         @if ($errors->any())
@@ -24,10 +29,10 @@
             </div>
         @endif
 
-        <p class="text-white text-center mt-2">Select a location</p>
+        <p class="loca">Select a location</p>
 
         <div id="campaign_selection" class="text-center text-xl mt-2 hidden">
-            <h3>You have selected: <span class="text-white">Campaign Name</span></h3>
+            <h3>You have selected: <span class="location">Campaign Name</span></h3>
         </div>
 
         <div class="mx-auto text-center mt-5">
@@ -124,8 +129,8 @@
             <div class="mt-3 mx-auto text-right mr-5">
                 <form action="/reserve/map/-1" method="POST" id="procceed_form">
                     @csrf
-                    <x-button type="submit" disabled id="procceed_button">
-                        Procceed
+                    <x-button type="submit" disabled id="procceed_button" class="proceed_button">
+                        Proceed
                     </x-button>
                 </form>
             </div>

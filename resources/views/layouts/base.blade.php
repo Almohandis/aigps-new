@@ -3,31 +3,40 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="icon" type="image/x-icon" href="EDIT3.png">
 
-        <title>Laravel</title>
+        <title>
+        {{ $title ?? "AIGPS" }}
+        </title>
 
         <!-- Fonts -->
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap">
 
         <!-- Styles -->
         <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+        <link rel="stylesheet" href="{{ asset('css/style.css') }}">
 
         <style>
             body {
                 background: white;
-                background: linear-gradient(90deg, #6075ac 0%, #be989e 100%);
+                /*background: linear-gradient(90deg, #6075ac 0%, #be989e 100%);*/
             }
         </style>
 
         <!-- Scripts -->
         <script src="{{ asset('js/app.js') }}" defer></script>
+        <script src="{{ asset('js/header.js') }}" defer></script>
+        <script src="https://kit.fontawesome.com/a1983178b4.js" crossorigin="anonymous"></script>
     </head>
     <body class="antialiased">
         <div class="relative items-top justify-center min-h-screen sm:items-center py-4 sm:pt-0">
-            <nav class="bg-black px-2 bg-opacity-50 sm:px-4 py-2.5 rounded">
+            <nav class="header">
                 <div class="container flex flex-wrap justify-between items-center mx-auto">
                     <a href="/" class="flex">
-                        <img class="mr-3 h-10" src="{{ asset('logo.png') }}" alt="Logo">
+                        <img class="logo" src="{{ asset('EDIT3.png') }}" alt="Logo">
+                        <div class="title">
+                            AIGPS
+                        </div>
                     </a>
 
                     <div class="flex items-center md:order-2">
@@ -55,16 +64,23 @@
                                 <a href="/" class="block py-2 pr-4 pl-3 text-white bg-blue-700 rounded md:bg-transparent md:p-0 md:hover:text-blue-100">Home</a>
                             </li>
                             <li>
-                                <a href="#" class="block py-2 pr-4 pl-3 text-white border-b border-gray-100 hover:bg-gray-50 md:hover:bg-transparent md:border-0 md:hover:text-blue-100 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Vaccine</a>
+                                <a href="/reserve" class="block py-2 pr-4 pl-3 text-white border-b border-gray-100 hover:bg-gray-50 md:hover:bg-transparent md:border-0 md:hover:text-blue-100 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Vaccine</a>
                             </li>
                             <li>
                                 <a href="#" class="block py-2 pr-4 pl-3 text-white border-b border-gray-100 hover:bg-gray-50 md:hover:bg-transparent md:border-0 md:hover:text-blue-100 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Pandemic Statistics</a>
                             </li>
                             <li>
-                                <a href="#" class="block py-2 pr-4 pl-3 text-white border-b border-gray-100 hover:bg-gray-50 md:hover:bg-transparent md:border-0 md:hover:text-blue-100 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Diagnose</a>
+                                <a href="/reserve" class="block py-2 pr-4 pl-3 text-white border-b border-gray-100 hover:bg-gray-50 md:hover:bg-transparent md:border-0 md:hover:text-blue-100 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Diagnose</a>
                             </li>
                             <li>
-                                <a href="#" class="block py-2 pr-4 pl-3 text-white border-b border-gray-100 hover:bg-gray-50 md:hover:bg-transparent md:border-0 md:hover:text-blue-100 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Contact Us</a>
+                                <a href="/view/contact" class="block py-2 pr-4 pl-3 text-white border-b border-gray-100 hover:bg-gray-50 md:hover:bg-transparent md:border-0 md:hover:text-blue-100 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Contact Us</a>
+                            </li>
+                            <li>
+                                <div class="bell-container" align="center">
+                                    <a href="/notifications"> 
+                                        <i class="fa fa-bell" id="bell" aria-hidden="true"></i>
+                                    </a>
+                                </div>
                             </li>
                         </ul>
                     </div>
