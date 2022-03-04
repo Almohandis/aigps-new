@@ -41,15 +41,15 @@ Route::middleware('isolation')->group(function () {
 //# Moh routes
 // group the Moh routes into one middleware group
 Route::middleware('moh')->group(function () {
-    Route::get('/moh/manage-hospitals', 'MohController@manageHospitals');
-    Route::post('/moh/manage-hospitals/update', 'MohController@updateHospitals')->name('update-hospitals');
-    Route::get('/moh/manage-doctors', 'MohController@manageDoctors');
-    Route::get('/moh/manage-doctors/{id}', 'MohController@getDoctors');
-    Route::get('/moh/manage-doctors/remove-doctor/{id}', 'MohController@removeDoctor');
-    Route::post('/moh/manage-doctors/add', 'MohController@addDoctor');
-    Route::get('/moh/manage-campaigns', 'MohController@manageCampaigns');
-    Route::post('/moh/manage-campaigns/add', 'MohController@addCampaign');
-    Route::post('/moh/manage-hospitals/add', 'MohController@addHospital');
+    Route::get('/moh/manage-hospitals', 'MohController@manageHospitals');//
+    Route::post('/moh/manage-hospitals/update', 'MohController@updateHospitals')->name('update-hospitals');//
+    Route::get('/moh/manage-doctors', 'MohController@manageDoctors');//
+    Route::get('/moh/manage-doctors/{id}', 'MohController@getDoctors');//
+    Route::get('/moh/manage-doctors/remove-doctor/{id}', 'MohController@removeDoctor');//
+    Route::post('/moh/manage-doctors/add', 'MohController@addDoctor');//
+    Route::get('/moh/manage-campaigns', 'MohController@manageCampaigns');//
+    Route::post('/moh/manage-campaigns/add', 'MohController@addCampaign');//
+    Route::post('/moh/manage-hospitals/add', 'MohController@addHospital');//
 });
 
 //# Admin routes

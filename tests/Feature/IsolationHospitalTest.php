@@ -5,11 +5,7 @@ namespace Tests\Feature;
 use App\Models\Hospital;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
-use Tests\TestCase;
 use App\Models\NationalId;
-
-use function PHPUnit\Framework\assertGreaterThan;
 
 uses(RefreshDatabase::class);
 
