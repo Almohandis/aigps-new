@@ -82,17 +82,15 @@ class IsolationHospitalController extends Controller
         }
     }
 
-    public function edit(Request $request)
-    {
-        $phones = User::where('national_id', $request->query('id'))->first()->phones()->get();
-        echo json_encode($phones);
-    }
-
     //# Initial patient data save
     public function save(Request $request, $id)
     {
+        // return $request->all();
         $patient = Hospital::find(Auth::user()->hospital_id)->first()->patients()->where('national_id', $id);
-        if ($patient)
+        if ($request->name == null) {
+            return redirect()->back()->with('message', 'Please fill in the fields');
+        }
+        if ($patient) {
             $patient = User::where('national_id', $id)->update([
                 'name' => $request->name,
                 'birthdate' => $request->birthdate,
@@ -102,7 +100,7 @@ class IsolationHospitalController extends Controller
                 'blood_type' => $request->blood_type,
                 'is_diagnosed' => $request->is_diagnosed,
             ]);
-        else
+        } else
             return redirect('/staff/isohospital/infection')->with('message', 'You are not authorized to modify this patient');
         if ($patient)
             return redirect('/staff/isohospital/infection')->with('message', 'Patient information updated successfully');
@@ -198,13 +196,15 @@ class IsolationHospitalController extends Controller
 
     public function submitAddPatient(Request $request)
     {
-        return $request;
+        // return $request;
         $hospital = Hospital::find($request->user()->hospital_id);
         if (!$hospital) {
             return redirect()->back()->with('message', 'You are not authorized to add new patients');
         }
 
         if (!NationalId::find($request->national_id)) {
+            return 4;
+
             return redirect()->back()->with('message', 'National ID is not valid');
         }
 
@@ -215,19 +215,28 @@ class IsolationHospitalController extends Controller
             $create_passport = true;
         }
 
-        //# check if patient has a record in users table
-        $user = User::where('national_id', $request->national_id)->updateOrCreate([
-            'national_id'   =>  $request->national_id,
-            'name' => $request->name,
-            'birthdate' => $request->birthdate,
-            'address' => $request->address,
-            'telephone_number' => $request->telephone_number,
-            'gender' => $request->gender,
-            'country'   => $request->country,
-            'blood_type'    =>  $request->blood_type,
-            'is_diagnosed'  =>  $request->is_diagnosed,
-            'city'          =>  $request->city
-        ]);
+        //# check if the patinet already in the hospital
+        if (Hospital::find($request->user()->hospital_id)->patients()->where('national_id', $request->national_id)->where('checkout_date', null)->first()) {
+            return redirect()->back()->with('message', 'This patient is already in the hospital');
+        }
+
+        //# check if patient has a record in users table, create new record or update existing one
+        $user = User::updateOrCreate(
+            ['national_id' => $request->national_id],
+            [
+                'national_id'   =>  $request->national_id,
+                'name' => $request->name,
+                'birthdate' => $request->birthdate,
+                'address' => $request->address,
+                'telephone_number' => $request->telephone_number,
+                'gender' => $request->gender,
+                'country'   => $request->country,
+                'blood_type'    =>  $request->blood_type,
+                'is_diagnosed'  =>  $request->is_diagnosed,
+                'city'          =>  $request->city
+            ]
+        );
+        // return $user;
 
         //# create new passport if user doesn't have a record in medical passport table (new patient)
         if ($create_passport) {
@@ -252,13 +261,11 @@ class IsolationHospitalController extends Controller
             }
         }
 
-
-
         $hospital->patients()
             ->attach($user->id, [
                 'checkin_date' => now(),
+                'checkout_date' => null,
             ]);
-
 
         return redirect('/staff/isohospital/infection')->with('message', 'Patient information added successfully');
     }

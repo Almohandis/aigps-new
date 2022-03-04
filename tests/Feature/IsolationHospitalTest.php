@@ -21,6 +21,10 @@ beforeEach(function () {
     NationalId::create([
         'national_id' => 122,
     ]);
+    NationalId::create([
+        'national_id' => 133,
+    ]);
+
 
     Hospital::create([
         'id' => 1,
@@ -42,7 +46,7 @@ beforeEach(function () {
     //# Patient
     User::create([
         'id' => 2,
-        'name' => 'dm',
+        'name' => 'Adam',
         'national_id' => 122,
         'role_id' => 3,
     ]);
@@ -120,7 +124,7 @@ test('isolation hospital can access detailed-patient-data page', function () {
 //# Isolation hospital can submit detailed patient's data
 test('isolation hospital can submit detailed patient\'s data', function () {
     $response = $this->post('/staff/isohospital/infection/more/122', [
-        'name' => 'ali',
+        'name' => 'Ali',
         'birthdate' => now(),
         'address' => 'any add',
         'telephone_number' => '0122222222',
@@ -129,9 +133,43 @@ test('isolation hospital can submit detailed patient\'s data', function () {
         'blood_type'    =>  'A+',
         'is_diagnosed'  =>  0,
     ]);
-    // dd( $response->getContent());
     $patient = Hospital::find(1)->patients()->find(2);
-    // dd($patient->toArray());
-    // expect($patient->toArray())->dd();
-    $this->assertEquals($patient->name, "ali");
+    $this->assertEquals($patient->name, "Ali");
+
+    $response->assertRedirect('/staff/isohospital/infection');
+});
+
+//# Isolation hospital can update primary patient's data
+test('isolation hospital can update primary patient\'s data', function () {
+    $response = $this->post('/staff/isohospital/infection/save/122', [
+        'name' => 'Nour',
+        'birthdate' => now(),
+        'address' => 'any add',
+        'telephone_number' => '0122222222',
+        'gender' => 'male',
+        'blood_type' => 'A+',
+        'is_diagnosed' => 1,
+    ]);
+
+    $patient = Hospital::find(1)->patients()->find(2);
+    $this->assertEquals($patient->name, "Nour");
+    $this->assertEquals($patient->address, 'any add');
+});
+
+//# Isolation hospital can submit new patient's data
+test('isolation hospital can submit new patient\'s data', function () {
+    $response = $this->post('/staff/isohospital/infection/add', [
+        'national_id' => 133,
+        'name' => 'New patient',
+        'birthdate' => now(),
+        'address' => 'any add',
+        'telephone_number' => '0122222222',
+        'gender' => 'male',
+        'country' => 'Egypt',
+        'blood_type' => 'A+',
+        'is_diagnosed' => 1,
+    ]);
+
+    $patients = Hospital::find(1)->patients()->count();
+    $this->assertEquals($patients, 2);
 });

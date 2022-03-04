@@ -30,12 +30,11 @@ Route::middleware('isolation')->group(function () {
     Route::get('/isohospital/modify', 'IsolationHospitalController@index'); //
     Route::post('/isohospital/update', 'IsolationHospitalController@modify'); //
     Route::get('/isohospital/infection', 'IsolationHospitalController@infection'); //
-    Route::get('/isohospital/infection/edit', 'IsolationHospitalController@edit');
-    Route::post('/isohospital/infection/save/{id}', 'IsolationHospitalController@save');
+    Route::post('/isohospital/infection/save/{id}', 'IsolationHospitalController@save');//
     Route::get('/isohospital/infection/more/{id}', 'IsolationHospitalController@more')->name('infection-more'); //
-    Route::post('/isohospital/infection/more/{id}', 'IsolationHospitalController@submit');
+    Route::post('/isohospital/infection/more/{id}', 'IsolationHospitalController@submit');//
     Route::get('/isohospital/infection/add', 'IsolationHospitalController@addPatient'); //
-    Route::post('/isohospital/infection/add', 'IsolationHospitalController@submitAddPatient');
+    Route::post('/isohospital/infection/add', 'IsolationHospitalController@submitAddPatient');//
 });
 
 
