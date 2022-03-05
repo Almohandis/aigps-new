@@ -49,7 +49,7 @@ test('moia can access escorting page', function () {
 
 //# Moia can modify campaign status (escort)
 test('moia can modify campaign status escort', function () {
-
+    //# This route has been removed
     $response = $this->get('/staff/moia/modify?id=1&action=Escort');
 
     $this->assertEquals(Campaign::where('status', 'active')->count(), 2);
