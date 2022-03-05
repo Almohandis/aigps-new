@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use \App\Models\Question;
+use Illuminate\Database\Eloquent\Factories\Sequence;
 
 class QuestionSeeder extends Seeder
 {

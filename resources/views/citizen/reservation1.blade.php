@@ -1,12 +1,15 @@
 <x-base-layout>
     <div class="mt-6">
-        <h1 class="ml-5 text-left text-4xl text-white" style="text-shadow: 2px 2px 8px #000000;">
-            @if ($message)
-                Diagnose reservation
-            @else
-                Vaccination reservation
-            @endif
-        </h1>
+        <img src="{{ asset('vaccine-reserve.jpg') }}" class="sec-header">
+        <div class="divide"></div>
+        <div class="wrap"></div>
+            <h1 class="ml-5 text-left text-4xl text-white" style="text-shadow: 2px 2px 8px #000000;">
+                @if ($message)
+                    Diagnose reservation
+                @else
+                    Vaccination reservation
+                @endif
+            </h1>
 
         <div class="mx-auto text-center mt-2">
             <p class="inline-block text-center text-xl bg-white font-bold rounded-full text-blue-500 w-8 h-8 pt-1">1</p>
@@ -35,10 +38,10 @@
         @endif
 
 
-        <p class="text-white text-center mt-2">Select a location</p>
+        <p class="text-black text-center mt-2">Select a location</p>
 
         <div id="campaign_selection" class="text-center text-xl mt-2 hidden">
-            <h3>You have selected: <span class="text-white">Campaign Name</span></h3>
+            <h3>You have selected: <span class="text-grey">Campaign Name</span></h3>
         </div>
 
         <div class="mx-auto text-center mt-5">
