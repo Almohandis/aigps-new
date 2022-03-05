@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\MedicalPassportController;
 use App\Http\Controllers\StatisticsController;
+use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -24,3 +26,9 @@ Route::namespace('App\Http\Controllers\Staff')->middleware('auth')->prefix('staf
 
 //# Statistics
 Route::get('/stats', [StatisticsController::class, 'index'])->middleware('auth');
+
+//# User profile
+Route::get('/profile', [ProfileController::class, 'index'])->name('profile');
+
+//# Medical passport
+Route::get('/medical-passport', [MedicalPassportController::class, 'index'])->name('medical-passport');
