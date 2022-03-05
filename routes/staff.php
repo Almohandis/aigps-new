@@ -55,9 +55,9 @@ Route::middleware('moh')->group(function () {
 //# Admin routes
 // group the Admin routes into one middleware group
 Route::middleware('admin')->group(function () {
-    Route::get('/admin', 'AdminController@index');
+    Route::get('/admin', 'AdminController@index');//
     Route::post('/admin/update', 'AdminController@update');
-    Route::post('/admin/add', 'AdminController@add');
+    Route::post('/admin/add', 'AdminController@add');//
 });
 
 Route::get('/test', function () {
