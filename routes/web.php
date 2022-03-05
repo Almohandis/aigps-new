@@ -31,4 +31,4 @@ Route::get('/stats', [StatisticsController::class, 'index'])->middleware('auth')
 Route::get('/profile', [ProfileController::class, 'index'])->name('profile');
 
 //# Medical passport
-Route::get('/medical-passport', [MedicalPassportController::class, 'index'])->name('medical-passport');
+Route::post('/medical-passport', [MedicalPassportController::class, 'index'])->name('medical-passport');

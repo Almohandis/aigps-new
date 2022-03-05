@@ -4,7 +4,7 @@
             My profile
         </h1>
 
-        @if(session('message'))
+        @if (session('message'))
             <div class="alert alert-danger">
                 {{ session('message') }}
             </div>
@@ -15,7 +15,8 @@
             <div class="inline-block bg-black bg-opacity-50 p-8 text-justify">
                 If you have a passport and want to request your <strong>medical passport</strong>, type in your
                 passport number and click on the button below
-                <form action="/medical-passport" method="GET">
+                <form action="/medical-passport" method="POST">
+                    @csrf
                     <input type="text" name="passport_number">
                     <input type="submit" value="Request medical passport">
                 </form>

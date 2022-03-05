@@ -18,7 +18,9 @@ class MedicalPassportController extends Controller
             'passport_number' => $request->passport_number,
         ]);
         $medical_passport = $request->user()->passport()->first();
-        $vaccine_dates = $request->user()->passport()->dates()->get();
-        return view('medical-passport', compact('medical_passport', 'vaccine_dates'));
+        $vaccine_dates = $request->user()->passport()->first()->dates()->get();
+        $user = $request->user();
+        $date = now();
+        return view('medical-passport', compact('medical_passport', 'vaccine_dates', 'user', 'date'));
     }
 }

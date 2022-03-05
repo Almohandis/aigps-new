@@ -60,7 +60,7 @@
                                         <!-- Authentication -->
                                         <form method="POST" action="{{ route('logout') }}">
                                             @csrf
-                                            <x-dropdown-link :href="route('/profile')">
+                                            <x-dropdown-link :href="route('profile')">
                                                 {{ __('My profile') }}
                                             </x-dropdown-link>
 
