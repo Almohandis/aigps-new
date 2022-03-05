@@ -5,7 +5,7 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 
-class SurveyMiddleware
+class AdminMiddleware
 {
     /**
      * Handle an incoming request.
@@ -16,11 +16,11 @@ class SurveyMiddleware
      */
     public function handle(Request $request, Closure $next)
     {
-        if ($request->user()->answers()->exists()) {
+
+        if ($request->user() && $request->user()->role_id === 9) {
             return $next($request);
-            
         }
 
-        return redirect('/survey');
+        return redirect('/');
     }
 }

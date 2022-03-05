@@ -4,6 +4,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\Models\NationalId;
 use App\Models\User;
 use App\Models\Campaign;
+use App\Models\Question;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Support\Facades\DB;
 
@@ -16,6 +17,7 @@ beforeEach(function () {
     ]);
 
     $this->user = User::factory()->create();
+    Question::factory(4)->create();
 
     $this->actingAs($this->user);
 });
@@ -27,11 +29,10 @@ test('survey page is rendered when user doesnt have survey', function () {
 });
 
 test('survey page doesnt render when user completed the survey already', function () {
-    $this->user->survey()->create([
-        'question1' => '1',
-        'question2' => '2',
-        'question3' => '3',
-        'question4' => '4',
+    DB::table('question_user')->insert([
+        'user_id' => $this->user->id,
+        'question_id' => 1,
+        'answer' => 'Yes',
     ]);
 
     $response = $this->get('/survey');
@@ -41,13 +42,15 @@ test('survey page doesnt render when user completed the survey already', functio
 
 test('user can submit survey', function () {
     $response = $this->post('/survey', [
-        'question1' => '1',
-        'question2' => '2',
-        'question3' => '3',
-        'question4' => '4'
+        'answers'    => [
+            '1' => 'Yes',
+            '2' => 'No',
+            '3' => 'Yes',
+            '4' => 'No',
+        ],
     ]);
 
-    $this->assertTrue($this->user->survey()->exists());
+    $this->assertEquals(DB::table('question_user')->where('user_id', $this->user->id)->count(), 4);
 
     $response->assertRedirect('/');
 });

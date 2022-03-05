@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateMedicalPassportsTable extends Migration
+class CreateQuestionUserTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,11 @@ class CreateMedicalPassportsTable extends Migration
      */
     public function up()
     {
-        Schema::create('medical_passports', function (Blueprint $table) {
+        Schema::create('question_user', function (Blueprint $table) {
             $table->id();
             $table->integer('user_id');
-            $table->string('vaccine_name')->nullable()->default(null);
-            $table->integer('vaccine_dose_count')->nullable()->default(null);
+            $table->integer('question_id');
+            $table->string('answer');
             $table->timestamps();
         });
     }
@@ -29,6 +29,6 @@ class CreateMedicalPassportsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('medical_passports');
+        Schema::dropIfExists('question_user');
     }
 }

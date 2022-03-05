@@ -4,7 +4,7 @@ window.onload = () => {
     //# Add phone to user
     function addPhone() {
         let phone = document.createElement('input');
-        phone.type = 'text';
+        phone.type = 'number';
         phone.setAttribute('class', elementNumber);
         phone.classList.add('phone');
         phone.setAttribute('id', elementNumber);

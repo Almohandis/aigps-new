@@ -4,10 +4,12 @@ namespace App\Http\Controllers\Staff;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+// use App\Http\Middleware\NationalId;
 use App\Models\HospitalStatistics;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Hospital;
 use App\Models\User;
+use App\Models\NationalId;
 
 class IsolationHospitalController extends Controller
 {
@@ -27,6 +29,8 @@ class IsolationHospitalController extends Controller
             $hospital = Hospital::find($request->hospital);
             if (
                 $request->total_capacity === null
+                || $request->care_beds === null
+                || $request->avail_care_beds === null
                 || $request->available_beds === null
                 || $request->recoveries === null
                 || $request->deaths === null
@@ -34,11 +38,13 @@ class IsolationHospitalController extends Controller
                 return redirect()->back()->with('message', 'Please fill in the fields');
             }
             if (
-                $request->total_capacity >= 0 && $request->available_beds >= 0
+                $request->total_capacity >= 0 && $request->available_beds >= 0 && $request->care_beds >= 0 && $request->avail_care_beds >= 0
                 && $request->recoveries >= 0 && $request->deaths >= 0
             ) {
                 $hospital->update([
                     'capacity' => $request->total_capacity,
+                    'care_beds' => $request->care_beds,
+                    'avail_care_beds' => $request->avail_care_beds,
                     'available_beds' => $request->available_beds,
                 ]);
                 HospitalStatistics::create([
@@ -56,6 +62,10 @@ class IsolationHospitalController extends Controller
 
     public function infection(Request $request)
     {
+        if (! Auth::user()->hospital_id) {
+            return redirect()->back();
+        }
+
         $hospital_id = Hospital::find(Auth::user()->hospital_id)->id;
         $patients = Hospital::find($hospital_id)->patients()->where('checkout_date', null)->get();
         return view('isolationHospital.infection', compact('patients'));
@@ -107,9 +117,23 @@ class IsolationHospitalController extends Controller
     //# Detailed patient data submit
     public function submit(Request $request, $id)
     {
+        $hospital_id = Auth::user()->hospital_id;
+        if (!$hospital_id)
+            return redirect('/staff/isohospital/infection')->with('message', 'You are not authorized to modify this patient');
+
+        $patients = Hospital::find($hospital_id)->first()->patients();
+
+        if (!$patients)
+            return redirect('/staff/isohospital/infection')->with('message', 'There is no patient in this hospital');
+
+        $patient = $patients->where('national_id', $id)->where('checkout_date', null)->first();
+
+        if (!$patient)
+            return redirect('/staff/isohospital/infection')->with('message', 'This is not a valid patient data');
+
+
         $success = true;
-        $user = User::where('national_id', $id)->first();
-        $userUpdate = $user->update([
+        $userUpdate = $patient->update([
             'name' => $request->name,
             'birthdate' => $request->birthdate,
             'address' => $request->address,
@@ -123,19 +147,19 @@ class IsolationHospitalController extends Controller
             $success = false;
 
         // return $userUpdate;
-        $user->phones()->delete();
+        $patient->phones()->delete();
         if ($request->phones)
             foreach ($request->phones as $phone) {
-                if (!$user->phones()->create([
+                if (!$patient->phones()->create([
                     'phone_number' => $phone,
                 ]))
                     $success = false;
             }
         // return $phonesDelete;
-        $user->infections()->delete();
+        $patient->infections()->delete();
         if ($request->infections)
             foreach ($request->infections as $infection) {
-                if (!$user->infections()->create([
+                if (!$patient->infections()->create([
                     'infection_date'    => $infection,
                 ]))
                     $success = false;
@@ -145,5 +169,54 @@ class IsolationHospitalController extends Controller
             return redirect('/staff/isohospital/infection')->with('message', 'Patient information updated successfully');
         else
             return redirect('/staff/isohospital/infection')->with('message', 'Patient information could not be updated');
+    }
+
+    public function addPatient(Request $request)
+    {
+        $data = array(
+            'countries' => \Countries::getList('en'),
+        );
+        return view('isolationHospital.add-patient', compact('data'));
+    }
+
+    public function submitAddPatient(Request $request)
+    {
+        // return $request->all();
+        if (!NationalId::find($request->national_id))
+            return redirect()->back()->with('message', 'National ID is not valid');
+
+        //# check if patient has a record in users table
+        $user = User::where('national_id', $request->national_id)->updateOrCreate([
+            'national_id'   =>  $request->national_id,
+            'name' => $request->name,
+            'birthdate' => $request->birthdate,
+            'address' => $request->address,
+            'telephone_number' => $request->telephone_number,
+            'gender' => $request->gender,
+            'country'   => $request->country,
+            'blood_type'    =>  $request->blood_type,
+            'is_diagnosed'  =>  $request->is_diagnosed,
+            'city'          =>  $request->city
+        ]);
+
+        $user->phones()->delete();
+
+        if ($request->phones) {
+            foreach ($request->phones as $phone) {
+                $user->phones()->create([
+                    'phone_number' => $phone,
+                ]);
+            }
+        }
+
+        if ($request->infections) {
+            foreach ($request->infections as $infection) {
+                $user->infections()->create([
+                    'infection_date'    => $infection,
+                ]);
+            }
+        }
+
+        return redirect('/staff/isohospital/infection')->with('message', 'Patient information added successfully');
     }
 }

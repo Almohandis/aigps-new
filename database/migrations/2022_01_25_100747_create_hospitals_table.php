@@ -19,6 +19,8 @@ class CreateHospitalsTable extends Migration
             $table->string('city');
             $table->integer('capacity')->default(0);
             $table->integer('available_beds')->default(0);
+            $table->integer('care_beds')->default(0);
+            $table->integer('avail_care_beds')->default(0);
             $table->boolean('is_isolation');
             $table->timestamps();
         });

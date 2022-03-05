@@ -4,128 +4,145 @@
         <div class="divide"></div>
         <div class="wrap"></div>
             <h1 class="ml-5 text-left text-4xl text-white" style="text-shadow: 2px 2px 8px #000000;">
-                Vaccination Reservation
+                @if ($message)
+                    Diagnose reservation
+                @else
+                    Vaccination reservation
+                @endif
             </h1>
 
         <div class="mx-auto text-center mt-2">
             <p class="inline-block text-center text-xl bg-white font-bold rounded-full text-blue-500 w-8 h-8 pt-1">1</p>
             <div class="inline-block mx-3 bg-black w-10 h-1 mb-1 bg-opacity-50"></div>
-            <p class="inline-block text-center text-xl bg-blue-500  font-bold rounded-full text-white  w-8 h-8 pt-1">2</p>
+            <p class="inline-block text-center text-xl bg-blue-500 font-bold rounded-full text-white w-8 h-8 pt-1">2</p>
+        </div>
+
+        @if ($message)
+            <div class="font-medium text-red-600">
+                {{ $message }}
+            </div>
+        @endif
+
+        @if ($errors->any())
+            <div>
+                <div class="font-medium text-red-600">
+                    {{ __('Whoops! Something went wrong.') }}
+                </div>
+
+                <ul class="mt-3 list-disc list-inside text-sm text-red-600">
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+
+
+        <p class="text-black text-center mt-2">Select a location</p>
+
+        <div id="campaign_selection" class="text-center text-xl mt-2 hidden">
+            <h3>You have selected: <span class="text-grey">Campaign Name</span></h3>
         </div>
 
         <div class="mx-auto text-center mt-5">
+            <div id="map" class="mt-8 rounded-md border-solid border-4 border-black"
+                style="width: 80%; height: 600px; max-height: 90vh; margin: 0 auto;"></div>
+            <script src="https://maps.googleapis.com/maps/api/js?key={{ config('app.google_maps_api') }}&callback=initMap" defer>
+            </script>
+            <script>
+                function selectCampaign(campaign) {
+                    document.getElementById('campaign_selection').classList.remove('hidden');
+                    document.getElementById('campaign_selection').children[0].children[0].innerHTML = campaign[0];
 
-            <form class="inline-block bg-black bg-opacity-50 p-8 text-justify" method="POST" action="/reserve/step2" id="reservation-form">
-                @if ($errors->any())
-                    <div>
-                        <div class="font-medium text-red-600">
-                            {{ __('Whoops! Something went wrong.') }}
-                        </div>
+                    document.getElementById('procceed_button').removeAttribute('disabled');
+                    document.getElementById('procceed_form').action = '/reserve/map/' + campaign[3];
+                }
 
-                        <ul class="mt-3 list-disc list-inside text-sm text-red-600">
-                            @foreach ($errors->all() as $error)
-                                <li>{{ $error }}</li>
-                            @endforeach
-                        </ul>
-                    </div>
-                @endif
+                function initMap() {
 
-                @csrf
-                <div>
-                    <x-label for="address" value="Adress" class="text-white" />
-
-                    <x-input id="address" class="block mt-1 w-full" type="text" name="address" :value="old('address')" required autofocus />
-                </div>
-                <br>
-                <div>
-                    <x-label for="country" value="country" class="text-white" />
-
-                    <select name="country" id="country" class="block mt-1 w-full">
-                        @foreach($countries as $country)
-                            <option value="{{ $country }}">{{ $country }}</option>
+                    var locations = [
+                        @foreach ($campaigns as $campaign)
+                            ["{{ preg_replace('/\s+/', ' ', trim($campaign->address)) }}", {{ $campaign->location }}, {{ $campaign->id }},
+                            "{{ $campaign->start_date }}", "{{ $campaign->status }}"],
                         @endforeach
-                    </select>
-                </div>
-                <br>
-                <div class="mt-3">
-                    <x-label for="telephone_number" value="Telephone Number" class="text-white" />
+                    ];
 
-                    <x-input id="telephone_number" class="block mt-1 w-full" type="text" name="telephone_number" :value="old('telephone_number')" required />
-                </div>
-                <br>
-                <div class="mt-3">
-                    <x-label for="birthdate" value="Birthdate" class="text-white" />
+                    var map = new google.maps.Map(document.getElementById('map'), {
+                        mapId: "dcba2c77acce5e73",
+                        zoom: 6,
+                        center: new google.maps.LatLng(26.8206, 30.8025)
+                    });
 
-                    <x-input id="birthdate" class="block mt-1 w-full" type="date" name="birthdate" :value="old('birthdate')" required />
-                </div>
-                <br>
-                <div class="mt-3">
-                    <label for="gender" value="Gender" class="text-white font-medium text-sm">Gender</label>
+                    var infowindow = new google.maps.InfoWindow();
+                    var marker, i;
 
-                    <input id="gender" class="ml-5" type="radio" name="gender" value="Male"/>
-                    <label class="text-gray-400 text-sm mr-5">Male</label>
-                    <input id="gender2" type="radio" name="gender" value="Female" />
-                    <label class="text-gray-400 text-sm">Female</label>
-                </div>
-                <br>
-                <div class="mt-3">
-                    <x-label value="Mobile Numbers" class="text-white" />
+                    for (i = 0; i < locations.length; i++) {
+                        marker = new google.maps.Marker({
+                            position: new google.maps.LatLng(locations[i][1], locations[i][2]),
+                            map: map,
+                            icon: getMarker(locations[i]),
+                        });
 
-                    <div id="phones">
-                        <x-input placeholder="+20" class="block mt-1" type="text" name="phone1" required id="mobile"/>
-                    </div>
-                    <br>
-                    <div onclick="addPhone()" class="text-center bg-blue-500 text-white text-medium px-3 py-2 mt-3 rounded-md shadow-sm hover:bg-blue-400" id="addphone">
-                        Add Phone
-                    </div>
-
-                    <div id="removePhone" onclick="removePhone()" class="hidden text-center bg-red-500 text-white text-medium px-3 py-2 mt-3 rounded-md shadow-sm hover:bg-red-400">
-                        Remove Phone
-                    </div>
-
-                    <script>
-                        var phones = 2;
-                        var phone_input = document.getElementById('phones');
-
-                        function addPhone() {
-                            var phone = document.createElement('input');
-                            phone.setAttribute('type', 'text');
-                            phone.setAttribute('name', 'phone' + phones);
-                            phone.setAttribute('placeholder', '+20');
-                            phone.setAttribute('required', '');
-                            phone.setAttribute('id', 'mobile');
-                            phone.setAttribute('class', 'block rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 block mt-1');
-                    
-                            phone_input.appendChild(phone);
-                            
-                            phones++;
-                            
-                            if (phones > 2) {
-                                document.getElementById('removePhone').classList.remove('hidden');
+                        google.maps.event.addListener(marker, 'click', (function(marker, i) {
+                            return function() {
+                                infowindow.setContent(locations[i][0]);
+                                infowindow.open(map, marker);
+                                selectCampaign(locations[i]);
                             }
-                        }
-                        
-                        function removePhone() {
-                            if (phones > 2) {
-                                phone_input.removeChild(phone_input.lastChild);
-                                phones--;
-                                
-                                if (phones == 2) {
-                                    document.getElementById('removePhone').classList.add('hidden');
-                                }
-                            }
-                        }
-                    </script>
-                </div>
+                        })(marker, i));
+                    }
+                }
 
-                <div class="mt-6">
-                    <div class="mt-3 mx-auto text-right" id="form-submit">
-                        <x-button>
-                            Submit
-                        </x-button>
-                    </div>
-                </div>
-            </form>
+                function getMarker(location) {
+                    const blackMarker = {
+                        path: "M10.453 14.016l6.563-6.609-1.406-1.406-5.156 5.203-2.063-2.109-1.406 1.406zM12 2.016q2.906 0 4.945 2.039t2.039 4.945q0 1.453-0.727 3.328t-1.758 3.516-2.039 3.070-1.711 2.273l-0.75 0.797q-0.281-0.328-0.75-0.867t-1.688-2.156-2.133-3.141-1.664-3.445-0.75-3.375q0-2.906 2.039-4.945t4.945-2.039z",
+                        fillColor: "black",
+                        fillOpacity: 0.7,
+                        strokeWeight: 0,
+                        rotation: 0,
+                        scale: 2,
+                        anchor: new google.maps.Point(15, 30),
+                    };
+
+
+                    const greenMarker = {
+                        path: "M10.453 14.016l6.563-6.609-1.406-1.406-5.156 5.203-2.063-2.109-1.406 1.406zM12 2.016q2.906 0 4.945 2.039t2.039 4.945q0 1.453-0.727 3.328t-1.758 3.516-2.039 3.070-1.711 2.273l-0.75 0.797q-0.281-0.328-0.75-0.867t-1.688-2.156-2.133-3.141-1.664-3.445-0.75-3.375q0-2.906 2.039-4.945t4.945-2.039z",
+                        fillColor: "green",
+                        fillOpacity: 0.7,
+                        strokeWeight: 0,
+                        rotation: 0,
+                        scale: 2,
+                        anchor: new google.maps.Point(15, 30),
+                    };
+
+                    const redMarker = {
+                        path: "M10.453 14.016l6.563-6.609-1.406-1.406-5.156 5.203-2.063-2.109-1.406 1.406zM12 2.016q2.906 0 4.945 2.039t2.039 4.945q0 1.453-0.727 3.328t-1.758 3.516-2.039 3.070-1.711 2.273l-0.75 0.797q-0.281-0.328-0.75-0.867t-1.688-2.156-2.133-3.141-1.664-3.445-0.75-3.375q0-2.906 2.039-4.945t4.945-2.039z",
+                        fillColor: "red",
+                        fillOpacity: 0.7,
+                        strokeWeight: 0,
+                        rotation: 0,
+                        scale: 2,
+                        anchor: new google.maps.Point(15, 30),
+                    };
+
+                    if (location[5] == 'active') {
+                        return greenMarker;
+                    }
+
+                    return redMarker;
+                }
+            </script>
+        </div>
+
+        <div class="mt-6">
+            <div class="mt-3 mx-auto text-right mr-5">
+                <form action="/reserve/map/-1" method="POST" id="procceed_form">
+                    @csrf
+                    <x-button type="submit" disabled id="procceed_button">
+                        Procceed
+                    </x-button>
+                </form>
+            </div>
         </div>
     </div>
 </x-base-layout>
