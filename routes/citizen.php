@@ -14,6 +14,9 @@ Route::middleware('survey')->group(function () {
 
     Route::get('/reserve/step2', 'ReservationController@form');
     Route::post('/reserve/step2', 'ReservationController@store');
+
+    Route::get('/appointments', 'AppointmentsController@index');
+    Route::get('/appointments/{id}/cancel', 'AppointmentsController@cancel');
 });
 
 Route::get('/notifications', 'NotificationController@index');
