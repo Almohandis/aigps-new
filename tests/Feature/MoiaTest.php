@@ -21,7 +21,6 @@ beforeEach(function () {
         'location' => 'Kampala',
         'address' => 'Kampala',
         'status' => 'pending',
-        'type' => 'vaccination',
     ]);
     //# Ended campaign
     Campaign::create([
@@ -30,7 +29,6 @@ beforeEach(function () {
         'end_date' => now(),
         'location' => 'Kampala',
         'address' => 'Kampala',
-        'type' => 'vaccination',
         'status' => 'active',
     ]);
 

@@ -135,7 +135,6 @@ test('moh can add new campaign', function () {
     $response = $this->post('/staff/moh/manage-campaigns/add', [
         'start_date' => '2020-01-01',
         'end_date' => '2022-02-02',
-        'type' => 'vaccination',
         'location' => "33.2344, 23.2344",
         'address' => 'cairo',
         'capacity_per_day' => 8,

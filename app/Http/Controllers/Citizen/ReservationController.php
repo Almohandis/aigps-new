@@ -10,7 +10,7 @@ use Carbon\Carbon;
 class ReservationController extends Controller
 {
     public function index(Request $request) {
-        $campaigns = Campaign::where('end_date', '>', now())->where('type', 'vaccination')->where('status', 'active')->get();
+        $campaigns = Campaign::where('end_date', '>', now())->where('status', 'active')->get();
 
         //# capacity check
         foreach($campaigns as $campaign) {

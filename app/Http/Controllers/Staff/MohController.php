@@ -108,8 +108,6 @@ class MohController extends Controller
         // return $request->all();
         if ($request->end_date < $request->start_date)
             return redirect('/staff/moh/manage-campaigns')->with('message', 'End date cannot be before start date');
-        if (!$request->type)
-            return redirect('/staff/moh/manage-campaigns')->with('message', 'Please select a campaign type');
         if (!$request->location)
             return redirect('/staff/moh/manage-campaigns')->with('message', 'Please select a location');
 
@@ -136,7 +134,6 @@ class MohController extends Controller
         $campaign = Campaign::create([
             'start_date' => $request->start_date,
             'end_date' => $request->end_date,
-            'type' => $request->type,
             'location' => preg_replace(array('/\(/', '/\)/'), array('', ''), $request->location),
             'address' => $request->address,
             'capacity_per_day' => $request->capacity_per_day ?? 20,

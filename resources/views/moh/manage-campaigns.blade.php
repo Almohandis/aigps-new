@@ -15,7 +15,6 @@
                     <td>#</td>
                     <td>Campaign's start date</td>
                     <td>Campaign's end date</td>
-                    <td>Type</td>
                     <td>Address</td>
                     <td>Status</td>
                     </th>
@@ -25,7 +24,6 @@
                             <td>{{ $i++ }}</td>
                             <td>{{ $campaign->start_date }}</td>
                             <td>{{ $campaign->end_date }}</td>
-                            <td>{{ $campaign->type }}</td>
                             <td>{{ $campaign->address }}</td>
                             <td>{{ $campaign->status }}</td>
                         </tr>
@@ -40,12 +38,8 @@
                     <input type="datetime-local" name="end_date" required><br>
                     <label for="capacity">Capacity per day</label>
                     <input type="number" min="1" name="capacity_per_day" id="capacity"><br>
-                    <label for="type">Type</label>
-                    <select name="type" id="type">
-                        <option value="" selected hidden disabled>Select campaign type</option>
-                        <option value="Vaccination">Vaccination</option>
-                        <option value="Sanitization">Sanitization</option>
-                    </select><br>
+                    <label for="Doctors">Doctors</label><br>
+                    <input type="button" id="doctor-add-button" value="Add doctor"><br>
                     <label id="addressLabel" for="address">Address</label>
                     <input type="text" name="address" id="address" required><input type="button" id="search-button"
                         value="Search"><br>
