@@ -12,5 +12,11 @@ class MedicalPassport extends Model
     protected $fillable = [
         'user_id',
         'vaccine_name',
+        'passport_number',
     ];
+
+    public function dates()
+    {
+        return $this->hasMany(VaccineDate::class);
+    }
 }

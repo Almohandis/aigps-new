@@ -2,6 +2,10 @@
 
 namespace Database\Seeders;
 
+use App\Models\Hospital;
+use App\Models\Infection;
+use App\Models\NationalId;
+use App\Models\User;
 use Illuminate\Database\Seeder;
 
 class UserSeeder extends Seeder
@@ -13,11 +17,17 @@ class UserSeeder extends Seeder
      */
     public function run()
     {
-        \App\Models\User::factory(1)
-        ->hasPhones(1)
-        ->create([
-            'email'         =>  'test@test.com',
-            'national_id'   =>  12345
-        ]);
+        NationalId::factory()->count(3)->create();
+        $nationalIds = NationalId::pluck('national_id');
+
+        foreach($nationalIds as $nid) {
+            User::factory()
+            ->hasPhones(2)
+            ->for(Hospital::factory())
+            ->has(Infection::factory(2))
+            ->create([
+                'national_id' => $nid
+            ]);
+        }
     }
 }

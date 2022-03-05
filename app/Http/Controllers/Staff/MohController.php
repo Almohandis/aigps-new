@@ -21,7 +21,6 @@ class MohController extends Controller
     //# Update hospitals
     public function updateHospitals(Request $request)
     {
-        // return 78;
         // return $request;
         $success = true;
         foreach (array_combine($request->id, $request->is_isolation) as $id => $is_isolation) {
@@ -63,8 +62,8 @@ class MohController extends Controller
     {
         $doctors = Hospital::find($id)->clerks()->get();
         $doctors = json_encode($doctors);
-        // print_r($doctors);
         echo $doctors;
+        return;
     }
 
     //# Remove doctor from a hospital
@@ -74,6 +73,7 @@ class MohController extends Controller
             'hospital_id' => null,
         ]);
         echo $doctor;
+        return;
     }
 
     //# Add new doctor to a hospital
@@ -108,41 +108,43 @@ class MohController extends Controller
         // return $request->all();
         if ($request->end_date < $request->start_date)
             return redirect('/staff/moh/manage-campaigns')->with('message', 'End date cannot be before start date');
-        if (!$request->type)
-            return redirect('/staff/moh/manage-campaigns')->with('message', 'Please select a campaign type');
         if (!$request->location)
             return redirect('/staff/moh/manage-campaigns')->with('message', 'Please select a location');
 
 
         //# Check if doctors with given IDs exist
-        foreach ($request->doctors as $doctor) {
-            $user = User::where('national_id', $doctor)->first();
-            if (!$user)
-                return redirect('/staff/moh/manage-campaigns')->with('message', 'Doctor with ID ' . $doctor . ' does not exist');
+        if ($request->doctors) {
+            foreach ($request->doctors as $doctor) {
+                $user = User::where('national_id', $doctor)->first();
+                if (!$user)
+                    return redirect('/staff/moh/manage-campaigns')->with('message', 'Doctor with ID ' . $doctor . ' does not exist');
 
-            //# Check if doctor is already working in a campaign
-            if ($user->campaigns()->first()) {
-                $busy_doctor = $user->campaigns()->where('start_date', '>', now())->first();
-                $unavailable_doctor = $user->campaigns()->where('end_date', '>', now())->first();
-                if ($busy_doctor || $unavailable_doctor)
-                    return redirect('/staff/moh/manage-campaigns')->with('message', 'Doctor with ID ' . $doctor . ' is already assigned to a campaign');
+                //# Check if doctor is already working in a campaign
+                if ($user->campaigns()->first()) {
+                    $busy_doctor = $user->campaigns()->where('start_date', '>', now())->first();
+                    $unavailable_doctor = $user->campaigns()->where('end_date', '>', now())->first();
+                    if ($busy_doctor || $unavailable_doctor)
+                        return redirect('/staff/moh/manage-campaigns')->with('message', 'Doctor with ID ' . $doctor . ' is already assigned to a campaign');
+                }
             }
         }
+
 
         //# Create new campaign
         $campaign = Campaign::create([
             'start_date' => $request->start_date,
             'end_date' => $request->end_date,
-            'type' => $request->type,
             'location' => preg_replace(array('/\(/', '/\)/'), array('', ''), $request->location),
             'address' => $request->address,
             'capacity_per_day' => $request->capacity_per_day ?? 20,
         ]);
 
         //# Assign doctors to campaign
-        foreach ($request->doctors as $doctor) {
-            $doctor_id = User::where('national_id', $doctor)->first()->id;
-            $campaign->doctors()->attach($doctor_id, ['from' => $request->start_date, 'to' => $request->end_date]);
+        if ($request->doctors) {
+            foreach ($request->doctors as $doctor) {
+                $doctor_id = User::where('national_id', $doctor)->first()->id;
+                $campaign->doctors()->attach($doctor_id, ['from' => $request->start_date, 'to' => $request->end_date]);
+            }
         }
 
         if ($campaign)

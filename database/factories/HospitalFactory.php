@@ -15,6 +15,7 @@ class HospitalFactory extends Factory
     {
         return [
             'name' => $this->faker->word,
+            'city'  => $this->faker->city,
             'capacity' => $this->faker->numberBetween(1, 100),
             'is_isolation' => $this->faker->boolean,
         ];

@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="icon" type="image/x-icon" href="EDIT3.png">
 
-    <title>{{ $title ?? "AIGPS" }}</title>
+    <title>{{ $title ?? 'AIGPS' }}</title>
     <!-- Fonts -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap">
 
@@ -30,7 +30,7 @@
 </head>
 
 <body class="antialiased">
-    
+
     <video class="back-video" width="1000" height="100" loop autoplay>
         <source src="Vaccine2.mp4" type="video/mp4">
         <source src="Vaccine2.ogg" type="video/ogg">
@@ -46,13 +46,14 @@
                 </a>
 
                 <div class="flex items-center md:order-2">
-                    <div class="flex mr-3 text-sm md:mr-0" >
+                    <div class="flex mr-3 text-sm md:mr-0">
                         @auth
                             <div class="hidden sm:flex sm:items-center sm:ml-6">
                                 <x-dropdown align="right" width="48">
                                     <x-slot name="trigger">
                                         <button
-                                            class="flex items-center text-sm font-medium text-gray-500 hover:text-gray-700 hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-gray-300 transition duration-150 ease-in-out" id="username">
+                                            class="flex items-center text-sm font-medium text-gray-500 hover:text-gray-700 hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-gray-300 transition duration-150 ease-in-out"
+                                            id="username">
                                             <div>{{ Auth::user()->name }}</div>
 
                                             <div class="ml-1">
@@ -73,10 +74,12 @@
                                         <!-- Authentication -->
                                         <form method="POST" action="{{ route('logout') }}">
                                             @csrf
+                                            <x-dropdown-link :href="route('profile')">
+                                                {{ __('My profile') }}
+                                            </x-dropdown-link>
 
                                             <x-dropdown-link :href="route('logout')"
-                                                onclick="event.preventDefault();
-                                                                                                                        this.closest('form').submit();">
+                                                onclick="event.preventDefault();this.closest('form').submit();">
                                                 {{ __('Log Out') }}
                                             </x-dropdown-link>
                                         </form>
@@ -115,34 +118,29 @@
                 <div class="justify-between items-center w-full md:flex md:w-auto md:order-1" id="mobile-menu-2">
                     <ul class="flex flex-col mt-4 md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium">
                         <li>
-                            <a href="/"
-                                class="home">Home</a>
+                            <a href="/" class="home">Home</a>
                         </li>
                         <li>
-                            <a href="/reserve"
-                                class="vaccine">Vaccine</a>
+                            <a href="/reserve" class="vaccine">Vaccine</a>
                         </li>
                         <li>
-                            <a href="#"
-                                class="pandemic">Pandemic Statistics</a>
+                            <a href="/stats" class="pandemic">Pandemic Statistics</a>
                         </li>
                         <li>
-                            <a href="/reserve"
-                                class="diagnose">Diagnose</a>
+                            <a href="/reserve" class="diagnose">Diagnose</a>
                         </li>
                         <li>
-                            <a href="/view/contact"
-                                class="contact-us">Contact Us</a>
+                            <a href="/view/contact" class="contact-us">Contact Us</a>
                         </li>
                         <li>
                             <div class="bell-container" align="center">
-                                <a href="/notifications"> 
+                                <a href="/notifications">
                                     <i class="fa fa-bell" id="bell" aria-hidden="true"></i>
                                 </a>
                             </div>
-                            
+
                         </li>
-                         
+
                         <!--# Special roles -->
                         @auth
                             @if (Auth::user()->role_id == 2)
@@ -154,8 +152,7 @@
                             @elseif(Auth::user()->role_id == 4)
                                 <li>
                                     <a href="{{ url('/staff/moia/escorting') }}"
-                                        class="block py-2 pr-4 pl-3 text-white border-b border-gray-100 hover:bg-gray-50 md:hover:bg-transparent md:border-0 md:hover:text-blue-100 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Campaign
-                                        escorting</a>
+                                        class="block py-2 pr-4 pl-3 text-white border-b border-gray-100 hover:bg-gray-50 md:hover:bg-transparent md:border-0 md:hover:text-blue-100 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Campaigns</a>
                                 </li>
                             @elseif(Auth::user()->role_id == 6)
                                 <li>
@@ -192,7 +189,8 @@
                             @elseif(Auth::user()->role_id == 9)
                                 <li>
                                     <a href="/staff/admin"
-                                        class="block py-2 pr-4 pl-3 text-white border-b border-gray-100 hover:bg-gray-50 md:hover:bg-transparent md:border-0 md:hover:text-blue-100 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Manage roles</a>
+                                        class="block py-2 pr-4 pl-3 text-white border-b border-gray-100 hover:bg-gray-50 md:hover:bg-transparent md:border-0 md:hover:text-blue-100 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Manage
+                                        roles</a>
                                 </li>
                             @endif
                         @endauth
