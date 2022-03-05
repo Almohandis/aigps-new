@@ -17,7 +17,6 @@ class CreateCampaignsTable extends Migration
             $table->id();
             $table->dateTime('start_date');
             $table->dateTime('end_date');
-            $table->string('type')->default('vaccination');
             $table->string('location');
             $table->string('address');
             $table->string('status')->default('pending'); //# pending, active, completed
