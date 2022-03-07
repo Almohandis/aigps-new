@@ -26,13 +26,22 @@
                     Reserve Vaccination
                 </a>
             </div>
-            <div class="article_button">
+        <div class="article_button">
                 <a class="mx-auto mt-8 text-center bg-blue-500 text-white text-lg font-semibold px-4 py-2 rounded-lg shadow-lg hover:bg-blue-400" id="article_button" onclick="viewArticles()">
                     Read Articles >>
                 </a>
+        </div>
+
+        <!-- @foreach($articles as $article)
+            <div class="mx-auto text-center mt-5 text-white">
+                @if($article->type == 'image')
+                    <img src="{{ $article->link }}" alt="">
+                @endif
+                <a href="/articles/{{ $article->id }}">
+                    {{ $article->title }}
+                </a>
             </div>
-        
-   
+        @endforeach -->
     <div id="slideshow-container" class="slideshow-container">
 
         <div class="slideshow-container__slides">

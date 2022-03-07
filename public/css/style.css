@@ -174,18 +174,20 @@
   {
     text-align: center;
     margin-top: 3.25rem;
-    margin-left: -60rem;
+    margin-left: 11rem;
     z-index: auto;
     position: relative;
+    display: inline-block;
   }
   .article_button
   {
     text-align: center;
-    margin-top: -1.75rem;
-    margin-left: -34rem;
+    margin-top: -9.75rem;
+    margin-left: 2rem;
     cursor: pointer;
     z-index: auto;
     position: relative;
+    display: inline-block;
   }
   .awareness-img
    {

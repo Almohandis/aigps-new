@@ -33,6 +33,8 @@ Route::middleware('isolation')->group(function () {
     Route::post('/isohospital/infection/save/{id}', 'IsolationHospitalController@save');
     Route::get('/isohospital/infection/more/{id}', 'IsolationHospitalController@more')->name('infection-more');
     Route::post('/isohospital/infection/more/{id}', 'IsolationHospitalController@submit');
+    Route::get('/isohospital/infection/add', 'IsolationHospitalController@addPatient');
+    Route::post('/isohospital/infection/add', 'IsolationHospitalController@submitAddPatient');
 });
 
 
@@ -47,20 +49,13 @@ Route::middleware('moh')->group(function () {
     Route::post('/moh/manage-doctors/add', 'MohController@addDoctor');
     Route::get('/moh/manage-campaigns', 'MohController@manageCampaigns');
     Route::post('/moh/manage-campaigns/add', 'MohController@addCampaign');
+    Route::post('/moh/manage-hospitals/add', 'MohController@addHospital');
 });
 
-Route::get('/test', function () {
-    $user = User::where('national_id', 1234)->first();
-    if (!$user)
-        return 0;
-
-    //# Check if doctor is already working in a campaign
-    return $user->campaigns()->where('start_date', now())->first();
-    if ($user->campaigns()->first()) {
-        $busy_doctor = $user->campaigns()->where('start_date', '>', now())->first();
-        $unavailable_doctor = $user->campaigns()->where('end_date', '>', now())->first();
-        if ($busy_doctor || $unavailable_doctor)
-            return 12;
-    }
-    return 6;
+//# Admin routes
+// group the Admin routes into one middleware group
+Route::middleware('admin')->group(function () {
+    Route::get('/admin', 'AdminController@index');
+    Route::post('/admin/update', 'AdminController@update');
+    Route::post('/admin/add', 'AdminController@add');
 });

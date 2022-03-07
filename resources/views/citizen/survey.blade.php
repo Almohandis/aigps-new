@@ -35,160 +35,18 @@
 
                 @csrf
 
-                <div class="mt-3">
-                    <label class="text-white font-medium text-sm" id="Q">Do you have today or in the past ten days Any symptoms such as fever, cough, shortness of breath, muscle aches, headache, <br>sore throat, runny nose, nausea, vomiting or diarrhea?</label>
-                    <div class="radio">
-                        <input class="ml-5" type="radio" name="question1" value="Yes"/>
-                        <label class="text-gray-400 text-sm mr-5" id="Q">Yes</label>
-                        <input type="radio" name="question1" value="No" />
-                        <label class="text-gray-400 text-sm" id="Q">No</label>
+                @foreach($questions as $question)
+                    <div class="mt-3">
+                        <label class="text-white font-medium text-sm" id="Q"> {{ $question->title }} </label>
+                        <div class="radio">
+                            <input class="ml-5" type="radio" name="answers[{{ $question->id }}]" value="Yes"/>
+                            <label class="text-gray-400 text-sm mr-5" id="Q">Yes</label>
+                            <input type="radio" name="answers[{{ $question->id }}]" value="No" />
+                            <label class="text-gray-400 text-sm" id="Q">No</label>
+                        </div>
                     </div>
-                </div>
-                <br>
-                
-                <div class="mt-3">
-                    <label class="text-white font-medium text-sm" id="Q">have you been infected with the Covid-19 during the past 3 months, or were you suspected of having it?</label>
-                    <div class="radio">
-                        <input class="ml-5" type="radio" name="question2" value="Yes"/>
-                        <label class="text-gray-400 text-sm mr-5" id="Q">Yes</label>
-                        <input type="radio" name="question2" value="No" />
-                        <label class="text-gray-400 text-sm" id="Q">No</label>
-                    </div>
-                </div>
-                <br>
-                
-                <div class="mt-3">
-                    <label class="text-white font-medium text-sm" id="Q">Have you received any vaccinations within 14 days (eg seasonal flu vaccination)?</label>
-                    <div class="radio">
-                        <input class="ml-5" type="radio" name="question3" value="Yes"/>
-                        <label class="text-gray-400 text-sm mr-5" id="Q">Yes</label>
-                        <input type="radio" name="question3" value="No" />
-                        <label class="text-gray-400 text-sm" id="Q">No</label>
-                    </div>
-                </div>
-
-                <br>
-                <div class="mt-3">
-                    <label class="text-white font-medium text-sm" id="Q">Have you ever had an allergy to a medicine or vaccine?</label>
-
-                    <div class="radio">
-                        <input class="ml-5" type="radio" name="question4" value="Yes"/>
-                        <label class="text-gray-400 text-sm mr-5" id="Q">Yes</label>
-                        <input type="radio" name="question4" value="No" />
-                        <label class="text-gray-400 text-sm" id="Q">No</label>
-                    </div>
-                </div>
-                <br>
-                <div class="mt-3">
-                    <label class="text-white font-medium text-sm" id="Q">Do you suffer from diseases that weaken the immune system (such as cancerous tumors)?</label>
-
-                    <div class="radio">
-                        <input class="ml-5" type="radio" name="question5" value="Yes"/>
-                        <label class="text-gray-400 text-sm mr-5" id="Q">Yes</label>
-                        <input type="radio" name="question5" value="No" />
-                        <label class="text-gray-400 text-sm" id="Q">No</label>
-                    </div>
-                </div>
-                <br>
-                <div class="mt-3">
-                    <label class="text-white font-medium text-sm" id="Q">Do you use immunosuppressant drugs such as cortisone?</label>
-
-                    <div class="radio">
-                        <input class="ml-5" type="radio" name="question6" value="Yes"/>
-                        <label class="text-gray-400 text-sm mr-5" id="Q">Yes</label>
-                        <input type="radio" name="question6" value="No" />
-                        <label class="text-gray-400 text-sm" id="Q">No</label>
-                    </div>
-                </div>
-                <br>
-                <div class="mt-3">
-                    <label class="text-white font-medium text-sm" id="Q">Do you suffer from immune diseases (eg AIDS)?</label>
-
-                    <div class="radio">
-                        <input class="ml-5" type="radio" name="question7" value="Yes"/>
-                        <label class="text-gray-400 text-sm mr-5" id="Q">Yes</label>
-                        <input type="radio" name="question7" value="No" />
-                        <label class="text-gray-400 text-sm" id="Q">No</label>
-                    </div>
-                </div>
-                <br>
-                <div class="mt-3">
-                    <label class="text-white font-medium text-sm" id="Q">Do you suffer from high blood pressure (unstable)?</label>
-
-                    <div class="radio">
-                        <input class="ml-5" type="radio" name="question8" value="Yes"/>
-                        <label class="text-gray-400 text-sm mr-5" id="Q">Yes</label>
-                        <input type="radio" name="question8" value="No" />
-                        <label class="text-gray-400 text-sm" id="Q">No</label>
-                    </div>
-                </div>
-                <br>
-                <div class="mt-3">
-                    <label class="text-white font-medium text-sm" id="Q">Do you suffer from diabetes (unstable)?</label>
-
-                    <div class="radio">
-                        <input class="ml-5" type="radio" name="question9" value="Yes"/>
-                        <label class="text-gray-400 text-sm mr-5" id="Q">Yes</label>
-                        <input type="radio" name="question9" value="No" />
-                        <label class="text-gray-400 text-sm" id="Q">No</label>
-                    </div>
-                </div>
-                <br>
-                <div class="mt-3">
-                    <label class="text-white font-medium text-sm" id="Q">Do you suffer from chronic heart disease?</label>
-
-                    <div class="radio">
-                        <input class="ml-5" type="radio" name="question10" value="Yes"/>
-                        <label class="text-gray-400 text-sm mr-5" id="Q">Yes</label>
-                        <input type="radio" name="question10" value="No" />
-                        <label class="text-gray-400 text-sm" id="Q">No</label>
-                    </div>
-                </div>
-                <br>
-                <div class="mt-3">
-                    <label class="text-white font-medium text-sm" id="Q">Do you suffer from chronic nervous diseases or nervous spasms?</label>
-
-                    <div class="radio">
-                        <input class="ml-5" type="radio" name="question11" value="Yes"/>
-                        <label class="text-gray-400 text-sm mr-5" id="Q">Yes</label>
-                        <input type="radio" name="question11" value="No" />
-                        <label class="text-gray-400 text-sm" id="Q">No</label>
-                    </div>
-                </div>
-                <br>
-                <div class="mt-3">
-                    <label class="text-white font-medium text-sm" id="Q">Do you suffer from blood diseases (eg Haemophilia or blood clots)?</label>
-
-                    <div class="radio">
-                        <input class="ml-5" type="radio" name="question12" value="Yes"/>
-                        <label class="text-gray-400 text-sm mr-5" id="Q">Yes</label>
-                        <input type="radio" name="question12" value="No" />
-                        <label class="text-gray-400 text-sm" id="Q">No</label>
-                    </div>
-                </div>
-                <br>
-                <div class="mt-3">
-                    <label class="text-white font-medium text-sm" id="Q">(For women) Are you currently pregnant or planning to become pregnant in the near future (within a year)?</label>
-
-                    <div class="radio">
-                        <input class="ml-5" type="radio" name="question13" value="Yes"/>
-                        <label class="text-gray-400 text-sm mr-5" id="Q">Yes</label>
-                        <input type="radio" name="question13" value="No" />
-                        <label class="text-gray-400 text-sm" id="Q">No</label>
-                    </div>
-                </div>
-                <br>
-                <div class="mt-3">
-                    <label class="text-white font-medium text-sm" id="Q">(For women) Are you breastfeeding a baby under 6 months?</label>
-
-                    <div class="radio">
-                        <input class="ml-5" type="radio" name="question14" value="Yes"/>
-                        <label class="text-gray-400 text-sm mr-5" id="Q">Yes</label>
-                        <input type="radio" name="question14" value="No" />
-                        <label class="text-gray-400 text-sm" id="Q">No</label>
-                    </div>
-                </div>
-                <br>
+                    <br>
+                @endforeach
                 <div class="mt-6">
                     <div class="mt-3 mx-auto text-right">
                         <x-button>

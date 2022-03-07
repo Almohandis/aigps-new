@@ -16,7 +16,9 @@ class DatabaseSeeder extends Seeder
         $this->call([
             UserSeeder::class,
             CampaignSeeder::class,
-            NationalIdSeeder::class
+            NationalIdSeeder::class,
+            ArticleSeeder::class,
+            QuestionSeeder::class,
         ]);
     }
 }

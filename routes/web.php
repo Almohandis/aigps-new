@@ -13,13 +13,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
-Route::get('/view/{name}', function ($name) {
-    return view($name);
-});
+Route::get('/', 'App\Http\Controllers\Citizen\HomePageController@index');
 
 require __DIR__ . '/auth.php';
 

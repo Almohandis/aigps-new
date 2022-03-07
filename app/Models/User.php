@@ -30,7 +30,8 @@ class User extends Authenticatable
         'blood_type',
         'hospital_id',
         'country',
-        'is_diagnosed'
+        'is_diagnosed',
+        'city'
     ];
 
     /**
@@ -59,12 +60,7 @@ class User extends Authenticatable
 
     public function reservations()
     {
-        return $this->belongsToMany(Campaign::class, 'campaign_appointments')->withPivot('date');;
-    }
-
-    public function survey()
-    {
-        return $this->hasOne('App\Models\Survey');
+        return $this->belongsToMany(Campaign::class, 'campaign_appointments')->withPivot('date', 'id')->withTimestamps();
     }
 
     public function diseases()
@@ -84,7 +80,7 @@ class User extends Authenticatable
 
     public function relatives()
     {
-        return $this->belongsToMany(User::class, 'user_relative')->withPivot('relation');
+        return $this->belongsToMany(User::class, 'user_relative', 'user_id', 'relative_id')->withPivot('relation', 'relative_id')->withTimestamps();
     }
 
     public function notifications()
@@ -92,13 +88,21 @@ class User extends Authenticatable
         return $this->hasMany(Notification::class);
     }
 
-    public function infection()
-    {
-        return $this->hasOne(Infection::class);
-    }
-
     public function campaigns()
     {
         return $this->belongsToMany(Campaign::class, 'campaign_doctors')->withPivot('from', 'to');
+    }
+
+    public function passport()
+    {
+        return $this->hasOne(MedicalPassport::class);
+    }
+    public function hospital()
+    {
+        return $this->belongsTo(Hospital::class);
+    }
+
+    public function answers() {
+        return $this->belongsToMany(Question::class)->withPivot('answer')->withTimestamps();
     }
 }

@@ -16,33 +16,42 @@ function Scrolldown() {
   window.scroll(0,300); 
 }
 
-var slideIndex = 1;
-showSlides(slideIndex,'slide-left');
 
-function plusSlides(n, animate) {
-  showSlides(slideIndex += n, animate);
-} 
 
-function showSlides(n,animate) {
-  var i;
-  //var slides = document.getElementsByClassName("mySlides");
-  var slides = document.getElementById("slideshow-container").getElementsByClassName('slideshow-container__slides');
 
-  if (n > slides.length) {
-    slideIndex = 1
+console.log (window.location.href)
+if(window.location.href == 'http://127.0.0.1:8000/'){
+
+  var slideIndex = 1;
+  showSlides(slideIndex,'slide-left');
+
+  function plusSlides(n, animate) {
+    showSlides(slideIndex += n, animate);
+  } 
+  
+  function showSlides(n,animate) {
+    var i;
+    //var slides = document.getElementsByClassName("mySlides");
+    var slides = document.getElementById("slideshow-container").getElementsByClassName('slideshow-container__slides');
+  
+    if (n > slides.length) {
+      slideIndex = 1
+    }
+    if (n < 1) {
+      slideIndex = slides.length
+    }
+    for (i = 0; i < slides.length; i++) {
+      slides[i].style.display = "none";
+    }
+  
+    slides[slideIndex - 1].style.display = "block";
+    slides[slideIndex - 1].classList.remove('slide-left');
+    slides[slideIndex - 1].classList.remove('slide-right');
+    slides[slideIndex - 1].classList.add(animate);
   }
-  if (n < 1) {
-    slideIndex = slides.length
-  }
-  for (i = 0; i < slides.length; i++) {
-    slides[i].style.display = "none";
-  }
-
-  slides[slideIndex - 1].style.display = "block";
-  slides[slideIndex - 1].classList.remove('slide-left');
-  slides[slideIndex - 1].classList.remove('slide-right');
-  slides[slideIndex - 1].classList.add(animate);
 }
+
+
 function viewArticles()
 {
     var articles = document.getElementById('slideshow-container');

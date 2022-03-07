@@ -1,4 +1,4 @@
-<x-base-layout>
+<x-app-layout>
     <div class="mt-6">
         <h1 class="ml-5 text-left text-4xl text-white" style="text-shadow: 2px 2px 8px #000000;">
             Campaign Clerk
@@ -35,6 +35,42 @@
                 </div>
 
                 <div>
+                    <x-label for="city" value="City" class="text-white" />
+
+                    <select name="city" class="block mt-1 w-full">
+                        <option value="Alexandria">Alexandria</option>
+                        <option value="Aswan">Aswan</option>
+                        <option value="Asyut">Asyut</option>
+                        <option value="Beheira">Beheira</option>
+                        <option value="Beni Suef">Beni Suef</option>
+                        <option value="Cairo">Cairo</option>
+                        <option value="Dakahlia">Dakahlia</option>
+                        <option value="Damietta">Damietta</option>
+                        <option value="Faiyum">Faiyum</option>
+                        <option value="Gharbia">Gharbia</option>
+                        <option value="Giza">Giza</option>
+                        <option value="Helwan">Helwan</option>
+                        <option value="Ismailia">Ismailia</option>
+                        <option value="Kafr El Sheikh">Kafr El Sheikh</option>
+                        <option value="Luxor">Luxor</option>
+                        <option value="Matruh">Matruh</option>
+                        <option value="Minya">Minya</option>
+                        <option value="Monufia">Monufia</option>
+                        <option value="New Valley">New Valley</option>
+                        <option value="North Sinai">North Sinai</option>
+                        <option value="Port Said">Port Said</option>
+                        <option value="Qalyubia">Qalyubia</option>
+                        <option value="Qena">Qena</option>
+                        <option value="Red Sea">Red Sea</option>
+                        <option value="Sharqia">Sharqia</option>
+                        <option value="Sohag">Sohag</option>
+                        <option value="South Sinai">South Sinai</option>
+                        <option value="Suez">Suez</option>
+                        <option value="6th of October">6th of October</option>
+                    </select>
+                </div>
+
+                <div>
                     <x-label for="blood_type" value="blood_type" class="text-white" />
 
                     <select name="blood_type" class="block mt-1 w-full">
@@ -54,11 +90,13 @@
                     <x-label value="Is Diagnosed" class="text-white inline-block" />
                 </div>
 
-                <div class="mt-4 text-white">
-                    <p class="text-xl"> Infection status </p>
-                    <input type="checkbox" name="is_infected" value="true" />
-                    <x-label value="Is Infected" class="text-white inline-block" />
+                <div class="mt-4">
+                    <p class="text-xl text-white"> Infection status </p>
+                    <x-label value="Infection:" class="text-white inline-block" />
+                    <input type="date" name="infection" />
+
                     <br>
+
                     <input type="checkbox" name="is_recovered" value="true" />
                     <x-label value="Is Recovered" class="text-white inline-block" />
                 </div>
@@ -103,4 +141,4 @@
             </form>
         </div>
     </div>
-</x-base-layout>
+</x-app-layout>
