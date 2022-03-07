@@ -17,7 +17,7 @@ class UserSeeder extends Seeder
      */
     public function run()
     {
-        NationalId::factory()->count(3)->create();
+        NationalId::factory()->count(500)->create();
         $nationalIds = NationalId::pluck('national_id');
 
         foreach($nationalIds as $nid) {
