@@ -30,9 +30,6 @@
             </div>
         @endif
 
-        <div id="campaign_selection" class="text-center text-xl mt-2 hidden">
-            <h3>You have selected: <span class="location">Campaign Name</span></h3>
-        </div>
 
         <div class="mx-auto text-center mt-5">
 
