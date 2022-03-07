@@ -84,6 +84,10 @@
                     </div>
 
                     <script>
+                        function Scrolldown() {
+                            window.scroll(0,670); 
+                            }
+                        window.onload = Scrolldown;
                         var phones = 2;
                         var phone_input = document.getElementById('phones');
 

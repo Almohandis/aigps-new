@@ -1,8 +1,13 @@
 <x-app-layout>
 <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+
 <script src="{{ asset('js/header.js') }}" defer></script>
-    <div class="max-w-6xl mx-auto sm:px-6 lg:px-8 mt-9">
-        <div class="pt-8 sm:pt-0">
+    <video class="back-video" width="1000" height="100" loop autoplay muted>
+        <source src="Vaccine2.mp4" type="video/mp4">
+        <source src="Vaccine2.ogg" type="video/ogg">
+    </video>
+    
+        
             <h1 class="project-name" style="text-shadow: 2px 2px 8px #000000;">AIGPS</h1>
             <p class="type">
                 The new AI system 
@@ -21,9 +26,13 @@
                     Reserve Vaccination
                 </a>
             </div>
-
-        </div>
-    </div>
+            <div class="article_button">
+                <a class="mx-auto mt-8 text-center bg-blue-500 text-white text-lg font-semibold px-4 py-2 rounded-lg shadow-lg hover:bg-blue-400" id="article_button" onclick="viewArticles()">
+                    Read Articles >>
+                </a>
+            </div>
+        
+   
     <div id="slideshow-container" class="slideshow-container">
 
         <div class="slideshow-container__slides">
@@ -73,7 +82,7 @@ Findings show that:
         <a class="slideshow-container__next" onclick="plusSlides(1,'slide-left')">&#10095;</a>
 
     </div>
-    <footer>
+    <footer id="footer">
     <img src="{{ asset('mti.png') }}" class="footer-logo">
     © 2022 MTI University. All Rights Reserved
     </footer>

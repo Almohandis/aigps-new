@@ -18,6 +18,13 @@
 
         <!-- Scripts -->
         <script src="{{ asset('js/app.js') }}" defer></script>
+        <script src="{{ asset('js/header.js') }}" defer></script>
+        <script>
+            function Scrolldown() {
+                            window.scroll(0,300); 
+                            }
+                        window.onload = Scrolldown;
+        </script>
     </head>
     <body class="antialiased">
     <img src="/contact.jpg" class="contact-header">
@@ -30,8 +37,8 @@
             <nav class="header">
                 <div class="container flex flex-wrap justify-between items-center mx-auto">
                     <a href="/" class="flex">
-                        <img class="logo" src="{{ asset('EDIT3.png') }}" alt="Logo">
-                        <div class="title">
+                        <img class="logo" id="logo" src="{{ asset('EDIT3.png') }}" alt="Logo">
+                        <div class="title" id="title">
                             AIGPS
                         </div>
                     </a>

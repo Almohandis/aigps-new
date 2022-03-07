@@ -8,7 +8,12 @@
         </h1>
         <script src="https://kit.fontawesome.com/a1983178b4.js" crossorigin="anonymous"></script>
        
-
+        <script>
+            function Scrolldown() {
+                window.scroll(0,650); 
+                }
+            window.onload = Scrolldown;
+        </script>
         <div class="mx-auto text-center mt-5">
             
             <form class="inline-block bg-black bg-opacity-50 p-8 text-justify" method="POST" action="/survey">

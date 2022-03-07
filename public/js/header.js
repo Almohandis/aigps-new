@@ -1,12 +1,20 @@
 window.onscroll = function() {scrollFunction()};
 
 function scrollFunction() {
-  if (document.body.scrollTop > 50 || document.documentElement.scrollTop > 50) {
-    document.getElementById("header").style.fontSize = "30px";
+  if (document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) {
+    document.getElementById("logo").style.height = "3.5rem";
+    document.getElementById("title").style.marginTop = "13px";
+    document.getElementById("title").style.fontSize = "22px";
+
   } else {
-    document.getElementById("header").style.fontSize = "90px";
+    document.getElementById("logo").style.height = "5.5rem";
+    document.getElementById("title").style.marginTop = "22px";
+    document.getElementById("title").style.fontSize = "28px";
   }
 } 
+function Scrolldown() {
+  window.scroll(0,300); 
+}
 
 var slideIndex = 1;
 showSlides(slideIndex,'slide-left');
@@ -34,4 +42,13 @@ function showSlides(n,animate) {
   slides[slideIndex - 1].classList.remove('slide-left');
   slides[slideIndex - 1].classList.remove('slide-right');
   slides[slideIndex - 1].classList.add(animate);
+}
+function viewArticles()
+{
+    var articles = document.getElementById('slideshow-container');
+    articles.style.display="block";
+    window.scrollBy(0, 800);
+    var footer = document.getElementById('footer');
+    footer.style.marginTop ="-0.5rem";
+    
 }

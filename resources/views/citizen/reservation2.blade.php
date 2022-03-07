@@ -39,6 +39,10 @@
             <div id="map" class="mt-8 rounded-md border-solid border-4 border-black" style="width: 80%; height: 600px; max-height: 90vh; margin: 0 auto;"></div>
             <script src="https://maps.googleapis.com/maps/api/js?key={{ config('app.google_maps_api') }}&callback=initMap" defer></script>
             <script>
+                function Scrolldown() {
+                window.scroll(0,650); 
+                    }
+                window.onload = Scrolldown;
                 function selectCampaign(campaign) {
                     document.getElementById('campaign_selection').classList.remove('hidden');
                     document.getElementById('campaign_selection').children[0].children[0].innerHTML = campaign[0];

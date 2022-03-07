@@ -78,7 +78,7 @@
   }
   #contact-info
   {
-    margin-top: -10rem;
+    margin-top: -16rem;
   }
   #contact-title 
  {
@@ -158,11 +158,11 @@
     --tw-text-opacity: 1;
     color: #a13670;
     text-shadow: 2px 2px 8px #000000;
-    margin-top: -45rem;
+    margin-top: -40rem;
   }
   .type
   {
-    margin-left: -2rem;
+    margin-left: 13rem;
     font-size: 1.5rem;
     --tw-text-opacity: 1;
     color: #5b5a62;
@@ -175,6 +175,17 @@
     text-align: center;
     margin-top: 3.25rem;
     margin-left: -60rem;
+    z-index: auto;
+    position: relative;
+  }
+  .article_button
+  {
+    text-align: center;
+    margin-top: -1.75rem;
+    margin-left: -34rem;
+    cursor: pointer;
+    z-index: auto;
+    position: relative;
   }
   .awareness-img
    {
@@ -315,6 +326,9 @@
         transform: translateX(0%);
       }
     }
+    html {
+      scroll-behavior: smooth;
+    }
     
     /* Slideshow container */
     .slideshow-container {
@@ -325,7 +339,8 @@
       overflow: hidden;
       height: 54rem;
       z-index: -1;
-      margin-top: -7rem;
+      margin-top: 14rem;
+      display: none;
       
     }
     
@@ -333,7 +348,7 @@
     .slideshow-container__prev, .slideshow-container__next {
       cursor: pointer;
       position: absolute;
-      top: 50%;
+      top: 70%;
       width: auto;
       padding: 16px;
       margin-top: -22px;
@@ -378,7 +393,7 @@
       color: whitesmoke;
       text-align: center;
       margin-bottom: -16px;
-      margin-top: 20px;
+      margin-top: 13.5rem;
     }
     .radio
     {
@@ -432,16 +447,13 @@
       color: red;
       position: relative;
     }
-    .bell-container {
-      overflow: hidden;
-      margin-left: 11rem;
-      margin-right: -21rem;
-      width: 42px;
-    }
+   
     #reservation-form
     {
       text-align: justify;
       width: 50rem;
+      transform: scale(0.92);
+      margin-top: 12px;
     }
     #mobile{
       width: 30rem;
@@ -466,105 +478,4 @@
       margin-left: 9.25rem;
     }
     
-    .bell-container:hover #bell {
-      animation: ring 6s 0.2s ease-in-out infinite;
-    }
-    
-    @keyframes ring {
-      0% {
-        transform: rotate(0);
-      }
-    
-      1% {
-        transform: rotate(30deg);
-      }
-    
-      3% {
-        transform: rotate(-28deg);
-      }
-    
-      5% {
-        transform: rotate(34deg);
-      }
-    
-      7% {
-        transform: rotate(-32deg);
-      }
-    
-      9% {
-        transform: rotate(30deg);
-      }
-    
-      11% {
-        transform: rotate(-28deg);
-      }
-    
-      13% {
-        transform: rotate(26deg);
-      }
-    
-      15% {
-        transform: rotate(-24deg);
-      }
-    
-      17% {
-        transform: rotate(22deg);
-      }
-    
-      19% {
-        transform: rotate(-20deg);
-      }
-    
-      21% {
-        transform: rotate(18deg);
-      }
-    
-      23% {
-        transform: rotate(-16deg);
-      }
-    
-      25% {
-        transform: rotate(14deg);
-      }
-    
-      27% {
-        transform: rotate(-12deg);
-      }
-    
-      29% {
-        transform: rotate(10deg);
-      }
-    
-      31% {
-        transform: rotate(-8deg);
-      }
-    
-      33% {
-        transform: rotate(6deg);
-      }
-    
-      35% {
-        transform: rotate(-4deg);
-      }
-    
-      37% {
-        transform: rotate(2deg);
-      }
-    
-      39% {
-        transform: rotate(-1deg);
-      }
-    
-      41% {
-        transform: rotate(1deg);
-      }
-    
-      43% {
-        transform: rotate(0);
-      }
-    
-      100% {
-        transform: rotate(0);
-      }
-    }
     
