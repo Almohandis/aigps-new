@@ -100,7 +100,23 @@
                             @endfor
                         </tr>
                     @endfor
-
+                </table>
+            @elseif(isset($data_by_blood))
+                <table>
+                    <tr>
+                        <th>Blood type</th>
+                        <th>Total persons from this type</th>
+                        <th>Percentage of this type</th>
+                        <th>Male percentage</th>
+                        <th>Female percentage</th>
+                    </tr>
+                    @for ($i = 0; $i < count($data_by_blood); $i++)
+                        <tr>
+                            @foreach ($data_by_blood[$i] as $item)
+                                <td>{{ $item }}</td>
+                            @endforeach
+                        </tr>
+                    @endfor
                 </table>
             @endif
         </div>

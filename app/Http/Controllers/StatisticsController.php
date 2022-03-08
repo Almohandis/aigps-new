@@ -35,7 +35,7 @@ class StatisticsController extends Controller
 
     protected  $report_by = [
         '',
-        ['City'/*, 'Blood type'*/, 'Age segment'],
+        ['City', 'Blood type', 'Age segment'],
         ['City', 'Question', 'Age segment'],
         ['City', 'Hospital', 'Date', 'Age segment'],
         ['City', 'Hospital', 'Date', 'Age segment'],
@@ -163,6 +163,22 @@ class StatisticsController extends Controller
                 return view('statistics.blood-type-dist', ['data_by_city' => (array)$data, 'names' => $names, 'report_by' => $report_by, 'cities' => $this->cities, 'blood_types' => $this->blood_types]);
                 break;
             case 'Blood type':
+                $data = DB::select('SELECT u1.blood_type AS "Blood type",
+                        (SELECT COUNT(*) FROM users AS u5 WHERE u5.blood_type=u1.blood_type) AS "Total persons from this type",
+                        ROUND( COUNT(*)/(SELECT COUNT(*) FROM users AS u4 WHERE u4.blood_type IS NOT NULL)*100,1) as "Percentage of this type",
+                        ROUND(
+                        (SELECT COUNT(*) FROM users AS u2 WHERE u2.blood_type=u1.blood_type AND  gender="Male" )/
+                        (SELECT COUNT(*) FROM users AS u3 WHERE u3.blood_type=u1.blood_type AND  gender IS NOT NULL)*100,1)
+                        as "Male percentage",
+                        ROUND(
+                        (SELECT COUNT(*) FROM users AS u2 WHERE u2.blood_type=u1.blood_type AND  gender="Female" )/
+                        (SELECT COUNT(*) FROM users AS u3 WHERE u3.blood_type=u1.blood_type AND  gender IS NOT NULL)*100,1)
+                        as "Female percentage"
+                        FROM users AS u1 GROUP BY u1.blood_type;
+                        ');
+                $data = json_encode($data);
+                $data = json_decode($data);
+                return view('statistics.blood-type-dist', ['data_by_blood' => $data, 'names' => $names, 'report_by' => $report_by]);
                 break;
             case 'Age segment':
                 $A_plus = DB::select('SELECT IF(TIMESTAMPDIFF(YEAR,`birthdate`, now())<=20,"Children",
