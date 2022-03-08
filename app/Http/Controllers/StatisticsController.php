@@ -7,7 +7,9 @@ use Illuminate\Support\Facades\DB;
 
 class StatisticsController extends Controller
 {
-    protected $cities = ['Alexandria', 'Aswan', 'Asyut', 'Beheira', 'Beni Suef', 'Cairo', 'Dakahlia', 'Damietta', 'Faiyum', 'Gharbia', 'Giza', 'Helwan', 'Ismailia', 'Kafr El Sheikh', 'Luxor', 'Matruh', 'Minya', 'Monufia', 'New Valley', 'North Sinai', 'Port Said', 'Qalyubia', 'Qena', 'Red Sea', 'Sharqia', 'Sohag', 'South Sinai', 'Suez', '6th of October'];
+    protected $cities = ['6th of October', 'Alexandria', 'Aswan', 'Asyut', 'Beheira', 'Beni Suef', 'Cairo', 'Dakahlia', 'Damietta', 'Faiyum', 'Gharbia', 'Giza', 'Helwan', 'Ismailia', 'Kafr El Sheikh', 'Luxor', 'Matruh', 'Minya', 'Monufia', 'New Valley', 'North Sinai', 'Port Said', 'Qalyubia', 'Qena', 'Red Sea', 'Sharqia', 'Sohag', 'South Sinai', 'Suez'];
+
+    protected $blood_types = ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'];
 
     protected $report_name = [
         '',
@@ -112,7 +114,6 @@ class StatisticsController extends Controller
                     ->groupBy('city')
                     ->orderBy('city', 'asc')
                     ->get();
-                    return $A_plus;
                 $A_minus = DB::table('users')
                     ->select('city', DB::raw('count(*) as "A_minus"'))
                     ->where('blood_type', '=', 'A-')
@@ -156,7 +157,7 @@ class StatisticsController extends Controller
                     ->orderBy('city', 'asc')
                     ->get();
 
-                return collect([$A_plus, $A_minus, $B_plus, $B_minus, $AB_plus, $AB_minus, $O_plus, $O_minus]);
+                return [$A_plus, $A_minus, $B_plus,  $B_minus, $AB_plus,  $AB_minus,  $O_plus, $O_minus];
 
                 break;
             case 'Blood type':
@@ -165,20 +166,28 @@ class StatisticsController extends Controller
                     ->groupBy('blood_type')
                     ->orderBy('count', 'desc')
                     ->get();
+                break;
             case 'Age segment':
                 return DB::table('users')
                     ->select('age_segment', DB::raw('count(*) as count'))
                     ->groupBy('age_segment')
                     ->orderBy('count', 'desc')
                     ->get();
+                break;
+            default:
+                return null;
         }
     }
 
-    public function generateReports($report_name, $report_by)
+    public function generateReports($report_name, $report_by, $names)
     {
         switch ($report_name) {
             case 'Blood type distribution':
-                return $this->bloodTypeDistribution($report_by);
+                $data = $this->bloodTypeDistribution($report_by);
+
+                $data = json_encode($data, true);
+                $data = json_decode($data, true);
+                return view('statistics.blood-type-dist', ['data' => (array)$data, 'names' => $names, 'report_by' => $report_by, 'cities' => $this->cities, 'blood_types' => $this->blood_types]);
                 break;
             case 'Survey results and answers':
                 return $this->surveyResultsAndAnswers($report_by);
@@ -236,12 +245,8 @@ class StatisticsController extends Controller
 
     public function index(Request $request)
     {
-        // return "Remove this statment";
-
-        ////////////////////////////////////////////
-
         [$names, $report_by] = $this->getUserAllowedReports($request->user()->role_id);
-        return view('statistics', [
+        return view('statistics.statistics', [
             'names' => $names,
             'report_by' => $report_by
         ]);
@@ -257,15 +262,7 @@ class StatisticsController extends Controller
         if (!in_array($request->report_name, $names)) {
             return redirect()->back()->with('message', 'You are not allowed to generate this report');
         }
-        $data = $this->generateReports($request->report_name, $request->report_by);
 
-
-
-        // $data = $data->filter(function ($value) {
-        //     return $value->isNotEmpty();
-        // });
-        // return $this->cities;
-        return $data;
-        return view('statistics', ['data' => $data, 'names' => $names, 'report_by' => $report_by, 'cities' => $this->cities]);
+        return $this->generateReports($request->report_name, $request->report_by, $names);
     }
 }

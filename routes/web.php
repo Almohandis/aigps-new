@@ -26,7 +26,7 @@ Route::namespace('App\Http\Controllers\Staff')->middleware('auth')->prefix('staf
 
 //# Statistics
 Route::get('/stats', [StatisticsController::class, 'index'])->middleware('auth');
-Route::post('/stats/report', [StatisticsController::class, 'getReport'])->middleware('auth');
+Route::post('/stats', [StatisticsController::class, 'getReport'])->middleware('auth');
 
 //# User profile
 Route::get('/profile', [ProfileController::class, 'index'])->name('profile');
