@@ -9,7 +9,7 @@ class StatisticsController extends Controller
 {
     protected $cities = ['6th of October', 'Alexandria', 'Aswan', 'Asyut', 'Beheira', 'Beni Suef', 'Cairo', 'Dakahlia', 'Damietta', 'Faiyum', 'Gharbia', 'Giza', 'Helwan', 'Ismailia', 'Kafr El Sheikh', 'Luxor', 'Matruh', 'Minya', 'Monufia', 'New Valley', 'North Sinai', 'Port Said', 'Qalyubia', 'Qena', 'Red Sea', 'Sharqia', 'Sohag', 'South Sinai', 'Suez'];
 
-    protected $blood_types = ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'];
+    protected $blood_types = ['A_plus', 'A_minus', 'B_plus', 'B_minus', 'AB_plus', 'AB_minus', 'O_plus', 'O_minus'];
 
     protected $report_name = [
         '',
@@ -35,7 +35,7 @@ class StatisticsController extends Controller
 
     protected  $report_by = [
         '',
-        ['City'/*, 'Blood type', 'Age segment'*/],
+        ['City'/*, 'Blood type'*/, 'Age segment'],
         ['City', 'Question', 'Age segment'],
         ['City', 'Hospital', 'Date', 'Age segment'],
         ['City', 'Hospital', 'Date', 'Age segment'],
@@ -104,7 +104,7 @@ class StatisticsController extends Controller
     }
 
     // function named bloodTypeDistribution that takes a report_by, make a switch statment and return the correct query
-    public function bloodTypeDistribution($report_by)
+    public function bloodTypeDistribution($report_by, $names)
     {
         switch ($report_by) {
             case 'City':
@@ -156,23 +156,53 @@ class StatisticsController extends Controller
                     ->groupBy('city')
                     ->orderBy('city', 'asc')
                     ->get();
-
-                return [$A_plus, $A_minus, $B_plus,  $B_minus, $AB_plus,  $AB_minus,  $O_plus, $O_minus];
-
+                $data = [$A_plus, $A_minus, $B_plus,  $B_minus, $AB_plus,  $AB_minus,  $O_plus, $O_minus];
+                $data = json_encode($data, true);
+                $data = json_decode($data, true);
+                // return $data;
+                return view('statistics.blood-type-dist', ['data_by_city' => (array)$data, 'names' => $names, 'report_by' => $report_by, 'cities' => $this->cities, 'blood_types' => $this->blood_types]);
                 break;
             case 'Blood type':
-                return DB::table('users')
-                    ->select('blood_type', DB::raw('count(*) as count'))
-                    ->groupBy('blood_type')
-                    ->orderBy('count', 'desc')
-                    ->get();
                 break;
             case 'Age segment':
-                return DB::table('users')
-                    ->select('age_segment', DB::raw('count(*) as count'))
-                    ->groupBy('age_segment')
-                    ->orderBy('count', 'desc')
-                    ->get();
+                $A_plus = DB::select('SELECT IF(TIMESTAMPDIFF(YEAR,`birthdate`, now())<=20,"Children",
+                                    IF(TIMESTAMPDIFF(YEAR,`birthdate`, now())<=40,"Youth", "Elder") )  AS age,  COUNT(*) AS A_plus
+                                    FROM `users`
+                                    WHERE `blood_type`="A+" GROUP BY age;');
+                $A_minus = DB::select('SELECT IF(TIMESTAMPDIFF(YEAR,`birthdate`, now())<=20,"Children",
+                                    IF(TIMESTAMPDIFF(YEAR,`birthdate`, now())<=40,"Youth", "Elder") )  AS age, COUNT(*) AS A_minus
+                                    FROM `users`
+                                    WHERE `blood_type`="A-" GROUP BY age;');
+                $B_plus = DB::select('SELECT IF(TIMESTAMPDIFF(YEAR,`birthdate`, now())<=20,"Children",
+                                    IF(TIMESTAMPDIFF(YEAR,`birthdate`, now())<=40,"Youth", "Elder") )  AS age, COUNT(*) AS B_plus
+                                    FROM `users`
+                                    WHERE `blood_type`="B+" GROUP BY age;');
+                $B_minus = DB::select('SELECT IF(TIMESTAMPDIFF(YEAR,`birthdate`, now())<=20,"Children",
+                                    IF(TIMESTAMPDIFF(YEAR,`birthdate`, now())<=40,"Youth", "Elder") )  AS age, COUNT(*) AS B_minus
+                                    FROM `users`
+                                    WHERE `blood_type`="B-" GROUP BY age;');
+                $AB_plus = DB::select('SELECT IF(TIMESTAMPDIFF(YEAR,`birthdate`, now())<=20,"Children",
+                                    IF(TIMESTAMPDIFF(YEAR,`birthdate`, now())<=40,"Youth", "Elder") )  AS age, COUNT(*) AS AB_plus
+                                    FROM `users`
+                                    WHERE `blood_type`="AB+" GROUP BY age;');
+                $AB_minus = DB::select('SELECT IF(TIMESTAMPDIFF(YEAR,`birthdate`, now())<=20,"Children",
+                                    IF(TIMESTAMPDIFF(YEAR,`birthdate`, now())<=40,"Youth", "Elder") )  AS age, COUNT(*) AS AB_minus
+                                    FROM `users`
+                                    WHERE `blood_type`="AB-" GROUP BY age;');
+                $O_plus = DB::select('SELECT IF(TIMESTAMPDIFF(YEAR,`birthdate`, now())<=20,"Children",
+                                    IF(TIMESTAMPDIFF(YEAR,`birthdate`, now())<=40,"Youth", "Elder") )  AS age, COUNT(*) AS O_plus
+                                    FROM `users`
+                                    WHERE `blood_type`="O+" GROUP BY age;');
+                $O_minus = DB::select('SELECT IF(TIMESTAMPDIFF(YEAR,`birthdate`, now())<=20,"Children",
+                                    IF(TIMESTAMPDIFF(YEAR,`birthdate`, now())<=40,"Youth", "Elder") )  AS age, COUNT(*) AS O_minus
+                                    FROM `users`
+                                    WHERE `blood_type`="O-" GROUP BY age;');
+
+                $data = [$A_plus, $A_minus, $B_plus,  $B_minus, $AB_plus,  $AB_minus,  $O_plus, $O_minus];
+                $data = json_encode($data, true);
+                $data = json_decode($data, true);
+                // return $data;
+                return view('statistics.blood-type-dist', ['data_by_age' => (array)$data, 'names' => $names, 'report_by' => $report_by, 'cities' => $this->cities, 'blood_types' => $this->blood_types]);
                 break;
             default:
                 return null;
@@ -183,11 +213,7 @@ class StatisticsController extends Controller
     {
         switch ($report_name) {
             case 'Blood type distribution':
-                $data = $this->bloodTypeDistribution($report_by);
-
-                $data = json_encode($data, true);
-                $data = json_decode($data, true);
-                return view('statistics.blood-type-dist', ['data' => (array)$data, 'names' => $names, 'report_by' => $report_by, 'cities' => $this->cities, 'blood_types' => $this->blood_types]);
+                return $this->bloodTypeDistribution($report_by, $names);
                 break;
             case 'Survey results and answers':
                 return $this->surveyResultsAndAnswers($report_by);
