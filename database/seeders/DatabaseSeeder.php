@@ -17,10 +17,10 @@ class DatabaseSeeder extends Seeder
         $this->call([
             // HospitalSeeder::class,
             // NationalIdSeeder::class,
+            QuestionSeeder::class,
             UserSeeder::class,
             CampaignSeeder::class,
             ArticleSeeder::class,
-            QuestionSeeder::class,
         ]);
     }
 }

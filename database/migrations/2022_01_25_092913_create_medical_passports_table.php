@@ -18,7 +18,7 @@ class CreateMedicalPassportsTable extends Migration
             $table->string('passport_number')->unique()->nullable()->default(null);
             $table->integer('user_id');
             $table->string('vaccine_name')->nullable()->default(null);
-            $table->integer('vaccine_dose_count')->nullable()->default(0);
+            $table->integer('vaccine_dose_count')->default(0);
             $table->timestamps();
         });
     }

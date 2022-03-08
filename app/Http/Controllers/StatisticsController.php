@@ -103,7 +103,7 @@ class StatisticsController extends Controller
         return [$names, $report_by];
     }
 
-    // function named bloodTypeDistribution that takes a report_by, make a switch statment and return the correct query
+    // Take report_by and names, make a switch statment and return the correct query
     public function bloodTypeDistribution($report_by, $names)
     {
         switch ($report_by) {
@@ -159,7 +159,6 @@ class StatisticsController extends Controller
                 $data = [$A_plus, $A_minus, $B_plus,  $B_minus, $AB_plus,  $AB_minus,  $O_plus, $O_minus];
                 $data = json_encode($data, true);
                 $data = json_decode($data, true);
-                // return $data;
                 return view('statistics.blood-type-dist', ['data_by_city' => (array)$data, 'names' => $names, 'report_by' => $report_by, 'cities' => $this->cities, 'blood_types' => $this->blood_types]);
                 break;
             case 'Blood type':
@@ -217,12 +216,15 @@ class StatisticsController extends Controller
                 $data = [$A_plus, $A_minus, $B_plus,  $B_minus, $AB_plus,  $AB_minus,  $O_plus, $O_minus];
                 $data = json_encode($data, true);
                 $data = json_decode($data, true);
-                // return $data;
                 return view('statistics.blood-type-dist', ['data_by_age' => (array)$data, 'names' => $names, 'report_by' => $report_by, 'cities' => $this->cities, 'blood_types' => $this->blood_types]);
                 break;
             default:
                 return null;
         }
+    }
+
+    public function surveyResultsAndAnswers($report_by)
+    {
     }
 
     public function generateReports($report_name, $report_by, $names)
