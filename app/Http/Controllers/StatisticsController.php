@@ -35,7 +35,7 @@ class StatisticsController extends Controller
 
     protected  $report_by = [
         '',
-        ['City', 'Blood type', 'Age segment'],
+        ['City'/*, 'Blood type', 'Age segment'*/],
         ['City', 'Question', 'Age segment'],
         ['City', 'Hospital', 'Date', 'Age segment'],
         ['City', 'Hospital', 'Date', 'Age segment'],
