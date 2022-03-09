@@ -36,7 +36,7 @@ class StatisticsController extends Controller
     protected  $report_by = [
         '',
         ['City', 'Blood type', 'Age segment'],
-        ['City', 'Question', 'Age segment'],
+        [/*'City', */'Question'/*, 'Age segment'*/],
         ['City', 'Hospital', 'Date', 'Age segment'],
         ['City', 'Hospital', 'Date', 'Age segment'],
         ['City', 'Vaccine status', 'Age segment'],
@@ -223,8 +223,27 @@ class StatisticsController extends Controller
         }
     }
 
-    public function surveyResultsAndAnswers($report_by)
+    public function surveyResultsAndAnswers($report_by, $names)
     {
+        switch ($report_by) {
+            case 'City':
+                break;
+            case 'Question':
+                $data = DB::select('SELECT title as "title",
+                (SELECT COUNT(*) FROM question_user WHERE questions.id=question_user.question_id AND answer="No") AS "no",
+                (SELECT COUNT(*) FROM question_user WHERE questions.id=question_user.question_id AND answer="Yes") AS "yes"
+                FROM questions, question_user, users WHERE
+                users.id=question_user.user_id AND questions.id=question_user.id;');
+                $data = json_encode($data);
+                $data = json_decode($data);
+                // return $data;
+                return view('statistics.survey-results', ['data_by_question' => $data, 'names' => $names, 'report_by' => $report_by]);
+                break;
+            case 'Age segment':
+                break;
+            default:
+                return null;
+        }
     }
 
     public function generateReports($report_name, $report_by, $names)
@@ -234,7 +253,7 @@ class StatisticsController extends Controller
                 return $this->bloodTypeDistribution($report_by, $names);
                 break;
             case 'Survey results and answers':
-                return $this->surveyResultsAndAnswers($report_by);
+                return $this->surveyResultsAndAnswers($report_by, $names);
                 break;
             case 'Recoveries report':
                 return $this->recoveriesReport($report_by);
