@@ -61,53 +61,7 @@ window.onload = () => {
         div.appendChild(br);
     }
 
-    function editUser(id, patient_id) {
-        let table = document.getElementsByTagName('table')[0];
-        let tr = table.getElementsByTagName('tr')[id];
-        if (tr.children[tr.children.length - 1].firstChild.value == 'Edit') {
-            tr.children[tr.children.length - 1].firstChild.value = 'Save';
-            for (let i = 1; i < tr.children.length; i++) {
-                tr.children[i].firstChild.setAttribute('contenteditable', 'true');
-            }
-            //# Ajax for getting the user's phone numbers
-            let xhttp = new XMLHttpRequest();
-            xhttp.onload = function () {
-                // let phones = xhttp.response;
-                // for (let i = 1; i < phones.length; i++) {
-                //     let td = document.createElement('td');
-                //     let input = document.createElement('input');
-                //     input.setAttribute('type', 'text');
-                //     input.setAttribute('value', phones[i]['phone_number']);
-                //     td.appendChild(input);
-                //     tr.insertBefore(td, tr.children[tr.children.length - 1]);
-                //     console.log(phones[i]['phone_number']);
-                // }
-            }
-            xhttp.open("GET", "/staff/isohospital/infection/edit?id=" + patient_id);
-            xhttp.responseType = "json";
-            xhttp.send();
-        } else {
-
-
-            let xhttp = new XMLHttpRequest();
-            xhttp.onload = function () {
-                document.write(xhttp.response);
-            }
-            xhttp.open("POST", "/staff/isohospital/infection/save/" + patient_id);
-            // xhttp.responseType = "json";
-            xhttp.send();
-        }
-
-    }
-
     //# Add phone button event
     document.getElementById('add-phone').addEventListener('click', addPhone);
     document.getElementById('add-infection').addEventListener('click', addInfection);
-
-    // let buttons = document.getElementsByClassName('buttons');
-    // for (let i = 0; i < buttons.length; i++) {
-    //     buttons[i].addEventListener('click', () => {
-    //         editUser(buttons[i].dataset.id, buttons[i].dataset.patient_id);
-    //     });
-    // }
 }

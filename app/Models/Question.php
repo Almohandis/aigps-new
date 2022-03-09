@@ -16,6 +16,6 @@ class Question extends Model
 
     public function answers()
     {
-        return $this->hasMany(User::class)->withPivot('answer');
+        return $this->belongsToMany(User::class)->withPivot('answer');
     }
 }

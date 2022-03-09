@@ -12,7 +12,6 @@ class Campaign extends Model
     protected $fillable = [
         'start_date',
         'end_date',
-        'type',
         'location',
         'address',
         'status',   //# pending, active, completed

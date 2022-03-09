@@ -17,6 +17,7 @@ class CampaignClerkController extends Controller
 
     public function store(Request $request)
     {
+        // return $request->all();
         $request->validate([
             'national_id' => 'required|string|max:255',
             'blood_type' => 'required|string|max:3',
@@ -34,20 +35,28 @@ class CampaignClerkController extends Controller
             return redirect()->back()->withErrors(['blood_type' => 'Invalid blood type']);
         }
 
-        if ($user->is_diagnosed && $request->is_diagnosed == 'true') {
-            $medical_passport = $user->passport;
+        //# increase dose count if patient already has been diagnosed because they have just taken vaccination
+        if ($user->is_diagnosed) {
+            $user->passport()->update([
+                'vaccine_dose_count' => $user->passport->vaccine_dose_count + 1,
+                'vaccine_name' => $request->vaccine_name,
+            ]);
+            // return $user->passport()->first()->dates()->get();
+            $date = $user->passport()->first()->dates()->create([
+                'vaccine_date' => now(),
+            ]);
         }
 
         $user->update([
             'blood_type'    => $request->blood_type,
-            'is_diagnosed'  => $request->is_diagnosed == 'true' ? true : false,
+            'is_diagnosed'  => $request->is_diagnosed == 'true' ? true : ($user->is_diagnosed ? true : false),
             'city'          => $request->city
         ]);
-
+        // return $request;
         $disease = 1;
         while (1) {
             $disease_name = $request->input('disease' . $disease);
-
+            // return $disease_name;
             if (!$disease_name) {
                 break;
             }

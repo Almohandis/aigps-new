@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Hospital;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -14,11 +15,13 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         $this->call([
-            UserSeeder::class,
-            CampaignSeeder::class,
             NationalIdSeeder::class,
-            ArticleSeeder::class,
+            HospitalSeeder::class,
             QuestionSeeder::class,
+            ArticleSeeder::class,
+            CampaignSeeder::class,
+
+            UserSeeder::class,
         ]);
     }
 }

@@ -9,11 +9,12 @@ use Carbon\Carbon;
 
 class ReservationController extends Controller
 {
-    public function index(Request $request) {
-        $campaigns = Campaign::where('end_date', '>', now())->where('type', 'vaccination')->where('status', 'active')->get();
+    public function index(Request $request)
+    {
+        $campaigns = Campaign::where('end_date', '>', now())->where('status', 'active')->get();
 
         //# capacity check
-        foreach($campaigns as $campaign) {
+        foreach ($campaigns as $campaign) {
             $start = Carbon::parse($campaign->start_date);
             $end = Carbon::parse($campaign->end_date);
             $days = $start->diffInDays($end) + 1;
@@ -24,7 +25,10 @@ class ReservationController extends Controller
         }
 
         if ($request->user()->is_diagnosed) {
-            return view('citizen.reservation1')->with('campaigns', $campaigns);
+            return view('citizen.reservation1')->with([
+                'campaigns' => $campaigns,
+                'message' => null,
+            ]);
         } else {
             return view('citizen.reservation1')
                 ->with([
@@ -34,7 +38,8 @@ class ReservationController extends Controller
         }
     }
 
-    public function reserve(Request $request, Campaign $campaign) {
+    public function reserve(Request $request, Campaign $campaign)
+    {
         if ($campaign->end_date < now()) {
             return back()->withErrors([
                 'campaign' => 'Campaign has ended'
@@ -48,7 +53,7 @@ class ReservationController extends Controller
 
         $reservations = $campaign->appointments()->where('date', $start->format('Y-m-d'))->count();
 
-        while($reservations >= $campaign->capacity_per_day && $day < $totalDays) {
+        while ($reservations >= $campaign->capacity_per_day && $day < $totalDays) {
             $day++;
             $start->addDays($day);
             $reservations = $campaign->appointments()->where('date', $start->format('Y-m-d'))->count();
@@ -82,7 +87,8 @@ class ReservationController extends Controller
         // return redirect('/reserve/step2');
     }
 
-    public function store(Request $request) {
+    public function store(Request $request)
+    {
         $request->validate([
             'address' => 'required|string',
             'telephone_number' => 'required',
@@ -119,7 +125,8 @@ class ReservationController extends Controller
         return redirect('/reserve/step2')->with('message', null);
     }
 
-    public function form(Request $request) {
+    public function form(Request $request)
+    {
         if (
             $request->user()->telephone_number != null &&
             $request->user()->birthdate != null &&

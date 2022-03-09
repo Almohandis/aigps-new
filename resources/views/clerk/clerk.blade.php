@@ -5,7 +5,7 @@
         </h1>
 
         <div class="mx-auto text-center mt-5">
-            
+
             <form class="inline-block bg-black bg-opacity-50 p-8 text-justify" method="POST" action="/staff/clerk">
                 @if ($errors->any())
                     <div>
@@ -26,12 +26,13 @@
                         {{ $success }}
                     </div>
                 @endisset
-            
+
                 @csrf
                 <div>
                     <x-label for="national_id" value="National Id" class="text-white" />
 
-                    <x-input class="block mt-1 w-full" type="text" name="national_id" :value="old('national_id')" required autofocus />
+                    <x-input class="block mt-1 w-full" type="text" name="national_id" :value="old('national_id')"
+                        required autofocus />
                 </div>
 
                 <div>
@@ -85,6 +86,12 @@
                     </select>
                 </div>
 
+                <div>
+                    <x-label for="vaccine_name" value="Vaccine name" class="text-white" />
+
+                    <x-input class="block mt-1 w-full" type="text" name="vaccine_name" :value="old('vaccine_name')" />
+                </div>
+
                 <div class="mt-3">
                     <input type="checkbox" name="is_diagnosed" value="true" />
                     <x-label value="Is Diagnosed" class="text-white inline-block" />
@@ -100,14 +107,15 @@
                     <input type="checkbox" name="is_recovered" value="true" />
                     <x-label value="Is Recovered" class="text-white inline-block" />
                 </div>
-                
+
                 <div class="mt-3">
                     <p class="text-xl text-white"> Chronic Diseases </p>
 
                     <div id="diseases">
                     </div>
-                    
-                    <div onclick="addDisease()" class="text-center bg-blue-500 text-white text-medium px-3 py-2 mt-3 rounded-md shadow-sm hover:bg-blue-400">
+
+                    <div onclick="addDisease()"
+                        class="text-center bg-blue-500 text-white text-medium px-3 py-2 mt-3 rounded-md shadow-sm hover:bg-blue-400">
                         Add Disease
                     </div>
 
