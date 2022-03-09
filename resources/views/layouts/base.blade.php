@@ -52,7 +52,7 @@
                             @if (Route::has('register'))
                                 <a href="{{ route('register') }}"
                                     class="ml-4 text-sm text-white hover:text-blue-100">Register</a>
-                            @endif
+                            @endif 
                         @endauth
 
                     </div>
