@@ -28,96 +28,24 @@
                 <select name="report_by" id="report-by"></select>
                 <button type="submit" id="generate-btn" class="btn btn-primary">Generate report</button>
             </form>
-            @if (isset($data_by_city))
+            @if (isset($data_by_question))
                 <table>
                     <tr>
-                        <th>City</th>
-                        <th>A+</th>
-                        <th>A-</th>
-                        <th>B+</th>
-                        <th>B-</th>
-                        <th>AB+</th>
-                        <th>AB-</th>
-                        <th>O+</th>
-                        <th>O-</th>
+                        <th>Question title</th>
+                        <th>Answered No</th>
+                        <th>Answered Yes</th>
                     </tr>
-                    <tr class="tr">
-                        @for ($i = 0; $i < count($cities); $i++)
-                            <td class="td">{{ $cities[$i] }}</td>
-                        @endfor
-                    </tr>
-                    @for ($k = 0; $k < 8; $k++)
-                        <tr class="tr">
-                            @for ($i = 0, $j = 0; $i < count($cities); $i++, $j++)
-                                @if (isset($data_by_city[$k][$j]))
-                                    @if ($data_by_city[$k][$j]['city'] == $cities[$i])
-                                        <td class="td">{{ $data_by_city[$k][$j][$blood_types[$k]] }}</td>
-                                    @else
-                                        @php $j--; @endphp
-                                        <td class="td">0</td>
-                                    @endif
-                                @else
-                                    <td class="td">0</td>
-                                @endif
-                            @endfor
+                    @for ($i = 0; $i < count($data_by_question); $i++)
+                        <tr>
+                            <td>{{ $data_by_question[$i]->title }}</td>
+                            <td>{{ $data_by_question[$i]->no }}</td>
+                            <td>{{ $data_by_question[$i]->yes }}</td>
                         </tr>
                     @endfor
                 </table>
             @elseif(isset($data_by_age))
-                @php
-                    $ages = ['Children', 'Elder', 'Youth'];
-                @endphp
-                <table>
-                    <tr>
-                        <th>Age segment</th>
-                        <th>A+</th>
-                        <th>A-</th>
-                        <th>B+</th>
-                        <th>B-</th>
-                        <th>AB+</th>
-                        <th>AB-</th>
-                        <th>O+</th>
-                        <th>O-</th>
-                    </tr>
-                    <tr class="tr">
-                        <td class="td">Children</td>
-                        <td class="td">Elder</td>
-                        <td class="td">Youth</td>
-                    </tr>
-                    @for ($k = 0; $k < 8; $k++)
-                        <tr class="tr">
-                            @for ($i = 0, $j = 0; $i < count($ages); $i++, $j++)
-                                @if (isset($data_by_age[$k][$j]))
-                                    @if ($data_by_age[$k][$j]['age'] == $ages[$i])
-                                        <td class="td">{{ $data_by_age[$k][$j][$blood_types[$k]] }}</td>
-                                    @else
-                                        @php $j--; @endphp
-                                        <td class="td">0</td>
-                                    @endif
-                                @else
-                                    <td class="td">0</td>
-                                @endif
-                            @endfor
-                        </tr>
-                    @endfor
-                </table>
+
             @elseif(isset($data_by_blood))
-                <table>
-                    <tr>
-                        <th>Blood type</th>
-                        <th>Total persons from this type</th>
-                        <th>Percentage of this type</th>
-                        <th>Male percentage</th>
-                        <th>Female percentage</th>
-                    </tr>
-                    @for ($i = 0; $i < count($data_by_blood); $i++)
-                        <tr>
-                            @foreach ($data_by_blood[$i] as $item)
-                                <td>{{ $item }}</td>
-                            @endforeach
-                        </tr>
-                    @endfor
-                </table>
             @endif
         </div>
     </div>
