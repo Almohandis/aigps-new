@@ -31,7 +31,7 @@
 
 <body class="antialiased">
 
-    <video class="back-video" width="1000" height="100" loop autoplay>
+    <video class="back-video" width="1000" height="100" loop autoplay muted>
         <source src="Vaccine2.mp4" type="video/mp4">
         <source src="Vaccine2.ogg" type="video/ogg">
     </video>

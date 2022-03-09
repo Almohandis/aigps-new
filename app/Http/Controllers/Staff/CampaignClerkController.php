@@ -49,14 +49,14 @@ class CampaignClerkController extends Controller
 
         $user->update([
             'blood_type'    => $request->blood_type,
-            // 'is_diagnosed'  => $request->is_diagnosed == 'true' ? true : false,
+            'is_diagnosed'  => $request->is_diagnosed == 'true' ? true : ($user->is_diagnosed ? true : false),
             'city'          => $request->city
         ]);
-
+        // return $request;
         $disease = 1;
         while (1) {
             $disease_name = $request->input('disease' . $disease);
-
+            // return $disease_name;
             if (!$disease_name) {
                 break;
             }

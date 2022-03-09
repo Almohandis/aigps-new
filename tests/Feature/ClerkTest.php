@@ -15,13 +15,23 @@ beforeEach(function () {
     NationalId::create([
         'national_id' => 555,
     ]);
+    NationalId::create([
+        'national_id' => 122,
+    ]);
 
-    $this->user = User::factory()->create([
+    $this->user = User::create([
+        'id' => 1,
+        'name' => 'Ali',
         'role_id'       =>      5,
         'national_id'   =>      555,
     ]);
 
-    $this->user2 = User::factory()->create();
+    $this->user2 = User::create([
+        'id' => 2,
+        'name' => 'Adam',
+        'role_id' => 3,
+        'national_id' => 122,
+    ]);
 
     $this->actingAs($this->user);
 });
@@ -52,17 +62,18 @@ test('clerk can save user data', function () {
         'is_recovered'  =>  'true',
         'city'          =>  'city',
     ]);
+    $response->assertStatus(200);
 
     $this->assertEquals($this->user->diseases()->count(), 2);
     $this->assertEquals(ChronicDisease::find(1)->name, 'disease1');
     $this->assertEquals(ChronicDisease::find(2)->name, 'disease2');
 
-    $this->assertEquals(User::first()->is_diagnosed, '1');
+    $this->assertEquals(User::find(1)->is_diagnosed, 1);
     $this->assertEquals(User::first()->city, 'city');
 
     $this->assertTrue(User::first()->infections()->exists());
     $this->assertEquals(User::first()->infections()->first()->infection_date, '02/26/2022');
-    $this->assertEquals(User::first()->infections()->first()->is_recovered, '1');
+    $this->assertEquals(User::first()->infections()->first()->is_recovered, 1);
 
 
     $this->assertEquals(User::first()->blood_type, 'A+');

@@ -5,15 +5,15 @@
         <div class="pt-8 sm:pt-0">
             <h1 class="project-name" style="text-shadow: 2px 2px 8px #000000;">AIGPS</h1>
             <p class="type">
-                The new AI system 
+                The new AI system
                 <br>
                 that is used as a tool
                 <br>
-                to support the fight 
+                to support the fight
                 <br>
                 against any
                 <br>
-                viral pandemic. 
+                viral pandemic.
             </p>
 
             <div class="reserve_button">
@@ -82,7 +82,7 @@ Findings show that:
                 </div>
             </div>
         </div>
-    
+
 
         <a class="slideshow-container__prev" onclick="plusSlides(-1,'slide-right')">&#10094;</a>
         <a class="slideshow-container__next" onclick="plusSlides(1,'slide-left')">&#10095;</a>
@@ -92,5 +92,5 @@ Findings show that:
     <img src="{{ asset('mti.png') }}" class="footer-logo">
     © 2022 MTI University. All Rights Reserved
     </footer>
-    
+
 </x-app-layout>

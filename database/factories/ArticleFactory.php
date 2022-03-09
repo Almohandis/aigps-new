@@ -14,8 +14,8 @@ class ArticleFactory extends Factory
     public function definition()
     {
         return [
-            'title'     =>      $this->faker->sentence,
-            'content'   =>      $this->faker->paragraph,
+            'title'     =>      $this->faker->word,
+            'content'   =>      $this->faker->sentence,
             'type'      =>      'article',
             'link'      =>      'https://www.google.com'
         ];
