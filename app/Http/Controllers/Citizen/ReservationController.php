@@ -122,7 +122,7 @@ class ReservationController extends Controller
             $phone++;
         }
 
-        return redirect('/reserve/step2');
+        return redirect('/reserve/step2')->with('message', null);
     }
 
     public function form(Request $request)
@@ -135,7 +135,7 @@ class ReservationController extends Controller
             $request->user()->country != null &&
             $request->user()->phones->count() > 0
         ) {
-            return view('citizen.reservecomplete'); //#
+            return view('citizen.reservecomplete'); //#0
         }
 
         return view('citizen.reservation2')->with([

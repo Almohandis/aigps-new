@@ -26,21 +26,18 @@
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
     <script src="{{ asset('js/header.js') }}" defer></script>
-    <script src="https://kit.fontawesome.com/a1983178b4.js" crossorigin="anonymous"></script>
+    <!-- <script src="https://kit.fontawesome.com/a1983178b4.js" crossorigin="anonymous"></script> -->
 </head>
 
 <body class="antialiased">
-
-    <video class="back-video" width="1000" height="100" loop autoplay muted>
-        <source src="Vaccine2.mp4" type="video/mp4">
-        <source src="Vaccine2.ogg" type="video/ogg">
-    </video>
+    
+    
     <div class="relative items-top justify-center min-h-screen sm:items-center py-4 sm:pt-0">
         <nav class="header">
             <div class="container flex flex-wrap justify-between items-center mx-auto">
                 <a href="/" class="flex">
-                    <img class="logo" src="{{ asset('EDIT3.png') }}" alt="Logo">
-                    <div class="title">
+                    <img class="logo" id="logo"src="{{ asset('EDIT3.png') }}" alt="Logo">
+                    <div class="title" id="title">
                         AIGPS
                     </div>
                 </a>
@@ -132,15 +129,8 @@
                         <li>
                             <a href="/view/contact" class="contact-us">Contact Us</a>
                         </li>
-                        <li>
-                            <div class="bell-container" align="center">
-                                <a href="/notifications">
-                                    <i class="fa fa-bell" id="bell" aria-hidden="true"></i>
-                                </a>
-                            </div>
-
-                        </li>
-
+                        
+                         
                         <!--# Special roles -->
                         @auth
                             @if (Auth::user()->role_id == 2)

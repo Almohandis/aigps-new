@@ -1,9 +1,12 @@
 <x-base-layout>
     <div class="mt-6">
+    <img src="{{ asset('vaccine-reserve.jpg') }}" class="sec-header">
+        <div class="divide"></div>
+        <div class="wrap"></div>
         <h1 class="ml-5 text-left text-4xl text-white" style="text-shadow: 2px 2px 8px #000000;">
             @if (session('message'))
                 Diagnose reservation
-            @elseif($message)
+            @else
                 Vaccination reservation
             @endif
         </h1>
@@ -27,15 +30,8 @@
             </div>
         @endif
 
-        <p class="loca">Select a location</p>
-
-        <div id="campaign_selection" class="text-center text-xl mt-2 hidden">
-            <h3>You have selected: <span class="location">Campaign Name</span></h3>
-        </div>
 
         <div class="mx-auto text-center mt-5">
-
-
 
             <form class="inline-block bg-black bg-opacity-50 p-8 text-justify" method="POST" action="/reserve/step2">
                 @if ($errors->any())
@@ -97,10 +93,10 @@
                     <x-label value="Mobile Numbers" class="text-white" />
 
                     <div id="phones">
-                        <x-input placeholder="+20" class="block mt-1" type="number" name="phone1" required />
+                        <x-input placeholder="+20" class="block mt-1" type="number" name="phone1" required id="mobile" />
                     </div>
 
-                    <div onclick="addPhone()"
+                    <div onclick="addPhone()" id="addphone"
                         class="text-center bg-blue-500 text-white text-medium px-3 py-2 mt-3 rounded-md shadow-sm hover:bg-blue-400">
                         Add Phone
                     </div>
@@ -111,6 +107,10 @@
                     </div>
 
                     <script>
+                        function Scrolldown() {
+                            window.scroll(0,670); 
+                            }
+                        window.onload = Scrolldown;
                         var phones = 2;
                         var phone_input = document.getElementById('phones');
 
