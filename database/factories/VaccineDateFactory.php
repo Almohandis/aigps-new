@@ -14,6 +14,7 @@ class VaccineDateFactory extends Factory
     public function definition()
     {
         return [
+            'medical_passport_id' => $this->faker->numberBetween(1, 2),
             'vaccine_date' => $this->faker->dateTimeBetween('-1 years', '+1 years'),
         ];
     }

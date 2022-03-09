@@ -2,6 +2,8 @@
 
 namespace Database\Seeders;
 
+use App\Models\Campaign;
+use App\Models\ChronicDisease;
 use App\Models\Hospital;
 use App\Models\Infection;
 use App\Models\MedicalPassport;
@@ -67,19 +69,45 @@ class UserSeeder extends Seeder
             '(For women) Are you breastfeeding a baby under 6 months?'
         ];
         $questions = Question::get();
-        NationalId::factory()->count(3)->create();
+        $campaigns = Campaign::get();
+        $hospitalIDs = Hospital::pluck('id');
+        $hospitalIDs = json_decode(json_encode($hospitalIDs));
         $nationalIds = NationalId::pluck('national_id');
 
         foreach ($nationalIds as $nid) {
-            User::factory()
+            $user = User::factory()
                 ->hasPhones(2)
-                ->hasPassport(1)
-                ->for(Hospital::factory())
+                ->hasPassport(1, [
+                    'vaccine_dose_count'    => $this->faker->numberBetween(0, 2),
+                ])
+                ->has(ChronicDisease::factory(2))
                 ->has(Infection::factory(2))
                 ->hasAttached($questions, ['answer' => $this->faker->randomElement(['Yes', 'No'])])
                 ->create([
-                    'national_id' => $nid
+                    'national_id' => $nid,
+                    'hospital_id' => $this->faker->randomElement([null, $this->faker->randomElement($hospitalIDs)]),
                 ]);
+            $user->hospitalizations()->attach($hospitalIDs, [
+                'checkin_date' => $this->faker->dateTimeBetween('-1 month', 'now'),
+                'checkout_date' => $this->faker->randomElement([null, null, $this->faker->dateTimeBetween('now', '+1 month')])
+            ]);
+            $user->campaigns()->attach($campaigns, [
+                'from' => $this->faker->dateTimeBetween('-1 month', 'now'),
+                'to' => $this->faker->dateTimeBetween('now', '+1 month'),
+            ]);
+            $user->reservations()->attach($campaigns, [
+                'date'  => $this->faker->dateTimeBetween('-3 days', '+3 days'),
+            ]);
+        }
+        $users = User::where('gender', 'Male')->get();
+        $relatives = User::where('gender', 'Female')->pluck('id');
+        $relatives = json_decode(json_encode(array_rand($relatives->all(), 3)));
+        foreach ($users as $user) {
+            $user->relatives()->attach([
+                $relatives[0]  => ['relation' => 'Mother'],
+                $relatives[1] => ['relation' => 'Sister'],
+                $relatives[2] => ['relation' => 'Aunt'],
+            ]);
         }
     }
 }

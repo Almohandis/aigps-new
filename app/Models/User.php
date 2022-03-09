@@ -68,9 +68,15 @@ class User extends Authenticatable
         return $this->hasMany(ChronicDisease::class);
     }
 
+    //# DON'T DELETE IT OR REMOVE IT PLEASE, IT'S USED IN THE SEEDER
+    public function chronicDiseases()
+    {
+        return $this->hasMany(ChronicDisease::class);
+    }
+
     public function hospitalizations()
     {
-        return $this->belongsToMany(Hospital::class, 'hospitalizations')->withPivot('checkin_date', 'checkout_date');
+        return $this->belongsToMany(Hospital::class, 'hospitalizations', 'user_id', 'hospital_id')->withPivot('checkin_date', 'checkout_date');
     }
 
     public function infections()

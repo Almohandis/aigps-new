@@ -14,7 +14,7 @@ class ChronicDiseaseFactory extends Factory
     public function definition()
     {
         return [
-            'name' => $this->faker->word,
+            'name' => $this->faker->randomElement(['Diabetis', 'Asthma', 'Cancer', 'Hepatitis', 'Tuberculosis', 'HIV/AIDS']),
         ];
     }
 }
