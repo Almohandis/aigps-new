@@ -26,7 +26,7 @@
                         <th>Telephone number</th>
                         <th>Blood type</th>
                         <th>Diagnose status</th>
-                        <th></th>
+                        <th colspan="2">Actions</th>
                     </tr>
                     @foreach ($patients as $patient)
                         <form method="POST" action="/staff/isohospital/infection/save/{{ $patient->national_id }}">

@@ -246,6 +246,35 @@ class StatisticsController extends Controller
         }
     }
 
+    public function recoveriesReport($report_by, $names)
+    {
+        switch ($report_by) {
+            case 'City':
+                $data = DB::select('SELECT DISTINCT u1.city,
+                (SELECT COUNT(*) FROM users AS u2, infections AS inf1 WHERE u2.id=inf1.user_id AND u1.city=u2.city AND inf1.is_recovered=1) AS "total_recoveries",
+                (SELECT COUNT(*) FROM hospitals WHERE hospitals.city=u1.city) AS "total_hospitals",
+                (SELECT ROUND(AVG( hos2.capacity - (SELECT COUNT(*) FROM hospitals AS hos3, hospitalizations AS hoz2 WHERE hos3.id=hoz2.id AND hoz2.checkout_date IS NOT null ))) FROM hospitals AS hos2 WHERE hos2.city=u1.city) AS "average_available_beds"
+                FROM users AS u1, hospitals AS hos1, hospitalizations AS hoz1
+                WHERE hos1.id=hoz1.hospital_id
+                AND u1.id=hoz1.user_id
+                AND hos1.city=u1.city
+                AND hoz1.checkout_date IS NULL ORDER BY u1.city;');
+                $data = json_encode($data);
+                $data = json_decode($data);
+                // return $data;
+                return view('statistics.recoveries-report', ['data_by_city' => $data, 'names' => $names, 'report_by' => $report_by]);
+                break;
+            case 'Hospital':
+                break;
+            case 'Date':
+                break;
+            case 'Age segment':
+                break;
+            default:
+                return null;
+        }
+    }
+
     public function generateReports($report_name, $report_by, $names)
     {
         switch ($report_name) {
@@ -256,52 +285,52 @@ class StatisticsController extends Controller
                 return $this->surveyResultsAndAnswers($report_by, $names);
                 break;
             case 'Recoveries report':
-                return $this->recoveriesReport($report_by);
+                return $this->recoveriesReport($report_by, $names);
                 break;
             case 'Deaths report':
-                return $this->deathsReport($report_by);
+                return $this->deathsReport($report_by, $names);
                 break;
             case 'User vaccinating status':
-                return $this->userVaccinatingStatus($report_by);
+                return $this->userVaccinatingStatus($report_by, $names);
                 break;
             case 'User vaccinating status (summary)':
-                return $this->userVaccinatingStatusSummary($report_by);
+                return $this->userVaccinatingStatusSummary($report_by, $names);
                 break;
             case 'Distribution of hospitals':
-                return $this->distributionOfHospitals($report_by);
+                return $this->distributionOfHospitals($report_by, $names);
                 break;
             case 'Infections and their relatives':
-                return $this->infectionsAndTheirRelatives($report_by);
+                return $this->infectionsAndTheirRelatives($report_by, $names);
                 break;
             case 'Distribution of chronic diseases':
-                return $this->distributionOfChronicDiseases($report_by);
+                return $this->distributionOfChronicDiseases($report_by, $names);
                 break;
             case 'Distribution of doctors in hospitals':
-                return $this->distributionOfDoctorsInHospitals($report_by);
+                return $this->distributionOfDoctorsInHospitals($report_by, $names);
                 break;
             case 'Distribution of doctors in campaigns':
-                return $this->distributionOfDoctorsInCampaigns($report_by);
+                return $this->distributionOfDoctorsInCampaigns($report_by, $names);
                 break;
             case 'Hospitalization status':
-                return $this->hospitalizationStatus($report_by);
+                return $this->hospitalizationStatus($report_by, $names);
                 break;
             case 'Hospital statistics':
-                return $this->hospitalStatistics($report_by);
+                return $this->hospitalStatistics($report_by, $names);
                 break;
             case 'Hospital statistics (summary)':
-                return $this->hospitalStatisticsSummary($report_by);
+                return $this->hospitalStatisticsSummary($report_by, $names);
                 break;
             case 'Campaign report (summary)':
-                return $this->campaignReportSummary($report_by);
+                return $this->campaignReportSummary($report_by, $names);
                 break;
             case 'General statistics':
-                return $this->generalStatistics($report_by);
+                return $this->generalStatistics($report_by, $names);
                 break;
             case 'Vaccine report':
-                return $this->vaccineReport($report_by);
+                return $this->vaccineReport($report_by, $names);
                 break;
             case 'Personal medical report':
-                return $this->personalMedicalReport($report_by);
+                return $this->personalMedicalReport($report_by, $names);
                 break;
         }
     }
