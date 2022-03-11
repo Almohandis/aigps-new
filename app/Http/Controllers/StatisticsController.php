@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
+use function Pest\Laravel\json;
+
 class StatisticsController extends Controller
 {
     protected $cities = ['6th of October', 'Alexandria', 'Aswan', 'Asyut', 'Beheira', 'Beni Suef', 'Cairo', 'Dakahlia', 'Damietta', 'Faiyum', 'Gharbia', 'Giza', 'Helwan', 'Ismailia', 'Kafr El Sheikh', 'Luxor', 'Matruh', 'Minya', 'Monufia', 'New Valley', 'North Sinai', 'Port Said', 'Qalyubia', 'Qena', 'Red Sea', 'Sharqia', 'Sohag', 'South Sinai', 'Suez'];
@@ -37,7 +39,7 @@ class StatisticsController extends Controller
         '',
         ['City', 'Blood type', 'Age segment'],
         [/*'City', */'Question'/*, 'Age segment'*/],
-        ['City', /*'Hospital',*/ 'Date', 'Age segment'],
+        ['City', 'Hospital', 'Date', 'Age segment'],
         ['City', 'Hospital', 'Date', 'Age segment'],
         ['City', 'Vaccine status', 'Age segment'],
         ['Default'],
@@ -265,10 +267,55 @@ class StatisticsController extends Controller
                 return view('statistics.recoveries-report', ['data_by_city' => $data, 'names' => $names, 'report_by' => $report_by, 'cities' => $this->cities]);
                 break;
             case 'Hospital':
+                $data = DB::select('SELECT hos1.name, hos1.city,
+                (SELECT COUNT(*) FROM infections AS inf1 WHERE inf1.hospital_id=hos1.id AND inf1.is_recovered=1 ) AS "total_recoveries",
+                (SELECT hos1.capacity - (SELECT COUNT(*) FROM hospitals AS hos2, users AS u1, hospitalizations AS hoz1
+                WHERE hos2.id=hoz1.hospital_id AND u1.id=hoz1.user_id AND hos2.id=hos1.id AND hoz1.checkout_date IS NULL ) ) AS "avail_beds"
+                FROM hospitals AS hos1;');
+                $data = json_encode($data);
+                $data = json_decode($data);
+                // return $data;
+                return view('statistics.recoveries-report', ['data_by_hospital' => $data, 'names' => $names, 'report_by' => $report_by]);
                 break;
             case 'Date':
+                $data = DB::select('SELECT infection_date, COUNT(*) AS "total_rec"
+                FROM infections AS inf1
+                WHERE inf1.infection_date BETWEEN DATE_ADD(CURDATE(),INTERVAL -DAY(CURDATE())+1 DAY) AND CURDATE() AND is_recovered=1
+                GROUP BY infection_date ORDER BY infection_date DESC;');
+                $data = json_encode($data);
+                $data = json_decode($data);
+                $date = date('F, Y');
+                // return $data;
+                return view('statistics.recoveries-report', ['data_by_date' => $data, 'names' => $names, 'report_by' => $report_by, 'date' => $date]);
                 break;
             case 'Age segment':
+                $data = DB::select('SELECT DISTINCT IF(TIMESTAMPDIFF(YEAR,u1.birthdate, now())<=20,"Children", IF(TIMESTAMPDIFF(YEAR,u1.birthdate, now())<=40,"Youth", "Elder")) AS Age,
+
+                (SELECT COUNT(*) FROM users AS u2, infections AS inf2 WHERE inf2.user_id=u2.id AND inf2.is_recovered=1 AND
+                IF(TIMESTAMPDIFF(YEAR,u2.birthdate, now())<=20,"Children", IF(TIMESTAMPDIFF(YEAR,u2.birthdate, now())<=40,"Youth", "Elder"))=(SELECT Age)  ) AS Total,
+
+                (SELECT COUNT(*) FROM users AS u2, infections AS inf2 WHERE inf2.user_id=u2.id AND inf2.is_recovered=1 AND u2.gender="Male" AND
+                IF(TIMESTAMPDIFF(YEAR,u2.birthdate, now())<=20,"Children", IF(TIMESTAMPDIFF(YEAR,u2.birthdate, now())<=40,"Youth", "Elder"))=(SELECT Age)  ) AS Male,
+
+                ROUND((SELECT COUNT(*) FROM users AS u2, infections AS inf2 WHERE inf2.user_id=u2.id AND inf2.is_recovered=1 AND u2.gender="Male" AND
+                IF(TIMESTAMPDIFF(YEAR,u2.birthdate, now())<=20,"Children", IF(TIMESTAMPDIFF(YEAR,u2.birthdate, now())<=40,"Youth", "Elder"))=(SELECT Age))/(SELECT Total)*100,2) AS "male_pcnt",
+
+                (SELECT COUNT(*) FROM users AS u2, infections AS inf2 WHERE inf2.user_id=u2.id AND inf2.is_recovered=1 AND u2.gender="Female" AND
+                IF(TIMESTAMPDIFF(YEAR,u2.birthdate, now())<=20,"Children", IF(TIMESTAMPDIFF(YEAR,u2.birthdate, now())<=40,"Youth", "Elder"))=(SELECT Age)  ) AS Female,
+
+                ROUND((SELECT COUNT(*) FROM users AS u2, infections AS inf2 WHERE inf2.user_id=u2.id AND inf2.is_recovered=1 AND u2.gender="Female" AND
+                IF(TIMESTAMPDIFF(YEAR,u2.birthdate, now())<=20,"Children", IF(TIMESTAMPDIFF(YEAR,u2.birthdate, now())<=40,"Youth", "Elder"))=(SELECT Age))/(SELECT Total)*100,2) AS "female_pcnt"
+
+                FROM infections AS inf1, users AS u1
+
+                WHERE inf1.is_recovered=1 ORDER BY Age;');
+                $data = json_decode(json_encode($data));
+                // return $data;
+                return view('statistics.recoveries-report', [
+                    'data_by_age' => $data,
+                    'names' => $names,
+                    'report_by' => $report_by
+                ]);
                 break;
             default:
                 return null;

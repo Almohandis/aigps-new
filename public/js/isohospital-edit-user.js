@@ -138,13 +138,7 @@ window.onload = () => {
         div.appendChild(label);
         div.appendChild(infection);
         div.appendChild(is_recovered_div);
-        // div.appendChild(is_recovered_check);
-        // div.appendChild(is_recovered_hidden);
-        // div.appendChild(is_recovered_label);
         div.appendChild(has_passed_away_div);
-        // div.appendChild(has_passed_away_check);
-        // div.appendChild(has_passed_away_hidden);
-        // div.appendChild(has_passed_away_label);
         div.appendChild(deleteButton);
         infections_div.appendChild(div);
     }

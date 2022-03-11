@@ -39,11 +39,17 @@
                     @for ($i = 0, $j = 0; $i < count($cities); $i++)
                         <tr>
                             <td>{{ $cities[$i] }}</td>
-                            @if ($cities[$i] == $data_by_city[$j]->city)
-                                <td>{{ $data_by_city[$j]->total_recoveries }}</td>
-                                <td>{{ $data_by_city[$j]->total_hospitals }}</td>
-                                {{-- <td>{{ $data_by_city[$j]->average_available_beds }}</td> --}}
-                                @php $j++ @endphp
+                            @if (isset($data_by_city[$j]))
+                                @if ($cities[$i] == $data_by_city[$j]->city)
+                                    <td>{{ $data_by_city[$j]->total_recoveries }}</td>
+                                    <td>{{ $data_by_city[$j]->total_hospitals }}</td>
+                                    <td>{{ $data_by_city[$j]->average_available_beds }}</td>
+                                    @php $j++ @endphp
+                                @else
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                @endif
                             @else
                                 <td>0</td>
                                 <td>0</td>
@@ -52,7 +58,60 @@
                         </tr>
                     @endfor
                 </table>
+            @elseif(isset($data_by_hospital))
+                <table>
+                    <tr>
+                        <th>Hospital name</th>
+                        <th>City</th>
+                        <th>Total recoveries</th>
+                        <th>Available beds</th>
+                    </tr>
+                    @foreach ($data_by_hospital as $hospital)
+                        <tr>
+                            <td>{{ $hospital->name }}</td>
+                            <td>{{ $hospital->city }}</td>
+                            <td>{{ $hospital->total_recoveries }}</td>
+                            <td>{{ $hospital->avail_beds }}</td>
+                        </tr>
+                    @endforeach
+                </table>
+            @elseif(isset($data_by_date))
+                <table>
+                    <tr>
+                        <th colspan="2">Total number of recoveries starting from {{ $date }} until now</th>
+                    </tr>
+                    <tr>
+                        <th>Date</th>
+                        <th>Total recoveries</th>
+                    </tr>
+                    @foreach ($data_by_date as $date)
+                        <tr>
+                            <td>{{ $date->infection_date }}</td>
+                            <td>{{ $date->total_rec }}</td>
+                        </tr>
+                    @endforeach
+                </table>
             @elseif(isset($data_by_age))
+                <table>
+                    <tr>
+                        <th>Age segment</th>
+                        <th>Total recoveries</th>
+                        <th>Number of males</th>
+                        <th>Male percentage</th>
+                        <th>Number of females</th>
+                        <th>Female percentage</th>
+                    </tr>
+                    @foreach ($data_by_age as $segment)
+                        <tr>
+                            <td>{{ $segment->Age }}</td>
+                            <td>{{ $segment->Total }}</td>
+                            <td>{{ $segment->Male }}</td>
+                            <td>{{ $segment->male_pcnt }}</td>
+                            <td>{{ $segment->Female }}</td>
+                            <td>{{ $segment->female_pcnt }}</td>
+                        </tr>
+                    @endforeach
+                </table>
             @endif
         </div>
     </div>
