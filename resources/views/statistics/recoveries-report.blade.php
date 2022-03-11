@@ -36,12 +36,19 @@
                         <th>Total hospitals</th>
                         <th>Average available beds</th>
                     </tr>
-                    @for ($i = 0; $i < count($data_by_city); $i++)
+                    @for ($i = 0, $j = 0; $i < count($cities); $i++)
                         <tr>
-                            <td>{{ $data_by_city[$i]->city }}</td>
-                            <td>{{ $data_by_city[$i]->total_recoveries }}</td>
-                            <td>{{ $data_by_city[$i]->total_hospitals }}</td>
-                            <td>{{ $data_by_city[$i]->average_available_beds }}</td>
+                            <td>{{ $cities[$i] }}</td>
+                            @if ($cities[$i] == $data_by_city[$j]->city)
+                                <td>{{ $data_by_city[$j]->total_recoveries }}</td>
+                                <td>{{ $data_by_city[$j]->total_hospitals }}</td>
+                                <td>{{ $data_by_city[$j]->average_available_beds }}</td>
+                                @php $j++ @endphp
+                            @else
+                                <td>0</td>
+                                <td>0</td>
+                                <td>0</td>
+                            @endif
                         </tr>
                     @endfor
                 </table>

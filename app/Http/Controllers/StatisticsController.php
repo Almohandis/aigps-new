@@ -262,7 +262,7 @@ class StatisticsController extends Controller
                 $data = json_encode($data);
                 $data = json_decode($data);
                 // return $data;
-                return view('statistics.recoveries-report', ['data_by_city' => $data, 'names' => $names, 'report_by' => $report_by]);
+                return view('statistics.recoveries-report', ['data_by_city' => $data, 'names' => $names, 'report_by' => $report_by, 'cities' => $this->cities]);
                 break;
             case 'Hospital':
                 break;
