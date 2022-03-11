@@ -19,9 +19,9 @@ class HospitalFactory extends Factory
             'city'  => $this->faker->randomElement($this->cities),
             'capacity' => $this->faker->numberBetween(20, 300),
             'is_isolation' => $this->faker->boolean,
-            'available_beds' => $this->faker->numberBetween(100, 200),
-            'care_beds' =>      $this->faker->numberBetween(50, 70),
-            'avail_care_beds' => $this->faker->numberBetween(5, 9),
+            // 'available_beds' => $this->faker->numberBetween(100, 200),
+            // 'care_beds' =>      $this->faker->numberBetween(50, 70),
+            // 'avail_care_beds' => $this->faker->numberBetween(5, 9),
         ];
     }
 }

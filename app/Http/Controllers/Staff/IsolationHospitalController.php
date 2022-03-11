@@ -4,12 +4,13 @@ namespace App\Http\Controllers\Staff;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-// use App\Http\Middleware\NationalId;
+use App\Jobs\InfectionNotificationJob;
 use App\Models\HospitalStatistics;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Hospital;
 use App\Models\User;
 use App\Models\NationalId;
+use Illuminate\Support\Facades\DB;
 
 class IsolationHospitalController extends Controller
 {
@@ -27,19 +28,19 @@ class IsolationHospitalController extends Controller
         //('hospital_id',$request->hospital)
         if (Auth::user()->hospital_id == $request->hospital) {
             $hospital = Hospital::find($request->hospital);
-            if (
-                $request->total_capacity === null
-                || $request->care_beds === null
-                || $request->avail_care_beds === null
-                || $request->available_beds === null
-                || $request->recoveries === null
-                || $request->deaths === null
+            if (false
+                // $request->total_capacity === null
+                // || $request->care_beds === null
+                // || $request->avail_care_beds === null
+                // || $request->available_beds === null
+                // || $request->recoveries === null
+                // || $request->deaths === null
             ) {
                 return redirect()->back()->with('message', 'Please fill in the fields');
             }
-            if (
-                $request->total_capacity >= 0 && $request->available_beds >= 0 && $request->care_beds >= 0 && $request->avail_care_beds >= 0
-                && $request->recoveries >= 0 && $request->deaths >= 0
+            if (false
+                // $request->total_capacity >= 0 && $request->available_beds >= 0 && $request->care_beds >= 0 && $request->avail_care_beds >= 0
+                // && $request->recoveries >= 0 && $request->deaths >= 0
             ) {
                 $hospital->update([
                     'capacity' => $request->total_capacity,
@@ -70,7 +71,7 @@ class IsolationHospitalController extends Controller
         if ($hospital) {
             $hospital_id = $hospital->id;
 
-            $patients = Hospital::find($hospital_id)->patients()->get(); //->where('checkout_date', null)->get();
+            $patients = Hospital::find($hospital_id)->patients()->where('checkout_date', null)->get();
             // return $patients;
             if (!$patients) {
                 return view('isolationHospital.infection');
@@ -119,6 +120,7 @@ class IsolationHospitalController extends Controller
                 'user' => $user,
                 'phones' => $phones,
                 'infections' => $infections,
+                'checkout_date' => 3,
                 'countries' => \Countries::getList('en'),
             );
             return view('isolationHospital.infection-more', compact('data'));
@@ -127,9 +129,25 @@ class IsolationHospitalController extends Controller
         }
     }
 
+    //# Patient checkout
+    public function checkout(Request $request, $id)
+    {
+        // $user = User::where('national_id', $id)->first();
+        DB::select("UPDATE hospitalizations SET checkout_date=CURDATE() WHERE hospital_id=" . $request->user()->hospital_id . " AND user_id = (SELECT users.id FROM users WHERE users.national_id=" . $id . ")");
+        // if ($user) {
+        //     $user->update([
+        //         'checkout_date' => now(),
+        //     ]);
+        return redirect()->back()->with('message', 'Patient checked out successfully');
+        // } else {
+        //     return redirect()->back()->with('message', 'Patient not found');
+        // }
+    }
+
     //# Detailed patient data submit
     public function submit(Request $request, $id)
     {
+        // return $request;
         $hospital_id = Auth::user()->hospital_id;
         if (!$hospital_id)
             return redirect('/staff/isohospital/infection')->with('message', 'You are not authorized to modify this patient');
@@ -163,22 +181,50 @@ class IsolationHospitalController extends Controller
         ]);
         // return $userUpdate;
         $patient->phones()->delete();
-        if ($request->phones)
+        if ($request->phones) {
             foreach ($request->phones as $phone) {
                 if (!$patient->phones()->create([
                     'phone_number' => $phone,
                 ]))
                     $success = false;
             }
+        }
         // return $phonesDelete;
+        $infection_count = $patient->infections()->count();
         $patient->infections()->delete();
-        if ($request->infections)
-            foreach ($request->infections as $infection) {
-                if (!$patient->infections()->create([
-                    'infection_date'    => $infection,
-                ]))
-                    $success = false;
+        // if ($request->infections) {
+        //     foreach ($request->infections as $infection) {
+        //         if (!$patient->infections()->create([
+        //             'infection_date'    => $infection,
+        //         ]))
+        //             $success = false;
+        //     }
+        // }
+        //////////////////////////////////////
+        if ($request->infections) {
+            for ($i = 0; $i < count($request->infections); $i++) {
+                if ($request->infections[$i] == null) {
+                    return redirect()->back()->with('message', 'Infection date is not valid');
+                }
             }
+
+            for ($i = 0; $i < count($request->infections); $i++) {
+                $passed_away = $request->has_passed_away[$i];
+                $patient->infections()->create([
+                    'hospital_id' => $request->user()->hospital_id,
+                    'infection_date'    => $request->infections[$i],
+                    'is_recovered'  =>  $request->is_recovered[$i],
+                    'has_passed_away'   => $request->has_passed_away[$i]
+                ]);
+                if ($passed_away == 1) {
+                    DB::select("UPDATE hospitalizations SET checkout_date=CURDATE() WHERE hospital_id=" . $request->user()->hospital_id . " AND user_id = (SELECT users.id FROM users WHERE users.national_id=" . $id . ")");
+                }
+            }
+            if ($infection_count != count($request->infections)) {
+                InfectionNotificationJob::dispatch($request->user());
+            }
+        }
+        /////////////////////////////////
         // return $infectionsDelete;
         if ($success)
             return redirect('/staff/isohospital/infection')->with('message', 'Patient information updated successfully');
@@ -203,7 +249,6 @@ class IsolationHospitalController extends Controller
         }
 
         if (!NationalId::find($request->national_id)) {
-            return 4;
 
             return redirect()->back()->with('message', 'National ID is not valid');
         }
@@ -253,19 +298,36 @@ class IsolationHospitalController extends Controller
             }
         }
 
+        $passed_away = 0;
         if ($request->infections) {
-            foreach ($request->infections as $infection) {
+            for ($i = 0; $i < count($request->infections); $i++) {
+                if ($request->infections[$i] == null) {
+                    return redirect()->back()->with('message', 'Infection date is not valid');
+                }
+            }
+
+            for ($i = 0; $i < count($request->infections); $i++) {
+                $passed_away = $request->has_passed_away[$i];
                 $user->infections()->create([
-                    'infection_date'    => $infection,
+                    'hospital_id' => $request->user()->hospital_id,
+                    'infection_date'    => $request->infections[$i],
+                    'is_recovered'  =>  $request->is_recovered[$i],
+                    'has_passed_away'   => $request->has_passed_away[$i]
                 ]);
             }
+
+            InfectionNotificationJob::dispatch($request->user());
         }
 
-        $hospital->patients()
-            ->attach($user->id, [
-                'checkin_date' => now(),
-                'checkout_date' => null,
-            ]);
+        if ($passed_away == 1) {
+            DB::select("UPDATE hospitalizations SET checkout_date=CURDATE() WHERE hospital_id=" . $request->user()->hospital_id . " AND user_id = (SELECT users.id FROM users WHERE users.national_id=" . $request->national_id . ")");
+        } else {
+            $hospital->patients()
+                ->attach($user->id, [
+                    'checkin_date' => now(),
+                    'checkout_date' => null,
+                ]);
+        }
 
         return redirect('/staff/isohospital/infection')->with('message', 'Patient information added successfully');
     }

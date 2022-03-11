@@ -37,7 +37,7 @@ class StatisticsController extends Controller
         '',
         ['City', 'Blood type', 'Age segment'],
         [/*'City', */'Question'/*, 'Age segment'*/],
-        ['City', 'Hospital', 'Date', 'Age segment'],
+        ['City', /*'Hospital',*/ 'Date', 'Age segment'],
         ['City', 'Hospital', 'Date', 'Age segment'],
         ['City', 'Vaccine status', 'Age segment'],
         ['Default'],

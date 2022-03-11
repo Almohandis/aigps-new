@@ -10,7 +10,8 @@
             <div class="pt-8 sm:pt-0">
                 <h1>Patient data</h1>
                 <label for="national-id">National ID</label>
-                <input required type="number" name="national_id" min="1" id="national-id" class="mt-2" value=""><br>
+                <input required type="number" name="national_id" min="1" id="national-id" class="mt-2"
+                    value=""><br>
                 <label for="name">Name</label>
                 <input required type="text" name="name" id="name" class="mt-2" value=""><br>
                 <label for="birthdate">Birthdate</label>
@@ -35,7 +36,17 @@
                     @endforeach
                 </select><br>
                 <label for="blood_type">Blood type</label>
-                <input required type="text" name="blood_type" id="blood_type" class="mt-2" value=""><br>
+                <select required name="blood_type" id="blood_type" class="block mt-2">
+                    <option value="A+">A+</option>
+                    <option value="A-">A-</option>
+                    <option value="B+">B+</option>
+                    <option value="B-">B-</option>
+                    <option value="AB+">AB+</option>
+                    <option value="AB-">AB-</option>
+                    <option value="O+">O+</option>
+                    <option value="O-">O-</option>
+                </select>
+
                 <label for="is_diagnosed">Has diagnosed</label>
                 <select required name="is_diagnosed" id="">
                     <option value="" hidden disabled selected>Select diagnose status</option>
@@ -71,6 +82,7 @@
         }
 
         function deleteInfection(event) {
+            console.log(event.target.id);
             let elements = document.getElementsByClassName(event.target.id);
             for (let i = elements.length - 1; i >= 0; i--) {
                 if (elements[i].classList.contains('infection')) {

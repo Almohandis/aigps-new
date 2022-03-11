@@ -2,7 +2,7 @@ let getReportBy = {
     '': '',
     'Blood type distribution': ['City', 'Blood type', 'Age segment'],
     'Survey results and answers': [ /*'City', */ 'Question' /*, 'Age segment'*/ ],
-    'Recoveries report': ['City', 'Hospital', 'Date', 'Age segment'],
+    'Recoveries report': ['City', /*'Hospital',*/ 'Date', 'Age segment'],
     'Deaths report': ['City', 'Hospital', 'Date', 'Age segment'],
     'User vaccinating status': ['City', 'Vaccine status', 'Age segment'],
     'User vaccinating status (summary)': ['Default'],

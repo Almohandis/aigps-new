@@ -42,7 +42,7 @@
                             @if ($cities[$i] == $data_by_city[$j]->city)
                                 <td>{{ $data_by_city[$j]->total_recoveries }}</td>
                                 <td>{{ $data_by_city[$j]->total_hospitals }}</td>
-                                <td>{{ $data_by_city[$j]->average_available_beds }}</td>
+                                {{-- <td>{{ $data_by_city[$j]->average_available_beds }}</td> --}}
                                 @php $j++ @endphp
                             @else
                                 <td>0</td>

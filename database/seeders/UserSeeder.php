@@ -6,15 +6,12 @@ use App\Models\Campaign;
 use App\Models\ChronicDisease;
 use App\Models\Hospital;
 use App\Models\Infection;
-use App\Models\MedicalPassport;
 use App\Models\NationalId;
 use App\Models\Question;
 use App\Models\User;
 use Faker\Generator;
 use Illuminate\Container\Container;
 use Illuminate\Database\Seeder;
-use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Database\Eloquent\Factories\Sequence;
 
 class UserSeeder extends Seeder
 {
