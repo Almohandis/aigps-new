@@ -332,13 +332,30 @@ class StatisticsController extends Controller
                 // return $data;
                 return view('statistics.deaths-report', ['data_by_city' => $data, 'names' => $names, 'report_by' => $report_by, 'cities' => $this->cities]);
                 break;
-                break;
             case 'Hospital':
+                $data = DB::select('SELECT hos1.name, hos1.city, (SELECT COUNT(*) FROM infections AS inf1 WHERE inf1.hospital_id=hos1.id AND inf1.has_passed_away=1 ) AS total_deaths, (SELECT hos1.capacity - (SELECT COUNT(*) FROM hospitals AS hos2, users AS u1, hospitalizations AS hoz1 WHERE hos2.id=hoz1.hospital_id AND u1.id=hoz1.user_id AND hos2.id=hos1.id AND hoz1.checkout_date IS NULL ) ) AS "avail_beds" FROM hospitals AS hos1;');
+                $data = json_encode($data);
+                $data = json_decode($data);
+                // return $data;
+                return view('statistics.deaths-report', ['data_by_hospital' => $data, 'names' => $names, 'report_by' => $report_by]);
                 break;
             case 'Date':
+                $data = DB::select('SELECT infection_date, COUNT(*) AS total_deaths FROM infections AS inf1 WHERE inf1.infection_date BETWEEN DATE_ADD(CURDATE(),INTERVAL -DAY(CURDATE())+1 DAY) AND CURDATE() AND has_passed_away=1 GROUP BY infection_date ORDER BY infection_date DESC;');
+                $data = json_encode($data);
+                $data = json_decode($data);
+                // return $data;
+                $date = date('F, Y');
+                return view('statistics.deaths-report', ['data_by_date' => $data, 'names' => $names, 'report_by' => $report_by, 'date' => $date]);
                 break;
             case 'Age segment':
+                $data = DB::select('SELECT DISTINCT IF(TIMESTAMPDIFF(YEAR,u1.birthdate, now())<=20,"Children", IF(TIMESTAMPDIFF(YEAR,u1.birthdate, now())<=40,"Youth", "Elder")) AS Age, (SELECT COUNT(*) FROM users AS u2, infections AS inf2 WHERE inf2.user_id=u2.id AND inf2.has_passed_away=1 AND IF(TIMESTAMPDIFF(YEAR,u2.birthdate, now())<=20,"Children", IF(TIMESTAMPDIFF(YEAR,u2.birthdate, now())<=40,"Youth", "Elder"))=(SELECT Age) ) AS Total, (SELECT COUNT(*) FROM users AS u2, infections AS inf2 WHERE inf2.user_id=u2.id AND inf2.has_passed_away=1 AND u2.gender="Male" AND IF(TIMESTAMPDIFF(YEAR,u2.birthdate, now())<=20,"Children", IF(TIMESTAMPDIFF(YEAR,u2.birthdate, now())<=40,"Youth", "Elder"))=(SELECT Age) ) AS Male, ROUND((SELECT COUNT(*) FROM users AS u2, infections AS inf2 WHERE inf2.user_id=u2.id AND inf2.has_passed_away=1 AND u2.gender="Male" AND IF(TIMESTAMPDIFF(YEAR,u2.birthdate, now())<=20,"Children", IF(TIMESTAMPDIFF(YEAR,u2.birthdate, now())<=40,"Youth", "Elder"))=(SELECT Age))/(SELECT Total)*100,2) AS "male_pcnt", (SELECT COUNT(*) FROM users AS u2, infections AS inf2 WHERE inf2.user_id=u2.id AND inf2.has_passed_away=1 AND u2.gender="Female" AND IF(TIMESTAMPDIFF(YEAR,u2.birthdate, now())<=20,"Children", IF(TIMESTAMPDIFF(YEAR,u2.birthdate, now())<=40,"Youth", "Elder"))=(SELECT Age) ) AS Female, ROUND((SELECT COUNT(*) FROM users AS u2, infections AS inf2 WHERE inf2.user_id=u2.id AND inf2.has_passed_away=1 AND u2.gender="Female" AND IF(TIMESTAMPDIFF(YEAR,u2.birthdate, now())<=20,"Children", IF(TIMESTAMPDIFF(YEAR,u2.birthdate, now())<=40,"Youth", "Elder"))=(SELECT Age))/(SELECT Total)*100,2) AS "female_pcnt" FROM infections AS inf1, users AS u1 WHERE inf1.has_passed_away=1 ORDER BY Age;');
+                $data = json_encode($data);
+                $data = json_decode($data);
+                // return $data;
+                return view('statistics.deaths-report', ['data_by_age' => $data, 'names' => $names, 'report_by' => $report_by]);
                 break;
+            default:
+                return null;
         }
     }
 
