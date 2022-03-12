@@ -152,13 +152,6 @@
                                 </li>
                             @endif
                         @endauth
-                        <li>
-                            <div class="bell-container" align="center">
-                                <a href="/notifications">
-                                    <i class="fa fa-bell" id="bell" aria-hidden="true"></i>
-                                </a>
-                            </div>
-                        </li>
                     </ul>
                 </div>
             </div>
