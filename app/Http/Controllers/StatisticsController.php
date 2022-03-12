@@ -252,15 +252,7 @@ class StatisticsController extends Controller
     {
         switch ($report_by) {
             case 'City':
-                $data = DB::select('SELECT DISTINCT u1.city,
-                (SELECT COUNT(*) FROM users AS u2, infections AS inf1 WHERE u2.id=inf1.user_id AND u1.city=u2.city AND inf1.is_recovered=1) AS "total_recoveries",
-                (SELECT COUNT(*) FROM hospitals WHERE hospitals.city=u1.city) AS "total_hospitals",
-                (SELECT ROUND(AVG( hos2.capacity - (SELECT COUNT(*) FROM hospitals AS hos3, hospitalizations AS hoz2 WHERE hos3.id=hoz2.id AND hoz2.checkout_date IS NOT null ))) FROM hospitals AS hos2 WHERE hos2.city=u1.city) AS "average_available_beds"
-                FROM users AS u1, hospitals AS hos1, hospitalizations AS hoz1
-                WHERE hos1.id=hoz1.hospital_id
-                AND u1.id=hoz1.user_id
-                AND hos1.city=u1.city
-                AND hoz1.checkout_date IS NULL ORDER BY u1.city;');
+                $data = DB::select('SELECT u1.city, COUNT(*) AS total_rec, ( SELECT COUNT(*) FROM hospitals AS hos1 WHERE hos1.city = u1.city ) AS tot_hos, ( SELECT ifnull(round(( ( ( SELECT sum(hos3.capacity) FROM hospitals as hos3 where hos3.city = u1.city ) - ( SELECT COUNT(*) FROM hospitalizations AS hoz2, hospitals as hos2 WHERE hoz2.hospital_id = hos2.id AND hoz2.checkout_date IS NULL and hos2.city = u1.city ) )/ ( SELECT sum(hos3.capacity) FROM hospitals as hos3 where hos3.city = u1.city ) )*100,0),0) ) AS avg_avail_beds FROM infections as inf1, users AS u1 WHERE is_recovered = 1 AND inf1.user_id = u1.id GROUP BY city ORDER BY u1.city;');
                 $data = json_encode($data);
                 $data = json_decode($data);
                 // return $data;
@@ -319,6 +311,34 @@ class StatisticsController extends Controller
                 break;
             default:
                 return null;
+        }
+    }
+
+    public function deathsReport($report_by, $names)
+    {
+        switch ($report_by) {
+            case 'City':
+                $data = DB::select('SELECT DISTINCT u1.city,
+                (SELECT COUNT(*) FROM users AS u2, infections AS inf1 WHERE u2.id=inf1.user_id AND u1.city=u2.city AND inf1.has_passed_away=1) AS "total_deaths",
+                (SELECT COUNT(*) FROM hospitals WHERE hospitals.city=u1.city) AS "total_hospitals",
+                (SELECT ROUND(AVG( hos2.capacity - (SELECT COUNT(*) FROM hospitals AS hos3, hospitalizations AS hoz2 WHERE hos3.id=hoz2.id AND hoz2.checkout_date IS NOT null ))) FROM hospitals AS hos2 WHERE hos2.city=u1.city) AS "average_available_beds"
+                FROM users AS u1, hospitals AS hos1, hospitalizations AS hoz1
+                WHERE hos1.id=hoz1.hospital_id
+                AND u1.id=hoz1.user_id
+                AND hos1.city=u1.city
+                AND hoz1.checkout_date IS NULL ORDER BY u1.city;');
+                $data = json_encode($data);
+                $data = json_decode($data);
+                // return $data;
+                return view('statistics.deaths-report', ['data_by_city' => $data, 'names' => $names, 'report_by' => $report_by, 'cities' => $this->cities]);
+                break;
+                break;
+            case 'Hospital':
+                break;
+            case 'Date':
+                break;
+            case 'Age segment':
+                break;
         }
     }
 
