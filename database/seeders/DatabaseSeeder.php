@@ -2,7 +2,6 @@
 
 namespace Database\Seeders;
 
-use App\Models\Hospital;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -20,8 +19,8 @@ class DatabaseSeeder extends Seeder
             QuestionSeeder::class,
             ArticleSeeder::class,
             CampaignSeeder::class,
-
             UserSeeder::class,
+            InfectionSeeder::class,
         ]);
     }
 }

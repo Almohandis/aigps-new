@@ -16,8 +16,10 @@ class CreateInfectionsTable extends Migration
         Schema::create('infections', function (Blueprint $table) {
             $table->id();
             $table->integer('user_id');
+            $table->integer('hospital_id')->nullable()->default(null);
             $table->date('infection_date');
             $table->boolean('is_recovered')->default(false);
+            $table->boolean('has_passed_away')->default(false);
             $table->timestamps();
         });
     }

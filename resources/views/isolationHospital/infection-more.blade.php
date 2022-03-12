@@ -35,9 +35,24 @@
                         <option value="{{ $country }}">{{ $country }}</option>
                     @endforeach
                 </select><br>
+
                 <label for="blood_type">Blood type</label>
-                <input type="text" name="blood_type" id="blood_type" class="mt-2"
-                    value="{{ $data['user']['blood_type'] }}"><br>
+                {{-- <input type="text" name="blood_type" id="blood_type" class="mt-2"
+                    value="{{ $data['user']['blood_type'] }}"><br> --}}
+
+                <select required name="blood_type" id="blood_type" id="blood_type" class="mt-2">
+                    <option selected value="{{ $data['user']['blood_type'] }}">{{ $data['user']['blood_type'] }}
+                    </option>
+                    <option value="A+">A+</option>
+                    <option value="A-">A-</option>
+                    <option value="B+">B+</option>
+                    <option value="B-">B-</option>
+                    <option value="AB+">AB+</option>
+                    <option value="AB-">AB-</option>
+                    <option value="O+">O+</option>
+                    <option value="O-">O-</option>
+                </select><br>
+
                 <label for="is_diagnosed">Has diagnosed</label>
                 <input type="text" name="is_diagnosed" id="is_diagnosed" class="mt-2"
                     value="{{ $data['user']['is_diagnosed'] }}"><br><br>
@@ -62,6 +77,28 @@
                         <input type="date" name="infections[]" id="{{ $infection['id'] }}"
                             class="mt-2 infection {{ $infection['id'] }}"
                             value="{{ $infection['infection_date'] }}">
+                        <div class="infection {{ $infection['id'] }} ">
+                            <input type="checkbox" id="{{ $infection['id'] }}" @php
+                                if ($infection['is_recovered'] == 1) {
+                                    echo 'checked';
+                                }
+                            @endphp
+                                class="mt-2 infection" onchange="checkBoxChange(this)">
+                            <input type="hidden" value="{{ $infection['is_recovered'] }}" class="infection"
+                                name="is_recovered[]">
+                            <label for="" class="infection">Recovered</label>
+                        </div>
+                        <div class="infection {{ $infection['id'] }}">
+                            <input type="checkbox" id="{{ $infection['id'] }}" @php
+                                if ($infection['has_passed_away'] == 1) {
+                                    echo 'checked';
+                                }
+                            @endphp
+                                class="mt-2 infection" onchange="checkBoxChange(this)">
+                            <input type="hidden" value="{{ $infection['has_passed_away'] }}" class="infection"
+                                name="has_passed_away[]">
+                            <label for="" class="infection">Passed away</label>
+                        </div>
                         <input type="button" id="{{ $infection['id'] }}" onclick="deleteInfection(event)"
                             class="infection {{ $infection['id'] }}" value="Delete"><br>
                     @endforeach
@@ -85,11 +122,21 @@
         }
 
         function deleteInfection(event) {
+            console.log(event.target.id);
             let elements = document.getElementsByClassName(event.target.id);
             for (let i = elements.length - 1; i >= 0; i--) {
                 if (elements[i].classList.contains('infection')) {
                     elements[i].remove();
                 }
+            }
+        }
+
+        function checkBoxChange(element) {
+            let target = element.parentElement.querySelector('input[type=hidden]');
+            if (target.value == 0) {
+                target.value = 1;
+            } else {
+                target.value = 0;
             }
         }
     </script>
