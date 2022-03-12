@@ -5,11 +5,15 @@ function scrollFunction() {
     document.getElementById("logo").style.height = "3.5rem";
     document.getElementById("title").style.marginTop = "13px";
     document.getElementById("title").style.fontSize = "22px";
+    document.getElementById("logo").style.transition = "0.5s";
+    document.getElementById("title").style.transition = "0.5s";
 
   } else {
     document.getElementById("logo").style.height = "5.5rem";
     document.getElementById("title").style.marginTop = "22px";
     document.getElementById("title").style.fontSize = "28px";
+    document.getElementById("logo").style.transition = "0.5s";
+    document.getElementById("title").style.transition = "0.5s";
   }
 } 
 function Scrolldown() {

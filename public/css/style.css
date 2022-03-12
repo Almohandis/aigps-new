@@ -1,6 +1,6 @@
 .header
 {
-    background-color: rgba(101, 89, 197, 0.65);
+    background-color: rgba(18, 16, 16, 0.65);
     position: fixed;
     font-size: 18px;
     transition: 0.2s;
@@ -24,10 +24,11 @@
 }*/
 .shadow-lg
 {
-  background-color: darkmagenta;
+  background-color: #0fb639;
 }
 .shadow-lg:hover{
-  background-color: #8d406a;
+  transition: 0.5s;
+  background-color: #007c1f;
 }
 #username
 {
@@ -88,20 +89,22 @@
   }
   .inline-flex.items-center.px-4.py-2.bg-blue-500.border.border-transparent.rounded-md.font-semibold.text-xs.text-white.uppercase.tracking-widest.hover\:bg-blue-700.active\:bg-blue-900.focus\:outline-none.focus\:border-blue-900.focus\:ring.ring-blue-300.disabled\:opacity-25.transition.ease-in-out.duration-150
   {
-    background-color: darkmagenta;
+    background-color:  #0fb639;
+    transition: 0.5s;
   }
   .inline-flex.items-center.px-4.py-2.bg-blue-500.border.border-transparent.rounded-md.font-semibold.text-xs.text-white.uppercase.tracking-widest.hover\:bg-blue-700.active\:bg-blue-900.focus\:outline-none.focus\:border-blue-900.focus\:ring.ring-blue-300.disabled\:opacity-25.transition.ease-in-out.duration-150:hover
   {
-    background-color: #8d406a;
+    background-color: #007c1f;
   }
   .text-center.bg-blue-500.text-white.text-medium.px-3.py-2.mt-3.rounded-md.shadow-sm.hover\:bg-blue-400 
   {
-    background-color: darkmagenta;
+    background-color:  #0fb639;
+    transition: 0.5s;
     cursor: pointer;
   }
   .text-center.bg-blue-500.text-white.text-medium.px-3.py-2.mt-3.rounded-md.shadow-sm.hover\:bg-blue-400:hover
   {
-    background-color: #8d406a;
+    background-color: #007c1f;
   }
 
   #removePhone {
@@ -114,7 +117,7 @@
     margin-left: 6rem;
   }
   .divide {
-    background-color: #68668b;
+    background-image: linear-gradient(to right, #9a4650, #393e65);
     height: 41px;
     margin-top: -42px;
     z-index: 0;
@@ -156,7 +159,7 @@
     text-align: center;
     line-height: 1;
     --tw-text-opacity: 1;
-    color: #a13670;
+    color: white;
     text-shadow: 2px 2px 8px #000000;
     margin-top: -40rem;
   }
@@ -165,7 +168,7 @@
     margin-left: 13rem;
     font-size: 1.5rem;
     --tw-text-opacity: 1;
-    color: #5b5a62;
+    color: #f9efef;
     text-align: left;
     margin-top: 2rem;
   }
@@ -188,6 +191,20 @@
     z-index: auto;
     position: relative;
     display: inline-block;
+  }
+  #article_button{
+    border-color: white;
+    border-width: 2px;
+    color: white;
+    background-color: rgba(0, 0, 0, 0);
+    transition: 0.5s;
+  }
+  #article_button:hover {
+    background: #ffffff;
+    color: black;
+  }
+  #reserve_button{
+    transition: 0.5s;
   }
   .awareness-img
    {
@@ -390,7 +407,7 @@
     }
     footer
     {
-      background-color: #632d63;
+      background-color: #102745;
       height: 65px;
       color: whitesmoke;
       text-align: center;

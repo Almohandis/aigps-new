@@ -3,8 +3,8 @@
 
 <script src="{{ asset('js/header.js') }}" defer></script>
     <video class="back-video" width="1000" height="100" loop autoplay muted>
-        <source src="Vaccine2.mp4" type="video/mp4">
-        <source src="Vaccine2.ogg" type="video/ogg">
+        <source src="Vaccine Dusk.mp4" type="video/mp4">
+        <source src="Vaccine Dusk.ogg" type="video/ogg">
     </video>
     
         
@@ -22,12 +22,12 @@
             </p>
 
             <div class="reserve_button">
-                <a href="/reserve" class="mx-auto mt-8 text-center bg-blue-500 text-white text-lg font-semibold px-4 py-2 rounded-lg shadow-lg hover:bg-blue-400">
+                <a href="/reserve" id="reserve_button" class="mx-auto mt-8 text-center bg-blue-500 text-white text-lg font-semibold px-4 py-2 rounded-lg shadow-lg hover:bg-blue-400">
                     Reserve Vaccination
                 </a>
             </div>
         <div class="article_button">
-                <a class="mx-auto mt-8 text-center bg-blue-500 text-white text-lg font-semibold px-4 py-2 rounded-lg shadow-lg hover:bg-blue-400" id="article_button" onclick="viewArticles()">
+                <a class="mx-auto mt-8 text-center bg-blue-500 text-white text-lg font-semibold px-4 py-2 rounded-lg border" id="article_button" onclick="viewArticles()">
                     Read Articles >>
                 </a>
         </div>
