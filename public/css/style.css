@@ -440,6 +440,13 @@
       height: 30rem; 
       margin-left: 26rem;
     }
+    .second-header {
+      margin-top: -283px;
+    }
+    #appointments{
+      background-color: aliceblue;
+      width: 57rem;
+    }
     .fourth-header
     {
       margin-top: -26px;
