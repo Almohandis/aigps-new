@@ -547,5 +547,14 @@
     {
       font-size: 18px;
     }
-    
-    
+    #generate-btn
+    {
+      border-width: 2px;
+      border-color: #3d3dd4;
+      height: 3rem;
+      width: 9rem;
+    }
+    #generate-btn:hover{
+      background-color: #3d3dd4;
+      color: white;
+    }
