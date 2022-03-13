@@ -447,6 +447,21 @@
       background-color: aliceblue;
       width: 57rem;
     }
+    .cancel-appointment
+    {
+      background-color: crimson;
+      border-radius: 5px;
+      width: 77px;
+      text-align: center;
+    }
+    #cancel
+    {
+      color: white;
+    }
+    #appointment_list
+    {
+      margin-left: 18rem;
+    }
     .fourth-header
     {
       margin-top: -26px;
