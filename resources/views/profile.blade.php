@@ -1,8 +1,5 @@
 <x-base-layout>
     <div class="mt-6">
-        <h1 class="ml-5 text-left text-4xl text-white" style="text-shadow: 2px 2px 8px #000000;">
-            My profile
-        </h1>
 
         @if (session('message'))
             <div class="alert alert-danger">

@@ -91,6 +91,8 @@
   {
     background-color:  #0fb639;
     transition: 0.5s;
+    margin-left: 26rem;
+    margin-top: 3rem;
   }
   .inline-flex.items-center.px-4.py-2.bg-blue-500.border.border-transparent.rounded-md.font-semibold.text-xs.text-white.uppercase.tracking-widest.hover\:bg-blue-700.active\:bg-blue-900.focus\:outline-none.focus\:border-blue-900.focus\:ring.ring-blue-300.disabled\:opacity-25.transition.ease-in-out.duration-150:hover
   {
@@ -110,6 +112,10 @@
   #removePhone {
     cursor: pointer;
     background-color: darkgray;
+    width: 10rem;
+    float: right;
+    margin-top: 1rem;
+    margin-left: 35rem;
   }
   .flex.flex-col.mt-4.md\:flex-row.md\:space-x-8.md\:mt-0.md\:text-sm.md\:font-medium {
     color: white;
@@ -497,17 +503,16 @@
       margin-top: 12px;
     }
     #mobile{
-      width: 30rem;
+      width: 25rem;
+      height: 2rem;
+    }
+    #telephone_number {
+      height: 2.5rem;
     }
     #addphone{
       width: 10rem;
       float: right;
-      margin-top: -4rem;
-    }
-    #removePhone{
-      width: 10rem;
-      float: right;
-      margin-top: -1rem;
+      margin-top: -2rem;
     }
     #birthdate{
       height: 3rem;
@@ -517,6 +522,30 @@
     }
     #gender{
       margin-left: 9.25rem;
+    }
+    #address-label
+    {
+      font-size: 18px;
+    }
+    #country-label
+    {
+      font-size: 18px;
+    }
+    #tele-label
+    {
+      font-size: 18px;
+    }
+    #birth-label
+    {
+      font-size: 18px;
+    }
+    #gender-label
+    {
+      font-size: 18px;
+    }
+    #mobile-label
+    {
+      font-size: 18px;
     }
     
     
