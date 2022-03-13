@@ -26,7 +26,7 @@
                         <th>Telephone number</th>
                         <th>Blood type</th>
                         <th>Diagnose status</th>
-                        <th></th>
+                        <th colspan="3">Actions</th>
                     </tr>
                     @foreach ($patients as $patient)
                         <form method="POST" action="/staff/isohospital/infection/save/{{ $patient->national_id }}">
@@ -53,6 +53,7 @@
                                         data-id="{{ $patient->id++ }}"
                                         data-patient_id="{{ $patient->national_id }}" value="Save">
                                 </td>
+                                <td><a href="{{ route('infection-checkout', $patient->national_id) }}">Check out</a></td>
                                 <td><a href="{{ route('infection-more', $patient->national_id) }}">More</a></td>
                             </tr>
                         </form>

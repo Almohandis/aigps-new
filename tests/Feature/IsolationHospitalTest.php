@@ -64,36 +64,37 @@ test('isolation hospital can access isolation hospital page', function () {
 });
 
 //# Isolation hospital can modify hospital statistics
-test('isolation hospital can modify hospital statistics', function () {
+//# This route has been disabled
+// test('isolation hospital can modify hospital statistics', function () {
 
-    $response = $this->post('/staff/isohospital/update', [
-        'hospital' => 1,
-        'total_capacity' => 100,
-        "care_beds" => 60,
-        'avail_care_beds' => 50,
-        'available_beds' => 30,
-        'recoveries' => 10,
-        'deaths' => 5,
-    ]);
+//     // $response = $this->post('/staff/isohospital/update', [
+//     //     'hospital' => 1,
+//     //     'total_capacity' => 100,
+//     //     "care_beds" => 60,
+//     //     'avail_care_beds' => 50,
+//     //     'available_beds' => 30,
+//     //     'recoveries' => 10,
+//     //     'deaths' => 5,
+//     // ]);
 
-    $care_beds = Hospital::find(1)->care_beds;
-    $available_beds = Hospital::find(1)->available_beds;
-    $total_capacity = Hospital::find(1)->capacity;
+//     // $care_beds = Hospital::find(1)->care_beds;
+//     // $available_beds = Hospital::find(1)->available_beds;
+//     // $total_capacity = Hospital::find(1)->capacity;
 
-    if (!($care_beds + $available_beds == 100)) {
-        $this->assertGreaterThan($care_beds + $available_beds, $total_capacity);
-    }
+//     // if (!($care_beds + $available_beds == 100)) {
+//     //     $this->assertGreaterThan($care_beds + $available_beds, $total_capacity);
+//     // }
 
 
-    $this->assertEquals(Hospital::find($this->user->hospital_id)->capacity, 100);
-    $this->assertEquals(Hospital::find($this->user->hospital_id)->care_beds, 60);
-    $this->assertEquals(Hospital::find($this->user->hospital_id)->avail_care_beds, 50);
-    $this->assertEquals(Hospital::find($this->user->hospital_id)->available_beds, 30);
-    $this->assertEquals(Hospital::find($this->user->hospital_id)->statistics()->first()->recoveries, 10);
-    $this->assertEquals(Hospital::find($this->user->hospital_id)->statistics()->first()->deaths, 5);
+//     // $this->assertEquals(Hospital::find($this->user->hospital_id)->capacity, 100);
+//     // $this->assertEquals(Hospital::find($this->user->hospital_id)->care_beds, 60);
+//     // $this->assertEquals(Hospital::find($this->user->hospital_id)->avail_care_beds, 50);
+//     // $this->assertEquals(Hospital::find($this->user->hospital_id)->available_beds, 30);
+//     // $this->assertEquals(Hospital::find($this->user->hospital_id)->statistics()->first()->recoveries, 10);
+//     // $this->assertEquals(Hospital::find($this->user->hospital_id)->statistics()->first()->deaths, 5);
 
-    $response->assertRedirect('/staff/isohospital/modify');
-});
+//     // $response->assertRedirect('/staff/isohospital/modify');
+// });
 
 //# Isolation hospital can access patient's data modification page
 test('isolation hospital can access patient\'s data modification page', function () {

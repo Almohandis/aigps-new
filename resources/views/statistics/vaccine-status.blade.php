@@ -28,24 +28,27 @@
                 <select name="report_by" id="report-by"></select>
                 <button type="submit" id="generate-btn" class="btn btn-primary">Generate report</button>
             </form>
-            @if (isset($data_by_question))
+            @if (isset($data_by_vaccine_status))
                 <table>
                     <tr>
-                        <th>Question title</th>
-                        <th>Answered No</th>
-                        <th>Answered Yes</th>
+                        <th>Vaccine status category</th>
+                        <th>Number of males</th>
+                        <th>Male percentage</th>
+                        <th>Number of female</th>
+                        <th>Female percentage</th>
+                        <th>Total</th>
                     </tr>
-                    @for ($i = 0; $i < count($data_by_question); $i++)
+                    @foreach ($data_by_vaccine_status as $status)
                         <tr>
-                            <td>{{ $data_by_question[$i]->title }}</td>
-                            <td>{{ $data_by_question[$i]->no }}</td>
-                            <td>{{ $data_by_question[$i]->yes }}</td>
+                            <td>{{ $status->vac_status }}</td>
+                            <td>{{ $status->male_count }}</td>
+                            <td>{{ $status->male_pcnt }}</td>
+                            <td>{{ $status->female_count }}</td>
+                            <td>{{ $status->female_pcnt }}</td>
+                            <td>{{ $status->total }}</td>
                         </tr>
-                    @endfor
+                    @endforeach
                 </table>
-            @elseif(isset($data_by_age))
-
-            @elseif(isset($data_by_blood))
             @endif
         </div>
     </div>

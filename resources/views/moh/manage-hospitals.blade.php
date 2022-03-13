@@ -51,9 +51,9 @@
                             <td>{{ $hospital->name }}</td>
                             <td>{{ $hospital->city }}</td>
                             <td>{{ $hospital->capacity }}</td>
-                            <td>{{ $hospital->care_beds }}</td>
+                            {{-- <td>{{ $hospital->care_beds }}</td>
                             <td>{{ $hospital->avail_care_beds }}</td>
-                            <td>{{ $hospital->available_beds }}</td>
+                            <td>{{ $hospital->available_beds }}</td> --}}
                             <td><input type="number" min="0" max="1" name="is_isolation[]"
                                     value="{{ $hospital->is_isolation }}"> </td>
                         </tr>

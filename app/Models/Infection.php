@@ -11,7 +11,9 @@ class Infection extends Model
 
     protected $fillable = [
         'user_id',
+        'hospital_id',
         'infection_date',
         'is_recovered',
+        'has_passed_away',
     ];
 }
