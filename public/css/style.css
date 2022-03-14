@@ -120,7 +120,7 @@
   .flex.flex-col.mt-4.md\:flex-row.md\:space-x-8.md\:mt-0.md\:text-sm.md\:font-medium {
     color: white;
     font-size: 18px;
-    margin-left: 6rem;
+    margin-left: 2rem;
   }
   .divide {
     background-image: linear-gradient(to right, #9a4650, #393e65);
@@ -459,6 +459,13 @@
       border-radius: 5px;
       width: 77px;
       text-align: center;
+      margin-bottom: 27px;
+      margin-top: -35px;
+      margin-left: 51rem;
+    }
+    #appoint
+    {
+      margin-left: 14rem;
     }
     #cancel
     {
