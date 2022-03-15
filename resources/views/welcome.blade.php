@@ -3,10 +3,9 @@
 
     <script src="{{ asset('js/header.js') }}" defer></script>
     <video class="back-video" width="1000" height="100" loop autoplay muted>
-        <source src="Vaccine2.mp4" type="video/mp4">
-        <source src="Vaccine2.ogg" type="video/ogg">
+        <source src="Vaccine Dusk.mp4" type="video/mp4">
+        <source src="Vaccine Dusk.ogg" type="video/ogg">
     </video>
-
 
     <h1 class="project-name" style="text-shadow: 2px 2px 8px #000000;">AIGPS</h1>
     <p class="type">

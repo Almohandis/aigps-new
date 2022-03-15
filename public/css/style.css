@@ -1,6 +1,6 @@
 .header
 {
-    background-color: rgba(101, 89, 197, 0.65);
+    background-color: rgba(18, 16, 16, 0.65);
     position: fixed;
     font-size: 18px;
     transition: 0.2s;
@@ -24,10 +24,11 @@
 }*/
 .shadow-lg
 {
-  background-color: darkmagenta;
+  background-color: #0fb639;
 }
 .shadow-lg:hover{
-  background-color: #8d406a;
+  transition: 0.5s;
+  background-color: #007c1f;
 }
 #username
 {
@@ -88,33 +89,41 @@
   }
   .inline-flex.items-center.px-4.py-2.bg-blue-500.border.border-transparent.rounded-md.font-semibold.text-xs.text-white.uppercase.tracking-widest.hover\:bg-blue-700.active\:bg-blue-900.focus\:outline-none.focus\:border-blue-900.focus\:ring.ring-blue-300.disabled\:opacity-25.transition.ease-in-out.duration-150
   {
-    background-color: darkmagenta;
+    background-color:  #0fb639;
+    transition: 0.5s;
+    margin-left: 26rem;
+    margin-top: 3rem;
   }
   .inline-flex.items-center.px-4.py-2.bg-blue-500.border.border-transparent.rounded-md.font-semibold.text-xs.text-white.uppercase.tracking-widest.hover\:bg-blue-700.active\:bg-blue-900.focus\:outline-none.focus\:border-blue-900.focus\:ring.ring-blue-300.disabled\:opacity-25.transition.ease-in-out.duration-150:hover
   {
-    background-color: #8d406a;
+    background-color: #007c1f;
   }
   .text-center.bg-blue-500.text-white.text-medium.px-3.py-2.mt-3.rounded-md.shadow-sm.hover\:bg-blue-400 
   {
-    background-color: darkmagenta;
+    background-color:  #0fb639;
+    transition: 0.5s;
     cursor: pointer;
   }
   .text-center.bg-blue-500.text-white.text-medium.px-3.py-2.mt-3.rounded-md.shadow-sm.hover\:bg-blue-400:hover
   {
-    background-color: #8d406a;
+    background-color: #007c1f;
   }
 
   #removePhone {
     cursor: pointer;
     background-color: darkgray;
+    width: 10rem;
+    float: right;
+    margin-top: 1rem;
+    margin-left: 35rem;
   }
   .flex.flex-col.mt-4.md\:flex-row.md\:space-x-8.md\:mt-0.md\:text-sm.md\:font-medium {
     color: white;
-    font-size: 16px;
-    margin-left: 6rem;
+    font-size: 18px;
+    margin-left: 2rem;
   }
   .divide {
-    background-color: #68668b;
+    background-image: linear-gradient(to right, #9a4650, #393e65);
     height: 41px;
     margin-top: -42px;
     z-index: 0;
@@ -156,7 +165,7 @@
     text-align: center;
     line-height: 1;
     --tw-text-opacity: 1;
-    color: #a13670;
+    color: white;
     text-shadow: 2px 2px 8px #000000;
     margin-top: -40rem;
   }
@@ -165,7 +174,7 @@
     margin-left: 13rem;
     font-size: 1.5rem;
     --tw-text-opacity: 1;
-    color: #5b5a62;
+    color: #f9efef;
     text-align: left;
     margin-top: 2rem;
   }
@@ -188,6 +197,20 @@
     z-index: auto;
     position: relative;
     display: inline-block;
+  }
+  #article_button{
+    border-color: white;
+    border-width: 2px;
+    color: white;
+    background-color: rgba(0, 0, 0, 0);
+    transition: 0.5s;
+  }
+  #article_button:hover {
+    background: #ffffff;
+    color: black;
+  }
+  #reserve_button{
+    transition: 0.5s;
   }
   .awareness-img
    {
@@ -390,7 +413,7 @@
     }
     footer
     {
-      background-color: #632d63;
+      background-color: #102745;
       height: 65px;
       color: whitesmoke;
       text-align: center;
@@ -410,6 +433,7 @@
     .text-justify {
       text-align: justify;
       margin-top: 90px;
+      width: 71%;
     }
     
     .footer-logo
@@ -422,6 +446,35 @@
       margin-top: -14px; 
       height: 30rem; 
       margin-left: 26rem;
+    }
+    .second-header {
+      margin-top: -283px;
+    }
+    #appointments{
+      background-color: aliceblue;
+      width: 57rem;
+    }
+    .cancel-appointment
+    {
+      background-color: crimson;
+      border-radius: 5px;
+      width: 77px;
+      text-align: center;
+      margin-bottom: 27px;
+      margin-top: -35px;
+      margin-left: 51rem;
+    }
+    #appoint
+    {
+      margin-left: 14rem;
+    }
+    #cancel
+    {
+      color: white;
+    }
+    #appointment_list
+    {
+      margin-left: 18rem;
     }
     .fourth-header
     {
@@ -458,17 +511,16 @@
       margin-top: 12px;
     }
     #mobile{
-      width: 30rem;
+      width: 25rem;
+      height: 2rem;
+    }
+    #telephone_number {
+      height: 2.5rem;
     }
     #addphone{
       width: 10rem;
       float: right;
-      margin-top: -4rem;
-    }
-    #removePhone{
-      width: 10rem;
-      float: right;
-      margin-top: -1rem;
+      margin-top: -2rem;
     }
     #birthdate{
       height: 3rem;
@@ -479,5 +531,38 @@
     #gender{
       margin-left: 9.25rem;
     }
-    
-    
+    #address-label
+    {
+      font-size: 18px;
+    }
+    #country-label
+    {
+      font-size: 18px;
+    }
+    #tele-label
+    {
+      font-size: 18px;
+    }
+    #birth-label
+    {
+      font-size: 18px;
+    }
+    #gender-label
+    {
+      font-size: 18px;
+    }
+    #mobile-label
+    {
+      font-size: 18px;
+    }
+    #generate-btn
+    {
+      border-width: 2px;
+      border-color: #3d3dd4;
+      height: 3rem;
+      width: 9rem;
+    }
+    #generate-btn:hover{
+      background-color: #3d3dd4;
+      color: white;
+    }
