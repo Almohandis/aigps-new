@@ -91,8 +91,39 @@
   {
     background-color:  #0fb639;
     transition: 0.5s;
-    margin-left: 26rem;
-    margin-top: 3rem;
+    font-size: 17px;
+  }
+  .back-btn{
+    transition: 0.5s;
+    background-color: #356cb2;
+    height: 2rem;
+    width: 6rem;
+    font-size: 17px;
+    color: white;
+    border-radius: 6px;
+    margin-top: 6rem;
+    margin-left: 4rem;
+  }
+  .back-btn:hover
+  {
+    background-color:  #18375d;
+  }
+  .cancel-btn
+  {
+    transition: 0.5s;
+    background-color: crimson;
+    height: 2rem;
+    width: 6rem;
+    font-size: 17px;
+    color: white;
+    border-radius: 6px;
+    margin-left: 2rem;
+
+  }
+  .cancel-btn:hover
+  {
+    background-color:  #6c0f22;
+
   }
   .inline-flex.items-center.px-4.py-2.bg-blue-500.border.border-transparent.rounded-md.font-semibold.text-xs.text-white.uppercase.tracking-widest.hover\:bg-blue-700.active\:bg-blue-900.focus\:outline-none.focus\:border-blue-900.focus\:ring.ring-blue-300.disabled\:opacity-25.transition.ease-in-out.duration-150:hover
   {
@@ -115,7 +146,12 @@
     width: 10rem;
     float: right;
     margin-top: 1rem;
-    margin-left: 35rem;
+    margin-right: 12rem;
+    transition: 0.5s;
+  }
+  #removePhone:hover
+  {
+    background-color: #615e5e;
   }
   .flex.flex-col.mt-4.md\:flex-row.md\:space-x-8.md\:mt-0.md\:text-sm.md\:font-medium {
     color: white;
@@ -506,34 +542,81 @@
     #reservation-form
     {
       text-align: justify;
-      width: 50rem;
+      width: 100%;
       transform: scale(0.92);
       margin-top: 12px;
     }
     #mobile{
-      width: 25rem;
-      height: 2rem;
+      width: 24rem;
+      height: 2.5rem;
+      margin-left: 10rem;
+      margin-top: -2rem;
+    }
+    #mobile-div {
+      margin-left: 6rem;
     }
     #telephone_number {
       height: 2.5rem;
+      width: 24rem;
+      margin-left: 11rem;
+      margin-top: -2rem;
     }
     #addphone{
       width: 10rem;
       float: right;
-      margin-top: -2rem;
+      margin-top: -2.5rem;
+      margin-right: 12rem;
     }
     #birthdate{
       height: 3rem;
+      width: 17rem;
+      text-align: center;
+      margin-left: 6rem;
+      margin-top: -2rem;
+    }
+    #birth-div {
+      margin-left: 57rem;
+      margin-top: -2rem;
     }
     #form-submit {
       margin-top: 3rem;
     }
     #gender{
-      margin-left: 9.25rem;
+      margin-left: 10.25rem;
+      height: 1.5rem;
+      width: 1.5rem;
+    }
+    #gender-div {
+      margin-left: 6rem;
+    }
+    #gender-type
+    {
+      font-size: 16px;
+      color: white;
+    }
+    #address
+    {
+        width: 30rem;
+        margin-left: 5rem;
+        margin-top: -2rem; 
+    }
+    #address-div {
+      margin-left: 6rem;
+      margin-top: 3rem;
     }
     #address-label
     {
       font-size: 18px;
+    }
+    #country{
+      width: 17rem;
+      margin-left: 5rem;
+      margin-top: -2rem;
+      border-radius: 5px;
+    }
+    .country-div{
+      margin-left: 58rem;
+      margin-top: -2rem;
     }
     #country-label
     {
@@ -542,6 +625,9 @@
     #tele-label
     {
       font-size: 18px;
+    }
+    #tele-div {
+      margin-left: 6rem;
     }
     #birth-label
     {
@@ -565,4 +651,10 @@
     #generate-btn:hover{
       background-color: #3d3dd4;
       color: white;
+    }
+    #next-btn
+    {
+      width: 5px;
+      margin-right: 8rem;
+      margin-top: -3.5rem;
     }
