@@ -310,8 +310,29 @@
     }
     .inline-block.text-center.text-xl.bg-blue-500.font-bold.rounded-full.text-white.w-8.h-8.pt-1
     {
-      background-color: #cd63cd;
+      background-color: #0fb639;
   
+    }
+    #l1
+    {
+      margin-left: -0.25rem;
+      width: 8rem;
+      margin-bottom: 6px;
+    }
+    #l2
+    {
+      margin-left: -0.25rem;
+      width: 8rem;
+      background-color: #0fb639;
+      margin-bottom: 6px;
+    }
+    #c2 {
+      margin-left: -1.1rem;
+    }
+    #c3
+    {
+      margin-left: -1.1rem;
+      background-color: #0fb639;
     }
     .inline-block.text-center.text-xl.bg-white.font-bold.rounded-full.text-blue-500.w-8.h-8.pt-1
     {
