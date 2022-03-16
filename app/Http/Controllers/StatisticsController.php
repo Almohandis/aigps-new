@@ -253,7 +253,7 @@ class StatisticsController extends Controller
     {
         switch ($report_by) {
             case 'City':
-                $data = DB::select('SELECT u1.city, (select COUNT(*) from infections as inf1,users as u2 where inf1.is_recovered=1 and inf1.user_id=u2.id AND u1.city=u2.city )AS total_rec, ( SELECT COUNT(*) FROM hospitals AS hos1 WHERE hos1.city = u1.city ) AS tot_hos, ( SELECT ifnull( round( ( ( ( SELECT sum(hos3.capacity) FROM hospitals as hos3 where hos3.city = u1.city ) - ( SELECT COUNT(*) FROM hospitalizations AS hoz2, hospitals as hos2 WHERE hoz2.hospital_id = hos2.id AND hoz2.checkout_date IS NULL and hos2.city = u1.city ) )/ ( SELECT count(*) FROM hospitals as hos3 where hos3.city = u1.city ) ), 0 ), 0 ) ) AS avg_avail_beds FROM users AS u1 GROUP BY city ORDER BY u1.city;');
+                $data = DB::select('SELECT u1.city, ( SELECT COUNT(*) FROM recoveries_id, users AS u2 WHERE u2.id = recoveries_id.id AND u2.city = u1.city ) as total_rec, ( SELECT COUNT(*) FROM recoveries_id, users AS u2 WHERE u2.gender = "Male" AND recoveries_id.id = u2.id AND u1.city = u2.city ) AS male_count, Round( ifnull( ( SELECT male_count / total_rec * 100 ), 0 ), 1 ) as male_pcnt, ( SELECT COUNT(*) FROM recoveries_id, users AS u2 WHERE u2.gender = "Female" AND recoveries_id.id = u2.id AND u1.city = u2.city ) AS female_count, Round( ifnull( ( SELECT female_count / total_rec * 100 ), 0 ), 1 ) as female_pcnt, ( SELECT COUNT(*) FROM hospitals AS hos1 WHERE hos1.city = u1.city ) AS tot_hos, ( SELECT ifnull( round( ( ( ( SELECT sum(hos3.capacity) FROM hospitals as hos3 where hos3.city = u1.city ) - ( SELECT COUNT(*) FROM hospitalizations AS hoz2, hospitals as hos2 WHERE hoz2.hospital_id = hos2.id AND hoz2.checkout_date IS NULL and hos2.city = u1.city ) )/ ( SELECT count(*) FROM hospitals as hos3 where hos3.city = u1.city ) ), 0 ), 0 ) ) AS avg_avail_beds FROM users AS u1 GROUP BY u1.city ORDER BY u1.city;');
                 $data = json_encode($data);
                 $data = json_decode($data);
                 // return $data;
@@ -319,7 +319,7 @@ class StatisticsController extends Controller
     {
         switch ($report_by) {
             case 'City':
-                $data = DB::select('SELECT u1.city, (select COUNT(*) from infections as inf1,users as u2 where inf1.has_passed_away=1 and inf1.user_id=u2.id AND u1.city=u2.city )AS total_deaths, ( SELECT COUNT(*) FROM hospitals AS hos1 WHERE hos1.city = u1.city ) AS total_hospitals, ( SELECT ifnull( round( ( ( ( SELECT sum(hos3.capacity) FROM hospitals as hos3 where hos3.city = u1.city ) - ( SELECT COUNT(*) FROM hospitalizations AS hoz2, hospitals as hos2 WHERE hoz2.hospital_id = hos2.id AND hoz2.checkout_date IS NULL and hos2.city = u1.city ) )/ ( SELECT count(*) FROM hospitals as hos3 where hos3.city = u1.city ) ), 0 ), 0 ) ) AS average_available_beds FROM users AS u1 GROUP BY city ORDER BY u1.city;');
+                $data = DB::select('SELECT u1.city, ( SELECT COUNT(*) FROM deaths_id, users AS u2 WHERE u2.id = deaths_id.id AND u2.city = u1.city ) as total_deaths, ( SELECT COUNT(*) FROM deaths_id, users AS u2 WHERE u2.gender = "Male" AND deaths_id.id = u2.id AND u1.city = u2.city ) AS male_count, Round( ifnull( ( SELECT male_count / total_deaths * 100 ), 0 ), 1 ) as male_pcnt, ( SELECT COUNT(*) FROM deaths_id, users AS u2 WHERE u2.gender = "Female" AND deaths_id.id = u2.id AND u1.city = u2.city ) AS female_count, Round( ifnull( ( SELECT female_count / total_deaths * 100 ), 0 ), 1 ) as female_pcnt, ( SELECT COUNT(*) FROM hospitals AS hos1 WHERE hos1.city = u1.city ) AS tot_hos, ( SELECT ifnull( round( ( ( ( SELECT sum(hos3.capacity) FROM hospitals as hos3 where hos3.city = u1.city ) - ( SELECT COUNT(*) FROM hospitalizations AS hoz2, hospitals as hos2 WHERE hoz2.hospital_id = hos2.id AND hoz2.checkout_date IS NULL and hos2.city = u1.city ) )/ ( SELECT count(*) FROM hospitals as hos3 where hos3.city = u1.city ) ), 0 ), 0 ) ) AS avg_avail_beds FROM users AS u1 GROUP BY u1.city ORDER BY u1.city;');
                 $data = json_encode($data);
                 $data = json_decode($data);
                 // return $data;
@@ -407,6 +407,19 @@ class StatisticsController extends Controller
         }
     }
 
+    public function infectionsReport($report_by, $names)
+    {
+        switch ($report_by) {
+            case 'City':
+                $data = DB::select('SELECT u1.city, ( SELECT COUNT(*) FROM infections_id, users AS u2 WHERE u2.id = infections_id.id AND u2.city = u1.city ) as total_infections, ( SELECT COUNT(*) FROM infections_id, users AS u2 WHERE u2.gender = "Male" AND infections_id.id = u2.id AND u1.city = u2.city ) AS male_count, Round( ifnull( ( SELECT male_count / total_infections * 100 ), 0 ), 1 ) as male_pcnt, ( SELECT COUNT(*) FROM infections_id, users AS u2 WHERE u2.gender = "Female" AND infections_id.id = u2.id AND u1.city = u2.city ) AS female_count, Round( ifnull( ( SELECT female_count / total_infections * 100 ), 0 ), 1 ) as female_pcnt, ( SELECT COUNT(*) FROM hospitals AS hos1 WHERE hos1.city = u1.city ) AS tot_hos, ( SELECT ifnull( round( ( ( ( SELECT sum(hos3.capacity) FROM hospitals as hos3 where hos3.city = u1.city ) - ( SELECT COUNT(*) FROM hospitalizations AS hoz2, hospitals as hos2 WHERE hoz2.hospital_id = hos2.id AND hoz2.checkout_date IS NULL and hos2.city = u1.city ) )/ ( SELECT count(*) FROM hospitals as hos3 where hos3.city = u1.city ) ), 0 ), 0 ) ) AS avg_avail_beds FROM users AS u1 GROUP BY u1.city;');
+                $data = json_encode($data);
+                $data = json_decode($data);
+                // return $data;
+                return view('statistics.infections-report', ['data_by_city' => $data, 'names' => $names, 'report_by' => $report_by, 'cities' => $this->cities]);
+                break;
+        }
+    }
+
     public function generateReports($report_name, $report_by, $names)
     {
         switch ($report_name) {
@@ -432,7 +445,7 @@ class StatisticsController extends Controller
                 return $this->distributionOfHospitals($report_by, $names);
                 break;
             case 'Infections and their relatives':
-                return $this->infectionsAndTheirRelatives($report_by, $names);
+                return $this->infectionsReport($report_by, $names);
                 break;
             case 'Distribution of chronic diseases':
                 return $this->distributionOfChronicDiseases($report_by, $names);

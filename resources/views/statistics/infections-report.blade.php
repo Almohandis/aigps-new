@@ -36,7 +36,7 @@
                         <th>Males percentage</th>
                         <th>Number of females</th>
                         <th>Females percentage</th>
-                        <th>Total number of deaths</th>
+                        <th>Total number of infections</th>
                         <th>Total hospitals</th>
                         <th>Average available beds</th>
                     </tr>
@@ -49,7 +49,7 @@
                                     <td>{{ $data_by_city[$j]->male_pcnt }}</td>
                                     <td>{{ $data_by_city[$j]->female_count }}</td>
                                     <td>{{ $data_by_city[$j]->female_pcnt }}</td>
-                                    <td>{{ $data_by_city[$j]->total_deaths }}</td>
+                                    <td>{{ $data_by_city[$j]->total_infections }}</td>
                                     <td>{{ $data_by_city[$j]->tot_hos }}</td>
                                     <td>{{ $data_by_city[$j]->avg_avail_beds }}</td>
                                     @php $j++ @endphp
@@ -79,14 +79,14 @@
                     <tr>
                         <th>Hospital name</th>
                         <th>City</th>
-                        <th>Total deaths</th>
+                        <th>Total recoveries</th>
                         <th>Available beds</th>
                     </tr>
                     @foreach ($data_by_hospital as $hospital)
                         <tr>
                             <td>{{ $hospital->name }}</td>
                             <td>{{ $hospital->city }}</td>
-                            <td>{{ $hospital->total_deaths }}</td>
+                            <td>{{ $hospital->total_recoveries }}</td>
                             <td>{{ $hospital->avail_beds }}</td>
                         </tr>
                     @endforeach
@@ -94,16 +94,16 @@
             @elseif(isset($data_by_date))
                 <table>
                     <tr>
-                        <th colspan="2">Total number of deaths starting from {{ $date }} until now</th>
+                        <th colspan="2">Total number of recoveries starting from {{ $date }} until now</th>
                     </tr>
                     <tr>
                         <th>Date</th>
-                        <th>Total deaths</th>
+                        <th>Total recoveries</th>
                     </tr>
                     @foreach ($data_by_date as $date)
                         <tr>
                             <td>{{ $date->infection_date }}</td>
-                            <td>{{ $date->total_deaths }}</td>
+                            <td>{{ $date->total_rec }}</td>
                         </tr>
                     @endforeach
                 </table>
@@ -111,7 +111,7 @@
                 <table>
                     <tr>
                         <th>Age segment</th>
-                        <th>Total deaths</th>
+                        <th>Total recoveries</th>
                         <th>Number of males</th>
                         <th>Male percentage</th>
                         <th>Number of females</th>
