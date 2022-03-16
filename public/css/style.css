@@ -744,6 +744,7 @@
     margin-left: 2rem;
     font-weight: 300;
     text-transform: uppercase;
+    padding-top: 1rem;
   }
   .staff-hero
   {
@@ -772,7 +773,7 @@
   }
   .add-staff
   {
-    background: linear-gradient(to right, #25c481, #25b7c4);
-    color: white;
-    height: 8rem;
+    box-shadow: 0 .5rem 1.5rem rgba(0,0,0,.1);
+    background: #fff;
+    height: 10rem;
   }
