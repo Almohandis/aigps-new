@@ -397,6 +397,13 @@ class StatisticsController extends Controller
                 // return $data;
                 return view('statistics.distribution-of-hospitals', ['data_by_city' => $data, 'names' => $names, 'report_by' => $report_by, 'cities' => $this->cities]);
                 break;
+            case 'Hospital':
+                $data = DB::select('SELECT hos1.name, hos1.city, IF( hos1.is_isolation=0,"No","Yes") AS is_iso, hos1.capacity, ( SELECT hos1.capacity - ( SELECT COUNT(*) FROM hospitals AS hos2, users AS u1, hospitalizations AS hoz1 WHERE hos2.id = hoz1.hospital_id AND u1.id = hoz1.user_id AND hos2.id = hos1.id AND hoz1.checkout_date IS NULL ) ) AS avail_beds FROM hospitals AS hos1;');
+                $data = json_encode($data);
+                $data = json_decode($data);
+                // return $data;
+                return view('statistics.distribution-of-hospitals', ['data_by_hospital' => $data, 'names' => $names, 'report_by' => $report_by]);
+                break;
         }
     }
 
