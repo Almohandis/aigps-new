@@ -123,20 +123,20 @@
                 <table>
                     <tr>
                         <th>Age segment</th>
-                        <th>Total recoveries</th>
                         <th>Number of males</th>
                         <th>Male percentage</th>
                         <th>Number of females</th>
                         <th>Female percentage</th>
+                        <th>Total infections</th>
                     </tr>
                     @foreach ($data_by_age as $segment)
                         <tr>
-                            <td>{{ $segment->Age }}</td>
-                            <td>{{ $segment->Total }}</td>
-                            <td>{{ $segment->Male }}</td>
+                            <td>{{ $segment->age }}</td>
+                            <td>{{ $segment->male }}</td>
                             <td>{{ $segment->male_pcnt }}</td>
-                            <td>{{ $segment->Female }}</td>
+                            <td>{{ $segment->female }}</td>
                             <td>{{ $segment->female_pcnt }}</td>
+                            <td>{{ $segment->total }}</td>
                         </tr>
                     @endforeach
                 </table>
