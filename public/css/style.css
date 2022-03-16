@@ -91,7 +91,7 @@
   {
     background-color:  #0fb639;
     transition: 0.5s;
-    font-size: 17px;
+    font-size: 14px;
   }
   .back-btn{
     transition: 0.5s;
@@ -771,6 +771,22 @@
   {
       background-color: #007c1f;
   }
+  .update-btn5 {
+    float: right;
+    margin-top: -0.5rem;
+    background-color: #0fb639;
+    color: white;
+    width: 5rem;
+    height: 2.3rem;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.5s;
+    margin-right: 3rem;
+  }
+  .update-btn5:hover
+  {
+      background-color: #007c1f;
+  }
   .add-hero
   {
     margin-top: 6rem;
@@ -825,4 +841,26 @@
     background: #fff;
     height: 15rem;
     margin-bottom: 3rem;
+  }
+  .add-campaign
+  {
+    box-shadow: 0 .5rem 1.5rem rgba(0,0,0,.1);
+    background: #fff;
+    height: auto;
+    margin-bottom: 3rem;
+  }
+  .add-doc-btn {
+    background-color: #0fb639;
+    color: white;
+    width: 6rem;
+    height: 2.3rem;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.5s;
+    margin-right: 3rem;
+    margin-bottom: 2rem;
+  }
+  .add-doc-btn:hover
+  {
+      background-color: #007c1f;
   }
