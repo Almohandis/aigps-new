@@ -232,11 +232,11 @@ class StatisticsController extends Controller
             case 'City':
                 break;
             case 'Question':
-                $data = DB::select('SELECT title as "title",
+                $data = DB::select('SELECT title,
                 (SELECT COUNT(*) FROM question_user WHERE questions.id=question_user.question_id AND answer="No") AS "no",
                 (SELECT COUNT(*) FROM question_user WHERE questions.id=question_user.question_id AND answer="Yes") AS "yes"
                 FROM questions, question_user, users WHERE
-                users.id=question_user.user_id AND questions.id=question_user.id;');
+                users.id=question_user.user_id AND questions.id=question_user.question_id;');
                 $data = json_encode($data);
                 $data = json_decode($data);
                 // return $data;
@@ -253,7 +253,7 @@ class StatisticsController extends Controller
     {
         switch ($report_by) {
             case 'City':
-                $data = DB::select('SELECT u1.city, COUNT(*) AS total_rec, ( SELECT COUNT(*) FROM hospitals AS hos1 WHERE hos1.city = u1.city ) AS tot_hos, ( SELECT ifnull(round(( ( ( SELECT sum(hos3.capacity) FROM hospitals as hos3 where hos3.city = u1.city ) - ( SELECT COUNT(*) FROM hospitalizations AS hoz2, hospitals as hos2 WHERE hoz2.hospital_id = hos2.id AND hoz2.checkout_date IS NULL and hos2.city = u1.city ) )/ ( SELECT sum(hos3.capacity) FROM hospitals as hos3 where hos3.city = u1.city ) )*100,0),0) ) AS avg_avail_beds FROM infections as inf1, users AS u1 WHERE is_recovered = 1 AND inf1.user_id = u1.id GROUP BY city ORDER BY u1.city;');
+                $data = DB::select('SELECT u1.city, (select COUNT(*) from infections as inf1,users as u2 where inf1.is_recovered=1 and inf1.user_id=u2.id AND u1.city=u2.city )AS total_rec, ( SELECT COUNT(*) FROM hospitals AS hos1 WHERE hos1.city = u1.city ) AS tot_hos, ( SELECT ifnull( round( ( ( ( SELECT sum(hos3.capacity) FROM hospitals as hos3 where hos3.city = u1.city ) - ( SELECT COUNT(*) FROM hospitalizations AS hoz2, hospitals as hos2 WHERE hoz2.hospital_id = hos2.id AND hoz2.checkout_date IS NULL and hos2.city = u1.city ) )/ ( SELECT count(*) FROM hospitals as hos3 where hos3.city = u1.city ) ), 0 ), 0 ) ) AS avg_avail_beds FROM users AS u1 GROUP BY city ORDER BY u1.city;');
                 $data = json_encode($data);
                 $data = json_decode($data);
                 // return $data;
@@ -319,15 +319,7 @@ class StatisticsController extends Controller
     {
         switch ($report_by) {
             case 'City':
-                $data = DB::select('SELECT DISTINCT u1.city,
-                (SELECT COUNT(*) FROM users AS u2, infections AS inf1 WHERE u2.id=inf1.user_id AND u1.city=u2.city AND inf1.has_passed_away=1) AS "total_deaths",
-                (SELECT COUNT(*) FROM hospitals WHERE hospitals.city=u1.city) AS "total_hospitals",
-                (SELECT ROUND(AVG( hos2.capacity - (SELECT COUNT(*) FROM hospitals AS hos3, hospitalizations AS hoz2 WHERE hos3.id=hoz2.id AND hoz2.checkout_date IS NOT null ))) FROM hospitals AS hos2 WHERE hos2.city=u1.city) AS "average_available_beds"
-                FROM users AS u1, hospitals AS hos1, hospitalizations AS hoz1
-                WHERE hos1.id=hoz1.hospital_id
-                AND u1.id=hoz1.user_id
-                AND hos1.city=u1.city
-                AND hoz1.checkout_date IS NULL ORDER BY u1.city;');
+                $data = DB::select('SELECT u1.city, (select COUNT(*) from infections as inf1,users as u2 where inf1.has_passed_away=1 and inf1.user_id=u2.id AND u1.city=u2.city )AS total_deaths, ( SELECT COUNT(*) FROM hospitals AS hos1 WHERE hos1.city = u1.city ) AS total_hospitals, ( SELECT ifnull( round( ( ( ( SELECT sum(hos3.capacity) FROM hospitals as hos3 where hos3.city = u1.city ) - ( SELECT COUNT(*) FROM hospitalizations AS hoz2, hospitals as hos2 WHERE hoz2.hospital_id = hos2.id AND hoz2.checkout_date IS NULL and hos2.city = u1.city ) )/ ( SELECT count(*) FROM hospitals as hos3 where hos3.city = u1.city ) ), 0 ), 0 ) ) AS average_available_beds FROM users AS u1 GROUP BY city ORDER BY u1.city;');
                 $data = json_encode($data);
                 $data = json_decode($data);
                 // return $data;
@@ -391,16 +383,17 @@ class StatisticsController extends Controller
     { ///////////////////////////////////////////////////////////////////
         switch ($report_by) {
             case 'City':
-                $not_vac = DB::select('SELECT u1.city,COUNT(*) AS not_vac FROM users AS u1, medical_passports AS mp1 WHERE mp1.vaccine_dose_count=0 AND mp1.user_id=u1.id GROUP BY u1.city ASC;');
-                $part_vac = DB::select('SELECT u1.city,COUNT(*) AS part_vac FROM users AS u1, medical_passports AS mp1 WHERE mp1.vaccine_dose_count=1 AND mp1.user_id=u1.id GROUP BY u1.city ASC;');
-                $full_vac = DB::select('SELECT u1.city,COUNT(*) AS full_vac FROM users AS u1, medical_passports AS mp1 WHERE mp1.vaccine_dose_count=2 AND mp1.user_id=u1.id GROUP BY u1.city ASC;');
-                $data = [
-                    $not_vac,
-                    $part_vac,
-                    $full_vac,
-                ];
-                $data = json_encode($data, true);
-                $data = json_decode($data, true);
+                // $not_vac = DB::select('SELECT u1.city,COUNT(*) AS not_vac FROM users AS u1, medical_passports AS mp1 WHERE mp1.vaccine_dose_count=0 AND mp1.user_id=u1.id GROUP BY u1.city ASC;');
+                // $part_vac = DB::select('SELECT u1.city,COUNT(*) AS part_vac FROM users AS u1, medical_passports AS mp1 WHERE mp1.vaccine_dose_count=1 AND mp1.user_id=u1.id GROUP BY u1.city ASC;');
+                // $full_vac = DB::select('SELECT u1.city,COUNT(*) AS full_vac FROM users AS u1, medical_passports AS mp1 WHERE mp1.vaccine_dose_count=2 AND mp1.user_id=u1.id GROUP BY u1.city ASC;');
+                // $data = [
+                //     $not_vac,
+                //     $part_vac,
+                //     $full_vac,
+                // ];
+                $data = DB::select('SELECT hos1.city, ( SELECT ifnull( ( ( ( SELECT sum(hos2.capacity) FROM hospitals as hos2 where hos2.city = hos1.city ) - ( SELECT COUNT(*) FROM hospitalizations AS hoz2, hospitals as hos3 WHERE hoz2.hospital_id = hos3.id AND hoz2.checkout_date IS NULL and hos3.city = hos1.city ) ) ), 0 ) ) AS avail_beds , (select count(*) from hospitals as hos4 where hos4.city=hos1.city)as total_hospitals, (select count(*) from hospitals as hos5 where hos5.city=hos1.city and hos5.is_isolation=1)as iso_hospitals, (select count(*) from hospitalizations as hoz3,hospitals as hos6 where hoz3.hospital_id=hos6.id AND hoz3.checkout_date IS NULL and hos6.city = hos1.city) as total_hospitalization FROM hospitals as hos1 GROUP BY hos1.city ORDER BY hos1.city asc;');
+                $data = json_encode($data);
+                $data = json_decode($data);
                 return $data;
                 return view('statistics.distribution-of-hospitals', ['data_by_city' => $data, 'names' => $names, 'report_by' => $report_by, 'cities' => $this->cities]);
                 break;
