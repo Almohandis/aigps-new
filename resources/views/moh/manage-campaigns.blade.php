@@ -11,13 +11,13 @@
                 @csrf
                 <input id="marker-location" type="hidden" name="location" value="">
                 <table>
-                    <th>
-                    <td>#</td>
-                    <td>Campaign's start date</td>
-                    <td>Campaign's end date</td>
-                    <td>Address</td>
-                    <td>Status</td>
-                    </th>
+                    <tr>
+                    <th>#</th>
+                    <th>Campaign's start date</th>
+                    <th>Campaign's end date</th>
+                    <th>Address</th>
+                    <th>Status</th>
+                    </tr>
                     {{ $i = 1 }}
                     @foreach ($campaigns as $campaign)
                         <tr>
