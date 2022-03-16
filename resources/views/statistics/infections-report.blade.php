@@ -5,16 +5,6 @@
                 {{ session('message') }}
             @endif
         </div>
-        <style>
-            .tr {
-                display: table-cell;
-            }
-
-            .td {
-                display: block;
-            }
-
-        </style>
         <div class="pt-8 sm:pt-0">
             <h1>statistics</h1><br>
             <form id="form" action="/stats" method="POST">

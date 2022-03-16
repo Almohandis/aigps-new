@@ -442,6 +442,19 @@ class StatisticsController extends Controller
         }
     }
 
+    public function distributionOfChronicDiseases($report_by, $names)
+    {
+        switch ($report_by) {
+            case 'Chronic disease':
+                $data = DB::select('SELECT distinct cd1.name, ( SELECT COUNT(distinct u2.id) FROM users AS u2, chronic_diseases AS cd2 WHERE u2.id = cd2.user_id AND cd1.name=cd2.name ) AS total, ( SELECT COUNT(distinct u2.id) FROM users AS u2, chronic_diseases as cd2 WHERE u2.id=cd2.user_id AND u2.gender = "Male" AND cd1.name=cd2.name ) AS male, ROUND( ( SELECT COUNT(distinct u2.id) FROM users AS u2, chronic_diseases as cd2 WHERE u2.id=cd2.user_id and cd2.name=cd1.name AND u2.gender = "Male" )/( SELECT total )* 100, 2 ) AS male_pcnt, ( SELECT COUNT(distinct u2.id) FROM users AS u2, chronic_diseases as cd2 WHERE u2.id=cd2.user_id AND u2.gender = "Female" and cd2.name=cd1.name ) AS female, ROUND( ( SELECT COUNT(distinct u2.id) FROM users AS u2, chronic_diseases as cd2 WHERE u2.id=cd2.user_id and cd2.name=cd1.name AND u2.gender = "Female" )/( SELECT total )* 100, 2 ) AS female_pcnt FROM chronic_diseases AS cd1 group by cd1.name order by cd1.name');
+                $data = json_encode($data);
+                $data = json_decode($data);
+                // return $data;
+                return view('statistics.distribution-of-chronic-diseases', ['data_by_chronic_disease' => $data, 'names' => $names, 'report_by' => $report_by]);
+                break;
+        }
+    }
+
     public function generateReports($report_name, $report_by, $names)
     {
         switch ($report_name) {
