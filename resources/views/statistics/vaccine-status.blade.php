@@ -34,7 +34,7 @@
                         <th>Vaccine status category</th>
                         <th>Number of males</th>
                         <th>Male percentage</th>
-                        <th>Number of female</th>
+                        <th>Number of females</th>
                         <th>Female percentage</th>
                         <th>Total</th>
                     </tr>

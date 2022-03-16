@@ -22,7 +22,7 @@ class StatisticsController extends Controller
         'User vaccinating status',
         'User vaccinating status (summary)',
         'Distribution of hospitals',
-        'Infections and their relatives',
+        'Infections report',
         'Distribution of chronic diseases',
         'Distribution of doctors in hospitals',
         'Distribution of doctors in campaigns',
@@ -417,6 +417,13 @@ class StatisticsController extends Controller
                 // return $data;
                 return view('statistics.infections-report', ['data_by_city' => $data, 'names' => $names, 'report_by' => $report_by, 'cities' => $this->cities]);
                 break;
+            case 'Vaccine status':
+                $data = DB::select('SELECT if( m1.vaccine_dose_count = 0, "Not vaccinated", if( m1.vaccine_dose_count = 1, "Partially vaccinated", "Fully vaccinated" ) ) as vac_status, ( select count(*) from medical_passports as m2, users as u1 where u1.id = m2.user_id and u1.gender = "Male" and u1.id in (select id from infections_id) AND ( select if( m2.vaccine_dose_count = 0, "Not vaccinated", if( m2.vaccine_dose_count = 1, "Partially vaccinated", "Fully vaccinated" ) ) ) = vac_status ) as male_count, IFNULL( round( ( select male_count ) / ( select count(*) from medical_passports as m2, users as u1 where u1.id = m2.user_id and u1.id in (select id from infections_id) AND ( select if( m2.vaccine_dose_count = 0, "Not vaccinated", if( m2.vaccine_dose_count = 1, "Partially vaccinated", "Fully vaccinated" ) ) ) = vac_status )* 100, 1 ),0) as male_pcnt, ( select count(*) from medical_passports as m2, users as u1 where u1.id = m2.user_id and u1.gender = "Female" and u1.id in (select id from infections_id) AND ( select if( m2.vaccine_dose_count = 0, "Not vaccinated", if( m2.vaccine_dose_count = 1, "Partially vaccinated", "Fully vaccinated" ) ) ) = vac_status ) as female_count, IFNULL( round( ( select female_count ) / ( select count(*) from medical_passports as m2, users as u1 where u1.id = m2.user_id and u1.id in (select id from infections_id) AND ( select if( m2.vaccine_dose_count = 0, "Not vaccinated", if( m2.vaccine_dose_count = 1, "Partially vaccinated", "Fully vaccinated" ) ) ) = vac_status )* 100, 1 ),0) as female_pcnt, ( select count(*) from medical_passports as m2, users as u1 where u1.id = m2.user_id and u1.id in (select id from infections_id) AND ( select if( m2.vaccine_dose_count = 0, "Not vaccinated", if( m2.vaccine_dose_count = 1, "Partially vaccinated", "Fully vaccinated" ) ) ) = vac_status ) as total FROM medical_passports as m1 , infections_id GROUP BY vac_status;');
+                $data = json_encode($data);
+                $data = json_decode($data);
+                // return $data;
+                return view('statistics.infections-report', ['data_by_vaccine_status' => $data, 'names' => $names, 'report_by' => $report_by]);
+                break;
         }
     }
 
@@ -444,7 +451,7 @@ class StatisticsController extends Controller
             case 'Distribution of hospitals':
                 return $this->distributionOfHospitals($report_by, $names);
                 break;
-            case 'Infections and their relatives':
+            case 'Infections report':
                 return $this->infectionsReport($report_by, $names);
                 break;
             case 'Distribution of chronic diseases':

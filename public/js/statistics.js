@@ -7,7 +7,7 @@ let getReportBy = {
     'User vaccinating status': [ /*'City',*/ 'Vaccine status' /*, 'Age segment'*/ ],
     'User vaccinating status (summary)': ['Default'],
     'Distribution of hospitals': ['City', 'Hospital'],
-    'Infections and their relatives': ['City', 'Vaccine status', 'Date', 'Age segment'],
+    'Infections report': ['City', 'Vaccine status', 'Date', 'Age segment'],
     'Distribution of chronic diseases': ['Chronic disease', 'Age segment'],
     'Distribution of doctors in hospitals': ['City', 'Hospital'],
     'Distribution of doctors in campaigns': ['City'],

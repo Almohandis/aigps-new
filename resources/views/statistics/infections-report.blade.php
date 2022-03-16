@@ -74,20 +74,24 @@
                         </tr>
                     @endfor
                 </table>
-            @elseif(isset($data_by_hospital))
+            @elseif(isset($data_by_vaccine_status))
                 <table>
                     <tr>
-                        <th>Hospital name</th>
-                        <th>City</th>
-                        <th>Total recoveries</th>
-                        <th>Available beds</th>
+                        <th>Vaccine status</th>
+                        <th>Number of males</th>
+                        <th>Males percentage</th>
+                        <th>Number of females</th>
+                        <th>Female percentage</th>
+                        <th>Total number of infections</th>
                     </tr>
-                    @foreach ($data_by_hospital as $hospital)
+                    @foreach ($data_by_vaccine_status as $vac)
                         <tr>
-                            <td>{{ $hospital->name }}</td>
-                            <td>{{ $hospital->city }}</td>
-                            <td>{{ $hospital->total_recoveries }}</td>
-                            <td>{{ $hospital->avail_beds }}</td>
+                            <td>{{ $vac->vac_status }}</td>
+                            <td>{{ $vac->male_count }}</td>
+                            <td>{{ $vac->male_pcnt }}</td>
+                            <td>{{ $vac->female_count }}</td>
+                            <td>{{ $vac->female_pcnt }}</td>
+                            <td>{{ $vac->total }}</td>
                         </tr>
                     @endforeach
                 </table>
