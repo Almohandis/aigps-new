@@ -31,15 +31,36 @@
             @if (isset($data_by_city))
                 <table>
                     <tr>
-                        <th>Vaccine status category</th>
-                        <th>Total</th>
+                        <th>City</th>
+                        <th>Available beds</th>
+                        <th>Total hospitals</th>
+                        <th>Isolation hospitals</th>
+                        <th>Total hospitalizations</th>
                     </tr>
-                    @foreach ($data_by_vaccine_status as $status)
+                    @for ($i = 0, $j = 0; $i < count($cities); $i++)
                         <tr>
-                            <td>{{ $status->vac_status }}</td>
-                            <td>{{ $status->Total }}</td>
+                            <td>{{ $cities[$i] }}</td>
+                            @if (isset($data_by_city[$j]))
+                                @if ($data_by_city[$j]->city == $cities[$i])
+                                    <td>{{ $data_by_city[$j]->avail_beds }}</td>
+                                    <td>{{ $data_by_city[$j]->total_hospitals }}</td>
+                                    <td>{{ $data_by_city[$j]->iso_hospitals }}</td>
+                                    <td>{{ $data_by_city[$j]->total_hospitalization }}</td>
+                                    @php $j++ @endphp
+                                @else
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                @endif
+                            @else
+                                <td>0</td>
+                                <td>0</td>
+                                <td>0</td>
+                                <td>0</td>
+                            @endif
                         </tr>
-                    @endforeach
+                    @endfor
                 </table>
             @endif
         </div>
