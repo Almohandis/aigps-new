@@ -10,7 +10,7 @@
                 Vaccination reservation
             @endif
         </h1>
-        <div class="mx-auto text-center mt-2">
+        <div class="mx-auto text-center mt-2" style="margin-bottom:4rem;">
             <p class="inline-block text-center text-xl bg-blue-500 font-bold rounded-full text-white w-8 h-8 pt-1" id="c1">1</p>
             <div class="inline-block mx-3 bg-black w-10 h-1 mb-1 bg-opacity-50" id="l2"></div>
             <p class="inline-block text-center text-xl bg-white  font-bold rounded-full text-blue-500  w-8 h-8 pt-1" id="c3">2</p>
@@ -111,7 +111,7 @@
 
                     <script>
                         function Scrolldown() {
-                            window.scroll(0,670); 
+                            window.scroll(0,550); 
                             }
                         window.onload = Scrolldown;
                         var phones = 2;
