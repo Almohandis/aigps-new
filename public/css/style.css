@@ -772,7 +772,7 @@
   }
   .add-staff
   {
-    background-color: #676767;
+    background: linear-gradient(to right, #25c481, #25b7c4);
     color: white;
     height: 8rem;
   }
