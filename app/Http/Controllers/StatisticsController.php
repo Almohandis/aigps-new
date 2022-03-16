@@ -41,7 +41,7 @@ class StatisticsController extends Controller
         [/*'City', */'Question'/*, 'Age segment'*/],
         ['City', 'Hospital', 'Date', 'Age segment'],
         ['City', 'Hospital', 'Date', 'Age segment'],
-        ['City', 'Vaccine status', 'Age segment'],
+        [/*'City',*/'Vaccine status'/*, 'Age segment'*/],
         ['Default'],
         ['City', 'Hospital'],
         ['City', 'Vaccine status', 'Date', 'Age segment'],
@@ -161,6 +161,7 @@ class StatisticsController extends Controller
                 $data = [$A_plus, $A_minus, $B_plus,  $B_minus, $AB_plus,  $AB_minus,  $O_plus, $O_minus];
                 $data = json_encode($data, true);
                 $data = json_decode($data, true);
+                // return $data;
                 return view('statistics.blood-type-dist', ['data_by_city' => (array)$data, 'names' => $names, 'report_by' => $report_by, 'cities' => $this->cities, 'blood_types' => $this->blood_types]);
                 break;
             case 'Blood type':
@@ -368,6 +369,41 @@ class StatisticsController extends Controller
                 $data = json_decode($data);
                 // return $data;
                 return view('statistics.vaccine-status', ['data_by_vaccine_status' => $data, 'names' => $names, 'report_by' => $report_by]);
+                break;
+        }
+    }
+
+    public function userVaccinatingStatusSummary($report_by, $names)
+    {
+        switch ($report_by) {
+            case 'Default':
+                $data = DB::select('SELECT if( mp1.vaccine_dose_count=0,"Not vaccinated", if(mp1.vaccine_dose_count=1,"Partially vaccinated","Fully vaccinated") ) AS vac_status,
+                COUNT(*) AS Total FROM medical_passports AS mp1 GROUP BY vac_status;');
+                $data = json_encode($data);
+                $data = json_decode($data);
+                // return $data;
+                return view('statistics.vaccine-status-sum', ['data_by_vaccine_status' => $data, 'names' => $names, 'report_by' => $report_by]);
+                break;
+        }
+    }
+
+    public function distributionOfHospitals($report_by, $names)
+    { ///////////////////////////////////////////////////////////////////
+        switch ($report_by) {
+            case 'City':
+                $not_vac = DB::select('SELECT u1.city,COUNT(*) AS not_vac FROM users AS u1, medical_passports AS mp1 WHERE mp1.vaccine_dose_count=0 AND mp1.user_id=u1.id GROUP BY u1.city ASC;');
+                $part_vac = DB::select('SELECT u1.city,COUNT(*) AS part_vac FROM users AS u1, medical_passports AS mp1 WHERE mp1.vaccine_dose_count=1 AND mp1.user_id=u1.id GROUP BY u1.city ASC;');
+                $full_vac = DB::select('SELECT u1.city,COUNT(*) AS full_vac FROM users AS u1, medical_passports AS mp1 WHERE mp1.vaccine_dose_count=2 AND mp1.user_id=u1.id GROUP BY u1.city ASC;');
+                $data = [
+                    $not_vac,
+                    $part_vac,
+                    $full_vac,
+                ];
+                $data = json_encode($data, true);
+                $data = json_decode($data, true);
+                return $data;
+                return view('statistics.distribution-of-hospitals', ['data_by_city' => $data, 'names' => $names, 'report_by' => $report_by, 'cities' => $this->cities]);
+                break;
         }
     }
 
