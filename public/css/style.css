@@ -737,9 +737,48 @@
   {
       background-color: #007c1f;
   }
+  .update-btn3 {
+    float: right;
+    margin-top: 3rem;
+    background-color: #0fb639;
+    color: white;
+    width: 7rem;
+    height: 2rem;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.5s;
+  }
+  .update-btn3:hover
+  {
+      background-color: #007c1f;
+  }
+  .update-btn4 {
+    float: right;
+    margin-top: 1rem;
+    background-color: #0fb639;
+    color: white;
+    width: 5rem;
+    height: 2rem;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.5s;
+    margin-bottom: 1rem;
+  }
+  .update-btn4:hover
+  {
+      background-color: #007c1f;
+  }
   .add-hero
   {
     margin-top: 6rem;
+    font-size: 20px;
+    margin-left: 2rem;
+    font-weight: 300;
+    text-transform: uppercase;
+    padding-top: 1rem;
+  }
+  .add-hero2
+  {
     font-size: 20px;
     margin-left: 2rem;
     font-weight: 300;
@@ -776,4 +815,11 @@
     box-shadow: 0 .5rem 1.5rem rgba(0,0,0,.1);
     background: #fff;
     height: 10rem;
+  }
+  .add-hospital
+  {
+    box-shadow: 0 .5rem 1.5rem rgba(0,0,0,.1);
+    background: #fff;
+    height: 15rem;
+    margin-bottom: 3rem;
   }
