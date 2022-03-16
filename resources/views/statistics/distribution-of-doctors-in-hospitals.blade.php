@@ -44,6 +44,23 @@
                         </tr>
                     @endfor
                 </table>
+            @elseif(isset($data_by_hospital))
+                <table>
+                    <tr>
+                        <th>Hospital name</th>
+                        <th>City</th>
+                        <th>Number of doctors</th>
+                        <th>Is isolation</th>
+                    </tr>
+                    @foreach ($data_by_hospital as $hospital)
+                        <tr>
+                            <td>{{ $hospital->name }}</td>
+                            <td>{{ $hospital->city }}</td>
+                            <td>{{ $hospital->num_doctors }}</td>
+                            <td>{{ $hospital->is_iso }}</td>
+                        </tr>
+                    @endforeach
+                </table>
             @endif
         </div>
     </div>
