@@ -45,7 +45,7 @@ class StatisticsController extends Controller
         ['Default'],
         ['City', 'Hospital'],
         ['City', 'Vaccine status', 'Date', 'Age segment'],
-        ['Chronic disease', 'Age segment'],
+        ['Chronic disease'/*, 'Age segment'*/],
         ['City', 'Hospital'],
         ['City'],
         ['City', 'Hospital', 'Date', 'Age segment'],
@@ -451,6 +451,21 @@ class StatisticsController extends Controller
                 $data = json_decode($data);
                 // return $data;
                 return view('statistics.distribution-of-chronic-diseases', ['data_by_chronic_disease' => $data, 'names' => $names, 'report_by' => $report_by]);
+                break;
+            default:
+                return null;
+        }
+    }
+
+    public function distributionOfDoctorsInHospitals($report_by, $names)
+    {
+        switch ($report_by) {
+            case 'City':
+                $data = DB::select('select distinct hos1.city, ( ( select count(u2.id) from users as u2, hospitals as hos2 where u2.hospital_id is not null and u2.hospital_id=hos2.id and hos2.city = hos1.city ) ) as total_doctors, (select count(hos2.id) from hospitals as hos2 where hos2.city=hos1.city )as num_hospitals from hospitals as hos1 ORDER BY hos1.city ASC;');
+                $data = json_encode($data);
+                $data = json_decode($data);
+                // return $data;
+                return view('statistics.distribution-of-doctors-in-hospitals', ['data_by_city' => $data, 'names' => $names, 'report_by' => $report_by, 'cities' => $this->cities]);
                 break;
         }
     }
