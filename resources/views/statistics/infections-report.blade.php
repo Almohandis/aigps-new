@@ -98,16 +98,24 @@
             @elseif(isset($data_by_date))
                 <table>
                     <tr>
-                        <th colspan="2">Total number of recoveries starting from {{ $date }} until now</th>
+                        <th colspan="6">Total number of infections starting from {{ $date }} until now</th>
                     </tr>
                     <tr>
-                        <th>Date</th>
-                        <th>Total recoveries</th>
+                        <th>Infection date</th>
+                        <th>Number of males</th>
+                        <th>Males percentage</th>
+                        <th>Number of females</th>
+                        <th>Females percentage</th>
+                        <th>Total infections</th>
                     </tr>
                     @foreach ($data_by_date as $date)
                         <tr>
                             <td>{{ $date->infection_date }}</td>
-                            <td>{{ $date->total_rec }}</td>
+                            <td>{{ $date->male_count }}</td>
+                            <td>{{ $date->male_pcnt }}</td>
+                            <td>{{ $date->female_count }}</td>
+                            <td>{{ $date->female_pcnt }}</td>
+                            <td>{{ $date->total_inf }}</td>
                         </tr>
                     @endforeach
                 </table>

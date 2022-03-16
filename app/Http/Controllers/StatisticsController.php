@@ -424,6 +424,14 @@ class StatisticsController extends Controller
                 // return $data;
                 return view('statistics.infections-report', ['data_by_vaccine_status' => $data, 'names' => $names, 'report_by' => $report_by]);
                 break;
+            case 'Date':
+                $data = DB::select('SELECT inf1.infection_date, ( select count(*) from infections as inf2 where inf2.infection_date = inf1.infection_date and inf2.user_id in (select id from infections_id) ) as total_inf, ( select count(*) from users as u2, infections as inf2 where u2.id = inf2.user_id and inf1.infection_date=inf2.infection_date and u2.gender = "Male" and u2.id in ( select id from infections_id ) ) as male_count, ifnull( round( ( ( select male_count ) /( select total_inf )* 100 ), 1 ), 0 ) as male_pcnt, ( select count(*) from users as u2 , infections as inf2 where u2.id = inf2.user_id and inf1.infection_date=inf2.infection_date and u2.gender = "Female" and u2.id in ( select id from infections_id ) ) as female_count, ifnull( round( ( ( select female_count ) /( select total_inf )* 100 ), 1 ), 0 ) as female_pcnt FROM infections AS inf1 WHERE inf1.infection_date BETWEEN DATE_ADD( CURDATE(), INTERVAL - DAY( CURDATE() )+ 1 DAY ) AND CURDATE() AND is_recovered = 0 and has_passed_away = 0 GROUP BY infection_date ORDER BY infection_date DESC;');
+                $data = json_encode($data);
+                $data = json_decode($data);
+                $date = date('F, Y');
+                // return $data;
+                return view('statistics.infections-report', ['data_by_date' => $data, 'names' => $names, 'report_by' => $report_by, 'date' => $date]);
+                break;
         }
     }
 
