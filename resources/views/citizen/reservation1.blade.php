@@ -3,13 +3,13 @@
         <img src="{{ asset('vaccine-reserve.jpg') }}" class="sec-header">
         <div class="divide"></div>
         <div class="wrap"></div>
-            <h1 class="ml-5 text-left text-4xl text-white" style="text-shadow: 2px 2px 8px #000000;">
-                @if ($message)
-                    Diagnose reservation
-                @else
-                    Vaccination reservation
-                @endif
-            </h1>
+        <h1 class="ml-5 text-left text-4xl text-white" style="text-shadow: 2px 2px 8px #000000;">
+            @if ($message)
+                Diagnose reservation
+            @else
+                Vaccination reservation
+            @endif
+        </h1>
 
         <div class="mx-auto text-center mt-2">
             <p class="inline-block text-center text-xl bg-white font-bold rounded-full text-blue-500 w-8 h-8 pt-1">1</p>
@@ -51,11 +51,12 @@
             </script>
             <script>
                 function Scrolldown() {
-                            window.scroll(0,670); 
-                            
-                        
-                        }
-                        window.onload = Scrolldown;
+                    window.scroll(0, 670);
+
+
+                }
+                window.onload = Scrolldown;
+
                 function selectCampaign(campaign) {
                     document.getElementById('campaign_selection').classList.remove('hidden');
                     document.getElementById('campaign_selection').children[0].children[0].innerHTML = campaign[0];
@@ -91,7 +92,17 @@
 
                         google.maps.event.addListener(marker, 'click', (function(marker, i) {
                             return function() {
-                                infowindow.setContent(locations[i][0]);
+                                let content = '<div id="content">' +
+                                    '<div id="siteNotice">' +
+                                    '</div>' +
+                                    '<h1 id="firstHeading" class="firstHeading"><strong>Address:</strong> ' +
+                                    locations[i][0] + '</h1>' +
+                                    '<div id="bodyContent">' +
+                                    '<p><strong>Start date:</strong> ' + locations[i][4] + '</p>' +
+                                    '<p><strong>End date:</strong> ' + locations[i][5] + '</p>' +
+                                    '</div>' +
+                                    '</div>';
+                                infowindow.setContent(content);
                                 infowindow.open(map, marker);
                                 selectCampaign(locations[i]);
                             }

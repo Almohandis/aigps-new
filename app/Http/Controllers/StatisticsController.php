@@ -531,6 +531,16 @@ class StatisticsController extends Controller
         }
     }
 
+    public function generalStatistics($report_by, $names)
+    {
+        switch ($report_by) {
+            case 'Default':
+                break;
+            default:
+                break;
+        }
+    }
+
     public function generateReports($report_name, $report_by, $names)
     {
         switch ($report_name) {

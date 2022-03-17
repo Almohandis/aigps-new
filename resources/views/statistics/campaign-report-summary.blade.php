@@ -137,6 +137,8 @@
                     legend_div.appendChild(red_div);
                     map.controls[google.maps.ControlPosition.LEFT_BOTTOM].push(legend_div);
 
+
+
                     var infowindow = new google.maps.InfoWindow();
                     var marker, i;
 
@@ -149,7 +151,16 @@
 
                         google.maps.event.addListener(marker, 'click', (function(marker, i) {
                             return function() {
-                                infowindow.setContent(locations[i][0]);
+                                let content = '<div style="text-align:center" id="content">' +
+                                    '<div id="siteNotice">' +
+                                    '</div>' +
+                                    '<h1 id="firstHeading" class="firstHeading"><strong>Address:</strong> ' + locations[i][0] + '</h1>' +
+                                    '<div id="bodyContent">' +
+                                    '<p><strong>Start date:</strong> ' + locations[i][4] + '</p>' +
+                                    '<p><strong>End date:</strong> ' + locations[i][5] + '</p>' +
+                                    '</div>' +
+                                    '</div>';
+                                infowindow.setContent(content);
                                 infowindow.open(map, marker);
                             }
                         })(marker, i));
