@@ -12,6 +12,7 @@
         <!-- Styles -->
         <link rel="stylesheet" href="{{ asset('css/app.css') }}">
         <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+        <script src="https://kit.fontawesome.com/a1983178b4.js" crossorigin="anonymous"></script>
 
        
         </style>
@@ -84,14 +85,6 @@
                             <a href="/view/contact"
                                 class="contact-us">Contact Us</a>
                         </li>
-                        <li>
-                            <div class="bell-container" align="center">
-                                <a href="/notifications"> 
-                                    <i class="fa fa-bell" id="bell" aria-hidden="true"></i>
-                                </a>
-                            </div>
-                            
-                        </li>
                         </ul>
                     </div>
                 </div>
@@ -103,19 +96,19 @@
         <div class="h-screen" id="contact-info">
             <div class="text-2xl text-black font-bold ml-10" id="contact-title">Get In Touch</div>
             
-            <div class="grid grid-cols-2">
+            <div class="grid grid-cols-2" style="margin-left: 8rem;margin-top: 1rem;">
                 <div>
-                    <div class="text-xl text-black ml-20">Our Emails:</div>
+                    <div class="text-xl text-black ml-20"><i class="fa-solid fa-envelope" style="margin-right: 1rem;"></i>Our Emails:</div>
                     <div class="text-md text-blue-800 ml-24 underline">AIGPS@gmail.com</div>
                     <div class="text-md text-blue-800 ml-24 underline">AIGPS@hotmail.com</div>
                 </div>
                 <div>
-                    <div class="text-xl text-black ml-20">Our Hotline:</div>
-                    <div class="text-md text-blue-800 ml-24 underline">15911</div>
+                    <div class="text-xl text-black ml-20"> <i class="fa-solid fa-phone" style="margin-right: 0.5rem;"></i>Our Hotline:</div>
+                    <div class="text-md text-blue-800 ml-24 underline" style="margin-left: 8rem;">15911</div>
                 </div>
                 
                 <div class="mt-10">
-                    <div class="text-xl text-black ml-20">Our Working hours:</div>
+                    <div class="text-xl text-black ml-20" > <i class="fa-solid fa-clock" style="margin-right: 0.5rem;"></i> Our Working hours:</div>
                     <div class="text-md text-blue-800 ml-24">Everyday except Friday</div>
                     <div class="text-md text-blue-800 ml-24">8:00AM - 8:00PM</div>
                 </div>
