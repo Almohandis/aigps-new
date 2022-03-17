@@ -36,7 +36,7 @@
         <nav class="header" id="header">
             <div class="container flex flex-wrap justify-between items-center mx-auto">
                 <a href="/" class="flex">
-                    <img class="logo" id="logo"src="{{ asset('EDIT3.png') }}" alt="Logo">
+                    <img class="logo" id="logo" src="{{ asset('EDIT3.png') }}" alt="Logo">
                     <div class="title" id="title">
                         AIGPS
                     </div>
