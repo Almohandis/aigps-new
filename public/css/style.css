@@ -922,3 +922,18 @@
     padding-top: 1rem;
     margin-bottom: 2rem;
   }
+  .req-btn 
+  {
+      background-color: #0fb639;
+      color: white;
+      width: 13rem;
+      height: 2.7rem;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: 0.5s;
+      margin-bottom: 2rem;
+  }
+  .req-btn:hover
+  {
+      background-color: #007c1f;
+  }
