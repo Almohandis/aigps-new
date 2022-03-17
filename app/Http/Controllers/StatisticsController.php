@@ -25,7 +25,7 @@ class StatisticsController extends Controller
         'Infections report',
         'Distribution of chronic diseases',
         'Distribution of doctors in hospitals',
-        'Distribution of doctors in campaigns',
+        // 'Distribution of doctors in campaigns (removed)',
         'Hospitalization status',
         'Hospital statistics',
         'Hospital statistics (summary)',
@@ -47,7 +47,7 @@ class StatisticsController extends Controller
         ['City', 'Vaccine status', 'Date', 'Age segment'],
         ['Chronic disease'/*, 'Age segment'*/],
         ['City', 'Hospital'],
-        ['City'],
+        // ['City'],
         ['City', 'Hospital', 'Date', 'Age segment'],
         ['City', 'Hospital', 'Date'],
         ['Default'],
@@ -75,31 +75,31 @@ class StatisticsController extends Controller
         $report_by = [];
         switch ($role_id) {
             case 1:
-                [$names, $report_by] = $this->getReportDetails(range(1, 18));
+                [$names, $report_by] = $this->getReportDetails(range(1, 17));
                 break;
             case 2:
-                [$names, $report_by] = $this->getReportDetails([6, 16, 17, 18]);
+                [$names, $report_by] = $this->getReportDetails([6, 15, 16, 17]);
                 break;
             case 3:
-                [$names, $report_by] = $this->getReportDetails([6, 16, 17, 18]);
+                [$names, $report_by] = $this->getReportDetails([6, 15, 16, 17]);
                 break;
             case 4:
-                [$names, $report_by] = $this->getReportDetails([6, 11, 15, 16, 17, 18]);
+                [$names, $report_by] = $this->getReportDetails([6, 14, 15, 16, 17]);
                 break;
             case 5:
-                [$names, $report_by] = $this->getReportDetails([1, 2, 3, 4, 5, 6, 8, 9, 11, 15, 16, 17, 18]);
+                [$names, $report_by] = $this->getReportDetails([1, 2, 3, 4, 5, 6, 8, 9, 14, 15, 16, 17]);
                 break;
             case 6:
-                [$names, $report_by] = $this->getReportDetails([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 12, 13, 14, 16, 17, 18]);
+                [$names, $report_by] = $this->getReportDetails([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 15, 16, 17]);
                 break;
             case 7:
-                [$names, $report_by] = $this->getReportDetails(range(1, 18));
+                [$names, $report_by] = $this->getReportDetails(range(1, 17));
                 break;
             case 8:
-                [$names, $report_by] = $this->getReportDetails(range(1, 18));
+                [$names, $report_by] = $this->getReportDetails(range(1, 17));
                 break;
             case 9:
-                [$names, $report_by] = $this->getReportDetails(range(1, 18));
+                [$names, $report_by] = $this->getReportDetails(range(1, 17));
                 break;
         }
         return [$names, $report_by];
@@ -477,6 +477,35 @@ class StatisticsController extends Controller
         }
     }
 
+    public function hospitalizationStatus($report_by, $names)
+    {
+        switch ($report_by) {
+            case 'City':
+                $data = DB::select('SELECT hos1.city, ( SELECT ifnull( ( ( ( SELECT sum(hos2.capacity) FROM hospitals as hos2 where hos2.city = hos1.city ) - ( SELECT COUNT(*) FROM hospitalizations AS hoz2, hospitals as hos3 WHERE hoz2.hospital_id = hos3.id AND hoz2.checkout_date IS NULL and hos3.city = hos1.city ) ) ), 0 ) ) AS avail_beds , (select count(*) from hospitals as hos4 where hos4.city=hos1.city)as total_hospitals, (select count(*) from hospitals as hos5 where hos5.city=hos1.city and hos5.is_isolation=1)as iso_hospitals, (select count(*) from hospitalizations as hoz3,hospitals as hos6 where hoz3.hospital_id=hos6.id AND hoz3.checkout_date IS NULL and hos6.city = hos1.city) as total_hospitalization FROM hospitals as hos1 GROUP BY hos1.city ORDER BY hos1.city asc;');
+                $data = json_encode($data);
+                $data = json_decode($data);
+                // return $data;
+                return view('statistics.hospitalization-status', ['data_by_city' => $data, 'names' => $names, 'report_by' => $report_by, 'cities' => $this->cities]);
+                break;
+            case 'Hospital':
+                $data = DB::select('SELECT hos1.name, hos1.city, IF( hos1.is_isolation=0,"No","Yes") AS is_iso, hos1.capacity, ( SELECT hos1.capacity - ( SELECT COUNT(*) FROM hospitals AS hos2, users AS u1, hospitalizations AS hoz1 WHERE hos2.id = hoz1.hospital_id AND u1.id = hoz1.user_id AND hos2.id = hos1.id AND hoz1.checkout_date IS NULL ) ) AS avail_beds FROM hospitals AS hos1;');
+                $data = json_encode($data);
+                $data = json_decode($data);
+                // return $data;
+                return view('statistics.hospitalization-status', ['data_by_hospital' => $data, 'names' => $names, 'report_by' => $report_by]);
+                break;
+            case 'Date':
+                $data = DB::select('SELECT Date(hoz1.checkin_date) as hoz_date, ( SELECT COUNT(*) FROM hospitalizations as hoz2 WHERE Date(hoz2.checkin_date) = Date(hoz1.checkin_date ) and hoz2.checkout_date is null ) AS total , ( SELECT COUNT(*) FROM hospitalizations as hoz2, users as u2 WHERE u2.id=hoz2.user_id AND u2.gender = "Male" and Date(hoz2.checkin_date) = Date(hoz1.checkin_date ) and hoz2.checkout_date is null ) AS male, ROUND( (select male)/(select total) * 100, 2 ) AS male_pcnt, ( SELECT COUNT(*) FROM hospitalizations as hoz2, users as u2 WHERE u2.id=hoz2.user_id AND u2.gender = "Female" and Date(hoz2.checkin_date) = Date(hoz1.checkin_date ) and hoz2.checkout_date is null ) AS female , ROUND( (select female)/(select total) * 100,2 )AS female_pcnt FROM hospitalizations as hoz1 where hoz1.checkout_date is null group by Date(hoz1.checkin_date ) order by hoz_date DESC;');
+                $data = json_encode($data);
+                $data = json_decode($data);
+                // return $data;
+                return view('statistics.hospitalization-status', ['data_by_date' => $data, 'names' => $names, 'report_by' => $report_by]);
+                break;
+            default:
+                return null;
+        }
+    }
+
     public function generateReports($report_name, $report_by, $names)
     {
         switch ($report_name) {
@@ -510,7 +539,7 @@ class StatisticsController extends Controller
             case 'Distribution of doctors in hospitals':
                 return $this->distributionOfDoctorsInHospitals($report_by, $names);
                 break;
-            case 'Distribution of doctors in campaigns':
+            case 'Distribution of doctors in campaigns (removed)':
                 return $this->distributionOfDoctorsInCampaigns($report_by, $names);
                 break;
             case 'Hospitalization status':

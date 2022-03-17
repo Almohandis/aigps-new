@@ -10,7 +10,7 @@ let getReportBy = {
     'Infections report': ['City', 'Vaccine status', 'Date', 'Age segment'],
     'Distribution of chronic diseases': ['Chronic disease' /*, 'Age segment'*/ ],
     'Distribution of doctors in hospitals': ['City', 'Hospital'],
-    'Distribution of doctors in campaigns': ['City'],
+    // 'Distribution of doctors in campaigns': ['City'],
     'Hospitalization status': ['City', 'Hospital', 'Date', 'Age segment'],
     'Hospital statistics': ['City', 'Hospital', 'Date'],
     'Hospital statistics (summary)': ['Default'],
