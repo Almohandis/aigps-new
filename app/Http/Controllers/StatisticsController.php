@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Campaign;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 use function Pest\Laravel\json;
@@ -535,8 +536,22 @@ class StatisticsController extends Controller
     {
         switch ($report_by) {
             case 'Default':
+                $data = DB::select('SELECT (SELECT COUNT(*) FROM recoveries_id )AS total_rec, (SELECT COUNT(*) FROM deaths_id) AS total_deaths, (SELECT COUNT(DISTINCT question_user.user_id) FROM question_user )AS total_diagnosed, (SELECT COUNT(*) FROM medical_passports WHERE vaccine_dose_count=0 )AS total_un_vac, (SELECT COUNT(*) FROM medical_passports WHERE vaccine_dose_count=1 )AS total_part_vac, (SELECT COUNT(*) FROM medical_passports WHERE vaccine_dose_count=2 )AS total_full_vac, (SELECT COUNT(*) FROM hospitals )AS total_hos');
+                $data = json_encode($data);
+                $data = json_decode($data);
+                // return $data;
+                return view('statistics.general-statistics', ['data_by_general' => $data, 'names' => $names, 'report_by' => $report_by]);
                 break;
             default:
+                break;
+        }
+    }
+
+    public function personalMedicalReport($report_by, $names)
+    {
+        switch ($report_by) {
+            case 'Default':
+                $user = Auth::user();
                 break;
         }
     }
@@ -592,7 +607,7 @@ class StatisticsController extends Controller
             case 'General statistics':
                 return $this->generalStatistics($report_by, $names);
                 break;
-            case 'Vaccine report':
+            case 'Vaccine report (removed)':
                 return $this->vaccineReport($report_by, $names);
                 break;
             case 'Personal medical report':

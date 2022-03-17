@@ -16,7 +16,19 @@
             </select>
             <form id="add-doctor-form" action="/staff/moh/manage-doctors/add" method="POST">
                 @csrf
-                <table></table>
+                <div class="tbl-header" style="width: 500px; border:1px solid black">
+                    <table>
+                        <tr>
+                            <th>#</th>
+                            <th>Name</th>
+                            <th>National ID</th>
+                            <th>Action</th>
+                        </tr>
+                    </table>
+                </div>
+                <div class="tbl-content">
+                    <table></table>
+                </div>
                 <br>
                 <h2>To add new doctor, select a hospital and enter national ID of doctor below</h2>
                 <input type="number" name="national_id" id="add-doctor" placeholder="Type doctor's national ID">
@@ -29,7 +41,7 @@
 
             //#list is the id of the select element
             const list = document.getElementById('list');
-            const table = document.querySelector('table');
+            const table = document.querySelectorAll('table')[1];
 
             //# Append header row to table
             function appendHeader() {
@@ -76,7 +88,7 @@
             //# Get doctors of the selected hospital
             function getDoctors() {
                 table.innerHTML = '';
-                appendHeader();
+                // appendHeader();
                 let id = list.value;
                 let xhttp = new XMLHttpRequest();
                 xhttp.onload = function() {
