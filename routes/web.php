@@ -33,3 +33,8 @@ Route::get('/profile', [ProfileController::class, 'index'])->name('profile');
 
 //# Medical passport
 Route::post('/medical-passport', [MedicalPassportController::class, 'index'])->name('medical-passport');
+
+//# Contact page
+Route::get('/contact', function () {
+    return view('contact');
+});
