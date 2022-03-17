@@ -5,16 +5,6 @@
                 {{ session('message') }}
             @endif
         </div>
-        <style>
-            .tr {
-                display: table-cell;
-            }
-
-            .td {
-                display: block;
-            }
-
-        </style>
         <div class="pt-8 sm:pt-0">
             <h1>statistics</h1><br>
             <form id="form" action="/stats" method="POST">
@@ -28,24 +18,24 @@
                 <select name="report_by" id="report-by"></select>
                 <button type="submit" id="generate-btn" class="btn btn-primary">Generate report</button>
             </form>
-            @if (isset($data_by_vaccine_status))
+            @if (isset($data_by_chronic_disease))
                 <table>
                     <tr>
-                        <th>Vaccine status category</th>
-                        <th>Number of males</th>
+                        <th>Disease name</th>
+                        <th>Male patients</th>
                         <th>Male percentage</th>
-                        <th>Number of females</th>
+                        <th>Female patients</th>
                         <th>Female percentage</th>
-                        <th>Total</th>
+                        <th>Total patients</th>
                     </tr>
-                    @foreach ($data_by_vaccine_status as $status)
+                    @foreach ($data_by_chronic_disease as $disease)
                         <tr>
-                            <td>{{ $status->vac_status }}</td>
-                            <td>{{ $status->male_count }}</td>
-                            <td>{{ $status->male_pcnt }}</td>
-                            <td>{{ $status->female_count }}</td>
-                            <td>{{ $status->female_pcnt }}</td>
-                            <td>{{ $status->total }}</td>
+                            <td>{{ $disease->name }}</td>
+                            <td>{{ $disease->male }}</td>
+                            <td>{{ $disease->male_pcnt }}</td>
+                            <td>{{ $disease->female }}</td>
+                            <td>{{ $disease->female_pcnt }}</td>
+                            <td>{{ $disease->total }}</td>
                         </tr>
                     @endforeach
                 </table>

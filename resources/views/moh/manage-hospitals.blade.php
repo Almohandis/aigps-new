@@ -46,11 +46,12 @@
                             <th>Name</th>
                             <th>City</th>
                             <th>Total capacity</th>
-                            <th>Intensive care beds</th>
-                            <th>Available intensive care beds</th>
-                            <th>Available regular beds</th>
+                            {{-- <td>Intensive care beds</td>
+                    <td>Available intensive care beds</td>
+                    <td>Available regular beds</td> --}}
                             <th>Isolation</th>
                         </tr>
+
                     </table>
                 </div>
                 <div class="tbl-content">

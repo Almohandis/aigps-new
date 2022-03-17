@@ -127,7 +127,7 @@
                             <a href="/reserve" class="diagnose">Diagnose</a>
                         </li>
                         <li>
-                            <a href="/view/contact" class="contact-us">Contact Us</a>
+                            <a href="/contact" class="contact-us">Contact Us</a>
                         </li>
 
 

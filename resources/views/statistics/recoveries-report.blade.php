@@ -32,7 +32,11 @@
                 <table>
                     <tr>
                         <th>City</th>
-                        <th>Total recoveries</th>
+                        <th>Number of males</th>
+                        <th>Males percentage</th>
+                        <th>Number of females</th>
+                        <th>Females percentage</th>
+                        <th>Total number of recoveries</th>
                         <th>Total hospitals</th>
                         <th>Average available beds</th>
                     </tr>
@@ -41,6 +45,10 @@
                             <td>{{ $cities[$i] }}</td>
                             @if (isset($data_by_city[$j]))
                                 @if ($cities[$i] == $data_by_city[$j]->city)
+                                    <td>{{ $data_by_city[$j]->male_count }}</td>
+                                    <td>{{ $data_by_city[$j]->male_pcnt }}</td>
+                                    <td>{{ $data_by_city[$j]->female_count }}</td>
+                                    <td>{{ $data_by_city[$j]->female_pcnt }}</td>
                                     <td>{{ $data_by_city[$j]->total_rec }}</td>
                                     <td>{{ $data_by_city[$j]->tot_hos }}</td>
                                     <td>{{ $data_by_city[$j]->avg_avail_beds }}</td>
@@ -49,8 +57,16 @@
                                     <td>0</td>
                                     <td>0</td>
                                     <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
                                 @endif
                             @else
+                                <td>0</td>
+                                <td>0</td>
+                                <td>0</td>
+                                <td>0</td>
                                 <td>0</td>
                                 <td>0</td>
                                 <td>0</td>
