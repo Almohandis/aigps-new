@@ -3,6 +3,7 @@
 use App\Http\Controllers\MedicalPassportController;
 use App\Http\Controllers\StatisticsController;
 use App\Http\Controllers\ProfileController;
+use App\Models\Campaign;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -37,4 +38,11 @@ Route::post('/medical-passport', [MedicalPassportController::class, 'index'])->n
 //# Contact page
 Route::get('/contact', function () {
     return view('contact');
+});
+
+Route::get('/test', function () {
+    return view('citizen.test')->with([
+        'message' => null,
+        'campaigns'=> Campaign::all(),
+    ]);
 });
