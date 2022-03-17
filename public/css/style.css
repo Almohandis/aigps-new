@@ -864,3 +864,49 @@
   {
       background-color: #007c1f;
   }
+  .add-national-id
+  {
+    box-shadow: 0 .5rem 1.5rem rgba(0,0,0,.1);
+    background: #fff;
+    height: auto;
+    margin-bottom: 3rem;
+  }
+  .add-id-btn 
+  {
+      background-color: #0fb639;
+      color: white;
+      width: 4rem;
+      height: 1.7rem;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: 0.5s;
+      margin-bottom: 2rem;
+  }
+  .add-id-btn:hover
+  {
+      background-color: #007c1f;
+  }
+  .delete-id-btn 
+  {
+      background-color: crimson;
+      color: white;
+      width: 4rem;
+      height: 1.7rem;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: 0.5s;
+      margin-bottom: 2rem;
+  }
+  .delete-id-btn:hover
+  {
+      background-color: #6c0f22;
+  }
+  .type-id-hero {
+    margin-top: 5rem;
+    font-size: 20px;
+    margin-left: 2rem;
+    font-weight: 300;
+    text-transform: uppercase;
+    padding-top: 1rem;
+    margin-bottom: 2rem;
+  }
