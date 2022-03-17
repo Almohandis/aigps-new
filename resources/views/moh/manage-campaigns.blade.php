@@ -23,7 +23,7 @@
                 </div>
                 <div class="tbl-content">
                     <table>
-                        {{ $i = 1 }}
+                        @php $i = 1 @endphp 
                         @foreach ($campaigns as $campaign)
                             <tr>
                                 <td>{{ $i++ }}</td>
