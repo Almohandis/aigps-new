@@ -33,7 +33,7 @@
         @endif
 
 
-        <div class="mx-auto text-center mt-5" style="background-color: #454040;">
+        <div class="mx-auto text-center mt-5">
 
             <form class="inline-block bg-black bg-opacity-50 p-8 text-justify" method="POST" action="/reserve/step2" id="reservation-form">
                 @if ($errors->any())

@@ -561,12 +561,16 @@
       width: 100%;
       transform: scale(0.92);
       margin-top: 12px;
+      background-color: white;
+      box-shadow: 0 .5rem 1.5rem rgba(0,0,0,.1);
+      color: black;
     }
     #mobile{
       width: 24rem;
       height: 2.5rem;
       margin-left: 10rem;
       margin-top: -2rem;
+      border-width: 1px;
     }
     #mobile-div {
       margin-left: 6rem;
@@ -576,6 +580,7 @@
       width: 24rem;
       margin-left: 11rem;
       margin-top: -2rem;
+      border-width: 1px;
     }
     #addphone{
       width: 10rem;
@@ -589,6 +594,7 @@
       text-align: center;
       margin-left: 6rem;
       margin-top: -2rem;
+      border-width: 1px;
     }
     #birth-div {
       margin-left: 57rem;
@@ -599,8 +605,8 @@
     }
     #gender{
       margin-left: 10.25rem;
-      height: 1.5rem;
-      width: 1.5rem;
+      height: 1.2rem;
+      width: 1.2rem;
     }
     #gender-div {
       margin-left: 6rem;
@@ -608,7 +614,7 @@
     #gender-type
     {
       font-size: 16px;
-      color: white;
+      color: black;
     }
     #address
     {
@@ -623,6 +629,7 @@
     #address-label
     {
       font-size: 18px;
+      color: black;
     }
     #country{
       width: 17rem;
@@ -637,10 +644,12 @@
     #country-label
     {
       font-size: 18px;
+      color: black;
     }
     #tele-label
     {
       font-size: 18px;
+      color: black;
     }
     #tele-div {
       margin-left: 6rem;
@@ -648,14 +657,17 @@
     #birth-label
     {
       font-size: 18px;
+      color: black;
     }
     #gender-label
     {
       font-size: 18px;
+      color: black;
     }
     #mobile-label
     {
       font-size: 18px;
+      color: black;
     }
     #generate-btn
     {
