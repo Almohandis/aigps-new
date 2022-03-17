@@ -501,6 +501,13 @@ class StatisticsController extends Controller
                 // return $data;
                 return view('statistics.hospitalization-status', ['data_by_date' => $data, 'names' => $names, 'report_by' => $report_by]);
                 break;
+            case 'Age segment':
+                $data = DB::select('SELECT DISTINCT IF( TIMESTAMPDIFF(YEAR, u1.birthdate, now())<= 20, "Children", IF( TIMESTAMPDIFF(YEAR, u1.birthdate, now())<= 40, "Youth", "Elder" ) ) AS age, ( SELECT COUNT(distinct u2.id) FROM users AS u2, hospitalizations as hoz2 WHERE hoz2.user_id = u2.id AND IF( TIMESTAMPDIFF(YEAR, u2.birthdate, now())<= 20, "Children", IF( TIMESTAMPDIFF(YEAR, u2.birthdate, now())<= 40, "Youth", "Elder" ) )=( SELECT age ) ) AS total, ( SELECT COUNT(distinct u2.id) FROM users AS u2, hospitalizations as hoz2 WHERE hoz2.user_id = u2.id AND u2.gender = "Male" AND IF( TIMESTAMPDIFF(YEAR, u2.birthdate, now())<= 20, "Children", IF( TIMESTAMPDIFF(YEAR, u2.birthdate, now())<= 40, "Youth", "Elder" ) )=( SELECT age ) ) AS male, ROUND( (select male) /( SELECT total ) * 100, 2 ) AS male_pcnt, ( SELECT COUNT(distinct u2.id) FROM users AS u2, hospitalizations as hoz2 WHERE hoz2.user_id = u2.id AND u2.gender = "Female" AND IF( TIMESTAMPDIFF(YEAR, u2.birthdate, now())<= 20, "Children", IF( TIMESTAMPDIFF(YEAR, u2.birthdate, now())<= 40, "Youth", "Elder" ) )=( SELECT age ) ) AS female, ROUND( (select female) /( SELECT total )* 100, 2 ) AS "female_pcnt" FROM hospitalizations as hoz1, users AS u1 group by age ORDER BY age;');
+                $data = json_encode($data);
+                $data = json_decode($data);
+                // return $data;
+                return view('statistics.hospitalization-status', ['data_by_age' => $data, 'names' => $names, 'report_by' => $report_by]);
+                break;
             default:
                 return null;
         }

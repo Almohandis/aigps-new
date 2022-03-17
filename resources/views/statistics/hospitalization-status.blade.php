@@ -92,6 +92,27 @@
                         </tr>
                     @endforeach
                 </table>
+            @elseif(isset($data_by_age))
+                <table>
+                    <tr>
+                        <th>Age segment</th>
+                        <th>Number of males</th>
+                        <th>Male percentage</th>
+                        <th>Number of females</th>
+                        <th>Female percentage</th>
+                        <th>Total patients</th>
+                    </tr>
+                    @foreach ($data_by_age as $age)
+                        <tr>
+                            <td>{{ $age->age }}</td>
+                            <td>{{ $age->male }}</td>
+                            <td>{{ $age->male_pcnt }}</td>
+                            <td>{{ $age->female }}</td>
+                            <td>{{ $age->female_pcnt }}</td>
+                            <td>{{ $age->total }}</td>
+                        </tr>
+                    @endforeach
+                </table>
             @endif
         </div>
     </div>
