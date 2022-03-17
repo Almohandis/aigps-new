@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="icon" type="image/x-icon" href="EDIT3.png">
+    <link rel="icon" type="image/x-icon" href="/EDIT3.png">
 
     <title>{{ $title ?? 'AIGPS' }}</title>
     <!-- Fonts -->
@@ -33,7 +33,7 @@
 
 
     <div class="relative items-top justify-center min-h-screen sm:items-center py-4 sm:pt-0">
-        <nav class="header">
+        <nav class="header" id="header">
             <div class="container flex flex-wrap justify-between items-center mx-auto">
                 <a href="/" class="flex">
                     <img class="logo" id="logo"src="{{ asset('EDIT3.png') }}" alt="Logo">

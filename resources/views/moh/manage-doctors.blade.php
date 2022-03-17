@@ -16,7 +16,7 @@
             </select>
             <form id="add-doctor-form" action="/staff/moh/manage-doctors/add" method="POST">
                 @csrf
-                <div class="tbl-header" style="width: 500px; border:1px solid black">
+                <div class="tbl-header" style="border:1px solid black">
                     <table>
                         <tr>
                             <th>#</th>

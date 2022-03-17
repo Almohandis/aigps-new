@@ -11,42 +11,50 @@
                 @php
                     $i = 1;
                 @endphp
-                <h1>Staff roles</h1>
+                <h1 class="staff-hero">Staff roles</h1>
                 <form action="/staff/admin/update" method="POST">
                     @csrf
-                    <table>
-                        <tr>
-                            <th>#</th>
-                            <th>Name</th>
-                            <th>City</th>
-                            <th>National ID</th>
-                            <th>Role</th>
-                        </tr>
-                        @foreach ($members as $member)
+                    <div class="tbl-header">
+                        <table>
                             <tr>
-                                <input type="hidden" value="{{ $member->id }}" name="id[]">
-                                <td>{{ $i++ }}</td>
-                                <td>{{ $member->name }}</td>
-                                <td>{{ $member->city }}</td>
-                                <td>{{ $member->national_id }}</td>
-                                <td> <input type="number" min="1" max="8" name="role_id[]"
-                                        value="{{ $member->role_id }}"> </td>
+                                <th>#</th>
+                                <th>Name</th>
+                                <th>City</th>
+                                <th>National ID</th>
+                                <th>Role</th>
                             </tr>
-                        @endforeach
-                    </table>
-                    <input type="submit" value="Update">
+                        </table>
+                    </div>
+                    <div class="tbl-content">
+                        <table>
+                            @foreach ($members as $member)
+                                <tr>
+                                    <input type="hidden" value="{{ $member->id }}" name="id[]">
+                                    <td>{{ $i++ }}</td>
+                                    <td>{{ $member->name }}</td>
+                                    <td>{{ $member->city }}</td>
+                                    <td>{{ $member->national_id }}</td>
+                                    <td> <input style="color:black;" type="number" min="1" max="8" name="role_id[]"
+                                            value="{{ $member->role_id }}">
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </table>
+                    </div>
+                    <input type="submit" value="Update" class="update-btn">
                 </form>
             </div>
-
-            <h1>Add staff member</h1><br>
-            <form action="/staff/admin/add" method="POST">
-                @csrf
-                <label for="national_id">National ID</label>
-                <input type="text" name="national_id" id="national_id" required><br>
-                <label for="role_id">Role ID</label>
-                <input type="number" min="1" max="8" name="role_id" id="role_id" required><br>
-                <input type="submit" value="Add">
-            </form>
+            <div class="add-staff">
+                <h1 class="add-hero">Add staff member</h1><br>
+                <form action="/staff/admin/add" method="POST">
+                    @csrf
+                    <label for="national_id" class="national_id">National ID</label>
+                    <input type="text" name="national_id" id="national_id" required>
+                    <label for="role_id" class="role_id">Role ID</label>
+                    <input type="number" min="1" max="8" name="role_id" id="role_id" required><br>
+                    <input type="submit" value="Add" class="update-btn2">
+                </form>
+            </div>
         </div>
     </div>
 </x-app-layout>

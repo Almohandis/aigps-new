@@ -9,6 +9,7 @@ function scrollFunction() {
     document.getElementById("logo").style.transition = "0.5s";
     document.getElementById("title").style.transition = "0.5s";
     document.getElementById("menu").style.transition = "0.5s";
+    document.getElementById("header").style.backgroundColor ="rgba(18,16,16,0.85)";
 
     
 
@@ -20,6 +21,8 @@ function scrollFunction() {
     document.getElementById("logo").style.transition = "0.5s";
     document.getElementById("menu").style.transition = "0.5s";
     document.getElementById("title").style.transition = "0.5s";
+    document.getElementById("header").style.backgroundColor ="rgba(18,16,16,0.65)";
+    
   }
 } 
 function Scrolldown() {

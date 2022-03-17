@@ -6,25 +6,31 @@
             @endif
         </div>
         <div class="pt-8 sm:pt-0">
-            <h1>All available campaigns</h1>
-            <table>
-                <tr>
-                    <th>#</th>
-                    <th>Start date</th>
-                    <th>End date</th>
-                    <th>Address</th>
-                </tr>
-                @foreach ($campaigns as $campaign)
+            <h1 class="add-hero2">All available campaigns</h1>
+            <div class="tbl-header">
+                <table>
                     <tr>
-                        <td>{{ $campaign->id }}</td>
-                        <td>{{ $campaign->start_date }}</td>
-                        <td>{{ $campaign->end_date }}</td>
-                        <td>{{ $campaign->address }}</td>
-                        <td></td>
-
+                        <th>#</th>
+                        <th>Start date</th>
+                        <th>End date</th>
+                        <th>Address</th>
                     </tr>
-                @endforeach
-            </table>
+                </table>
+            </div>
+            <div class="tbl-content">
+                <table>
+                    @foreach ($campaigns as $campaign)
+                        <tr>
+                            <td>{{ $campaign->id }}</td>
+                            <td>{{ $campaign->start_date }}</td>
+                            <td>{{ $campaign->end_date }}</td>
+                            <td>{{ $campaign->address }}</td>
+                            <td></td>
+
+                        </tr>
+                    @endforeach
+                </table>
+            </div>
         </div>
     </div>
 </x-app-layout>

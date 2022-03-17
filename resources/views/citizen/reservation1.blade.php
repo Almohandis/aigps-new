@@ -12,13 +12,35 @@
         </h1>
 
         <div class="mx-auto text-center mt-2">
-            <p class="inline-block text-center text-xl bg-white font-bold rounded-full text-blue-500 w-8 h-8 pt-1">1</p>
-            <div class="inline-block mx-3 bg-black w-10 h-1 mb-1 bg-opacity-50"></div>
-            <p class="inline-block text-center text-xl bg-blue-500 font-bold rounded-full text-white w-8 h-8 pt-1">2</p>
+            <p class="inline-block text-center text-xl bg-blue-500 font-bold rounded-full text-white w-8 h-8 pt-1" id="c1">1</p>
+            <div class="inline-block mx-3 bg-black w-10 h-1 mb-1 bg-opacity-50" id="l1"></div>
+            <p class="inline-block text-center text-xl bg-white  font-bold rounded-full text-blue-500  w-8 h-8 pt-1" id="c2">2</p>
+            <div class="inline-block mx-3 bg-black w-10 h-1 mb-1 bg-opacity-50" id="l1"></div>
+            <p class="inline-block text-center text-xl bg-white  font-bold rounded-full text-blue-500  w-8 h-8 pt-1" id="c2">✓</p>
+        </div>
+        <style>
+            .text-red-600{
+                background-color: cornsilk;
+                height: 36px;
+                display: inline-block;
+                width: 27rem;
+                text-align: center;
+                transition: cubic-bezier(.57,-0.54,.4,.7);
+                border-radius: 8px;
+                margin-bottom: 15px;
+                padding-top: 7px;
+                margin-left: 10.5rem;
+                font-size: 18px;
+                margin-top: 3rem;
+
+            }
+        </style>
+
         </div>
 
         @if ($message)
             <div class="font-medium text-red-600">
+                <i class="fa-solid fa-circle-exclamation"></i>
                 {{ $message }}
             </div>
         @endif

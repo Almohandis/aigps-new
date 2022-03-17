@@ -10,10 +10,12 @@
                 Vaccination reservation
             @endif
         </h1>
-        <div class="mx-auto text-center mt-2">
-            <p class="inline-block text-center text-xl bg-blue-500 font-bold rounded-full text-white w-8 h-8 pt-1">1</p>
-            <div class="inline-block mx-3 bg-black w-10 h-1 mb-1 bg-opacity-50"></div>
-            <p class="inline-block text-center text-xl bg-white  font-bold rounded-full text-blue-500  w-8 h-8 pt-1">2</p>
+        <div class="mx-auto text-center mt-2" style="margin-bottom:4rem;">
+            <p class="inline-block text-center text-xl bg-blue-500 font-bold rounded-full text-white w-8 h-8 pt-1" id="c1">1</p>
+            <div class="inline-block mx-3 bg-black w-10 h-1 mb-1 bg-opacity-50" id="l2"></div>
+            <p class="inline-block text-center text-xl bg-white  font-bold rounded-full text-blue-500  w-8 h-8 pt-1" id="c3">2</p>
+            <div class="inline-block mx-3 bg-black w-10 h-1 mb-1 bg-opacity-50" id="l1"></div>
+            <p class="inline-block text-center text-xl bg-white  font-bold rounded-full text-blue-500  w-8 h-8 pt-1" id="c2">✓</p>
         </div>
 
         @if ($errors->any())
@@ -49,14 +51,14 @@
                 @endif
 
                 @csrf
-                <div>
+                <div id="address-div">
                     <x-label for="address" value="Adress" class="text-white" id="address-label"/>
 
                     <x-input id="address" class="block mt-1 w-full" type="text" name="address" :value="old('address')"
                         required autofocus />
                 </div>
 
-                <div>
+                <div class="country-div">
                     <x-label for="country" value="country" class="text-white" id="country-label"/>
 
                     <select name="country" id="country" class="block mt-1 w-full">
@@ -65,31 +67,32 @@
                         @endforeach
                     </select>
                 </div>
-
-                <div class="mt-3">
+                    <br><br>
+                <div class="mt-3" id="tele-div">
                     <x-label for="telephone_number" value="Telephone Number" class="text-white" id="tele-label" />
 
                     <x-input id="telephone_number" class="block mt-1 w-full" type="number" name="telephone_number"
                         :value="old('telephone_number')" required />
                 </div>
 
-                <div class="mt-3">
+                <div class="mt-3" id="birth-div">
                     <x-label for="birthdate" value="Birthdate" class="text-white" id="birth-label" />
 
                     <x-input id="birthdate" class="block mt-1 w-full" type="date" name="birthdate"
                         :value="old('birthdate')" required />
                 </div>
+                <br><br>
 
-                <div class="mt-3">
+                <div class="mt-3" id="gender-div">
                     <label for="gender" value="Gender" class="text-white font-medium text-sm" id="gender-label">Gender</label>
 
                     <input id="gender" class="ml-5" type="radio" name="gender" value="Male" />
-                    <label class="text-gray-400 text-sm mr-5">Male</label>
+                    <label class="text-gray-400 text-sm mr-5" id="gender-type">Male</label>
                     <input id="gender" type="radio" name="gender" value="Female" />
-                    <label class="text-gray-400 text-sm">Female</label>
+                    <label class="text-gray-400 text-sm" id="gender-type">Female</label>
                 </div>
-
-                <div class="mt-3">
+                    <br><br>
+                <div class="mt-3" id="mobile-div">
                     <x-label value="Mobile Numbers" class="text-white" id="mobile-label"/>
 
                     <div id="phones">
@@ -108,7 +111,7 @@
 
                     <script>
                         function Scrolldown() {
-                            window.scroll(0,670); 
+                            window.scroll(0,550); 
                             }
                         window.onload = Scrolldown;
                         var phones = 2;
@@ -121,6 +124,10 @@
                             phone.setAttribute('placeholder', '+20');
                             phone.setAttribute('required', '');
                             phone.setAttribute('class', 'block mt-1');
+                            phone.style.height= "2.5rem";
+                            phone.style.borderRadius="5px";
+                            phone.style.marginLeft="10rem";
+                            phone.style.width="24rem";
 
                             phone_input.appendChild(phone);
 
@@ -143,9 +150,15 @@
                         }
                     </script>
                 </div>
+                <button onclick="window.location.href='/reserve'"class="back-btn">
+                    BACK
+                </button>
+                <button onclick="window.location.href='/'"class="cancel-btn">
+                    CANCEL
+                </button>
 
                 <div class="mt-6">
-                    <div class="mt-3 mx-auto text-right">
+                    <div class="mt-3 mx-auto text-right" id="next-btn">
                         <x-button>
                             Next
                         </x-button>

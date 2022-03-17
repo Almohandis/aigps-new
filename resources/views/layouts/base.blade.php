@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="icon" type="image/x-icon" href="EDIT3.png">
+    <link rel="icon" type="image/x-icon" href="/EDIT3.png">
 
     <title>
         {{ $title ?? 'AIGPS' }}
@@ -33,7 +33,7 @@
 
 <body class="antialiased">
     <div class="relative items-top justify-center min-h-screen sm:items-center py-4 sm:pt-0">
-        <nav class="header">
+        <nav class="header" id="header">
             <div class="container flex flex-wrap justify-between items-center mx-auto">
                 <a href="/" class="flex">
                     <img class="logo" id="logo" src="{{ asset('EDIT3.png') }}" alt="Logo">
@@ -145,8 +145,7 @@
                             @elseif(Auth::user()->role_id == 4)
                                 <li>
                                     <a href="{{ url('/staff/moia/escorting') }}"
-                                        class="block py-2 pr-4 pl-3 text-white border-b border-gray-100 hover:bg-gray-50 md:hover:bg-transparent md:border-0 md:hover:text-blue-100 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Campaign
-                                        escorting</a>
+                                        class="block py-2 pr-4 pl-3 text-white border-b border-gray-100 hover:bg-gray-50 md:hover:bg-transparent md:border-0 md:hover:text-blue-100 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Campaigns</a>
                                 </li>
                             @elseif(Auth::user()->role_id == 6)
                                 {{-- <li>
