@@ -34,16 +34,16 @@
             <form action="/staff/moh/manage-hospitals/update" method="POST">
                 @csrf
                 <table>
-                    <th>
-                    <td>#</td>
-                    <td>Name</td>
-                    <td>City</td>
-                    <td>Total capacity</td>
-                    <td>Intensive care beds</td>
+                    <tr>
+                        <th>#</th>
+                        <th>Name</th>
+                        <th>City</th>
+                        <th>Total capacity</th>
+                        {{-- <td>Intensive care beds</td>
                     <td>Available intensive care beds</td>
-                    <td>Available regular beds</td>
-                    <td>Isolation</td>
-                    </th>
+                    <td>Available regular beds</td> --}}
+                        <th>Isolation</th>
+                    </tr>
                     @foreach ($hospitals as $hospital)
                         <tr>
                             <input type="hidden" class="id" value="{{ $hospital->id }}" name="id[]">

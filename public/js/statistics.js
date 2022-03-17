@@ -1,23 +1,23 @@
 let getReportBy = {
     '': '',
-    'Blood type distribution': ['City', 'Blood type', 'Age segment'],
-    'Survey results and answers': [ /*'City', */ 'Question' /*, 'Age segment'*/ ],
-    'Recoveries report': ['City', 'Hospital', 'Date', 'Age segment'],
-    'Deaths report': ['City', 'Hospital', 'Date', 'Age segment'],
-    'User vaccinating status': ['City', 'Vaccine status', 'Age segment'],
-    'User vaccinating status (summary)': ['Default'],
-    'Distribution of hospitals': ['City', 'Hospital'],
-    'Infections and their relatives': ['City', 'Vaccine status', 'Date', 'Age segment'],
-    'Distribution of chronic diseases': ['Chronic disease', 'Age segment'],
-    'Distribution of doctors in hospitals': ['City', 'Hospital'],
-    'Distribution of doctors in campaigns': ['City'],
-    'Hospitalization status': ['City', 'Hospital', 'Date', 'Age segment'],
-    'Hospital statistics': ['City', 'Hospital', 'Date'],
-    'Hospital statistics (summary)': ['Default'],
-    'Campaign report (summary)': ['Default'],
-    'General statistics': ['Default'],
-    'Vaccine report': ['Default'],
-    'Personal medical report': ['Default'],
+    'Blood type distribution': ['City', 'Blood type', 'Age segment'],                       //1
+    'Survey results and answers': [ /*'City', */ 'Question' /*, 'Age segment'*/ ],          //2
+    'Recoveries report': ['City', 'Hospital', 'Date', 'Age segment'],                       //3
+    'Deaths report': ['City', 'Hospital', 'Date', 'Age segment'],                           //4
+    'User vaccinating status': [ /*'City',*/ 'Vaccine status' /*, 'Age segment'*/ ],        //5
+    'User vaccinating status (summary)': ['Default'],                                       //6
+    'Distribution of hospitals': ['City', 'Hospital'],                                      //7
+    'Infections report': ['City', 'Vaccine status', 'Date', 'Age segment'],                 //8
+    'Distribution of chronic diseases': ['Chronic disease' /*, 'Age segment'*/ ],           //9
+    'Distribution of doctors in hospitals': ['City', 'Hospital'],                          //10
+    // 'Distribution of doctors in campaigns': ['City'],
+    'Hospitalization status': ['City', 'Hospital', 'Date', 'Age segment'],                  //11
+    // 'Hospital statistics': ['City', 'Hospital', 'Date'],
+    // 'Hospital statistics (summary)': ['Default'],
+    'Campaign report (summary)': ['Default'],                                               //12
+    'General statistics': ['Default'],                                                      //13
+    'Vaccine report': ['Default'],                                                          //14
+    'Personal medical report': ['Default'],                                                 //15
 };
 let report_by;
 

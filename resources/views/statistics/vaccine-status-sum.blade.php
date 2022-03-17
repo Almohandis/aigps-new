@@ -32,20 +32,12 @@
                 <table>
                     <tr>
                         <th>Vaccine status category</th>
-                        <th>Number of males</th>
-                        <th>Male percentage</th>
-                        <th>Number of females</th>
-                        <th>Female percentage</th>
                         <th>Total</th>
                     </tr>
                     @foreach ($data_by_vaccine_status as $status)
                         <tr>
                             <td>{{ $status->vac_status }}</td>
-                            <td>{{ $status->male_count }}</td>
-                            <td>{{ $status->male_pcnt }}</td>
-                            <td>{{ $status->female_count }}</td>
-                            <td>{{ $status->female_pcnt }}</td>
-                            <td>{{ $status->total }}</td>
+                            <td>{{ $status->Total }}</td>
                         </tr>
                     @endforeach
                 </table>

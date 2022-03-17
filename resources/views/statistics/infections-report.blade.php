@@ -5,16 +5,6 @@
                 {{ session('message') }}
             @endif
         </div>
-        <style>
-            .tr {
-                display: table-cell;
-            }
-
-            .td {
-                display: block;
-            }
-
-        </style>
         <div class="pt-8 sm:pt-0">
             <h1>statistics</h1><br>
             <form id="form" action="/stats" method="POST">
@@ -36,7 +26,7 @@
                         <th>Males percentage</th>
                         <th>Number of females</th>
                         <th>Females percentage</th>
-                        <th>Total number of deaths</th>
+                        <th>Total number of infections</th>
                         <th>Total hospitals</th>
                         <th>Average available beds</th>
                     </tr>
@@ -49,7 +39,7 @@
                                     <td>{{ $data_by_city[$j]->male_pcnt }}</td>
                                     <td>{{ $data_by_city[$j]->female_count }}</td>
                                     <td>{{ $data_by_city[$j]->female_pcnt }}</td>
-                                    <td>{{ $data_by_city[$j]->total_deaths }}</td>
+                                    <td>{{ $data_by_city[$j]->total_infections }}</td>
                                     <td>{{ $data_by_city[$j]->tot_hos }}</td>
                                     <td>{{ $data_by_city[$j]->avg_avail_beds }}</td>
                                     @php $j++ @endphp
@@ -74,36 +64,48 @@
                         </tr>
                     @endfor
                 </table>
-            @elseif(isset($data_by_hospital))
+            @elseif(isset($data_by_vaccine_status))
                 <table>
                     <tr>
-                        <th>Hospital name</th>
-                        <th>City</th>
-                        <th>Total deaths</th>
-                        <th>Available beds</th>
+                        <th>Vaccine status</th>
+                        <th>Number of males</th>
+                        <th>Males percentage</th>
+                        <th>Number of females</th>
+                        <th>Female percentage</th>
+                        <th>Total number of infections</th>
                     </tr>
-                    @foreach ($data_by_hospital as $hospital)
+                    @foreach ($data_by_vaccine_status as $vac)
                         <tr>
-                            <td>{{ $hospital->name }}</td>
-                            <td>{{ $hospital->city }}</td>
-                            <td>{{ $hospital->total_deaths }}</td>
-                            <td>{{ $hospital->avail_beds }}</td>
+                            <td>{{ $vac->vac_status }}</td>
+                            <td>{{ $vac->male_count }}</td>
+                            <td>{{ $vac->male_pcnt }}</td>
+                            <td>{{ $vac->female_count }}</td>
+                            <td>{{ $vac->female_pcnt }}</td>
+                            <td>{{ $vac->total }}</td>
                         </tr>
                     @endforeach
                 </table>
             @elseif(isset($data_by_date))
                 <table>
                     <tr>
-                        <th colspan="2">Total number of deaths starting from {{ $date }} until now</th>
+                        <th colspan="6">Total number of infections starting from {{ $date }} until now</th>
                     </tr>
                     <tr>
-                        <th>Date</th>
-                        <th>Total deaths</th>
+                        <th>Infection date</th>
+                        <th>Number of males</th>
+                        <th>Males percentage</th>
+                        <th>Number of females</th>
+                        <th>Females percentage</th>
+                        <th>Total infections</th>
                     </tr>
                     @foreach ($data_by_date as $date)
                         <tr>
                             <td>{{ $date->infection_date }}</td>
-                            <td>{{ $date->total_deaths }}</td>
+                            <td>{{ $date->male_count }}</td>
+                            <td>{{ $date->male_pcnt }}</td>
+                            <td>{{ $date->female_count }}</td>
+                            <td>{{ $date->female_pcnt }}</td>
+                            <td>{{ $date->total_inf }}</td>
                         </tr>
                     @endforeach
                 </table>
@@ -111,20 +113,20 @@
                 <table>
                     <tr>
                         <th>Age segment</th>
-                        <th>Total deaths</th>
                         <th>Number of males</th>
                         <th>Male percentage</th>
                         <th>Number of females</th>
                         <th>Female percentage</th>
+                        <th>Total infections</th>
                     </tr>
                     @foreach ($data_by_age as $segment)
                         <tr>
-                            <td>{{ $segment->Age }}</td>
-                            <td>{{ $segment->Total }}</td>
-                            <td>{{ $segment->Male }}</td>
+                            <td>{{ $segment->age }}</td>
+                            <td>{{ $segment->male }}</td>
                             <td>{{ $segment->male_pcnt }}</td>
-                            <td>{{ $segment->Female }}</td>
+                            <td>{{ $segment->female }}</td>
                             <td>{{ $segment->female_pcnt }}</td>
+                            <td>{{ $segment->total }}</td>
                         </tr>
                     @endforeach
                 </table>

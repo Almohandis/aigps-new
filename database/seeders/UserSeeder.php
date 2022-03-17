@@ -84,10 +84,18 @@ class UserSeeder extends Seeder
                     'national_id' => $nid,
                     'hospital_id' => $this->faker->randomElement([null, $this->faker->randomElement($hospitalIDs)]),
                 ]);
-            $user->hospitalizations()->attach($hospitalIDs, [
-                'checkin_date' => $this->faker->dateTimeBetween('-1 month', 'now'),
-                'checkout_date' => $this->faker->randomElement([null, null, $this->faker->dateTimeBetween('now', '+1 month')])
-            ]);
+            // $user->hospitalizations()->attach($hospitalIDs, [
+            //     'checkin_date' => $this->faker->dateTimeBetween('-1 month', 'now'),
+            //     'checkout_date' => $this->faker->randomElement([null, null, $this->faker->dateTimeBetween('now', '+1 month')])
+            // ]);
+            shuffle($hospitalIDs);
+            $sub_hospitalizations = array_slice($hospitalIDs, 0, $this->faker->numberBetween(0, count($hospitalIDs) - 1));
+            foreach ($sub_hospitalizations as $hos_id) {
+                $user->hospitalizations()->attach($hos_id, [
+                    'checkin_date' => $this->faker->dateTimeBetween('-1 month', 'now'),
+                    'checkout_date' => $this->faker->randomElement([null, null, $this->faker->dateTimeBetween('now', '+1 month')])
+                ]);
+            }
             $user->campaigns()->attach($campaigns, [
                 'from' => $this->faker->dateTimeBetween('-1 month', 'now'),
                 'to' => $this->faker->dateTimeBetween('now', '+1 month'),
