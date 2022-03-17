@@ -98,7 +98,7 @@
             
             <div class="grid grid-cols-2" style="margin-left: 8rem;margin-top: 1rem;">
                 <div>
-                    <div class="text-xl text-black ml-20"><i class="fa-solid fa-envelope" style="margin-right: 1rem;"></i>Our Emails:</div>
+                    <div class="text-xl text-black ml-20" style="margin-left: 3rem;"><i class="fa-solid fa-envelope" style="margin-right: 1rem;"></i>Our Emails:</div>
                     <div class="text-md text-blue-800 ml-24 underline">AIGPS@gmail.com</div>
                     <div class="text-md text-blue-800 ml-24 underline">AIGPS@hotmail.com</div>
                 </div>
@@ -108,7 +108,7 @@
                 </div>
                 
                 <div class="mt-10">
-                    <div class="text-xl text-black ml-20" > <i class="fa-solid fa-clock" style="margin-right: 0.5rem;"></i> Our Working hours:</div>
+                    <div class="text-xl text-black ml-20" style="margin-left: 3rem;" > <i class="fa-solid fa-clock" style="margin-right: 0.5rem;"></i> Our Working hours:</div>
                     <div class="text-md text-blue-800 ml-24">Everyday except Friday</div>
                     <div class="text-md text-blue-800 ml-24">8:00AM - 8:00PM</div>
                 </div>
