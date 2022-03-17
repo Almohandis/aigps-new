@@ -564,6 +564,7 @@
       background-color: white;
       box-shadow: 0 .5rem 1.5rem rgba(0,0,0,.1);
       color: black;
+      border-radius: 25px;
     }
     #mobile{
       width: 24rem;
@@ -846,6 +847,7 @@
     box-shadow: 0 .5rem 1.5rem rgba(0,0,0,.1);
     background: #fff;
     height: 10rem;
+    border-radius: 25px;
   }
   .add-hospital
   {
@@ -853,6 +855,7 @@
     background: #fff;
     height: 15rem;
     margin-bottom: 3rem;
+    border-radius: 25px;
   }
   .add-campaign
   {
@@ -860,6 +863,7 @@
     background: #fff;
     height: auto;
     margin-bottom: 3rem;
+    border-radius: 25px;
   }
   .add-doc-btn {
     background-color: #0fb639;
@@ -882,6 +886,7 @@
     background: #fff;
     height: auto;
     margin-bottom: 3rem;
+    border-radius: 25px;
   }
   .add-id-btn 
   {
@@ -936,4 +941,28 @@
   .req-btn:hover
   {
       background-color: #007c1f;
+  }
+  .page-menu {
+    height: 8rem;
+    width: 17rem;
+    border-radius: 8px;
+    margin-top: -12rem;
+    margin-left: 4rem;
+  }
+  .p-menu-btn {
+    background-color: #fff;
+    color: black;
+    width: 17rem;
+    height: 2.7rem;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.5s;
+    margin-bottom: 0rem;
+    border-width: 1px;
+    box-shadow: 0 .5rem 1.5rem rgba(0,0,0,.1);
+  }
+  .p-menu-btn:hover
+  {
+      background-color: #0fb639;
+      color: white;
   }
