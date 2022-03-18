@@ -22,7 +22,9 @@
         </div>
         <div class="page-menu">
             <input type="button" value="Account Settings" class="p-menu-btn">
+            <hr style="margin-left: 2.5rem;border-top-width: 2px;width: 70%;">
             <input type="button" value="Status" class="p-menu-btn">
+            <hr style="margin-left: 2.5rem;border-top-width: 2px;width: 70%;">
             <input type="button" value="Medical Passport" class="p-menu-btn">
         </div>
 </x-base-layout>

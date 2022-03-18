@@ -36,7 +36,7 @@
                     <x-label for="city" value="City" class="text-black" />
 
                     <select name="city" class="block mt-1 w-full"
-                        style="width: 12rem;margin-left: 3rem;margin-top: -2rem;">
+                        style="width: 12rem;margin-left: 3rem;margin-top: -2rem;border-radius: 5px;">
                         <option value="Alexandria">Alexandria</option>
                         <option value="Aswan">Aswan</option>
                         <option value="Asyut">Asyut</option>
@@ -79,7 +79,7 @@
                     <x-label for="blood_type" value="blood_type" class="text-black" />
 
                     <select name="blood_type" class="block mt-1 w-full"
-                        style="width: 7rem;margin-left: 6rem;margin-top: -2rem;">
+                        style="width: 7rem;margin-left: 6rem;margin-top: -2rem;border-radius: 5px;">
                         <option value="A+">A+</option>
                         <option value="A-">A-</option>
                         <option value="B+">B+</option>
