@@ -62,7 +62,14 @@
 
         <p class="text-black text-center mt-2">Select a location</p>
 
-        <div id="campaign_selection" class="text-center text-xl mt-2 hidden">
+        <div class="text-center text-xl my-4 mb-2 hidden" id="nearCampaigns">
+            Campaigns Near you: 
+            <select class="text-md text-black" onchange="selectCampaignOption()">
+                <option value="-1">Select a campaign</option>
+            </select>
+        </div>
+
+        <div id="campaign_selection" class="text-center text-xl my-4 hidden">
             <h3>You have selected: <span class="text-grey">Campaign Name</span></h3>
         </div>
 
@@ -72,12 +79,22 @@
             <script src="https://maps.googleapis.com/maps/api/js?key={{ config('app.google_maps_api') }}&callback=initMap" defer>
             </script>
             <script>
-                function Scrolldown() {
-                    window.scroll(0, 670);
+                var locations = [
+                    @foreach ($campaigns as $campaign)
+                        ["{{ preg_replace('/\s+/', ' ', trim($campaign->address)) }}", {{ $campaign->location }}, {{ $campaign->id }},
+                        "{{ $campaign->start_date }}", "{{ $campaign->status }}"],
+                    @endforeach
+                ];
 
+                var distances = [];
 
+                function selectCampaignOption() {
+                    var val = parseInt(document.querySelector("#nearCampaigns>select").value);
+                    
+                    if (val != -1) {
+                        selectCampaign(locations[val])
+                    }
                 }
-                window.onload = Scrolldown;
 
                 function selectCampaign(campaign) {
                     document.getElementById('campaign_selection').classList.remove('hidden');
@@ -88,13 +105,7 @@
                 }
 
                 function initMap() {
-
-                    var locations = [
-                        @foreach ($campaigns as $campaign)
-                            ["{{ preg_replace('/\s+/', ' ', trim($campaign->address)) }}", {{ $campaign->location }}, {{ $campaign->id }},
-                            "{{ $campaign->start_date }}", "{{ $campaign->status }}"],
-                        @endforeach
-                    ];
+                    getUserCity();
 
                     var map = new google.maps.Map(document.getElementById('map'), {
                         mapId: "dcba2c77acce5e73",
@@ -169,6 +180,52 @@
                     }
 
                     return redMarker;
+                }
+                
+                function calculateDistance(lat1, lon1, lat2, lon2) {
+                    var p = 0.017453292519943295;    // Math.PI / 180
+                    var c = Math.cos;
+                    var a = 0.5 - c((lat2 - lat1) * p)/2 + 
+                            c(lat1 * p) * c(lat2 * p) * 
+                            (1 - c((lon2 - lon1) * p))/2;
+
+                    return 12742 * Math.asin(Math.sqrt(a)); // 2 * R; R = 6371 km
+                }
+
+                function getUserCity() {
+                    var geocoder = new google.maps.Geocoder();
+
+                    geocoder.geocode({ 'address': 'Port Said, EG' }, function(results, status) {
+                        if (status == google.maps.GeocoderStatus.OK) {
+                            var Lat = results[0].geometry.location.lat();
+                            var Lng = results[0].geometry.location.lng();
+                            
+                            
+                            for(var i = 0; i < locations.length; i++) {
+                                var dist = calculateDistance(Lat, Lng, locations[i][1], locations[i][2]);
+                                distances.push({
+                                    id: i,
+                                    distance: dist,
+                                    name: locations[i][0],
+                                });
+                            }
+
+                            distances.sort(function(a, b) {
+                                return a.distance - b.distance;
+                            });
+
+                            var select = document.querySelector('#nearCampaigns>select');
+                            for(var i = 0; i < distances.length; i++) {
+                                // add option in select
+                                var option = document.createElement('option');
+                                option.value = distances[i].id;
+                                option.text = distances[i].name;
+                                select.appendChild(option);
+                            }
+
+                            document.getElementById('nearCampaigns').classList.remove('hidden');
+                        }
+                    });
                 }
             </script>
         </div>
