@@ -3,7 +3,7 @@
         <div class="mx-auto text-center mt-5">
 
             <form class="inline-block bg-black bg-opacity-50 p-8 text-justify" method="POST" action="/staff/clerk"
-                style="background-color: white;box-shadow: 0 .5rem 1.5rem rgba(0,0,0,.1);">
+                style="background-color: white;box-shadow: 0 .5rem 1.5rem rgba(0,0,0,.1);border-radius: 25px;">
                 @if ($errors->any())
                     <div>
                         <div class="font-medium text-red-600">
