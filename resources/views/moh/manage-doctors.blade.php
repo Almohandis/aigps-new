@@ -6,8 +6,8 @@
             @endif
         </div>
         <div class="pt-8 sm:pt-0">
-            <h1>All hospitals</h1>
-            <h2>Select a hospital to manage its doctors</h2><br>
+            <h1 class="add-hero2">All hospitals</h1>
+            <h2 class="add-hero3">Select a hospital to manage its doctors</h2><br>
             <select form="add-doctor-form" name="hospital_id" id="list">
                 <option value="" selected hidden disabled>Please select a hospital</option>
                 @foreach ($hospitals as $hospital)
@@ -30,9 +30,13 @@
                     <table></table>
                 </div>
                 <br>
-                <h2>To add new doctor, select a hospital and enter national ID of doctor below</h2>
-                <input type="number" name="national_id" id="add-doctor" placeholder="Type doctor's national ID">
-                <input type="submit" value="Add doctor">
+                <div class="add-doctor-div">
+                    <h2 class="add-hero2" style="margin-bottom: 2rem;">To add new doctor, select a hospital and
+                        enter national ID of doctor below</h2>
+                    <input type="number" name="national_id" id="add-doctor" placeholder="Type doctor's national ID"
+                        style="height: 2rem;margin-left: 23rem;border-width: 2px;border-color: gray;border-radius: 5px;">
+                    <input type="submit" value="Add doctor" class="add-doc-btn">
+                </div>
             </form>
         </div>
     </div>
