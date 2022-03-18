@@ -25,6 +25,6 @@ class CreateRecoveriesView extends Migration
      */
     public function down()
     {
-        db::statement('DROP VIEW recoveries_id');
+        DB::statement('DROP VIEW IF EXISTS recoveries_id');
     }
 }
