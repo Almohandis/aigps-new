@@ -150,10 +150,10 @@
                         }
                     </script>
                 </div>
-                <button onclick="window.location.href='/reserve'"class="back-btn">
+                <button onclick="window.location.href='/reserve'"class="back-btn" type="button">
                     BACK
                 </button>
-                <button onclick="window.location.href='/'"class="cancel-btn">
+                <button onclick="window.location.href='/'"class="cancel-btn" type="reset">
                     CANCEL
                 </button>
 
