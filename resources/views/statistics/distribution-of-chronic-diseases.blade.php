@@ -6,7 +6,6 @@
             @endif
         </div>
         <div class="pt-8 sm:pt-0">
-            <h1>statistics</h1><br>
             <form id="form" action="/stats" method="POST">
                 @csrf
                 <select name="report_name" id="report-name">
@@ -19,26 +18,32 @@
                 <button type="submit" id="generate-btn" class="btn btn-primary">Generate report</button>
             </form>
             @if (isset($data_by_chronic_disease))
-                <table>
-                    <tr>
-                        <th>Disease name</th>
-                        <th>Male patients</th>
-                        <th>Male percentage</th>
-                        <th>Female patients</th>
-                        <th>Female percentage</th>
-                        <th>Total patients</th>
-                    </tr>
-                    @foreach ($data_by_chronic_disease as $disease)
+                <div class="tbl-header">
+                    <table>
                         <tr>
-                            <td>{{ $disease->name }}</td>
-                            <td>{{ $disease->male }}</td>
-                            <td>{{ $disease->male_pcnt }}</td>
-                            <td>{{ $disease->female }}</td>
-                            <td>{{ $disease->female_pcnt }}</td>
-                            <td>{{ $disease->total }}</td>
+                            <th>Disease name</th>
+                            <th>Male patients</th>
+                            <th>Male percentage</th>
+                            <th>Female patients</th>
+                            <th>Female percentage</th>
+                            <th>Total patients</th>
                         </tr>
-                    @endforeach
-                </table>
+                    </table>
+                </div>
+                <div class="tbl-content">
+                    <table>
+                        @foreach ($data_by_chronic_disease as $disease)
+                            <tr>
+                                <td>{{ $disease->name }}</td>
+                                <td>{{ $disease->male }}</td>
+                                <td>{{ $disease->male_pcnt }}</td>
+                                <td>{{ $disease->female }}</td>
+                                <td>{{ $disease->female_pcnt }}</td>
+                                <td>{{ $disease->total }}</td>
+                            </tr>
+                        @endforeach
+                    </table>
+                </div>
             @endif
         </div>
     </div>

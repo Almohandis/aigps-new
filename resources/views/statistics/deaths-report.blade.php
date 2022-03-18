@@ -16,7 +16,6 @@
 
         </style>
         <div class="pt-8 sm:pt-0">
-            <h1>statistics</h1><br>
             <form id="form" action="/stats" method="POST">
                 @csrf
                 <select name="report_name" id="report-name">
@@ -29,30 +28,44 @@
                 <button type="submit" id="generate-btn" class="btn btn-primary">Generate report</button>
             </form>
             @if (isset($data_by_city))
-                <table>
-                    <tr>
-                        <th>City</th>
-                        <th>Number of males</th>
-                        <th>Males percentage</th>
-                        <th>Number of females</th>
-                        <th>Females percentage</th>
-                        <th>Total number of deaths</th>
-                        <th>Total hospitals</th>
-                        <th>Average available beds</th>
-                    </tr>
-                    @for ($i = 0, $j = 0; $i < count($cities); $i++)
+                <div class="tbl-header">
+                    <table>
                         <tr>
-                            <td>{{ $cities[$i] }}</td>
-                            @if (isset($data_by_city[$j]))
-                                @if ($cities[$i] == $data_by_city[$j]->city)
-                                    <td>{{ $data_by_city[$j]->male_count }}</td>
-                                    <td>{{ $data_by_city[$j]->male_pcnt }}</td>
-                                    <td>{{ $data_by_city[$j]->female_count }}</td>
-                                    <td>{{ $data_by_city[$j]->female_pcnt }}</td>
-                                    <td>{{ $data_by_city[$j]->total_deaths }}</td>
-                                    <td>{{ $data_by_city[$j]->tot_hos }}</td>
-                                    <td>{{ $data_by_city[$j]->avg_avail_beds }}</td>
-                                    @php $j++ @endphp
+                            <th>City</th>
+                            <th>Number of males</th>
+                            <th>Males percentage</th>
+                            <th>Number of females</th>
+                            <th>Females percentage</th>
+                            <th>Total number of deaths</th>
+                            <th>Total hospitals</th>
+                            <th>Average available beds</th>
+                        </tr>
+                    </table>
+                </div>
+                <div class="tbl-content">
+                    <table>
+                        @for ($i = 0, $j = 0; $i < count($cities); $i++)
+                            <tr>
+                                <td>{{ $cities[$i] }}</td>
+                                @if (isset($data_by_city[$j]))
+                                    @if ($cities[$i] == $data_by_city[$j]->city)
+                                        <td>{{ $data_by_city[$j]->male_count }}</td>
+                                        <td>{{ $data_by_city[$j]->male_pcnt }}</td>
+                                        <td>{{ $data_by_city[$j]->female_count }}</td>
+                                        <td>{{ $data_by_city[$j]->female_pcnt }}</td>
+                                        <td>{{ $data_by_city[$j]->total_deaths }}</td>
+                                        <td>{{ $data_by_city[$j]->tot_hos }}</td>
+                                        <td>{{ $data_by_city[$j]->avg_avail_beds }}</td>
+                                        @php $j++ @endphp
+                                    @else
+                                        <td>0</td>
+                                        <td>0</td>
+                                        <td>0</td>
+                                        <td>0</td>
+                                        <td>0</td>
+                                        <td>0</td>
+                                        <td>0</td>
+                                    @endif
                                 @else
                                     <td>0</td>
                                     <td>0</td>
@@ -62,72 +75,82 @@
                                     <td>0</td>
                                     <td>0</td>
                                 @endif
-                            @else
-                                <td>0</td>
-                                <td>0</td>
-                                <td>0</td>
-                                <td>0</td>
-                                <td>0</td>
-                                <td>0</td>
-                                <td>0</td>
-                            @endif
-                        </tr>
-                    @endfor
-                </table>
+                            </tr>
+                        @endfor
+                    </table>
+                </div>
             @elseif(isset($data_by_hospital))
-                <table>
-                    <tr>
-                        <th>Hospital name</th>
-                        <th>City</th>
-                        <th>Total deaths</th>
-                        <th>Available beds</th>
-                    </tr>
-                    @foreach ($data_by_hospital as $hospital)
+                <div class="tbl-header">
+                    <table>
                         <tr>
-                            <td>{{ $hospital->name }}</td>
-                            <td>{{ $hospital->city }}</td>
-                            <td>{{ $hospital->total_deaths }}</td>
-                            <td>{{ $hospital->avail_beds }}</td>
+                            <th>Hospital name</th>
+                            <th>City</th>
+                            <th>Total deaths</th>
+                            <th>Available beds</th>
                         </tr>
-                    @endforeach
-                </table>
+                    </table>
+                </div>
+                <div class="tbl-content">
+                    <table>
+                        @foreach ($data_by_hospital as $hospital)
+                            <tr>
+                                <td>{{ $hospital->name }}</td>
+                                <td>{{ $hospital->city }}</td>
+                                <td>{{ $hospital->total_deaths }}</td>
+                                <td>{{ $hospital->avail_beds }}</td>
+                            </tr>
+                        @endforeach
+                    </table>
+                </div>
             @elseif(isset($data_by_date))
-                <table>
-                    <tr>
-                        <th colspan="2">Total number of deaths starting from {{ $date }} until now</th>
-                    </tr>
-                    <tr>
-                        <th>Date</th>
-                        <th>Total deaths</th>
-                    </tr>
-                    @foreach ($data_by_date as $date)
+                <div class="tbl-header">
+                    <table>
                         <tr>
-                            <td>{{ $date->infection_date }}</td>
-                            <td>{{ $date->total_deaths }}</td>
+                            <th colspan="2">Total number of deaths starting from {{ $date }} until now</th>
                         </tr>
-                    @endforeach
-                </table>
+                        <tr>
+                            <th>Date</th>
+                            <th>Total deaths</th>
+                        </tr>
+                    </table>
+                </div>
+                <div class="tbl-content">
+                    <table>
+                        @foreach ($data_by_date as $date)
+                            <tr>
+                                <td>{{ $date->infection_date }}</td>
+                                <td>{{ $date->total_deaths }}</td>
+                            </tr>
+                        @endforeach
+                    </table>
+                </div>
             @elseif(isset($data_by_age))
-                <table>
-                    <tr>
-                        <th>Age segment</th>
-                        <th>Total deaths</th>
-                        <th>Number of males</th>
-                        <th>Male percentage</th>
-                        <th>Number of females</th>
-                        <th>Female percentage</th>
-                    </tr>
-                    @foreach ($data_by_age as $segment)
+                <div class="tbl-header">
+                    <table>
                         <tr>
-                            <td>{{ $segment->Age }}</td>
-                            <td>{{ $segment->Total }}</td>
-                            <td>{{ $segment->Male }}</td>
-                            <td>{{ $segment->male_pcnt }}</td>
-                            <td>{{ $segment->Female }}</td>
-                            <td>{{ $segment->female_pcnt }}</td>
+                            <th>Age segment</th>
+                            <th>Total deaths</th>
+                            <th>Number of males</th>
+                            <th>Male percentage</th>
+                            <th>Number of females</th>
+                            <th>Female percentage</th>
                         </tr>
-                    @endforeach
-                </table>
+                    </table>
+                </div>
+                <div class="tbl-content">
+                    <table>
+                        @foreach ($data_by_age as $segment)
+                            <tr>
+                                <td>{{ $segment->Age }}</td>
+                                <td>{{ $segment->Total }}</td>
+                                <td>{{ $segment->Male }}</td>
+                                <td>{{ $segment->male_pcnt }}</td>
+                                <td>{{ $segment->Female }}</td>
+                                <td>{{ $segment->female_pcnt }}</td>
+                            </tr>
+                        @endforeach
+                    </table>
+                </div>
             @endif
         </div>
     </div>

@@ -6,7 +6,6 @@
             @endif
         </div>
         <div class="pt-8 sm:pt-0">
-            <h1>statistics</h1><br>
             <form id="form" action="/stats" method="POST">
                 @csrf
                 <select name="report_name" id="report-name">
@@ -19,48 +18,60 @@
                 <button type="submit" id="generate-btn" class="btn btn-primary">Generate report</button>
             </form>
             @if (isset($data_by_city))
-                <table>
-                    <tr>
-                        <th>City</th>
-                        <th>Total doctors</th>
-                        <th>Number of hospitals</th>
-                    </tr>
-                    @for ($i = 0, $j = 0; $i < count($cities); $i++)
+                <div class="tbl-header">
+                    <table>
                         <tr>
-                            <td>{{ $cities[$i] }}</td>
-                            @if (isset($data_by_city[$j]))
-                                @if ($data_by_city[$j]->city == $cities[$i])
-                                    <td>{{ $data_by_city[$j]->total_doctors }}</td>
-                                    <td>{{ $data_by_city[$j]->num_hospitals }}</td>
-                                    @php $j++ @endphp
+                            <th>City</th>
+                            <th>Total doctors</th>
+                            <th>Number of hospitals</th>
+                        </tr>
+                    </table>
+                </div>
+                <div class="tbl-content">
+                    <table>
+                        @for ($i = 0, $j = 0; $i < count($cities); $i++)
+                            <tr>
+                                <td>{{ $cities[$i] }}</td>
+                                @if (isset($data_by_city[$j]))
+                                    @if ($data_by_city[$j]->city == $cities[$i])
+                                        <td>{{ $data_by_city[$j]->total_doctors }}</td>
+                                        <td>{{ $data_by_city[$j]->num_hospitals }}</td>
+                                        @php $j++ @endphp
+                                    @else
+                                        <td>0</td>
+                                        <td>0</td>
+                                    @endif
                                 @else
                                     <td>0</td>
                                     <td>0</td>
                                 @endif
-                            @else
-                                <td>0</td>
-                                <td>0</td>
-                            @endif
-                        </tr>
-                    @endfor
-                </table>
+                            </tr>
+                        @endfor
+                    </table>
+                </div>
             @elseif(isset($data_by_hospital))
-                <table>
-                    <tr>
-                        <th>Hospital name</th>
-                        <th>City</th>
-                        <th>Number of doctors</th>
-                        <th>Is isolation</th>
-                    </tr>
-                    @foreach ($data_by_hospital as $hospital)
+                <div class="tbl-header">
+                    <table>
                         <tr>
-                            <td>{{ $hospital->name }}</td>
-                            <td>{{ $hospital->city }}</td>
-                            <td>{{ $hospital->num_doctors }}</td>
-                            <td>{{ $hospital->is_iso }}</td>
+                            <th>Hospital name</th>
+                            <th>City</th>
+                            <th>Number of doctors</th>
+                            <th>Is isolation</th>
                         </tr>
-                    @endforeach
-                </table>
+                    </table>
+                </div>
+                <div class="tbl-content">
+                    <table>
+                        @foreach ($data_by_hospital as $hospital)
+                            <tr>
+                                <td>{{ $hospital->name }}</td>
+                                <td>{{ $hospital->city }}</td>
+                                <td>{{ $hospital->num_doctors }}</td>
+                                <td>{{ $hospital->is_iso }}</td>
+                            </tr>
+                        @endforeach
+                    </table>
+                </div>
             @endif
         </div>
     </div>

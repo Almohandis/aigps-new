@@ -679,10 +679,13 @@
     }
     #generate-btn
     {
-      border-width: 2px;
-      border-color: #3d3dd4;
       height: 3rem;
       width: 9rem;
+      margin-top: 1rem;
+      margin-bottom: 1rem;
+      background-color: #5a5acd;
+      color: white;
+      transition: 0.5s;
     }
     #generate-btn:hover{
       background-color: #3d3dd4;
@@ -972,4 +975,10 @@
   {
       background-color: #0fb639;
       color: white;
+  }
+  #report-by
+  {
+    display: block;
+    margin-left: 22rem;
+    margin-top: -2.5rem;
   }
