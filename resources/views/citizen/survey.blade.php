@@ -7,22 +7,23 @@
             Complete the survey
         </h1>
         <script src="https://kit.fontawesome.com/a1983178b4.js" crossorigin="anonymous"></script>
-       
+
         <script>
             function Scrolldown() {
-                window.scroll(0,650); 
-                }
+                window.scroll(0, 650);
+            }
             window.onload = Scrolldown;
         </script>
         <div class="mx-auto text-center mt-5">
-            
-            <form class="inline-block bg-black bg-opacity-50 p-8 text-justify" method="POST" action="/survey">
-            <img src="{{ asset('mioh-logo.png') }}" class="mioh-logo">
+
+            <form class="inline-block bg-black bg-opacity-50 p-8 text-justify" method="POST" action="/survey"
+                style="box-shadow: 0 .5rem 1.5rem rgba(0, 0, 0, 0.2);background-color: white;border-radius: 25px;">
+                <img src="{{ asset('mioh-logo.png') }}" class="moh-logo">
                 @if ($errors->any())
                     <div>
                         <div class="errors">
-                        <i class="fa-solid fa-circle-exclamation"></i>
-                        <a class="error">{{ __('Please Answer All The Survey Questions') }}</a>
+                            <i class="fa-solid fa-circle-exclamation"></i>
+                            <a class="error">{{ __('Please Answer All The Survey Questions') }}</a>
                         </div>
 
                         <ul class="mt-3 list-disc list-inside text-sm text-red-600" style="text-align:center;">
@@ -35,11 +36,12 @@
 
                 @csrf
 
-                @foreach($questions as $question)
+                @foreach ($questions as $question)
                     <div class="mt-3">
                         <label class="text-white font-medium text-sm" id="Q"> {{ $question->title }} </label>
                         <div class="radio">
-                            <input class="ml-5" type="radio" name="answers[{{ $question->id }}]" value="Yes"/>
+                            <input class="ml-5" type="radio" name="answers[{{ $question->id }}]"
+                                value="Yes" />
                             <label class="text-gray-400 text-sm mr-5" id="Q">Yes</label>
                             <input type="radio" name="answers[{{ $question->id }}]" value="No" />
                             <label class="text-gray-400 text-sm" id="Q">No</label>

@@ -42,7 +42,7 @@
     font-size: 17px;
     padding-right: 22px;
     padding-bottom: 6px;
-    color: white;
+    color: black;
 }
 .md\:mr-0 {
   margin-right: 20px;
@@ -80,7 +80,7 @@
   #contact-info
   {
     margin-top: -2rem;
-    box-shadow: 0 .5rem 1.5rem rgba(0,0,0,.1);
+    box-shadow: 0 .5rem 1.5rem rgba(0,0,0,.2);
     width: 70rem;
     margin-left: 12rem;
     margin-bottom: 2rem;
@@ -483,10 +483,10 @@
     {
         float: right;
     }
-    .mioh-logo
+    .moh-logo
     {
       height: 155px;
-      margin-left: 27rem;
+      margin-left: 28rem;
       margin-bottom: 85px;
     }
     .text-justify {
@@ -552,7 +552,7 @@
         border-radius: 8px;
         margin-bottom: 15px;
         padding-top: 7px;
-        margin-left: 20.5rem;
+        margin-left: 21.5rem;
     }
     .fa-solid.fa-circle-exclamation
     {
@@ -569,7 +569,7 @@
       transform: scale(0.92);
       margin-top: 12px;
       background-color: white;
-      box-shadow: 0 .5rem 1.5rem rgba(0,0,0,.1);
+      box-shadow: 0 .5rem 1.5rem rgba(0,0,0,.2);
       color: black;
       border-radius: 25px;
     }
@@ -862,14 +862,14 @@
   }
   .add-staff
   {
-    box-shadow: 0 .5rem 1.5rem rgba(0,0,0,.1);
+    box-shadow: 0 .5rem 1.5rem rgba(0,0,0,.2);
     background: #fff;
     height: 10rem;
     border-radius: 25px;
   }
   .add-hospital
   {
-    box-shadow: 0 .5rem 1.5rem rgba(0,0,0,.1);
+    box-shadow: 0 .5rem 1.5rem rgba(0,0,0,.2);
     background: #fff;
     height: 15rem;
     margin-bottom: 3rem;
@@ -877,14 +877,14 @@
   }
   .add-doctor-div
   {
-    box-shadow: 0 .5rem 1.5rem rgba(0,0,0,.1);
+    box-shadow: 0 .5rem 1.5rem rgba(0,0,0,.2);
     background: #fff;
     height: 10rem;
     border-radius: 25px;
   }
   .add-campaign
   {
-    box-shadow: 0 .5rem 1.5rem rgba(0,0,0,.1);
+    box-shadow: 0 .5rem 1.5rem rgba(0,0,0,.2);
     background: #fff;
     height: auto;
     margin-bottom: 3rem;
@@ -907,7 +907,7 @@
   }
   .add-national-id
   {
-    box-shadow: 0 .5rem 1.5rem rgba(0,0,0,.1);
+    box-shadow: 0 .5rem 1.5rem rgba(0,0,0,.2);
     background: #fff;
     height: auto;
     margin-bottom: 3rem;
@@ -973,7 +973,7 @@
     border-radius: 8px;
     margin-top: -12rem;
     margin-left: 4rem;
-    box-shadow: 0 .5rem 1.5rem rgba(0,0,0,.1);
+    box-shadow: 0 .5rem 1.5rem rgba(0,0,0,.2);
   }
   .p-menu-btn {
     background-color: #fff;
