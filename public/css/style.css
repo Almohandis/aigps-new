@@ -567,7 +567,7 @@
       text-align: justify;
       width: 100%;
       transform: scale(0.92);
-      margin-top: 12px;
+      margin-top: 0px;
       background-color: white;
       box-shadow: 0 .5rem 1.5rem rgba(0,0,0,.2);
       color: black;
@@ -679,7 +679,7 @@
     }
     #generate-btn
     {
-      height: 3rem;
+      height: 2.7rem;
       width: 9rem;
       margin-top: 1rem;
       margin-bottom: 1rem;
@@ -1008,6 +1008,5 @@
   #report-by
   {
     display: block;
-    margin-left: 22rem;
     margin-top: -2.5rem;
   }

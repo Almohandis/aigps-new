@@ -111,7 +111,7 @@
 
                     <script>
                         function Scrolldown() {
-                            window.scroll(0,550); 
+                            document.getElementById('c1').scrollIntoView();
                             }
                         window.onload = Scrolldown;
                         var phones = 2;
