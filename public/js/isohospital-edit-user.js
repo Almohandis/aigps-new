@@ -10,6 +10,11 @@ window.onload = () => {
         phone.setAttribute('id', elementNumber);
         phone.setAttribute('placeholder', 'Phone Number');
         phone.setAttribute('name', 'phones[]');
+        phone.style.marginLeft="1rem";
+        phone.style.height="2rem";
+        phone.style.borderWidth="1px";
+        phone.style.borderColor="black";
+        phone.style.marginBottom="1rem";
         let label = document.createElement('label');
         label.setAttribute('for', 'phones[]');
         label.setAttribute('class', elementNumber);
@@ -23,6 +28,13 @@ window.onload = () => {
         deleteButton.classList.add('phone');
         deleteButton.setAttribute('id', elementNumber);
         deleteButton.addEventListener('click', deletePhone);
+        deleteButton.style.marginLeft="0.5rem";
+        deleteButton.style.width="4rem";
+        deleteButton.style.height="2rem";
+        deleteButton.style.backgroundColor="crimson";
+        deleteButton.style.color="white";
+        deleteButton.style.borderRadius="5px";
+        deleteButton.style.cursor="pointer";
         elementNumber--;
         deleteButton.setAttribute('value', 'Delete');
         div.appendChild(label);
@@ -44,12 +56,17 @@ window.onload = () => {
         infection.setAttribute('id', elementNumber);
         infection.setAttribute('placeholder', 'Infection');
         infection.setAttribute('name', 'infections[]');
+        infection.style.marginLeft="1rem";
+        infection.style.height="2rem";
+        infection.style.borderWidth="1px";
+        infection.style.borderColor="black";
+        infection.style.width="8rem";
 
         let label = document.createElement('label');
         label.setAttribute('for', 'infections[]');
         label.setAttribute('class', elementNumber);
         label.classList.add('infection');
-        label.innerHTML = 'Infection';
+        label.innerHTML = 'Infection Date';
 
         let infections_div = document.getElementById('infections');
 
@@ -75,6 +92,8 @@ window.onload = () => {
         is_recovered_label.setAttribute('class', elementNumber);
         is_recovered_label.classList.add('infection');
         is_recovered_label.innerHTML = 'Recovered';
+        is_recovered_label.style.marginLeft="0.5rem"
+        
 
         is_recovered_check.addEventListener('change', () => {
             let target = is_recovered_check.parentElement.querySelector('input[type=hidden]');
@@ -110,7 +129,8 @@ window.onload = () => {
         has_passed_away_label.setAttribute('class', elementNumber);
         has_passed_away_label.classList.add('infection');
         has_passed_away_label.innerHTML = 'Passed away';
-
+        has_passed_away_label.style.marginLeft="0.5rem"
+        
         has_passed_away_check.addEventListener('change', () => {
             let target = has_passed_away_check.parentElement.querySelector('input[type=hidden]');
             if (target.value == 0) {
@@ -133,6 +153,13 @@ window.onload = () => {
         deleteButton.classList.add('infection');
         deleteButton.setAttribute('id', elementNumber);
         deleteButton.addEventListener('click', deleteInfection);
+        deleteButton.style.marginLeft="0.5rem";
+        deleteButton.style.width="4rem";
+        deleteButton.style.height="2rem";
+        deleteButton.style.backgroundColor="crimson";
+        deleteButton.style.color="white";
+        deleteButton.style.borderRadius="5px";
+        deleteButton.style.cursor="pointer";
         elementNumber--;
         deleteButton.setAttribute('value', 'Delete');
         div.appendChild(label);

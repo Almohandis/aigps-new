@@ -567,7 +567,7 @@
       text-align: justify;
       width: 100%;
       transform: scale(0.92);
-      margin-top: 12px;
+      margin-top: 0px;
       background-color: white;
       box-shadow: 0 .5rem 1.5rem rgba(0,0,0,.2);
       color: black;
@@ -596,13 +596,22 @@
       margin-top: -2.5rem;
       margin-right: 12rem;
     }
-    #birthdate{
+    #birthdate2{
       height: 3rem;
       width: 17rem;
       text-align: center;
       margin-left: 6rem;
       margin-top: -2rem;
       border-width: 1px;
+    }
+    #birthdate{
+      height: 3rem;
+      width: 12.5rem;
+      text-align: center;
+      margin-left: 0rem;
+      margin-top: -2rem;
+      border-width: 1px;
+      border-color: black;
     }
     #birth-div {
       margin-left: 57rem;
@@ -679,7 +688,7 @@
     }
     #generate-btn
     {
-      height: 3rem;
+      height: 2.7rem;
       width: 9rem;
       margin-top: 1rem;
       margin-bottom: 1rem;
@@ -726,6 +735,21 @@
       border: 1px solid rgba(255,255,255,0.3);
       background: linear-gradient(to right, #e8d6b830, #acb5fa5c);
       color: black;
+    }
+    .tbl-header2 {
+      background: linear-gradient(to right, #e8d6b8, #acb5fac2);
+      margin-left: -11rem;
+      width: 91rem;
+    }
+    .tbl-content2{
+      height:300px;
+      overflow-x:auto;
+      margin-top: 0px;
+      border: 1px solid rgba(255,255,255,0.3);
+      background: linear-gradient(to right, #e8d6b830, #acb5fa5c);
+      color: black;
+      margin-left: -11rem;
+      width: 91rem;
     }
 
     th{
@@ -1008,6 +1032,137 @@
   #report-by
   {
     display: block;
-    margin-left: 22rem;
     margin-top: -2.5rem;
+  }
+  .add-new-patient-btn
+  {
+    background-color: #0fb639;
+    color: white;
+    width: 10rem;
+    height: 2rem;
+    cursor: pointer;
+    transition: 0.5s;
+  }
+  .add-new-patient-btn:hover
+  {
+      background-color: #007c1f;
+  }
+  .hospital-patients {
+    font-size: 20px;
+    font-weight: 300;
+    text-transform: uppercase;
+    padding-top: 1rem;
+    margin-bottom: 2rem;
+    margin-left: -6rem;
+  }
+  .add-patient-form
+  {
+    background-color: white;
+    margin-top: 5rem;
+    box-shadow: 0 .5rem 1.5rem rgba(0,0,0,.2);
+    border-radius: 25px;
+  }
+  #address2 {
+    width: 21rem;
+    margin-left: 1.5rem;
+    margin-top: -2rem;
+  }
+  #telephone_number2 {
+    height: 2.5rem;
+    width: 17.5rem;
+    margin-left: 0rem;
+    margin-top: -2rem;
+    border-width: 1px;
+    border-color: black;
+  }
+  #gender2 {
+    margin-left: 0.25rem;
+    height: 2.5rem;
+    width: 6rem;
+  }
+  #country2 {
+    width: 17rem;
+    margin-left: 0.25rem;
+    margin-top: -2rem;
+    border-radius: 5px;
+  }
+  #add-phone {
+    background-color: #0fb639;
+    color: white;
+    margin-left: 6rem;
+    width: 6rem;
+    border-radius: 5px;
+    height: 2rem;
+    transition: 0.5s;
+    cursor: pointer;
+    margin-top: 1rem;
+  }
+  #add-phone:hover
+  {
+    background-color: #007c1f;
+  }
+  #add-infection
+  {
+    background-color: #0fb639;
+    color: white;
+    margin-left: 6rem;
+    width: 7rem;
+    border-radius: 5px;
+    height: 2rem;
+    transition: 0.5s;
+    cursor: pointer;
+  }
+  #add-infection:hover
+  {
+    background-color: #007c1f;
+  }
+  .submit
+  {
+    background-color: #0fb639;
+    color: white;
+    width: 6rem;
+    border-radius: 5px;
+    height: 2rem;
+    transition: 0.5s;
+    cursor: pointer;
+    float: right;
+    margin-top: 2rem;
+    margin-right: 3rem;
+  }
+  .submit:hover
+  {
+    background-color: #007c1f;
+  }
+  .back-btn2{
+    transition: 0.5s;
+    background-color: #356cb2;
+    height: 2rem;
+    width: 6rem;
+    font-size: 17px;
+    color: white;
+    border-radius: 6px;
+    margin-top: 2rem;
+    margin-left: 4rem;
+    margin-bottom: 2rem;
+  }
+  .back-btn2:hover
+  {
+    background-color:  #18375d;
+  }
+  .cancel-btn2
+  {
+    transition: 0.5s;
+    background-color: crimson;
+    height: 2rem;
+    width: 5rem;
+    font-size: 15px;
+    color: white;
+    border-radius: 6px;
+    margin-left: 2rem;
+
+  }
+  .cancel-btn2:hover
+  {
+    background-color:  #6c0f22;
+
   }
