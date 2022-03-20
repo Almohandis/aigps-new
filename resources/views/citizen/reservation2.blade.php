@@ -78,7 +78,7 @@
                 <div class="mt-3" id="birth-div">
                     <x-label for="birthdate" value="Birthdate" class="text-white" id="birth-label" />
 
-                    <x-input id="birthdate" class="block mt-1 w-full" type="date" name="birthdate"
+                    <x-input id="birthdate2" class="block mt-1 w-full" type="date" name="birthdate"
                         :value="old('birthdate')" required />
                 </div>
                 <br><br>
