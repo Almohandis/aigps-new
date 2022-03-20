@@ -89,7 +89,7 @@
                 <br><br>
 
                 <input type="submit" value="Submit" class="submit">
-                <button onclick="window.location.href='/reserve'"class="back-btn2" type="button">
+                <button onclick="window.location.href='/staff/isohospital/infection'"class="back-btn2" type="button">
                     BACK
                 </button>
                 <button onclick="window.location.href='/'"class="cancel-btn2" type="reset">
