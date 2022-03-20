@@ -30,7 +30,7 @@ function reportBy(reportName) {
         option.innerText = reportBy[i];
         report_by.appendChild(option);
     }
-    report_by.style.display = 'block';
+    report_by.style.display = 'inline-block';
 }
 
 
