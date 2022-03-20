@@ -7,6 +7,8 @@ use App\Models\NationalId;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Bus;
 use App\Jobs\InfectionNotificationJob;
+use App\Notifications\InfectionNotification;
+use Illuminate\Support\Facades\Notification;
 
 uses(RefreshDatabase::class);
 
@@ -24,6 +26,16 @@ beforeEach(function () {
         'name' => 'Ali',
         'role_id'       =>      5,
         'national_id'   =>      555,
+    ]);
+
+    // add relative to user
+    $this->user->relatives()->attach(2, [
+        'relation' => 'father',
+    ]);
+
+    // add phone to user
+    $this->user->phones()->create([
+        'phone_number' => '09122222222',
     ]);
 
     $this->user2 = User::create([
