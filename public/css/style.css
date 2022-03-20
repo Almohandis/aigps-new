@@ -727,6 +727,21 @@
       background: linear-gradient(to right, #e8d6b830, #acb5fa5c);
       color: black;
     }
+    .tbl-header2 {
+      background: linear-gradient(to right, #e8d6b8, #acb5fac2);
+      margin-left: -11rem;
+      width: 91rem;
+    }
+    .tbl-content2{
+      height:300px;
+      overflow-x:auto;
+      margin-top: 0px;
+      border: 1px solid rgba(255,255,255,0.3);
+      background: linear-gradient(to right, #e8d6b830, #acb5fa5c);
+      color: black;
+      margin-left: -11rem;
+      width: 91rem;
+    }
 
     th{
       padding: 20px 15px;
@@ -1009,4 +1024,25 @@
   {
     display: block;
     margin-top: -2.5rem;
+  }
+  .add-new-patient-btn
+  {
+    background-color: #0fb639;
+    color: white;
+    width: 10rem;
+    height: 2rem;
+    cursor: pointer;
+    transition: 0.5s;
+  }
+  .add-new-patient-btn:hover
+  {
+      background-color: #007c1f;
+  }
+  .hospital-patients {
+    font-size: 20px;
+    font-weight: 300;
+    text-transform: uppercase;
+    padding-top: 1rem;
+    margin-bottom: 2rem;
+    margin-left: -6rem;
   }
