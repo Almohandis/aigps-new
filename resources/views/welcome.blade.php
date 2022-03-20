@@ -58,9 +58,10 @@
                         A total of 85% of respondents reported their confidence in the Egyptian healthcare system to win
                         the battle against COVID-19 despite the challenges. A vast majority of this large population
                         sample reported reasonable knowledge levels and potentially appropriate practices toward
-                        COVID-19.<br><a style="color:red;">To read the full article visit:</a> <a style="color:#6868cc;"
+                        COVID-19.<br><a style="color:red;">To read the full article</a> <a
+                            style="color:#6868cc;text-decoration: underline;"
                             href="https://www.tandfonline.com/doi/abs/10.1080/17538157.2021.1883029?journalCode=imif20"
-                            target="_blank">https://www.tandfonline.com/doi/abs/10.1080/17538157.2021.1883029?journalCode=imif20</a>
+                            target="_blank">Read More</a>
                     </p>
                 </div>
             </div>
@@ -91,8 +92,8 @@
                         Health Assembly to update the International Health Regulations (IHR) to compel all World Health
                         Organization member states to meet specific standards for detecting, reporting on, and
                         responding to outbreaks (WHO 2005). <br><a style="color:red;">To read the full article
-                            visit:</a> <a style="color:#6868cc;" href="https://pubmed.ncbi.nlm.nih.gov/30212163/"
-                            target="_blank">https://pubmed.ncbi.nlm.nih.gov/30212163/</a></p>
+                        </a> <a style="color:#6868cc;text-decoration: underline;"
+                            href="https://pubmed.ncbi.nlm.nih.gov/30212163/" target="_blank">Read More</a></p>
                 </div>
             </div>
         </div>
@@ -124,9 +125,9 @@
                         to tell their doctors when they disagree with them and are using tools to get information on
                         health issues and costs. Consumers also are tracking their health conditions, using that data to
                         make decisions, and accessing and using their medical record data.<br><a style="color:red;">To
-                            read the full article visit:</a> <a style="color:#6868cc;"
+                            read the full article</a> <a style="color:#6868cc;text-decoration: underline;"
                             href="https://deloitte.wsj.com/articles/how-the-pandemic-is-changing-health-care-01600369326"
-                            target="_blank">https://deloitte.wsj.com/articles/how-the-pandemic-is-changing-health-care-01600369326</a>
+                            target="_blank">Read More</a>
                     </p>
                 </div>
             </div>

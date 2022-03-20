@@ -16,7 +16,6 @@
 
         </style>
         <div class="pt-8 sm:pt-0">
-            <h1>statistics</h1><br>
             <form id="form" action="/stats" method="POST">
                 @csrf
                 <select name="report_name" id="report-name">
@@ -29,18 +28,24 @@
                 <button type="submit" id="generate-btn" class="btn btn-primary">Generate report</button>
             </form>
             @if (isset($data_by_vaccine_status))
-                <table>
-                    <tr>
-                        <th>Vaccine status category</th>
-                        <th>Total</th>
-                    </tr>
-                    @foreach ($data_by_vaccine_status as $status)
+                <div class="tbl-header">
+                    <table>
                         <tr>
-                            <td>{{ $status->vac_status }}</td>
-                            <td>{{ $status->Total }}</td>
+                            <th>Vaccine status category</th>
+                            <th>Total</th>
                         </tr>
-                    @endforeach
-                </table>
+                    </table>
+                </div>
+                <div class="tbl-content">
+                    <table>
+                        @foreach ($data_by_vaccine_status as $status)
+                            <tr>
+                                <td>{{ $status->vac_status }}</td>
+                                <td>{{ $status->Total }}</td>
+                            </tr>
+                        @endforeach
+                    </table>
+                </div>
             @endif
         </div>
     </div>

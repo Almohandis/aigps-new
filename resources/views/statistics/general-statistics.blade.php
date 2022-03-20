@@ -6,7 +6,6 @@
             @endif
         </div>
         <div class="pt-8 sm:pt-0">
-            <h1>statistics</h1><br>
             <form id="form" action="/stats" method="POST">
                 @csrf
                 <select name="report_name" id="report-name">
@@ -19,12 +18,12 @@
                 <button type="submit" id="generate-btn" class="btn btn-primary">Generate report</button>
             </form>
             @if (isset($data_by_general))
-                <p>Total recoveries: {{ $data_by_general[0]->total_rec }}</p>
-                <p>Total deaths: {{ $data_by_general[0]->total_deaths }}</p>
-                <p>Diagnoses done: {{ $data_by_general[0]->total_diagnosed }}</p>
-                <p>Unvaccinated: {{ $data_by_general[0]->total_un_vac }}</p>
-                <p>Partially vaccinated: {{ $data_by_general[0]->total_part_vac }}</p>
-                <p>Fully vaccinated: {{ $data_by_general[0]->total_full_vac }}</p>
+               <div class="p-header"> <p>Total recoveries:</div> <div class="p-content">  {{ $data_by_general[0]->total_rec }}</div></p>
+               <div class="p-header"><p>Total deaths:</div> <div class="p-content"> {{ $data_by_general[0]->total_deaths }}</p></div>
+               <div class="p-header"><p>Diagnoses done: </div><div class="p-content">{{ $data_by_general[0]->total_diagnosed }}</p></div>
+               <div class="p-header"><p>Unvaccinated:</div> <div class="p-content">{{ $data_by_general[0]->total_un_vac }}</p></div>
+                <div class="p-header"><p>Partially vaccinated:</div><div class="p-content"> {{ $data_by_general[0]->total_part_vac }}</p></div>
+                    <div class="p-header"><p>Fully vaccinated:</div> <div class="p-content">{{ $data_by_general[0]->total_full_vac }}</p></div>
             @endif
         </div>
     </div>

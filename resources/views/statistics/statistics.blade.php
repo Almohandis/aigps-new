@@ -6,7 +6,6 @@
             @endif
         </div>
         <div class="pt-8 sm:pt-0">
-            <h1>statistics</h1><br>
             <form id="form" action="/stats" method="POST">
                 @csrf
                 <select name="report_name" id="report-name">

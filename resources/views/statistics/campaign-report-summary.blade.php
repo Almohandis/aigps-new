@@ -50,7 +50,6 @@
             @endif
         </div>
         <div class="pt-8 sm:pt-0">
-            <h1>statistics</h1><br>
             <form id="form" action="/stats" method="POST">
                 @csrf
                 <select name="report_name" id="report-name">
@@ -64,27 +63,33 @@
             </form>
             @if (isset($campaigns))
                 @php $i = 1; @endphp
-                <table>
-                    <tr>
-                        <th>#</th>
-                        <th>Start date</th>
-                        <th>End date</th>
-                        <th>Address</th>
-                    </tr>
-                    @foreach ($campaigns as $campaign)
+                <div class="tbl-header">
+                    <table>
                         <tr>
-                            <td>{{ $i++ }}</td>
-                            <td>{{ $campaign->start_date }}</td>
-                            <td>{{ $campaign->end_date }}</td>
-                            <td>{{ $campaign->address }}</td>
+                            <th>#</th>
+                            <th>Start date</th>
+                            <th>End date</th>
+                            <th>Address</th>
                         </tr>
-                    @endforeach
-                </table>
+                    </table>
+                </div>
+                <div class="tbl-content">
+                    <table>
+                        @foreach ($campaigns as $campaign)
+                            <tr>
+                                <td>{{ $i++ }}</td>
+                                <td>{{ $campaign->start_date }}</td>
+                                <td>{{ $campaign->end_date }}</td>
+                                <td>{{ $campaign->address }}</td>
+                            </tr>
+                        @endforeach
+                    </table>
+                </div>
             @endif
         </div>
-        <div>
+        <div style="margin-top:4rem;">
             <div id="map" class="mt-8 rounded-md border-solid border-4 border-black"
-                style="width: 80%; height: 600px; max-height: 90vh; margin: 0 auto;"></div>
+            style="width: 119%; height: 600px; max-height: 90vh; margin: 0px auto; position: relative; overflow: hidden;margin-left: -6rem;"></div>
             <script src="https://maps.googleapis.com/maps/api/js?key={{ config('app.google_maps_api') }}&callback=initMap" defer>
             </script>
             <script>
@@ -154,7 +159,8 @@
                                 let content = '<div style="text-align:center" id="content">' +
                                     '<div id="siteNotice">' +
                                     '</div>' +
-                                    '<h1 id="firstHeading" class="firstHeading"><strong>Address:</strong> ' + locations[i][0] + '</h1>' +
+                                    '<h1 id="firstHeading" class="firstHeading"><strong>Address:</strong> ' +
+                                    locations[i][0] + '</h1>' +
                                     '<div id="bodyContent">' +
                                     '<p><strong>Start date:</strong> ' + locations[i][4] + '</p>' +
                                     '<p><strong>End date:</strong> ' + locations[i][5] + '</p>' +
