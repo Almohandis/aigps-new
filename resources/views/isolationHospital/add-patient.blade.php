@@ -83,12 +83,18 @@
                 <br><br>
 
                 <h1 style="margin-left: 5rem;">Infections</h1>
-                <div id="infections">
+                <div id="infections" style="margin-left: 7rem;margin-bottom: 1rem;">
                 </div>
                 <input type="button" id="add-infection" value="Add infection">
                 <br><br>
 
                 <input type="submit" value="Submit" class="submit">
+                <button onclick="window.location.href='/reserve'"class="back-btn2" type="button">
+                    BACK
+                </button>
+                <button onclick="window.location.href='/'"class="cancel-btn2" type="reset">
+                    CANCEL
+                </button>
         </form>
 
     </div>
