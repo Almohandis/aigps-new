@@ -234,11 +234,7 @@ class StatisticsController extends Controller
             case 'City':
                 break;
             case 'Question':
-                $data = DB::select('SELECT title,
-                (SELECT COUNT(*) FROM question_user WHERE questions.id=question_user.question_id AND answer="No") AS "no",
-                (SELECT COUNT(*) FROM question_user WHERE questions.id=question_user.question_id AND answer="Yes") AS "yes"
-                FROM questions, question_user, users WHERE
-                users.id=question_user.user_id AND questions.id=question_user.question_id;');
+                $data = DB::select('SELECT q1.title, (SELECT COUNT(*) FROM question_user AS qu2 WHERE q1.id=qu2.question_id AND qu2.answer="Yes") AS yes, (SELECT COUNT(*) FROM question_user AS qu2 WHERE q1.id=qu2.question_id AND qu2.answer="No") AS no from questions AS q1;');
                 $data = json_encode($data);
                 $data = json_decode($data);
                 // return $data;

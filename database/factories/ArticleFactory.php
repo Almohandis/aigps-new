@@ -16,7 +16,6 @@ class ArticleFactory extends Factory
         return [
             'title'     =>      $this->faker->word,
             'content'   =>      $this->faker->sentence,
-            'type'      =>      'article',
             'video_link'      =>      'https://www.google.com',
             'full_article_link'      =>      'https://www.google.com',
         ];
