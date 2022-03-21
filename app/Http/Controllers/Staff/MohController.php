@@ -179,12 +179,12 @@ class MohController extends Controller
         preg_match('/ src="(.*)" title=/', $request->link, $link);
 
         Article::create([
-            'name'  => $name,
-            'path' => $imgName,
+            'name'  => $name ?? null,
+            'path' => $imgName ?? null,
             'title' => $request->title,
             'content' => $request->content,
             'video_link' => $link[1] ?? null,
-            'full_article_link' => $request->full_link,
+            'full_article_link' => $request->full_link ?? null,
         ]);
         return redirect()->back()->with('message', 'Article added successfully');
     }
