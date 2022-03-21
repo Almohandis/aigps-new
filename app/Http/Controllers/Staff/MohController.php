@@ -183,7 +183,7 @@ class MohController extends Controller
             'path' => $imgName,
             'title' => $request->title,
             'content' => $request->content,
-            'video_link' => $link[1],
+            'video_link' => $link[1] ?? null,
             'full_article_link' => $request->full_link,
         ]);
         return redirect()->back()->with('message', 'Article added successfully');
