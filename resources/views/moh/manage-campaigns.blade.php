@@ -23,7 +23,7 @@
                 </div>
                 <div class="tbl-content">
                     <table>
-                        @php $i = 1 @endphp 
+                        @php $i = 1 @endphp
                         @foreach ($campaigns as $campaign)
                             <tr>
                                 <td>{{ $i++ }}</td>
@@ -40,10 +40,10 @@
                     <h2 class="add-hero">Add new campaign</h2>
                     <div class="mt-4">
                         <label for="start_date" style="margin-left: 3rem;">Start date</label>
-                        <input type="datetime-local" name="start_date" style="border-color: gray;border-width: 1px;"
+                        <input type="date" name="start_date" style="border-color: gray;border-width: 1px;"
                             required>
                         <label for="end_date" style="margin-left: 16rem;">End date</label>
-                        <input type="datetime-local" name="end_date" style="border-color: gray;border-width: 1px;"
+                        <input type="date" name="end_date" style="border-color: gray;border-width: 1px;"
                             required><br>
                         <div style="margin-left: 3rem;margin-top: 2rem;">
                             <label for="capacity">Capacity per day</label>
