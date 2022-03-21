@@ -21,20 +21,39 @@
         @endif
 
         <div class="pt-8 sm:pt-0">
-            <h1>Add new article</h1>
-            <form action="/staff/moh/add-article" enctype="multipart/form-data" method="POST">
+            <form action="/staff/moh/add-article" enctype="multipart/form-data" method="POST" class="add-article-form">
+                <h1 class="add-hero2">Add new article</h1>
                 @csrf
-                <label for="title">Article title</label>
-                <input type="text" name="title" id="title" placeholder="Enter article title" required>
-                <label for="content">Article content</label>
-                <textarea name="content" id="content" cols="30" rows="10" placeholder="Enter article content" required></textarea>
-                <label for="image">Add image</label>
-                <input type="file" name="image" id="image">
-                <label for="full-link">(Optional) Link to the full article</label>
-                <input type="text" name="full_link" id="full-link" placeholder="Enter full article link">
-                <label for="video">(Optional) Link to video</label>
-                <input type="text" name="link" id="video" placeholder="Enter video link">
-                <input type="submit" value="Add article">
+                <div style="margin-left: 18rem;margin-top: 1rem;">
+                    <label for="title">Article title</label>
+                    <input style="width: 25rem;" type="text" name="title" id="title" placeholder="Enter article title"
+                        required>
+                </div>
+                <br>
+                <div style="margin-left: 18rem;">
+                    <label for="content">Article content</label>
+                    <br>
+                    <textarea style="margin-left: 7rem;margin-top: -2rem;" name="content" id="content" cols="30" rows="10"
+                        placeholder="Enter article content" required></textarea>
+                </div>
+                <br>
+                <div style="margin-left: 18rem;">
+                    <label for="image">Add image</label>
+                    <input type="file" name="image" id="image" style="margin-left: 1.5rem;">
+                </div>
+                <br>
+                <div style="margin-left: 18rem;">
+                    <label for="full-link">(Optional) Link to the full article</label>
+                    <input type="text" name="full_link" id="full-link" placeholder="Enter full article link">
+                </div>
+                <br>
+                <div style="margin-left: 18rem;">
+                    <label for="video">(Optional) Link to video</label>
+                    <input type="text" name="link" id="video" placeholder="Enter video link">
+                </div>
+                <br>
+                <input type="submit" value="Add article" class="submit" style="margin-top: -2rem;">
+                <br>
             </form>
 
         </div>
