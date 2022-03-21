@@ -24,19 +24,19 @@ beforeEach(function () {
     $this->actingAs($this->user);
 });
 
-test('user can open articles list page', function () {
-    $response = $this->get('/articles');
+// test('user can open articles list page', function () {
+//     $response = $this->get('/articles');
 
-    $response->assertStatus(200);
-    $response->assertSee(Article::find(1)->title);
-    $response->assertSee(Article::find(2)->title);
-    $response->assertSee(Article::find(3)->title);
-});
+//     $response->assertStatus(200);
+//     $response->assertSee(Article::find(1)->title);
+//     $response->assertSee(Article::find(2)->title);
+//     $response->assertSee(Article::find(3)->title);
+// });
 
-test('user can open specific article', function () {
-    $response = $this->get('/articles/1');
+// test('user can open specific article', function () {
+//     $response = $this->get('/articles/1');
 
-    $response->assertStatus(200);
-    $response->assertSee(Article::find(1)->title);
-    $response->assertSee(Article::find(1)->content);
-});
+//     $response->assertStatus(200);
+//     $response->assertSee(Article::find(1)->title);
+//     $response->assertSee(Article::find(1)->content);
+// });
