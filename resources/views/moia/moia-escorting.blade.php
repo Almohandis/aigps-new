@@ -13,6 +13,7 @@
                         <th>#</th>
                         <th>Start date</th>
                         <th>End date</th>
+                        <th>City</th>
                         <th>Address</th>
                     </tr>
                 </table>
@@ -24,6 +25,7 @@
                             <td>{{ $campaign->id }}</td>
                             <td>{{ $campaign->start_date }}</td>
                             <td>{{ $campaign->end_date }}</td>
+                            <td>{{ $campaign->city }}</td>
                             <td>{{ $campaign->address }}</td>
                             <td></td>
 

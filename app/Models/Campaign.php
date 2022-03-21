@@ -15,6 +15,7 @@ class Campaign extends Model
         'location',
         'address',
         'status',   //# pending, active, completed
+        'city',
     ];
 
     public function doctors()

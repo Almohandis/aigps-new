@@ -137,6 +137,7 @@ test('moh can add new campaign', function () {
         'end_date' => '2022-02-02',
         'location' => "33.2344, 23.2344",
         'address' => 'cairo',
+        'city' => 'cairo',
         'capacity_per_day' => 8,
     ]);
 
