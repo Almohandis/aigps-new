@@ -15,6 +15,6 @@ class NationalIdSeeder extends Seeder
      */
     public function run()
     {
-        NationalId::factory()->count(20)->create();
+        NationalId::factory()->count(500)->create();
     }
 }
