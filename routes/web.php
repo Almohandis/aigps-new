@@ -1,9 +1,12 @@
 <?php
 
+use App\Http\Controllers\Citizen\HomePageController;
 use App\Http\Controllers\MedicalPassportController;
 use App\Http\Controllers\StatisticsController;
 use App\Http\Controllers\ProfileController;
+use App\Models\Article;
 use App\Models\Campaign;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -41,8 +44,6 @@ Route::get('/contact', function () {
 });
 
 Route::get('/test', function () {
-    return view('citizen.test')->with([
-        'message' => null,
-        'campaigns'=> Campaign::all(),
-    ]);
+    return view('/test-view');
 });
+Route::post('test-add', [HomePageController::class, 'store']);

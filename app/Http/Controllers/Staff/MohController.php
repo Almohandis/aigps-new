@@ -4,9 +4,11 @@ namespace App\Http\Controllers\Staff;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Article;
 use App\Models\Campaign;
 use App\Models\Hospital;
 use App\Models\User;
+use Symfony\Contracts\Service\Attribute\Required;
 
 class MohController extends Controller
 {
@@ -151,5 +153,38 @@ class MohController extends Controller
             return redirect('/staff/moh/manage-campaigns')->with('message', 'Campaign added successfully');
         else
             return redirect('/staff/moh/manage-campaigns')->with('message', 'Campaign could not be added');
+    }
+
+    public function articleForm()
+    {
+        return view('moh.article-form');
+    }
+
+    public function addArticle(Request $request)
+    {
+        $request->validate([
+            'image' => 'mimes:jpg,png,jpeg,gif,svg|max:5048',
+            'title' => 'required|max:255',
+            'content' => 'required',
+        ]);
+
+        if ($request->image) {
+            $imgName  = time() . '.' . $request->image->extension();
+            $request->image->move(public_path('article_images'), $imgName);
+            $name = $request->file('image')->getClientOriginalName();
+        }
+
+        $link = [];
+        preg_match('/ src="(.*)" title=/', $request->link, $link);
+
+        Article::create([
+            'name'  => $name,
+            'path' => $imgName,
+            'title' => $request->title,
+            'content' => $request->content,
+            'video_link' => $link[1],
+            'full_article_link' => $request->full_link,
+        ]);
+        return redirect()->back()->with('message', 'Article added successfully');
     }
 }
