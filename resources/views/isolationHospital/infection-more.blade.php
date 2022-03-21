@@ -87,7 +87,7 @@
                         <input type="text" name="phones[]" id="{{ $phone['id'] }}"
                             class="mt-2 phone {{ $phone['id'] }}" value="{{ $phone['phone_number'] }}">
                         <input type="button" id="{{ $phone['id'] }}" onclick="deletePhone(event)"
-                            class="phone {{ $phone['id'] }}" value="Delete"><br>
+                            class="phone delete-btn {{ $phone['id'] }}" value="Delete"><br>
                     @endforeach
                 </div>
                 <input type="button" id="add-phone" value="Add phone">
@@ -98,9 +98,9 @@
                     @foreach ($data['infections'] as $infection)
                         <label class="infection {{ $infection['id'] }}" for="infection">Infection</label>
                         <input type="date" name="infections[]" id="{{ $infection['id'] }}"
-                            class="mt-2 infection {{ $infection['id'] }}"
+                            class="mt-2 infection date {{ $infection['id'] }}"
                             value="{{ $infection['infection_date'] }}">
-                        <div class="infection {{ $infection['id'] }} ">
+                        <div class="infection {{ $infection['id'] }} " style="position: relative;">
                             <input type="checkbox" id="{{ $infection['id'] }}" @php
                                 if ($infection['is_recovered'] == 1) {
                                     echo 'checked';
@@ -109,7 +109,7 @@
                                 class="mt-2 infection" onchange="checkBoxChange(this)">
                             <input type="hidden" value="{{ $infection['is_recovered'] }}" class="infection"
                                 name="is_recovered[]">
-                            <label for="" class="infection">Recovered</label>
+                            <label for="" class="infection" style="padding-top: 0.3rem;position: absolute;margin-left: 0.5rem;">Recovered</label>
                         </div>
                         <div class="infection {{ $infection['id'] }}">
                             <input type="checkbox" id="{{ $infection['id'] }}" @php
@@ -120,10 +120,10 @@
                                 class="mt-2 infection" onchange="checkBoxChange(this)">
                             <input type="hidden" value="{{ $infection['has_passed_away'] }}" class="infection"
                                 name="has_passed_away[]">
-                            <label for="" class="infection">Passed away</label>
+                            <label for="" class="infection" style="padding-top: 0.3rem;position: absolute;margin-left: 0.5rem;">Passed away</label>
                         </div>
                         <input type="button" id="{{ $infection['id'] }}" onclick="deleteInfection(event)"
-                            class="infection {{ $infection['id'] }}" value="Delete"><br>
+                            class="infection delete-btn {{ $infection['id'] }}" value="Delete"><br>
                     @endforeach
                 </div>
                 <input type="button" id="add-infection" value="Add infection">

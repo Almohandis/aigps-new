@@ -70,6 +70,7 @@
                     </table>
                 </div>
                 <div class="tbl-content">
+                    <table>
                     @foreach ($data_by_hospital as $hospital)
                         <tr>
                             <td>{{ $hospital->name }}</td>
@@ -95,6 +96,7 @@
                     </table>
                 </div>
                 <div class="tbl-content">
+                    <table>
                     @foreach ($data_by_date as $date)
                         <tr>
                             <td>{{ $date->hoz_date }}</td>
