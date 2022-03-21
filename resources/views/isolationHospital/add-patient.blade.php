@@ -30,7 +30,12 @@
                 </div><br>
                 <div style="margin-left: 5rem;">
                     <label for="city">City</label>
-                    <input required type="text" name="city" id="city" class="mt-2" value="" style="margin-left: 0.5rem;">
+                    <select required name="city" id="city" class="mt-2" style="margin-left: 0.5rem;">
+                        <option hidden disabled selected>Select a city</option>
+                        @foreach ($data['cities'] as $city)
+                            <option value="{{ $city }}">{{ $city }}</option>
+                        @endforeach
+                    </select>
                 </div><br>
                 <div style="margin-top: -3.7rem;margin-left: 40rem;">
                     <label for="telephone_number">Telephone number</label>
@@ -47,7 +52,7 @@
                 <div style="margin-top: -3.5rem;margin-left: 40rem;">
                     <label for="country">Country</label>
                     <select name="country" id="country2">
-                        <option value="" hidden disabled selected>Select country</option>
+                        <option hidden disabled selected>Select country</option>
                         @foreach ($data['countries'] as $country)
                             <option value="{{ $country }}">{{ $country }}</option>
                         @endforeach
@@ -55,7 +60,8 @@
                 </div><br>
                 <div style="margin-left: 5rem;">
                     <label for="blood_type">Blood type</label>
-                    <select required name="blood_type" id="blood_type" class="block mt-2" style="margin-top: -2rem;margin-left: 5rem;">
+                    <select required name="blood_type" id="blood_type" class="block mt-2"
+                        style="margin-top: -2rem;margin-left: 5rem;">
                         <option value="A+">A+</option>
                         <option value="A-">A-</option>
                         <option value="B+">B+</option>
@@ -89,10 +95,11 @@
                 <br><br>
 
                 <input type="submit" value="Submit" class="submit">
-                <button onclick="window.location.href='/staff/isohospital/infection'"class="back-btn2" type="button">
+                <button onclick="window.location.href='/staff/isohospital/infection'" class="back-btn2"
+                    type="button">
                     BACK
                 </button>
-                <button onclick="window.location.href='/'"class="cancel-btn2" type="reset">
+                <button onclick="window.location.href='/'" class="cancel-btn2" type="reset">
                     CANCEL
                 </button>
         </form>
