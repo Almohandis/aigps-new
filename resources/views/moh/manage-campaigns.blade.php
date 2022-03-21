@@ -16,6 +16,7 @@
                             <th>#</th>
                             <th>Campaign's start date</th>
                             <th>Campaign's end date</th>
+                            <th>City</th>
                             <th>Address</th>
                             <th>Status</th>
                         </tr>
@@ -29,6 +30,7 @@
                                 <td>{{ $i++ }}</td>
                                 <td>{{ $campaign->start_date }}</td>
                                 <td>{{ $campaign->end_date }}</td>
+                                <td>{{ $campaign->city }}</td>
                                 <td>{{ $campaign->address }}</td>
                                 <td>{{ $campaign->status }}</td>
                             </tr>
@@ -40,15 +42,18 @@
                     <h2 class="add-hero">Add new campaign</h2>
                     <div class="mt-4">
                         <label for="start_date" style="margin-left: 3rem;">Start date</label>
-                        <input type="date" name="start_date" style="border-color: gray;border-width: 1px;"
-                            required>
+                        <input type="date" name="start_date" style="border-color: gray;border-width: 1px;" required>
                         <label for="end_date" style="margin-left: 16rem;">End date</label>
-                        <input type="date" name="end_date" style="border-color: gray;border-width: 1px;"
-                            required><br>
+                        <input type="date" name="end_date" style="border-color: gray;border-width: 1px;" required><br>
                         <div style="margin-left: 3rem;margin-top: 2rem;">
                             <label for="capacity">Capacity per day</label>
                             <input type="number" min="1" name="capacity_per_day" id="capacity"
                                 style="border-color: gray;border-width: 1px;"><br>
+                        </div>
+                        <div>
+                            <label for="city">City</label>
+                            <input type="text" name="city" id="city" placeholder="Campaign city" style="border-color: gray;border-width: 1px;"
+                                required><br>
                         </div>
                         <div style="  margin-top: -1.5rem;margin-left: 20rem;">
                             <label id="addressLabel" for="address" style="margin-left: 6rem;">Address</label>
@@ -142,7 +147,7 @@
                         </script>
                     </div>
 
-                    <div class=" mt-6" style="margin-right: -8rem;">
+                    <div class="      mt-6" style="margin-right: -8rem;">
                         <div class="mt-3 mx-auto text-right mr-5">
                             <x-button type="submit" id="procceed_button" style="margin-bottom: 1rem;">
                                 Procceed

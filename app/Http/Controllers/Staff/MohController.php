@@ -137,6 +137,7 @@ class MohController extends Controller
             'start_date' => $request->start_date,
             'end_date' => $request->end_date,
             'location' => preg_replace(array('/\(/', '/\)/'), array('', ''), $request->location),
+            'city' => $request->city,
             'address' => $request->address,
             'capacity_per_day' => $request->capacity_per_day ?? 20,
         ]);

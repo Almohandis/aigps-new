@@ -69,6 +69,7 @@
                             <th>#</th>
                             <th>Start date</th>
                             <th>End date</th>
+                            <th>City</th>
                             <th>Address</th>
                         </tr>
                     </table>
@@ -80,6 +81,7 @@
                                 <td>{{ $i++ }}</td>
                                 <td>{{ $campaign->start_date }}</td>
                                 <td>{{ $campaign->end_date }}</td>
+                                <td>{{ $campaign->city }}</td>
                                 <td>{{ $campaign->address }}</td>
                             </tr>
                         @endforeach
@@ -89,7 +91,8 @@
         </div>
         <div style="margin-top:4rem;">
             <div id="map" class="mt-8 rounded-md border-solid border-4 border-black"
-            style="width: 119%; height: 600px; max-height: 90vh; margin: 0px auto; position: relative; overflow: hidden;margin-left: -6rem;"></div>
+                style="width: 119%; height: 600px; max-height: 90vh; margin: 0px auto; position: relative; overflow: hidden;margin-left: -6rem;">
+            </div>
             <script src="https://maps.googleapis.com/maps/api/js?key={{ config('app.google_maps_api') }}&callback=initMap" defer>
             </script>
             <script>
