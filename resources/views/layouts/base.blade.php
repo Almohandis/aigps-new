@@ -65,6 +65,9 @@
                                     </x-slot>
 
                                     <x-slot name="content">
+                                        <x-dropdown-link href="/notifications">
+                                            Notifications
+                                        </x-dropdown-link>
                                         <x-dropdown-link href="/appointments">
                                             My Appointments
                                         </x-dropdown-link>
@@ -158,6 +161,11 @@
                                         class="block py-2 pr-4 pl-3 text-white border-b border-gray-100 hover:bg-gray-50 md:hover:bg-transparent md:border-0 md:hover:text-blue-100 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Hospitalization</a>
                                 </li>
                             @elseif(Auth::user()->role_id == 1)
+                            <div class="dropdown">
+                                <li style="cursor: pointer;">
+                                    Manage
+                                </li>
+                                <div class="dropdown-content">
                                 <li>
                                     <a href="{{ url('/staff/moh/manage-hospitals') }}"
                                         class="block py-2 pr-4 pl-3 text-white border-b border-gray-100 hover:bg-gray-50 md:hover:bg-transparent md:border-0 md:hover:text-blue-100 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Manage
@@ -173,6 +181,8 @@
                                         class="block py-2 pr-4 pl-3 text-white border-b border-gray-100 hover:bg-gray-50 md:hover:bg-transparent md:border-0 md:hover:text-blue-100 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Manage
                                         campaigns</a>
                                 </li>
+                            </div>
+                        </div>
                                 <li>
                                     <a href="{{ url('/staff/moh/article-form') }}"
                                         class="block py-2 pr-4 pl-3 text-white border-b border-gray-100 hover:bg-gray-50 md:hover:bg-transparent md:border-0 md:hover:text-blue-100 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Add

@@ -9,6 +9,9 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use App\Models\User;
+use App\Notifications\InfectionNotification;
+use Illuminate\Support\Facades\Notification;
+
 
 class InfectionNotificationJob implements ShouldQueue
 {
@@ -35,9 +38,12 @@ class InfectionNotificationJob implements ShouldQueue
     {
         $this->user->relatives()->get()->each(function ($user) {
             $user->notifications()->create([
-                'text'  => 'One of your relatives has been infected',
+                'text'  => 'Your relative ('.$this->user->name.') has been infected!',
                 'read'  =>  false
             ]);
         });
+
+        $relatives = $this->user->relatives()->get();
+        Notification::send($relatives, new InfectionNotification($this->user));
     }
 }

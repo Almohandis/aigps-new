@@ -118,4 +118,8 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Question::class)->withPivot('answer')->withTimestamps();
     }
+
+    public function routeNotificationForTwilio() {
+        return $this->phones()->first()->phone_number;
+    }
 }
