@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
 use App\Models\NationalId;
+use App\Notifications\RegisterationNotification;
 
 class RegisteredUserController extends Controller
 {
@@ -93,6 +94,8 @@ class RegisteredUserController extends Controller
         }
 
         event(new Registered($user));
+
+        $user->notify(new RegisterationNotification());
 
         Auth::login($user);
 
