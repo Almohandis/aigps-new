@@ -42,8 +42,3 @@ Route::post('/medical-passport', [MedicalPassportController::class, 'index'])->n
 Route::get('/contact', function () {
     return view('contact');
 });
-
-Route::get('/test', function () {
-    return view('/test-view');
-});
-Route::post('test-add', [HomePageController::class, 'store']);
