@@ -61,32 +61,50 @@
                 <select name="report_by" id="report-by"></select>
                 <button type="submit" id="generate-btn" class="btn btn-primary">Generate report</button>
             </form>
-            @if (isset($campaigns))
-                @php $i = 1; @endphp
+            @if (isset($data_by_city))
                 <div class="tbl-header">
                     <table>
                         <tr>
-                            <th>#</th>
-                            <th>Start date</th>
-                            <th>End date</th>
                             <th>City</th>
-                            <th>Address</th>
+                            <th>Number of campaigns</th>
                         </tr>
                     </table>
                 </div>
                 <div class="tbl-content">
                     <table>
-                        @foreach ($campaigns as $campaign)
+                        @foreach ($data_by_city as $city)
                             <tr>
-                                <td>{{ $i++ }}</td>
-                                <td>{{ $campaign->start_date }}</td>
-                                <td>{{ $campaign->end_date }}</td>
-                                <td>{{ $campaign->city }}</td>
-                                <td>{{ $campaign->address }}</td>
+                                <td>{{ $city->city }}</td>
+                                <td>{{ $city->total_campaigns }}</td>
                             </tr>
                         @endforeach
                     </table>
-                </div>
+                @elseif (isset($campaigns))
+                    @php $i = 1; @endphp
+                    <div class="tbl-header">
+                        <table>
+                            <tr>
+                                <th>#</th>
+                                <th>Start date</th>
+                                <th>End date</th>
+                                <th>City</th>
+                                <th>Address</th>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="tbl-content">
+                        <table>
+                            @foreach ($campaigns as $campaign)
+                                <tr>
+                                    <td>{{ $i++ }}</td>
+                                    <td>{{ $campaign->start_date }}</td>
+                                    <td>{{ $campaign->end_date }}</td>
+                                    <td>{{ $campaign->city }}</td>
+                                    <td>{{ $campaign->address }}</td>
+                                </tr>
+                            @endforeach
+                        </table>
+                    </div>
             @endif
         </div>
         <div style="margin-top:4rem;">
@@ -219,6 +237,7 @@
                 }
             </script>
         </div>
+
     </div>
     <script src="{{ asset('js/statistics.js') }}"></script>
 </x-app-layout>

@@ -14,7 +14,7 @@ let getReportBy = {
     'Hospitalization status': ['City', 'Hospital', 'Date', 'Age segment'],                                            //11
     // 'Hospital statistics': ['City', 'Hospital', 'Date'],
     // 'Hospital statistics (summary)': ['Default'],
-    'Campaign report (summary)': ['Default'],                                                                         //12
+    'Campaign report': ['City', 'Campaign'],                                                                         //12
     'General statistics': ['Default'],                                                                                //13
     'Vaccine report': ['Default'],                                                                                    //14
     'Personal medical report': ['Default'],                                                                           //15

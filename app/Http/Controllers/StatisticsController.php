@@ -31,7 +31,7 @@ class StatisticsController extends Controller
         'Hospitalization status',
         // 'Hospital statistics',
         // 'Hospital statistics (summary)',
-        'Campaign report (summary)',
+        'Campaign report',
         'General statistics',
         'Vaccine report',
         'Personal medical report'
@@ -53,7 +53,7 @@ class StatisticsController extends Controller
         ['City', 'Hospital', 'Date', 'Age segment'],
         // ['City', 'Hospital', 'Date'],
         // ['Default'],
-        ['Default'],
+        ['City', 'Campaign'],
         ['Default'],
         ['Default'],
         ['Default'],
@@ -501,15 +501,22 @@ class StatisticsController extends Controller
 
     public function campaignReportSummary($report_by, $names)
     {
+        $campaigns = Campaign::orderBy('start_date', 'desc')->get();
+        $campaigns = json_decode(json_encode($campaigns));
         switch ($report_by) {
-            case 'Default':
-                $data = DB::select('SELECT if(curdate()< cam1.start_date, "Coming",if(curdate()>=cam1.start_date and curdate()<cam1.end_date, "In progress","Finished") ) as cam_stat, COUNT(*) FROM campaigns as cam1 group by cam_stat;');
+            case 'City':
+                $data = DB::select('SELECT DISTINCT cam1.city, count(*) as total_campaigns FROM campaigns as cam1 where cam1.status!="Cancelled" group by cam1.city order by cam1.city;');
                 $data = json_encode($data);
                 $data = json_decode($data);
-                $campaigns = Campaign::orderBy('start_date', 'desc')->get();
-                $campaigns = json_decode(json_encode($campaigns));
                 // return $data;
-                return view('statistics.campaign-report-summary', ['data_by_campaign' => $data, 'names' => $names, 'report_by' => $report_by, 'campaigns' => $campaigns]);
+                return view('statistics.campaign-report-summary', ['data_by_city' => $data, 'names' => $names, 'report_by' => $report_by, 'campaigns' => $campaigns]);
+                break;
+            case 'Campaign':
+                // $data = DB::select('SELECT if(curdate()< cam1.start_date, "Coming",if(curdate()>=cam1.start_date and curdate()<cam1.end_date, "In progress","Finished") ) as cam_stat, COUNT(*) FROM campaigns as cam1 group by cam_stat;');
+                // $data = json_encode($data);
+                // $data = json_decode($data);
+                // return $data;
+                return view('statistics.campaign-report-summary', [/*'data_by_campaign' => $data,*/'names' => $names, 'report_by' => $report_by, 'campaigns' => $campaigns]);
                 break;
             default:
                 return null;
@@ -585,7 +592,7 @@ class StatisticsController extends Controller
             case 'Hospital statistics (summary) (removed)':
                 return $this->hospitalStatisticsSummary($report_by, $names);
                 break;
-            case 'Campaign report (summary)':
+            case 'Campaign report':
                 return $this->campaignReportSummary($report_by, $names);
                 break;
             case 'General statistics':

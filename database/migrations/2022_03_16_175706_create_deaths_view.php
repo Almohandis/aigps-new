@@ -14,7 +14,7 @@ class CreateDeathsView extends Migration
      */
     public function up()
     {
-        DB::statement('CREATE OR REPLACE VIEW deaths_id AS
+        DB::statement('CREATE VIEW IF NOT EXISTS deaths_id AS
         SELECT DISTINCT u1.id FROM users AS u1, infections AS inf1 WHERE inf1.user_id=u1.id AND inf1.has_passed_away=1');
     }
 
@@ -25,6 +25,6 @@ class CreateDeathsView extends Migration
      */
     public function down()
     {
-        DB::statement('DROP VIEW deaths_id');
+        DB::statement('DROP VIEW IF EXISTS deaths_id');
     }
 }
