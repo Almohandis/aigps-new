@@ -4,10 +4,15 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\Models\User;
 use App\Models\Notification;
 use App\Jobs\InfectionNotificationJob;
+use Illuminate\Support\Facades\Bus;
+use App\Notifications\InfectionNotification;
 
 uses(RefreshDatabase::class);
 
 test('infected user relatives get notified of infection', function () {
+    \Illuminate\Support\Facades\Notification::fake();
+    Bus::fake();
+
     User::factory(3)->create();
 
     $user = User::find(1);

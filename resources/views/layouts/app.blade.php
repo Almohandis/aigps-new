@@ -65,6 +65,9 @@
                                     </x-slot>
 
                                     <x-slot name="content">
+                                        <x-dropdown-link href="/notifications">
+                                            Notifications
+                                        </x-dropdown-link>
                                         <x-dropdown-link href="/appointments">
                                             My Appointments
                                         </x-dropdown-link>
