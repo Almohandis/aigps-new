@@ -22,7 +22,8 @@ beforeEach(function () {
     DB::table('question_user')->insert([
         'user_id' => $this->user->id,
         'question_id' => 1,
-        'answer' => 'Yes',
+        'answer' => 'No',
+        'created_at'    =>  now()
     ]);
 
     Campaign::factory()->create([
@@ -41,6 +42,19 @@ test('reservation page1 can be rendered', function () {
     $response = $this->get('/reserve');
 
     $response->assertStatus(200);
+});
+
+test('User cannot reserve when survey answer has Yes', function () {
+    DB::table('question_user')->insert([
+        'user_id' => $this->user->id,
+        'question_id' => 1,
+        'answer' => 'Yes',
+        'created_at'    =>  now()
+    ]);
+
+    $response = $this->get('/reserve');
+
+    $response->assertViewIs('citizen.survey-error');
 });
 
 test('reservation page1 can create appointment', function () {
@@ -93,4 +107,14 @@ test('reservation page2 can be rendered', function () {
     $response = $this->get('/reserve/step2');
 
     $response->assertStatus(200);
+});
+
+test('user cannot make a reservation when he already has one active', function () {
+    Campaign::find(1)->appointments()->attach(1, ['date'    =>  now(), 'user_id' =>  1]);
+
+    $response = $this->from('/reserve')->post('/reserve/map/1');
+
+    $this->assertEquals(21, DB::table('campaign_appointments')->count());
+
+    $response->assertRedirect('/reserve');
 });
