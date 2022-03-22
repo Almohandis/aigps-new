@@ -39,19 +39,48 @@
                             <th>Total</th>
                         </tr>
                     </table>
-                    <div class="tbl-content">
-                        <table>
-                            @foreach ($data_by_vaccine_status as $status)
-                                <tr>
-                                    <td>{{ $status->vac_status }}</td>
-                                    <td>{{ $status->male_count }}</td>
-                                    <td>{{ $status->male_pcnt }}</td>
-                                    <td>{{ $status->female_count }}</td>
-                                    <td>{{ $status->female_pcnt }}</td>
-                                    <td>{{ $status->total }}</td>
-                                </tr>
-                            @endforeach
-                        </table>
+                </div>
+                <div class="tbl-content">
+                    <table>
+                        @foreach ($data_by_vaccine_status as $status)
+                            <tr>
+                                <td>{{ $status->vac_status }}</td>
+                                <td>{{ $status->male_count }}</td>
+                                <td>{{ $status->male_pcnt }}</td>
+                                <td>{{ $status->female_count }}</td>
+                                <td>{{ $status->female_pcnt }}</td>
+                                <td>{{ $status->total }}</td>
+                            </tr>
+                        @endforeach
+                    </table>
+                </div>
+            @elseif(isset($data_by_city_age_segment))
+                <div class="tbl-header">
+                    <table>
+                        <tr>
+                            <th>City</th>
+                            <th>Age segment</th>
+                            <th>Not vaccinated</th>
+                            <th>Partially vaccinated</th>
+                            <th>Fully vaccinated</th>
+                            <th>Total</th>
+                        </tr>
+                    </table>
+                </div>
+                <div class="tbl-content">
+                    <table>
+                        @foreach ($data_by_city_age_segment as $city)
+                            <tr>
+                                <td>{{ $city->city }}</td>
+                                <td>{{ $city->age }}</td>
+                                <td>{{ $city->not_vac }}</td>
+                                <td>{{ $city->part_vac }}</td>
+                                <td>{{ $city->full_vac }}</td>
+                                <td>{{ $city->total }}</td>
+                            </tr>
+                        @endforeach
+                    </table>
+                </div>
             @endif
         </div>
     </div>
