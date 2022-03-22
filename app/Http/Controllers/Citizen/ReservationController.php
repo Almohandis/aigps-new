@@ -155,6 +155,6 @@ class ReservationController extends Controller {
     }
 
     private function canReserve(Request $request) {
-        return ! $request->user()->answers()->where('question_user.created_at', '>', now()->subDays(7))->where('answer', 'Yes')->first();
+        return ! $request->user()->answers()->where('question_user.created_at', '>', now()->subDays(14))->where('answer', 'Yes')->first();
     }
 }

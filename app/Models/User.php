@@ -114,7 +114,7 @@ class User extends Authenticatable
     }
 
     public function hasSurvey() {
-        return $this->answers()->where('question_user.created_at', '>', now()->subDays(7))->exists();
+        return $this->answers()->where('question_user.created_at', '>', now()->subDays(14))->exists();
     }
 
     //# DON'T DELETE OR REMOVE IT PLEASE, IT'S USED IN THE SEEDER
