@@ -84,8 +84,8 @@
     width: 70rem;
     margin-left: 12rem;
     margin-bottom: 2rem;
-    height: 24rem;
     border-radius: 25px;
+    padding-bottom: 20px;
   }
   #contact-title 
  {

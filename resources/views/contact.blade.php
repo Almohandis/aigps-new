@@ -27,54 +27,12 @@
         <img src="/contact.jpg" class="contact-header">
         <div class="divide2"></div>
         <div class="wrap2"></div>
-        <h1 class="ml-5 text-left text-4xl text-white" style="text-shadow: 2px 2px 8px #000000;">
-            Contact Us
-        </h1>
-
-
-        {{-- <div class="h-screen" id="">
-            <button data-collapse-toggle="mobile-menu-2" type="button"
-                class="inline-flex items-center p-2 ml-1 text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
-                aria-controls="mobile-menu-2" aria-expanded="false">
-                <span class="sr-only">Open main menu</span>
-                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                    <path fill-rule="evenodd"
-                        d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"
-                        clip-rule="evenodd"></path>
-                </svg>
-                <svg class="hidden w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                    <path fill-rule="evenodd"
-                        d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-                        clip-rule="evenodd"></path>
-                </svg>
-            </button>
-        </div>
-        <div class="hidden justify-between items-center w-full md:flex md:w-auto md:order-1" id="mobile-menu-2">
-            <ul class="flex flex-col mt-4 md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium">
-                <li>
-                    <a href="/" class="home">Home</a>
-                </li>
-                <li>
-                    <a href="/reserve" class="vaccine">Vaccine</a>
-                </li>
-                <li>
-                    <a href="#" class="pandemic">Pandemic Statistics</a>
-                </li>
-                <li>
-                    <a href="/reserve" class="diagnose">Diagnose</a>
-                </li>
-                <li>
-                    <a href="/view/contact" class="contact-us">Contact Us</a>
-                </li>
-            </ul>
-        </div>
-        </div>
-        </nav> --}}
-
-
+            <h1 class="ml-5 text-left text-4xl text-white" style="text-shadow: 2px 2px 8px #000000;">
+                Contact Us
+            </h1>
         </div>
 
-        <div class="h-screen" id="contact-info">
+        <div id="contact-info">
             <div class="text-2xl text-black font-bold ml-10" id="contact-title">Get In Touch</div>
 
             <div class="grid grid-cols-2" style="margin-left: 8rem;margin-top: 1rem;">
@@ -97,7 +55,12 @@
                     <div class="text-md text-blue-800 ml-24">8:00AM - 8:00PM</div>
                 </div>
             </div>
+
+            <div class="text-2xl text-black font-bold ml-10" id="contact-title">Our Location</div>
+            <div style="height: 450px; padding: 20px;">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3455.5268123249007!2d31.309183415424524!3d29.99302608190114!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x145839202cd65b27%3A0x5bee403e7f57345c!2sModern%20University%20for%20Technology%20%26%20Information!5e0!3m2!1sen!2seg!4v1647614214306!5m2!1sen!2seg" width="100%" height="400" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+            </div>
         </div>
-        </div>
+    </body>
 
 </x-base-layout>
