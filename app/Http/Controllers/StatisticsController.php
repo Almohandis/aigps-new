@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Campaign;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -542,7 +543,12 @@ class StatisticsController extends Controller
     {
         switch ($report_by) {
             case 'Default':
-                $user = Auth::user();
+                $user_id = Auth::user()->id;
+                $data = DB::select('SELECT inf1.infection_date, hos1.name, hos1.city, inf1.is_recovered FROM infections AS inf1, hospitals AS hos1 WHERE inf1.hospital_id=hos1.id AND inf1.user_id=' . $user_id . ' ORDER BY inf1.infection_date DESC;');
+                $data = json_encode($data);
+                $data = json_decode($data);
+                // return $data;
+                return view('statistics.personal-medical-report', ['data_by_personal' => $data, 'names' => $names, 'report_by' => $report_by]);
                 break;
         }
     }
