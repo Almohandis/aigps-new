@@ -64,8 +64,8 @@ class MohController extends Controller
     {
         $doctors = Hospital::find($id)->clerks()->get();
         $doctors = json_encode($doctors);
-        echo $doctors;
-        return;
+
+        return $doctors;
     }
 
     //# Remove doctor from a hospital
@@ -74,8 +74,8 @@ class MohController extends Controller
         $doctor = User::find($id)->update([
             'hospital_id' => null,
         ]);
-        echo $doctor;
-        return;
+
+        return $doctor;
     }
 
     //# Add new doctor to a hospital

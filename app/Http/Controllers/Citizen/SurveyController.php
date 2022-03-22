@@ -10,7 +10,7 @@ use App\Models\Question;
 class SurveyController extends Controller
 {
     public function index(Request $request) {
-        if ($request->user()->answers()->exists()) {
+        if ($request->user()->hasSurvey()) {
             return redirect('/');
         }
 
@@ -20,7 +20,7 @@ class SurveyController extends Controller
     }
 
     public function survey(Request $request) {
-        if ($request->user()->answers()->exists()) {
+        if ($request->user()->hasSurvey()) {
             return back()->with('error', 'You have already completed the survey');
         }
 

@@ -25,6 +25,7 @@ beforeEach(function () {
         'user_id' => $this->user->id,
         'question_id' => 1,
         'answer' => 'Yes',
+        'created_at'    =>  now()
     ]);
 
 

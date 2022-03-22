@@ -22,7 +22,8 @@ beforeEach(function () {
     DB::table('question_user')->insert([
         'user_id' => $this->user->id,
         'question_id' => 1,
-        'answer' => 'Yes',
+        'answer' => 'No',
+        'created_at'    =>  now()
     ]);
 
     Campaign::factory()->create([
@@ -41,6 +42,19 @@ test('reservation page1 can be rendered', function () {
     $response = $this->get('/reserve');
 
     $response->assertStatus(200);
+});
+
+test('User cannot reserve when survey answer has Yes', function () {
+    DB::table('question_user')->insert([
+        'user_id' => $this->user->id,
+        'question_id' => 1,
+        'answer' => 'Yes',
+        'created_at'    =>  now()
+    ]);
+
+    $response = $this->get('/reserve');
+
+    $response->assertViewIs('citizen.survey-error');
 });
 
 test('reservation page1 can create appointment', function () {

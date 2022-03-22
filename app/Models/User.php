@@ -110,7 +110,11 @@ class User extends Authenticatable
 
     public function answers()
     {
-        return $this->belongsToMany(Question::class)->withPivot('answer')->withTimestamps();
+        return $this->belongsToMany(Question::class)->withPivot('answer', 'created_at')->withTimestamps();
+    }
+
+    public function hasSurvey() {
+        return $this->answers()->where('question_user.created_at', '>', now()->subDays(7))->exists();
     }
 
     //# DON'T DELETE OR REMOVE IT PLEASE, IT'S USED IN THE SEEDER

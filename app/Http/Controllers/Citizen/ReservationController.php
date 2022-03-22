@@ -7,10 +7,12 @@ use App\Http\Controllers\Controller;
 use App\Models\Campaign;
 use Carbon\Carbon;
 
-class ReservationController extends Controller
-{
-    public function index(Request $request)
-    {
+class ReservationController extends Controller {
+    public function index(Request $request) {
+        if (! $this->canReserve($request)) {
+            return view('citizen.survey-error');
+        }
+
         $campaigns = Campaign::where('end_date', '>', now())->where('status', 'active')->get();
 
         //# capacity check
@@ -38,8 +40,11 @@ class ReservationController extends Controller
         }
     }
 
-    public function reserve(Request $request, Campaign $campaign)
-    {
+    public function reserve(Request $request, Campaign $campaign) {
+        if (! $this->canReserve($request)) {
+            return view('citizen.survey-error');
+        }
+
         if ($campaign->end_date < now()) {
             return back()->withErrors([
                 'campaign' => 'Campaign has ended'
@@ -87,8 +92,11 @@ class ReservationController extends Controller
         // return redirect('/reserve/step2');
     }
 
-    public function store(Request $request)
-    {
+    public function store(Request $request) {
+        if (! $this->canReserve($request)) {
+            return view('citizen.survey-error');
+        }
+
         $request->validate([
             'address' => 'required|string',
             'telephone_number' => 'required',
@@ -125,8 +133,11 @@ class ReservationController extends Controller
         return redirect('/reserve/step2')->with('message', null);
     }
 
-    public function form(Request $request)
-    {
+    public function form(Request $request) {
+        if (! $this->canReserve($request)) {
+            return view('citizen.survey-error');
+        }
+
         if (
             $request->user()->telephone_number != null &&
             $request->user()->birthdate != null &&
@@ -141,5 +152,9 @@ class ReservationController extends Controller
         return view('citizen.reservation2')->with([
             'countries'     =>      \Countries::getList('en')
         ])->with('message', null);
+    }
+
+    private function canReserve(Request $request) {
+        return ! $request->user()->answers()->where('question_user.created_at', '>', now()->subDays(7))->where('answer', 'Yes')->first();
     }
 }
