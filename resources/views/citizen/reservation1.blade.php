@@ -69,6 +69,17 @@
             </select>
         </div>
 
+        <div class="text-center text-xl my-4 mb-2" id="nearCampaigns2">
+            Campaigns Timing:
+            <select class="text-md text-black" onchange="selectCampaignOption2()">
+                <option value="-1">Select a campaign</option>
+
+                @foreach($campaigns as $index => $campaign)
+                    <option value="{{$index}}">{{$campaign->address}}</option>
+                @endforeach
+            </select>
+        </div>
+
         <div id="campaign_selection" class="text-center text-xl my-4 hidden">
             <h3>You have selected: <span class="text-grey">Campaign Name</span></h3>
         </div>
@@ -90,6 +101,14 @@
 
                 function selectCampaignOption() {
                     var val = parseInt(document.querySelector("#nearCampaigns>select").value);
+                    
+                    if (val != -1) {
+                        selectCampaign(locations[val])
+                    }
+                }
+
+                function selectCampaignOption2() {
+                    var val = parseInt(document.querySelector("#nearCampaigns2>select").value);
                     
                     if (val != -1) {
                         selectCampaign(locations[val])

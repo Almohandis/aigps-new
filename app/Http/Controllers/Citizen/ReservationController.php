@@ -13,7 +13,7 @@ class ReservationController extends Controller {
             return view('citizen.survey-error');
         }
 
-        $campaigns = Campaign::where('end_date', '>', now())->where('status', 'active')->get();
+        $campaigns = Campaign::where('end_date', '>', now())->where('status', 'active')->orderBy('start_date', 'asc')->get();
 
         //# capacity check
         foreach ($campaigns as $campaign) {
