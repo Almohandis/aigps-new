@@ -33,7 +33,7 @@
                 <label for="full-link">(Optional) Link to the full article</label>
                 <input type="text" name="full_link" id="full-link" placeholder="Enter full article link">
                 <label for="video">(Optional) Link to video</label>
-                <input type="text" name="link" id="video" placeholder="Enter video link">
+                <input type="text" name="link" id="video" placeholder="Enter video link as an iFrame tag">
                 <input type="submit" value="Add article">
             </form>
 

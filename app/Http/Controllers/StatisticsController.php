@@ -280,26 +280,7 @@ class StatisticsController extends Controller
                 return view('statistics.recoveries-report', ['data_by_date' => $data, 'names' => $names, 'report_by' => $report_by, 'date' => $date]);
                 break;
             case 'Age segment':
-                $data = DB::select('SELECT DISTINCT IF(TIMESTAMPDIFF(YEAR,u1.birthdate, now())<=20,"Children", IF(TIMESTAMPDIFF(YEAR,u1.birthdate, now())<=40,"Youth", "Elder")) AS Age,
-
-                (SELECT COUNT(*) FROM users AS u2, infections AS inf2 WHERE inf2.user_id=u2.id AND inf2.is_recovered=1 AND
-                IF(TIMESTAMPDIFF(YEAR,u2.birthdate, now())<=20,"Children", IF(TIMESTAMPDIFF(YEAR,u2.birthdate, now())<=40,"Youth", "Elder"))=(SELECT Age)  ) AS Total,
-
-                (SELECT COUNT(*) FROM users AS u2, infections AS inf2 WHERE inf2.user_id=u2.id AND inf2.is_recovered=1 AND u2.gender="Male" AND
-                IF(TIMESTAMPDIFF(YEAR,u2.birthdate, now())<=20,"Children", IF(TIMESTAMPDIFF(YEAR,u2.birthdate, now())<=40,"Youth", "Elder"))=(SELECT Age)  ) AS Male,
-
-                ROUND((SELECT COUNT(*) FROM users AS u2, infections AS inf2 WHERE inf2.user_id=u2.id AND inf2.is_recovered=1 AND u2.gender="Male" AND
-                IF(TIMESTAMPDIFF(YEAR,u2.birthdate, now())<=20,"Children", IF(TIMESTAMPDIFF(YEAR,u2.birthdate, now())<=40,"Youth", "Elder"))=(SELECT Age))/(SELECT Total)*100,2) AS "male_pcnt",
-
-                (SELECT COUNT(*) FROM users AS u2, infections AS inf2 WHERE inf2.user_id=u2.id AND inf2.is_recovered=1 AND u2.gender="Female" AND
-                IF(TIMESTAMPDIFF(YEAR,u2.birthdate, now())<=20,"Children", IF(TIMESTAMPDIFF(YEAR,u2.birthdate, now())<=40,"Youth", "Elder"))=(SELECT Age)  ) AS Female,
-
-                ROUND((SELECT COUNT(*) FROM users AS u2, infections AS inf2 WHERE inf2.user_id=u2.id AND inf2.is_recovered=1 AND u2.gender="Female" AND
-                IF(TIMESTAMPDIFF(YEAR,u2.birthdate, now())<=20,"Children", IF(TIMESTAMPDIFF(YEAR,u2.birthdate, now())<=40,"Youth", "Elder"))=(SELECT Age))/(SELECT Total)*100,2) AS "female_pcnt"
-
-                FROM infections AS inf1, users AS u1
-
-                WHERE inf1.is_recovered=1 ORDER BY Age;');
+                $data = DB::select('SELECT DISTINCT IF( TIMESTAMPDIFF(YEAR, u1.birthdate, now())<= 20, "Children", IF( TIMESTAMPDIFF(YEAR, u1.birthdate, now())<= 40, "Youth", "Elder" ) ) AS Age, ( SELECT COUNT(*) FROM users AS u2, infections AS inf2 WHERE inf2.user_id = u2.id AND inf2.is_recovered = 1 AND IF( TIMESTAMPDIFF(YEAR, u2.birthdate, now())<= 20, "Children", IF( TIMESTAMPDIFF(YEAR, u2.birthdate, now())<= 40, "Youth", "Elder" ) )=( SELECT Age ) ) AS Total, ( SELECT COUNT(*) FROM users AS u2, infections AS inf2 WHERE inf2.user_id = u2.id AND inf2.is_recovered = 1 AND u2.gender = "Male" AND IF( TIMESTAMPDIFF(YEAR, u2.birthdate, now())<= 20, "Children", IF( TIMESTAMPDIFF(YEAR, u2.birthdate, now())<= 40, "Youth", "Elder" ) )=( SELECT Age ) ) AS Male, ROUND( ( SELECT COUNT(*) FROM users AS u2, infections AS inf2 WHERE inf2.user_id = u2.id AND inf2.is_recovered = 1 AND u2.gender = "Male" AND IF( TIMESTAMPDIFF(YEAR, u2.birthdate, now())<= 20, "Children", IF( TIMESTAMPDIFF(YEAR, u2.birthdate, now())<= 40, "Youth", "Elder" ) )=( SELECT Age ) )/( SELECT Total )* 100, 2 ) AS "male_pcnt", ( SELECT COUNT(*) FROM users AS u2, infections AS inf2 WHERE inf2.user_id = u2.id AND inf2.is_recovered = 1 AND u2.gender = "Female" AND IF( TIMESTAMPDIFF(YEAR, u2.birthdate, now())<= 20, "Children", IF( TIMESTAMPDIFF(YEAR, u2.birthdate, now())<= 40, "Youth", "Elder" ) )=( SELECT Age ) ) AS Female, ROUND( ( SELECT COUNT(*) FROM users AS u2, infections AS inf2 WHERE inf2.user_id = u2.id AND inf2.is_recovered = 1 AND u2.gender = "Female" AND IF( TIMESTAMPDIFF(YEAR, u2.birthdate, now())<= 20, "Children", IF( TIMESTAMPDIFF(YEAR, u2.birthdate, now())<= 40, "Youth", "Elder" ) )=( SELECT Age ) )/( SELECT Total )* 100, 2 ) AS "female_pcnt" FROM users AS u1 GROUP BY Age ORDER BY Age;');
                 $data = json_decode(json_encode($data));
                 // return $data;
                 return view('statistics.recoveries-report', [
