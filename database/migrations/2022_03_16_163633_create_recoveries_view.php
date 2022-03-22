@@ -14,7 +14,7 @@ class CreateRecoveriesView extends Migration
      */
     public function up()
     {
-        DB::statement('CREATE VIEW recoveries_id AS
+        DB::statement('CREATE OR REPLACE VIEW recoveries_id AS
         SELECT DISTINCT u1.id FROM users AS u1, infections AS inf1 WHERE inf1.user_id=u1.id AND inf1.is_recovered=1');
     }
 

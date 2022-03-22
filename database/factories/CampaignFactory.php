@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 
 class CampaignFactory extends Factory
 {
+    protected $cities = ['Alexandria', 'Aswan', 'Asyut', 'Beheira', 'Beni Suef', 'Cairo', 'Dakahlia', 'Damietta', 'Faiyum', 'Gharbia', 'Giza', 'Helwan', 'Ismailia', 'Kafr El Sheikh', 'Luxor', 'Matruh', 'Minya', 'Monufia', 'New Valley', 'North Sinai', 'Port Said', 'Qalyubia', 'Qena', 'Red Sea', 'Sharqia', 'Sohag', 'South Sinai', 'Suez', '6th of October'];
+
     /**
      * Define the model's default state.
      *
@@ -16,7 +18,7 @@ class CampaignFactory extends Factory
         return [
             'start_date' => $this->faker->dateTimeBetween('-3 days', '+2 weeks'),
             'end_date' => $this->faker->dateTimeBetween('+3 weeks', '+4 weeks'),
-            'city' => $this->faker->city,
+            'city' => $this->faker->randomElement($this->cities),
             'location' => 'location',
             'address' => $this->faker->address,
         ];
