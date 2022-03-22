@@ -18,6 +18,7 @@ class CreateCampaignAppointmentsTable extends Migration
             $table->integer('campaign_id');
             $table->integer('user_id');
             $table->date('date');
+            $table->string('status')->default('pending');
             $table->timestamps();
         });
     }

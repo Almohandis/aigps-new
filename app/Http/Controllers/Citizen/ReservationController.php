@@ -51,7 +51,7 @@ class ReservationController extends Controller {
             ]);
         }
 
-        if ($request->user()->reservations()->where('date', '>=', now())->count()) {
+        if ($request->user()->reservations()->where('campaign_appointments.status', '!=', 'cancelled')->where('date', '>=', now())->count()) {
             return back()->withErrors([
                 'campaign' => 'You have already reserved an appointment'
             ]);
