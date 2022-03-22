@@ -32,6 +32,7 @@ class CampaignValidityJob implements ShouldQueue
     public function handle()
     {
         $campaigns = Campaign::where('start_date', '>=', now()->addDays(2))
+            ->where('status', '!=', 'cancelled')
             ->where('end_date', '<=', now()->addDays(3))
             ->get();
 
@@ -43,6 +44,25 @@ class CampaignValidityJob implements ShouldQueue
             if ($days * $campaign->capacity_per_day < $campaign->appointments()->count()) {
                 $campaign->update([
                     'status'    =>  'cancelled'
+                ]);
+            }
+        }
+
+        $campaigns = Campaign::where('status', '!=', 'cancelled')->get();
+
+        foreach ($campaigns as $campaign) {
+            $start = new Carbon($campaign->start_date);
+            $end = new Carbon($campaign->end_date);
+
+            if ($end < now()) {
+                $campaign->update([
+                    'status'    =>  'finished'
+                ]);
+            }
+
+            if ($start > now()) {
+                $campaign->update([
+                    'status'    =>  'upcoming'
                 ]);
             }
         }
