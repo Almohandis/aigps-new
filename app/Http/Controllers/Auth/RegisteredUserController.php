@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
 use App\Models\NationalId;
+use App\Notifications\RegisterationNotification;
 
 class RegisteredUserController extends Controller
 {
@@ -19,9 +20,13 @@ class RegisteredUserController extends Controller
      *
      * @return \Illuminate\View\View
      */
-    public function create()
-    {
-        return view('auth.register');
+    public function create() {
+        $cities = ['Alexandria', 'Aswan', 'Asyut', 'Beheira', 'Beni Suef', 'Cairo', 'Dakahlia', 'Damietta', 'Faiyum', 'Gharbia', 'Giza', 'Helwan', 'Ismailia', 'Kafr El Sheikh', 'Luxor', 'Matruh', 'Minya', 'Monufia', 'New Valley', 'North Sinai', 'Port Said', 'Qalyubia', 'Qena', 'Red Sea', 'Sharqia', 'Sohag', 'South Sinai', 'Suez', '6th of October'];
+        // countries
+        return view('auth.register')->with([
+            'countries' => \Countries::getList('en'),
+            'cities'    =>  $cities
+        ]);
     }
 
     /**
@@ -32,8 +37,19 @@ class RegisteredUserController extends Controller
      *
      * @throws \Illuminate\Validation\ValidationException
      */
-    public function store(Request $request)
-    {
+    public function store(Request $request) {
+        $request->validate([
+            'name'              => ['required', 'string', 'max:255'],
+            'email'             => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'password'          => ['required', 'confirmed', Rules\Password::defaults()],
+            'national_id'       => ['required', 'max:255',], //# 'unique:users'
+            'address'           => 'required|string',
+            'telephone_number'  => 'required',
+            'birthdate'         => 'required',
+            'gender'            => 'required',
+            'country'           =>  'required|string',
+            'city'              =>  'required|string'
+        ]);
 
         //# check if the provided national id exists in the database
         $nationalId = NationalId::find($request->national_id);
@@ -44,55 +60,50 @@ class RegisteredUserController extends Controller
 
         //# check if the user already has a record in the users table, may be his/her data was entered by a hospital staff before
         $user = User::where('national_id', $request->national_id)->first();
+        $gender = ($request->gender === 'Male') ? 'Male' : 'Female';
+
+        $data = [
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+            'national_id' => $request->national_id,
+            'address'           =>  $request->address,
+            'telephone_number'  =>  $request->telephone_number,
+            'birthdate'         =>  $request->birthdate,
+            'gender'            =>  $gender,
+            'country'           =>  $request->country,
+            'city'              =>  $request->city
+        ];
 
         //# check if user exists
         if ($user) {
-
-            $email = $user->email ? $user->email : null;
-            $password = $user->password ? $user->password : null;
-
-            //# check if user is registered
-            if ($email && $password) {
-                $request->validate([
-                    'name'          => ['required', 'string', 'max:255'],
-                    'email'         => ['required', 'string', 'email', 'max:255', 'unique:users'],
-                    'password'      => ['required', 'confirmed', Rules\Password::defaults()],
-                    'national_id'   => ['required', 'max:255', 'unique:users']
-                ]);
-
-                //# check if user is not registered
-            } else if ((!$email) && (!$password)) {
-                $request->validate([
-                    'name'          => ['required', 'string', 'max:255'],
-                    'email'         => ['required', 'string', 'email', 'max:255', 'unique:users'],
-                    'password'      => ['required', 'confirmed', Rules\Password::defaults()],
-                    'national_id'   => ['required', 'max:255',] //# 'unique:users'
-                ]);
-            }
-        }
-
-        //# if the user already exists, update his/her data
-        if ($user) {
-            $user->update([
-                'name' => $request->name,
-                'email' => $request->email,
-                'password' => Hash::make($request->password),
-            ]);
+            $user->update($data);
         } else {
-
             //# if the user does not exist, create a new record
-            $user = User::create([
-                'name' => $request->name,
-                'email' => $request->email,
-                'password' => Hash::make($request->password),
-                'national_id' => $request->national_id
-            ]);
+            $user = User::create($data);
 
             //# create a new record in medical passport for the user
             $user->passport()->create();
         }
 
+        //# user can have multiple phones, up to 10
+        $phone = 1;
+        while ($phone < 10) {
+            $phone_number = $request->input('phone' . $phone);
+            if ($phone_number) {
+                $user->phones()->create([
+                    'phone_number' => $phone_number
+                ]);
+            } else {
+                break;
+            }
+
+            $phone++;
+        }
+
         event(new Registered($user));
+
+        $user->notify(new RegisterationNotification());
 
         Auth::login($user);
 

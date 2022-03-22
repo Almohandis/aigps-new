@@ -20,7 +20,9 @@ class AppointmentsController extends Controller
         $appointment = $request->user()->reservations()->where('campaign_appointments.id', $id)->first();
 
         if ($appointment) {
-            $appointment->pivot->delete();
+            $appointment->pivot->update([
+                'status' => 'cancelled'
+            ]);
         }
 
         return redirect('/appointments');

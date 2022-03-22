@@ -33,6 +33,7 @@ test('survey page doesnt render when user completed the survey already', functio
         'user_id' => $this->user->id,
         'question_id' => 1,
         'answer' => 'Yes',
+        'created_at'    =>  now()
     ]);
 
     $response = $this->get('/survey');

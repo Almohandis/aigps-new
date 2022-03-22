@@ -25,6 +25,7 @@ beforeEach(function () {
         'user_id' => $this->user->id,
         'question_id' => 1,
         'answer' => 'Yes',
+        'created_at'    =>  now()
     ]);
 
 
@@ -43,7 +44,7 @@ test('appointments page gets rendered', function () {
 test('appointments can be cancelled', function () {
     $response = $this->get('/appointments/1/cancel');
 
-    $this->assertEquals(0, $this->user->reservations()->count());
+    $this->assertEquals(1, $this->user->reservations()->where('campaign_appointments.status', 'cancelled')->count());
 
     $response->assertStatus(302);
 });

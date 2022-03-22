@@ -60,7 +60,7 @@ class User extends Authenticatable
 
     public function reservations()
     {
-        return $this->belongsToMany(Campaign::class, 'campaign_appointments')->withPivot('date', 'id')->withTimestamps();
+        return $this->belongsToMany(Campaign::class, 'campaign_appointments')->withPivot('date', 'id', 'status')->withTimestamps();
     }
 
     public function diseases()
@@ -110,7 +110,11 @@ class User extends Authenticatable
 
     public function answers()
     {
-        return $this->belongsToMany(Question::class)->withPivot('answer')->withTimestamps();
+        return $this->belongsToMany(Question::class)->withPivot('answer', 'created_at')->withTimestamps();
+    }
+
+    public function hasSurvey() {
+        return $this->answers()->where('question_user.created_at', '>', now()->subDays(14))->exists();
     }
 
     //# DON'T DELETE OR REMOVE IT PLEASE, IT'S USED IN THE SEEDER

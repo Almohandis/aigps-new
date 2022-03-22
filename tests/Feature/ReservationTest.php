@@ -22,7 +22,8 @@ beforeEach(function () {
     DB::table('question_user')->insert([
         'user_id' => $this->user->id,
         'question_id' => 1,
-        'answer' => 'Yes',
+        'answer' => 'No',
+        'created_at'    =>  now()
     ]);
 
     Campaign::factory()->create([
@@ -43,6 +44,19 @@ test('reservation page1 can be rendered', function () {
     $response->assertStatus(200);
 });
 
+test('User cannot reserve when survey answer has Yes', function () {
+    DB::table('question_user')->insert([
+        'user_id' => $this->user->id,
+        'question_id' => 1,
+        'answer' => 'Yes',
+        'created_at'    =>  now()
+    ]);
+
+    $response = $this->get('/reserve');
+
+    $response->assertViewIs('citizen.survey-error');
+});
+
 test('reservation page1 can create appointment', function () {
     $response = $this->post('/reserve/map/1');
 
@@ -52,45 +66,15 @@ test('reservation page1 can create appointment', function () {
 
     $this->assertTrue(DB::table('campaign_appointments')->where('id', 21)->where('date', '2020-01-02')->exists());
 
-    $response->assertRedirect('/reserve/step2');
+    $response->assertViewIs('citizen.reservecomplete');
 });
 
-test('reservation page2 can save user data correctly', function () {
-    $response = $this->post('/reserve/step2', [
-        'address' => 'address',
-        'telephone_number' => '123456789',
-        'birthdate' => '1999-01-01',
-        'phone1'        =>  '123456789',
-        'phone2'        =>  '123456789',
-        'gender'        =>  'Male',
-        'country'       =>  'Egypt'
-    ]);
+test('user cannot make a reservation when he already has one active', function () {
+    Campaign::find(1)->appointments()->attach(1, ['date'    =>  now(), 'user_id' =>  1]);
 
-    $this->assertEquals($this->user->address, 'address');
-    $this->assertEquals($this->user->telephone_number, '123456789');
-    $this->assertEquals($this->user->birthdate, '1999-01-01');
-    $this->assertEquals($this->user->gender, 'Male');
-    $this->assertEquals($this->user->country, 'Egypt');
+    $response = $this->from('/reserve')->post('/reserve/map/1');
 
-    $this->assertEquals($this->user->phones->count(), 2);
+    $this->assertEquals(21, DB::table('campaign_appointments')->count());
 
-    $response->assertRedirect('/reserve/step2');
-});
-
-test('reservation page2 can be rendered', function () {
-    $this->user->update([
-        'address' => 'address',
-        'telephone_number' => '123456789',
-        'birthdate' => '1999-01-01',
-        'gender'        =>  'Male',
-        'country'       =>  'Egypt'
-    ]);
-
-    $this->user->phones()->create([
-        'phone_number'  =>  '123456789'
-    ]);
-
-    $response = $this->get('/reserve/step2');
-
-    $response->assertStatus(200);
+    $response->assertRedirect('/reserve');
 });
