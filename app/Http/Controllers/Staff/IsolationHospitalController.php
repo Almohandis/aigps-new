@@ -14,6 +14,8 @@ use Illuminate\Support\Facades\DB;
 
 class IsolationHospitalController extends Controller
 {
+    protected $cities = ['6th of October', 'Alexandria', 'Aswan', 'Asyut', 'Beheira', 'Beni Suef', 'Cairo', 'Dakahlia', 'Damietta', 'Faiyum', 'Gharbia', 'Giza', 'Helwan', 'Ismailia', 'Kafr El Sheikh', 'Luxor', 'Matruh', 'Minya', 'Monufia', 'New Valley', 'North Sinai', 'Port Said', 'Qalyubia', 'Qena', 'Red Sea', 'Sharqia', 'Sohag', 'South Sinai', 'Suez'];
+
     public function index()
     {
         $hospitals = Hospital::where('is_isolation', 1)->get();
@@ -236,6 +238,7 @@ class IsolationHospitalController extends Controller
     {
         $data = array(
             'countries' => \Countries::getList('en'),
+            'cities' => $this->cities,
         );
         return view('isolationHospital.add-patient', compact('data'));
     }
@@ -263,6 +266,20 @@ class IsolationHospitalController extends Controller
         //# check if the patinet already in the hospital
         if (Hospital::find($request->user()->hospital_id)->patients()->where('national_id', $request->national_id)->where('checkout_date', null)->first()) {
             return redirect()->back()->with('message', 'This patient is already in the hospital');
+        }
+
+        //# check if the patient already in another hospital
+        if (Hospital::where('id', '!=', $request->user()->hospital_id)->whereHas('patients', function ($query) use ($request) {
+            $query->where('national_id', $request->national_id)->where('checkout_date', null);
+        })->first()) {
+            return redirect()->back()->with('message', 'This patient is already in another hospital');
+        }
+
+        //# check if the hospital has a free bed to hospitalize the patient
+        $capacity = Hospital::find($request->user()->hospital_id)->capacity;
+        $hospitalized_patients = Hospital::find($request->user()->hospital_id)->patients()->where('checkout_date', null)->count();
+        if ($hospitalized_patients >= $capacity) {
+            return redirect()->back()->with('message', 'There is no free bed in the hospital');
         }
 
         //# check if patient has a record in users table, create new record or update existing one

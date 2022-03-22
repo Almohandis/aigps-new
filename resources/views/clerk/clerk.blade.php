@@ -1,12 +1,9 @@
 <x-app-layout>
     <div class="mt-6">
-        <h1 class="ml-5 text-left text-4xl text-white" style="text-shadow: 2px 2px 8px #000000;">
-            Campaign Clerk
-        </h1>
-
         <div class="mx-auto text-center mt-5">
 
-            <form class="inline-block bg-black bg-opacity-50 p-8 text-justify" method="POST" action="/staff/clerk">
+            <form class="inline-block bg-black bg-opacity-50 p-8 text-justify" method="POST" action="/staff/clerk"
+                style="background-color: white;box-shadow: 0 .5rem 1.5rem rgba(0,0,0,.1);border-radius: 25px;">
                 @if ($errors->any())
                     <div>
                         <div class="font-medium text-red-600">
@@ -28,17 +25,18 @@
                 @endisset
 
                 @csrf
-                <div>
-                    <x-label for="national_id" value="National Id" class="text-white" />
+                <div style="width: 21rem;margin-top: 3rem;margin-left: 6rem;">
+                    <x-label for="national_id" value="National Id" class="text-black" />
 
                     <x-input class="block mt-1 w-full" type="text" name="national_id" :value="old('national_id')"
-                        required autofocus />
+                        style="width: 16rem;margin-left: 5rem;margin-top: -2rem;" required autofocus />
                 </div>
 
-                <div>
-                    <x-label for="city" value="City" class="text-white" />
+                <div style="margin-left: 40rem;margin-top: -2rem;">
+                    <x-label for="city" value="City" class="text-black" />
 
-                    <select name="city" class="block mt-1 w-full">
+                    <select name="city" class="block mt-1 w-full"
+                        style="width: 12rem;margin-left: 3rem;margin-top: -2rem;border-radius: 5px;">
                         <option value="Alexandria">Alexandria</option>
                         <option value="Aswan">Aswan</option>
                         <option value="Asyut">Asyut</option>
@@ -70,11 +68,18 @@
                         <option value="6th of October">6th of October</option>
                     </select>
                 </div>
+                <div style="margin-left: 5rem;margin-top: 4rem;">
+                    <x-label for="vaccine_name" value="Vaccine name" class="text-black" />
 
-                <div>
-                    <x-label for="blood_type" value="blood_type" class="text-white" />
+                    <x-input style="width: 16rem;margin-left: 6rem;margin-top: -2rem;" class="block mt-1 w-full"
+                        type="text" name="vaccine_name" :value="old('vaccine_name')" />
+                </div>
 
-                    <select name="blood_type" class="block mt-1 w-full">
+                <div style="margin-top: -1.8rem;margin-left: 40rem;">
+                    <x-label for="blood_type" value="blood_type" class="text-black" />
+
+                    <select name="blood_type" class="block mt-1 w-full"
+                        style="width: 7rem;margin-left: 6rem;margin-top: -2rem;border-radius: 5px;">
                         <option value="A+">A+</option>
                         <option value="A-">A-</option>
                         <option value="B+">B+</option>
@@ -86,40 +91,43 @@
                     </select>
                 </div>
 
-                <div>
-                    <x-label for="vaccine_name" value="Vaccine name" class="text-white" />
-
-                    <x-input class="block mt-1 w-full" type="text" name="vaccine_name" :value="old('vaccine_name')" />
-                </div>
-
-                <div class="mt-3">
+                <div class="mt-3" style="margin-left: 11rem;margin-top: 3rem;">
                     <input type="checkbox" name="is_diagnosed" value="true" />
-                    <x-label value="Is Diagnosed" class="text-white inline-block" />
+                    <x-label value="Is Diagnosed" class="text-black inline-block" />
                 </div>
 
-                <div class="mt-4">
-                    <p class="text-xl text-white"> Infection status </p>
-                    <x-label value="Infection:" class="text-white inline-block" />
-                    <input type="date" name="infection" />
-
+                <div class="mt-4" style="margin-top: 3rem;margin-left:4rem;">
+                    <p class="text-xl text-black"> Infection status </p>
+                    <div style="margin-left: 2rem;margin-top: 1rem;">
+                        <x-label value="Infection Date:" class="text-black inline-block" />
+                        <input
+                            style="border-width: 2px;width: 16rem;text-align: center;border-radius: 5px;height: 2.5rem;"
+                            type="date" name="infection" />
+                    </div>
                     <br>
-
-                    <input type="checkbox" name="is_recovered" value="true" />
-                    <x-label value="Is Recovered" class="text-white inline-block" />
+                    <div style="margin-top: -3.5rem;margin-left: 40rem;">
+                        <input type="checkbox" name="is_recovered" value="true" />
+                        <x-label value="Is Recovered" class="text-black inline-block" />
+                    </div>
                 </div>
 
-                <div class="mt-3">
-                    <p class="text-xl text-white"> Chronic Diseases </p>
+                <div class="mt-3" style="margin-top: 3rem; margin-left:4rem;">
+                    <p class="text-xl text-black"> Chronic Diseases </p>
 
-                    <div id="diseases">
+                    <div id="diseases" style="margin-top: 2rem;margin-left: 8rem;">
                     </div>
 
                     <div onclick="addDisease()"
+                    style="width: 8rem;margin-left: 8rem;"
                         class="text-center bg-blue-500 text-white text-medium px-3 py-2 mt-3 rounded-md shadow-sm hover:bg-blue-400">
                         Add Disease
                     </div>
 
                     <script>
+                        function Scrolldown() {
+                            window.scroll(0,550); 
+                            }
+                        window.onload = Scrolldown;
                         var diseases = 1;
                         var disease_input = document.getElementById('diseases');
 
@@ -141,6 +149,9 @@
 
                 <div class="mt-6">
                     <div class="mt-3 mx-auto text-right">
+                        <button onclick="window.location.href='/'"class="cancel-btn" type="reset" style="margin-right: 1rem;">
+                            CANCEL
+                        </button>
                         <x-button>
                             Save
                         </x-button>

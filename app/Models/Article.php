@@ -12,7 +12,9 @@ class Article extends Model
     protected $fillable = [
         'title',
         'content',
-        'type',
-        'link'
+        'name',
+        'path',
+        'video_link',
+        'full_article_link',
     ];
 }

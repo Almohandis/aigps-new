@@ -78,7 +78,7 @@
                 <div class="mt-3" id="birth-div">
                     <x-label for="birthdate" value="Birthdate" class="text-white" id="birth-label" />
 
-                    <x-input id="birthdate" class="block mt-1 w-full" type="date" name="birthdate"
+                    <x-input id="birthdate2" class="block mt-1 w-full" type="date" name="birthdate"
                         :value="old('birthdate')" required />
                 </div>
                 <br><br>
@@ -111,7 +111,7 @@
 
                     <script>
                         function Scrolldown() {
-                            window.scroll(0,550); 
+                            document.getElementById('c1').scrollIntoView();
                             }
                         window.onload = Scrolldown;
                         var phones = 2;
@@ -150,10 +150,10 @@
                         }
                     </script>
                 </div>
-                <button onclick="window.location.href='/reserve'"class="back-btn">
+                <button onclick="window.location.href='/reserve'"class="back-btn" type="button">
                     BACK
                 </button>
-                <button onclick="window.location.href='/'"class="cancel-btn">
+                <button onclick="window.location.href='/'"class="cancel-btn" type="reset">
                     CANCEL
                 </button>
 

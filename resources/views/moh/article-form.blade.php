@@ -5,39 +5,38 @@
                 {{ session('message') }}
             @endif
         </div>
+
+        @if ($errors->any())
+            <div>
+                <div class="font-medium text-red-600">
+                    {{ __('Whoops! Something went wrong.') }}
+                </div>
+
+                <ul class="mt-3 list-disc list-inside text-sm text-red-600">
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+
         <div class="pt-8 sm:pt-0">
-            <h1 class="add-hero2">All hospitals</h1>
-            <h2 class="add-hero3">Select a hospital to manage its doctors</h2><br>
-            <select form="add-doctor-form" name="hospital_id" id="list">
-                <option value="" selected hidden disabled>Please select a hospital</option>
-                @foreach ($hospitals as $hospital)
-                    <option value="{{ $hospital->id }}">{{ $hospital->name }}</option>
-                @endforeach
-            </select>
-            <form id="add-doctor-form" action="/staff/moh/manage-doctors/add" method="POST">
+            <h1>Add new article</h1>
+            <form action="/staff/moh/add-article" enctype="multipart/form-data" method="POST">
                 @csrf
-                <div class="tbl-header" style="border:1px solid black">
-                    <table>
-                        <tr>
-                            <th>#</th>
-                            <th>Name</th>
-                            <th>National ID</th>
-                            <th>Action</th>
-                        </tr>
-                    </table>
-                </div>
-                <div class="tbl-content">
-                    <table></table>
-                </div>
-                <br>
-                <div class="add-doctor-div">
-                    <h2 class="add-hero2" style="margin-bottom: 2rem;">To add new doctor, select a hospital and
-                        enter national ID of doctor below</h2>
-                    <input type="number" name="national_id" id="add-doctor" placeholder="Type doctor's national ID"
-                        style="height: 2rem;margin-left: 23rem;border-width: 2px;border-color: gray;border-radius: 5px;">
-                    <input type="submit" value="Add doctor" class="add-doc-btn">
-                </div>
+                <label for="title">Article title</label>
+                <input type="text" name="title" id="title" placeholder="Enter article title" required>
+                <label for="content">Article content</label>
+                <textarea name="content" id="content" cols="30" rows="10" placeholder="Enter article content" required></textarea>
+                <label for="image">Add image</label>
+                <input type="file" name="image" id="image">
+                <label for="full-link">(Optional) Link to the full article</label>
+                <input type="text" name="full_link" id="full-link" placeholder="Enter full article link">
+                <label for="video">(Optional) Link to video</label>
+                <input type="text" name="link" id="video" placeholder="Enter video link">
+                <input type="submit" value="Add article">
             </form>
+
         </div>
     </div>
     <script>

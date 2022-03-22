@@ -20,17 +20,32 @@
                 background-repeat: no-repeat;
                 background-size: 1000px;
             }
+            .logo2 {
+                height: 4.5rem;
+                margin-top: -0.8rem;
+                margin-bottom: -0.5rem;
+            }
+            .title {
+                margin-top: 3px;
+                margin-left: 0px;
+                color: #ffffff;
+                font-size: 28px;
+            }
         </style>
 
         <!-- Scripts -->
         <script src="{{ asset('js/app.js') }}" defer></script>
+        <script src="{{ asset('js/header.js') }}" defer></script>
     </head>
     <body class="antialiased">
         <div class="relative items-top justify-center min-h-screen sm:items-center py-4 sm:pt-0">
-            <nav class="header">
+            <nav class="header" id="header">
                 <div class="container flex flex-wrap justify-between items-center mx-auto">
                     <a href="/" class="flex">
-                        <img class="logo2" src="{{ asset('EDIT3.png') }}" alt="Logo">
+                        <img class="logo2" id="logo2" src="{{ asset('EDIT3.png') }}" alt="Logo">
+                        <div class="title" id="title">
+                            AIGPS
+                        </div>
                     </a>
 
                     <div class="flex items-center md:order-2">
@@ -53,7 +68,7 @@
                         </button>
                     </div>
                     <div class="hidden justify-between items-center w-full md:flex md:w-auto md:order-1" id="mobile-menu-2">
-                        <ul class="flex flex-col mt-4 md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium">
+                        <ul class="flex flex-col mt-4 md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium" id="menu" style="font-size: 16px;">
                             <li>
                                 <a href="/" class="block py-2 pr-4 pl-3 text-white bg-blue-700 rounded md:bg-transparent md:p-0 md:hover:text-blue-100">Home</a>
                             </li>

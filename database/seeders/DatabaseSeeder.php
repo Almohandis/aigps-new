@@ -21,6 +21,7 @@ class DatabaseSeeder extends Seeder
             CampaignSeeder::class,
             UserSeeder::class,
             InfectionSeeder::class,
+            VaccineDateSeeder::class,
         ]);
     }
 }

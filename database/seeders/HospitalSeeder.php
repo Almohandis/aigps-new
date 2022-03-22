@@ -14,6 +14,6 @@ class HospitalSeeder extends Seeder
      */
     public function run()
     {
-        Hospital::factory(15)->create();
+        Hospital::factory(50)->create();
     }
 }

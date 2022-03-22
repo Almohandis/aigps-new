@@ -16,7 +16,6 @@
 
         </style>
         <div class="pt-8 sm:pt-0">
-            <h1>statistics</h1><br>
             <form id="form" action="/stats" method="POST">
                 @csrf
                 <select name="report_name" id="report-name">
@@ -29,12 +28,17 @@
                 <button type="submit" id="generate-btn" class="btn btn-primary">Generate report</button>
             </form>
             @if (isset($data_by_question))
+            <div class="tbl-header">
                 <table>
                     <tr>
                         <th>Question title</th>
                         <th>Answered No</th>
                         <th>Answered Yes</th>
                     </tr>
+                </table>
+            </div>
+            <div class="tbl-content">
+                <table>
                     @for ($i = 0; $i < count($data_by_question); $i++)
                         <tr>
                             <td>{{ $data_by_question[$i]->title }}</td>
@@ -43,6 +47,7 @@
                         </tr>
                     @endfor
                 </table>
+            </div>
             @elseif(isset($data_by_age))
 
             @elseif(isset($data_by_blood))

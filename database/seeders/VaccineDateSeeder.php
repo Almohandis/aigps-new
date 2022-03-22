@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\MedicalPassport;
 use App\Models\VaccineDate;
 use Illuminate\Container\Container;
+use Faker\Generator;
 use Illuminate\Database\Seeder;
 
 class VaccineDateSeeder extends Seeder
@@ -44,8 +45,10 @@ class VaccineDateSeeder extends Seeder
     public function run()
     {
         $passports = MedicalPassport::pluck('id')->toArray();
-        VaccineDate::factory()->count(600)->create([
-            'medical_passport_id' => $this->faker->randomElement($passports),
-        ]);
+        for ($i = 0; $i < 60; $i++) {
+            VaccineDate::factory()->create([
+                'medical_passport_id' => $this->faker->randomElement($passports),
+            ]);
+        }
     }
 }

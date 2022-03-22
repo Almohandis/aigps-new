@@ -51,6 +51,8 @@ Route::middleware('moh')->group(function () {
     Route::get('/moh/manage-campaigns', 'MohController@manageCampaigns'); //
     Route::post('/moh/manage-campaigns/add', 'MohController@addCampaign'); //
     Route::post('/moh/manage-hospitals/add', 'MohController@addHospital'); //
+    Route::get('/moh/article-form', 'MohController@articleForm');
+    Route::post('/moh/add-article', 'MohController@addArticle');
 });
 
 //# Admin routes

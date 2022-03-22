@@ -19,6 +19,7 @@ beforeEach(function () {
         'start_date' => now()->addDays(10),
         'end_date' => now(),
         'location' => 'Kampala',
+        'city' => 'Kampala',
         'address' => 'Kampala',
         'status' => 'pending',
     ]);
@@ -28,6 +29,7 @@ beforeEach(function () {
         'start_date' => now()->subDays(1),
         'end_date' => now(),
         'location' => 'Kampala',
+        'city' => 'Kampala',
         'address' => 'Kampala',
         'status' => 'active',
     ]);

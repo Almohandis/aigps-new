@@ -17,8 +17,10 @@ class CreateArticlesTable extends Migration
             $table->id();
             $table->string('title');
             $table->text('content');
-            $table->string('type');
-            $table->string('link')->nullable()->default(NULL);
+            $table->string('name')->nullable()->default(null);
+            $table->string('path')->nullable()->default(null);
+            $table->string('video_link')->nullable()->default(null);
+            $table->string('full_article_link')->nullable()->default(NULL);
             $table->timestamps();
         });
     }
