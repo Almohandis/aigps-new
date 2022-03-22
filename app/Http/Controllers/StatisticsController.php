@@ -43,7 +43,7 @@ class StatisticsController extends Controller
         [/*'City', */'Question'/*, 'Age segment'*/],
         ['City', 'Hospital', 'Date', 'Age segment'],
         ['City', 'Hospital', 'Date', 'Age segment'],
-        [/*'City',*/'Vaccine status'/*, 'Age segment'*/],
+        ['City / age segment', 'Vaccine status'/*, 'Age segment'*/],
         ['Default'],
         ['City', 'Hospital'],
         ['City', 'Vaccine status', 'Date', 'Age segment'],
@@ -340,6 +340,13 @@ class StatisticsController extends Controller
                 $data = json_decode($data);
                 // return $data;
                 return view('statistics.vaccine-status', ['data_by_vaccine_status' => $data, 'names' => $names, 'report_by' => $report_by]);
+                break;
+            case 'City / age segment':
+                $data = DB::select('SELECT DISTINCT u1.city, ( IF( TIMESTAMPDIFF(YEAR, u1.birthdate, now())<= 20, "Children", IF( TIMESTAMPDIFF(YEAR, u1.birthdate, now())<= 40, "Youth", "Elder" ) ) ) AS age, ( SELECT COUNT(*) FROM users AS u2 WHERE u2.city = u1.city and age = IF( TIMESTAMPDIFF(YEAR, u2.birthdate, now())<= 20, "Children", IF( TIMESTAMPDIFF(YEAR, u2.birthdate, now())<= 40, "Youth", "Elder" ) ) ) AS total, ( SELECT COUNT(*) FROM users AS u2, medical_passports as mp2 WHERE u2.city = u1.city and u2.id = mp2.user_id and age = IF( TIMESTAMPDIFF(YEAR, u2.birthdate, now())<= 20, "Children", IF( TIMESTAMPDIFF(YEAR, u2.birthdate, now())<= 40, "Youth", "Elder" ) ) and mp2.vaccine_dose_count = 0 ) AS not_vac, ( SELECT COUNT(*) FROM users AS u2, medical_passports as mp2 WHERE u2.city = u1.city and u2.id = mp2.user_id and age = IF( TIMESTAMPDIFF(YEAR, u2.birthdate, now())<= 20, "Children", IF( TIMESTAMPDIFF(YEAR, u2.birthdate, now())<= 40, "Youth", "Elder" ) ) and mp2.vaccine_dose_count = 1 ) AS part_vac, ( SELECT COUNT(*) FROM users AS u2, medical_passports as mp2 WHERE u2.city = u1.city and u2.id = mp2.user_id and age = IF( TIMESTAMPDIFF(YEAR, u2.birthdate, now())<= 20, "Children", IF( TIMESTAMPDIFF(YEAR, u2.birthdate, now())<= 40, "Youth", "Elder" ) ) and mp2.vaccine_dose_count = 2 ) AS full_vac from users AS u1 ORDER BY u1.city;');
+                $data = json_encode($data);
+                $data = json_decode($data);
+                // return $data;
+                return view('statistics.vaccine-status', ['data_by_city_age_segment' => $data, 'names' => $names, 'report_by' => $report_by]);
                 break;
         }
     }
