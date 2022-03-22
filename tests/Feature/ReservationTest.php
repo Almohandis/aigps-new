@@ -108,3 +108,13 @@ test('reservation page2 can be rendered', function () {
 
     $response->assertStatus(200);
 });
+
+test('user cannot make a reservation when he already has one active', function () {
+    Campaign::find(1)->appointments()->attach(1, ['date'    =>  now(), 'user_id' =>  1]);
+
+    $response = $this->from('/reserve')->post('/reserve/map/1');
+
+    $this->assertEquals(21, DB::table('campaign_appointments')->count());
+
+    $response->assertRedirect('/reserve');
+});

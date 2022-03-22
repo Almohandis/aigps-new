@@ -51,6 +51,12 @@ class ReservationController extends Controller {
             ]);
         }
 
+        if ($request->user()->reservations()->where('date', '>=', now())->count()) {
+            return back()->withErrors([
+                'campaign' => 'You have already reserved an appointment'
+            ]);
+        }
+
         $start = new Carbon($campaign->start_date);
         $end = new Carbon($campaign->end_date);
         $day = 0;
