@@ -33,7 +33,7 @@ class StatisticsController extends Controller
         // 'Hospital statistics (summary)',
         'Campaign report',
         'General statistics',
-        'Vaccine report',
+        // 'Vaccine report',
         'Personal medical report'
     ];
 
@@ -55,7 +55,7 @@ class StatisticsController extends Controller
         // ['Default'],
         ['City', 'Campaign'],
         ['Default'],
-        ['Default'],
+        // ['Default'],
         ['Default'],
     ];
 
@@ -77,31 +77,31 @@ class StatisticsController extends Controller
         $report_by = [];
         switch ($role_id) {
             case 1:
-                [$names, $report_by] = $this->getReportDetails(range(1, 15));
+                [$names, $report_by] = $this->getReportDetails(range(1, 14));
                 break;
             case 2:
-                [$names, $report_by] = $this->getReportDetails([6, 13, 14, 15]);
+                [$names, $report_by] = $this->getReportDetails([6, 13, 14]);
                 break;
             case 3:
-                [$names, $report_by] = $this->getReportDetails([6, 13, 14, 15]);
+                [$names, $report_by] = $this->getReportDetails([6, 13, 14]);
                 break;
             case 4:
-                [$names, $report_by] = $this->getReportDetails([6, 12, 13, 14, 15]);
+                [$names, $report_by] = $this->getReportDetails([6, 12, 13, 14]);
                 break;
             case 5:
-                [$names, $report_by] = $this->getReportDetails([1, 2, 3, 4, 5, 6, 8, 9, 12, 13, 14, 15]);
+                [$names, $report_by] = $this->getReportDetails([1, 2, 3, 4, 5, 6, 8, 9, 12, 13, 14]);
                 break;
             case 6:
-                [$names, $report_by] = $this->getReportDetails([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 13, 14, 15]);
+                [$names, $report_by] = $this->getReportDetails([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 13, 14]);
                 break;
             case 7:
-                [$names, $report_by] = $this->getReportDetails(range(1, 15));
+                [$names, $report_by] = $this->getReportDetails(range(1, 14));
                 break;
             case 8:
-                [$names, $report_by] = $this->getReportDetails(range(1, 15));
+                [$names, $report_by] = $this->getReportDetails(range(1, 14));
                 break;
             case 9:
-                [$names, $report_by] = $this->getReportDetails(range(1, 15));
+                [$names, $report_by] = $this->getReportDetails(range(1, 14));
                 break;
         }
         return [$names, $report_by];

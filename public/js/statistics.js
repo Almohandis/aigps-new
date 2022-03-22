@@ -16,8 +16,8 @@ let getReportBy = {
     // 'Hospital statistics (summary)': ['Default'],
     'Campaign report': ['City', 'Campaign'],                                                                         //12
     'General statistics': ['Default'],                                                                                //13
-    'Vaccine report': ['Default'],                                                                                    //14
-    'Personal medical report': ['Default'],                                                                           //15
+    // 'Vaccine report': ['Default'],
+    'Personal medical report': ['Default'],                                                                           //14
 };
 let report_by;
 

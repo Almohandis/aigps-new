@@ -144,7 +144,7 @@
                     let red_color = document.createElement('div');
                     red_color.setAttribute('id', 'red');
                     let black_text = document.createElement('p');
-                    black_text.innerHTML = 'Incoming campaigns';
+                    black_text.innerHTML = 'Upcoming campaigns';
                     black_text.classList.add('inline-block');
                     let green_text = document.createElement('p');
                     green_text.innerHTML = 'Active campaigns';
