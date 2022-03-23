@@ -1,6 +1,6 @@
 <x-app-layout>
     <div class="max-w-6xl mx-auto sm:px-6 lg:px-8 mt-9">
-        <div class="notification">
+        <div class="notification" style="width: 16rem;">
             @if (session('message'))
                 {{ session('message') }}
             @endif

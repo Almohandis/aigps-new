@@ -1335,4 +1335,13 @@
         width: 100%;
     }
 }
+.notification
+{
+  background-color: cornsilk;
+  display: inline-block;
+  text-align: center;
+  margin-left: 25rem;
+  margin-top: 3rem;
+  border-radius: 5px;
+}
   
