@@ -50,7 +50,7 @@
                             <input type="number" min="1" name="capacity_per_day" id="capacity"
                                 style="border-color: gray;border-width: 1px;"><br>
                         </div>
-                        <div>
+                        <div style="margin-left: 3rem;margin-top: 2rem;">
                             <label for="city">City</label>
                             <input type="text" name="city" id="city" placeholder="Campaign city" style="border-color: gray;border-width: 1px;"
                                 required><br>
