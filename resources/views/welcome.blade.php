@@ -41,7 +41,8 @@
                     <div class="slideshow-container__text">
                         <h1 class="article-head"><b>{{ $article->title }}</b></h1>
                         @if (isset($article->path) && $article->path != null)
-                            <img class="awareness-img" src="{{ asset('article_images/' . $article->path) }}">
+                            <img class="awareness-img" id="myImg" src="{{ asset('article_images/' . $article->path) }}">
+                            
                         @endif
                         @if (isset($article->video_link) && $article->video_link != null)
                             <iframe class="video"
@@ -63,7 +64,9 @@
 
         <a class="slideshow-container__prev" onclick="plusSlides(-1,'slide-right')">&#10094;</a>
         <a class="slideshow-container__next" onclick="plusSlides(1,'slide-left')">&#10095;</a>
-
+        <div id="myModal" class="modal">
+            <img class="modal-content" id="img01">
+          </div>
     </div>
     <footer id="footer">
         <img src="{{ asset('mti.png') }}" class="footer-logo">
