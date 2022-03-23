@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Campaign;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -31,9 +32,9 @@ class StatisticsController extends Controller
         'Hospitalization status',
         // 'Hospital statistics',
         // 'Hospital statistics (summary)',
-        'Campaign report (summary)',
+        'Campaign report',
         'General statistics',
-        'Vaccine report',
+        // 'Vaccine report',
         'Personal medical report'
     ];
 
@@ -53,9 +54,9 @@ class StatisticsController extends Controller
         ['City', 'Hospital', 'Date', 'Age segment'],
         // ['City', 'Hospital', 'Date'],
         // ['Default'],
+        ['City', 'Campaign'],
         ['Default'],
-        ['Default'],
-        ['Default'],
+        // ['Default'],
         ['Default'],
     ];
 
@@ -77,31 +78,31 @@ class StatisticsController extends Controller
         $report_by = [];
         switch ($role_id) {
             case 1:
-                [$names, $report_by] = $this->getReportDetails(range(1, 15));
+                [$names, $report_by] = $this->getReportDetails(range(1, 14));
                 break;
             case 2:
-                [$names, $report_by] = $this->getReportDetails([6, 13, 14, 15]);
+                [$names, $report_by] = $this->getReportDetails([6, 13, 14]);
                 break;
             case 3:
-                [$names, $report_by] = $this->getReportDetails([6, 13, 14, 15]);
+                [$names, $report_by] = $this->getReportDetails([6, 13, 14]);
                 break;
             case 4:
-                [$names, $report_by] = $this->getReportDetails([6, 12, 13, 14, 15]);
+                [$names, $report_by] = $this->getReportDetails([6, 12, 13, 14]);
                 break;
             case 5:
-                [$names, $report_by] = $this->getReportDetails([1, 2, 3, 4, 5, 6, 8, 9, 12, 13, 14, 15]);
+                [$names, $report_by] = $this->getReportDetails([1, 2, 3, 4, 5, 6, 8, 9, 12, 13, 14]);
                 break;
             case 6:
-                [$names, $report_by] = $this->getReportDetails([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 13, 14, 15]);
+                [$names, $report_by] = $this->getReportDetails([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 13, 14]);
                 break;
             case 7:
-                [$names, $report_by] = $this->getReportDetails(range(1, 15));
+                [$names, $report_by] = $this->getReportDetails(range(1, 14));
                 break;
             case 8:
-                [$names, $report_by] = $this->getReportDetails(range(1, 15));
+                [$names, $report_by] = $this->getReportDetails(range(1, 14));
                 break;
             case 9:
-                [$names, $report_by] = $this->getReportDetails(range(1, 15));
+                [$names, $report_by] = $this->getReportDetails(range(1, 14));
                 break;
         }
         return [$names, $report_by];
@@ -501,15 +502,22 @@ class StatisticsController extends Controller
 
     public function campaignReportSummary($report_by, $names)
     {
+        $campaigns = Campaign::orderBy('start_date', 'desc')->get();
+        $campaigns = json_decode(json_encode($campaigns));
         switch ($report_by) {
-            case 'Default':
-                $data = DB::select('SELECT if(curdate()< cam1.start_date, "Coming",if(curdate()>=cam1.start_date and curdate()<cam1.end_date, "In progress","Finished") ) as cam_stat, COUNT(*) FROM campaigns as cam1 group by cam_stat;');
+            case 'City':
+                $data = DB::select('SELECT DISTINCT cam1.city, count(*) as total_campaigns FROM campaigns as cam1 where cam1.status!="Cancelled" group by cam1.city order by cam1.city;');
                 $data = json_encode($data);
                 $data = json_decode($data);
-                $campaigns = Campaign::orderBy('start_date', 'desc')->get();
-                $campaigns = json_decode(json_encode($campaigns));
                 // return $data;
-                return view('statistics.campaign-report-summary', ['data_by_campaign' => $data, 'names' => $names, 'report_by' => $report_by, 'campaigns' => $campaigns]);
+                return view('statistics.campaign-report-summary', ['data_by_city' => $data, 'names' => $names, 'report_by' => $report_by, 'campaigns' => $campaigns]);
+                break;
+            case 'Campaign':
+                // $data = DB::select('SELECT if(curdate()< cam1.start_date, "Coming",if(curdate()>=cam1.start_date and curdate()<cam1.end_date, "In progress","Finished") ) as cam_stat, COUNT(*) FROM campaigns as cam1 group by cam_stat;');
+                // $data = json_encode($data);
+                // $data = json_decode($data);
+                // return $data;
+                return view('statistics.campaign-report-summary', [/*'data_by_campaign' => $data,*/'names' => $names, 'report_by' => $report_by, 'campaigns' => $campaigns]);
                 break;
             default:
                 return null;
@@ -535,7 +543,12 @@ class StatisticsController extends Controller
     {
         switch ($report_by) {
             case 'Default':
-                $user = Auth::user();
+                $user_id = Auth::user()->id;
+                $data = DB::select('SELECT inf1.infection_date, hos1.name, hos1.city, inf1.is_recovered FROM infections AS inf1, hospitals AS hos1 WHERE inf1.hospital_id=hos1.id AND inf1.user_id=' . $user_id . ' ORDER BY inf1.infection_date DESC;');
+                $data = json_encode($data);
+                $data = json_decode($data);
+                // return $data;
+                return view('statistics.personal-medical-report', ['data_by_personal' => $data, 'names' => $names, 'report_by' => $report_by]);
                 break;
         }
     }
@@ -585,7 +598,7 @@ class StatisticsController extends Controller
             case 'Hospital statistics (summary) (removed)':
                 return $this->hospitalStatisticsSummary($report_by, $names);
                 break;
-            case 'Campaign report (summary)':
+            case 'Campaign report':
                 return $this->campaignReportSummary($report_by, $names);
                 break;
             case 'General statistics':

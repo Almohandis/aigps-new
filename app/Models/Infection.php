@@ -16,4 +16,8 @@ class Infection extends Model
         'is_recovered',
         'has_passed_away',
     ];
+
+    public function user() {
+        return $this->belongsTo(User::class);
+    }
 }
