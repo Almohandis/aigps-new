@@ -9,7 +9,7 @@ uses(RefreshDatabase::class);
 
 beforeEach(function () {
     NationalId::create([
-        'national_id' => 555,
+        'national_id' => 22345678901234,
     ]);
 });
 
@@ -22,7 +22,7 @@ test('registration screen can be rendered', function () {
 
 test('new users can register', function () {
     $response = $this->post('/register', [
-        'national_id'           =>  555,
+        'national_id'           =>  '22345678901234',
         'name' => 'Test User',
         'email' => 'test@example.com',
         'password' => 'password',
