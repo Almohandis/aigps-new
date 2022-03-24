@@ -19,6 +19,7 @@
                             <th>City</th>
                             <th>Address</th>
                             <th>Status</th>
+                            <th>Cancel</th>
                         </tr>
                     </table>
                 </div>
@@ -33,6 +34,7 @@
                                 <td>{{ $campaign->city }}</td>
                                 <td>{{ $campaign->address }}</td>
                                 <td>{{ $campaign->status }}</td>
+                                <td><a class="text-red-500" href="/staff/moh/manage-campaigns/{{$campaign->id}}/cancel"> Cancel </a></td>
                             </tr>
                         @endforeach
                     </table>
