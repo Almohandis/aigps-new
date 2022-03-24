@@ -39,7 +39,7 @@
         </div>
 
         @if ($message)
-            <div class="font-medium text-red-600">
+            <div class="font-medium text-red-600" style="margin-left: 34.5rem;">
                 <i class="fa-solid fa-circle-exclamation"></i>
                 {{ $message }}
             </div>
@@ -47,11 +47,11 @@
 
         @if ($errors->any())
             <div>
-                <div class="font-medium text-red-600">
+                <div class="font-medium text-red-600" style="margin-left: 34.5rem;">
                     {{ __('Whoops! Something went wrong.') }}
                 </div>
-
-                <ul class="mt-3 list-disc list-inside text-sm text-red-600">
+                <br>
+                <ul class="mt-3 list-disc list-inside text-sm text-red-600" style="margin-left: 34.5rem;">
                     @foreach ($errors->all() as $error)
                         <li>{{ $error }}</li>
                     @endforeach
@@ -104,6 +104,12 @@
             <script src="https://maps.googleapis.com/maps/api/js?key={{ config('app.google_maps_api') }}&callback=initMap" defer>
             </script>
             <script>
+                function Scrolldown() {
+                        window.scroll(0,580); 
+                        
+                    
+                    }
+                    window.onload = Scrolldown;
                 var locations = [
                     @foreach ($campaigns as $campaign)
                         ["{{ preg_replace('/\s+/', ' ', trim($campaign->address)) }}", {{ $campaign->location }}, {{ $campaign->id }},
