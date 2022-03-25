@@ -113,59 +113,14 @@ class StatisticsController extends Controller
     {
         switch ($report_by) {
             case 'City':
-                $A_plus = DB::table('users')
-                    ->select('city', DB::raw('count(*) as "A_plus"'))
-                    ->where('blood_type', '=', 'A+')
-                    ->groupBy('city')
-                    ->orderBy('city', 'asc')
-                    ->get();
-                $A_minus = DB::table('users')
-                    ->select('city', DB::raw('count(*) as "A_minus"'))
-                    ->where('blood_type', '=', 'A-')
-                    ->groupBy('city')
-                    ->orderBy('city', 'asc')
-                    ->get();
-                $B_plus = DB::table('users')
-                    ->select('city', DB::raw('count(*) as "B_plus"'))
-                    ->where('blood_type', '=', 'B+')
-                    ->groupBy('city')
-                    ->orderBy('city', 'asc')
-                    ->get();
-                $B_minus = DB::table('users')
-                    ->select('city', DB::raw('count(*) as "B_minus"'))
-                    ->where('blood_type', '=', 'B-')
-                    ->groupBy('city')
-                    ->orderBy('city', 'asc')
-                    ->get();
-                $AB_plus = DB::table('users')
-                    ->select('city', DB::raw('count(*) as "AB_plus"'))
-                    ->where('blood_type', '=', 'AB+')
-                    ->groupBy('city')
-                    ->orderBy('city', 'asc')
-                    ->get();
-                $AB_minus = DB::table('users')
-                    ->select('city', DB::raw('count(*) as "AB_minus"'))
-                    ->where('blood_type', '=', 'AB-')
-                    ->groupBy('city')
-                    ->orderBy('city', 'asc')
-                    ->get();
-                $O_plus = DB::table('users')
-                    ->select('city', DB::raw('count(*) as "O_plus"'))
-                    ->where('blood_type', '=', 'O+')
-                    ->groupBy('city')
-                    ->orderBy('city', 'asc')
-                    ->get();
-                $O_minus = DB::table('users')
-                    ->select('city', DB::raw('count(*) as "O_minus"'))
-                    ->where('blood_type', '=', 'O-')
-                    ->groupBy('city')
-                    ->orderBy('city', 'asc')
-                    ->get();
-                $data = [$A_plus, $A_minus, $B_plus,  $B_minus, $AB_plus,  $AB_minus,  $O_plus, $O_minus];
-                $data = json_encode($data, true);
-                $data = json_decode($data, true);
+                $data = DB::select('SELECT DISTINCT u1.city, ( SELECT count(*) FROM users as u2 WHERE u2.city = u1.city and u2.blood_type = "A+" ) as A_plus, ( SELECT count(*) FROM users as u2 WHERE u2.city = u1.city and u2.blood_type = "A-" ) as A_minus, ( SELECT count(*) FROM users as u2 WHERE u2.city = u1.city and u2.blood_type = "B+" ) as B_plus, ( SELECT count(*) FROM users as u2 WHERE u2.city = u1.city and u2.blood_type = "B-" ) as B_minus, ( SELECT count(*) FROM users as u2 WHERE u2.city = u1.city and u2.blood_type = "AB+" ) as AB_plus, ( SELECT count(*) FROM users as u2 WHERE u2.city = u1.city and u2.blood_type = "AB-" ) as AB_minus, ( SELECT count(*) FROM users as u2 WHERE u2.city = u1.city and u2.blood_type = "O+" ) as O_plus, ( SELECT count(*) FROM users as u2 WHERE u2.city = u1.city and u2.blood_type = "O-" ) as O_minus from users AS u1 group by u1.city order by u1.city asc;');
+                $data = json_encode($data);
+                $data = json_decode($data);
+                $total_count = DB::select('SELECT (SELECT COUNT(*) FROM USERS WHERE BLOOD_TYPE="A+") AS tot_a_plus, (SELECT COUNT(*) FROM USERS WHERE BLOOD_TYPE="A-") AS tot_a_minus, (SELECT COUNT(*) FROM USERS WHERE BLOOD_TYPE="B+") AS tot_b_plus, (SELECT COUNT(*) FROM USERS WHERE BLOOD_TYPE="B-") AS tot_b_minus, (SELECT COUNT(*) FROM USERS WHERE BLOOD_TYPE="AB+") AS tot_ab_plus, (SELECT COUNT(*) FROM USERS WHERE BLOOD_TYPE="AB-") AS tot_ab_minus, (SELECT COUNT(*) FROM USERS WHERE BLOOD_TYPE="O+") AS tot_o_plus, (SELECT COUNT(*) FROM USERS WHERE BLOOD_TYPE="O-") AS tot_o_minus');
+                $total_count = $total_count[0];
+
                 $report_title = 'Blood type distribution in each city';
-                return view('statistics.blood-type-dist', ['data_by_city' => (array)$data, 'names' => $names, 'report_by' => $report_by, 'cities' => $this->cities, 'blood_types' => $this->blood_types, 'report_title' => $report_title]);
+                return view('statistics.blood-type-dist', ['data_by_city' => $data, 'names' => $names, 'report_by' => $report_by, 'cities' => $this->cities, 'report_title' => $report_title, 'total_count' => $total_count]);
                 break;
             case 'Blood type':
                 $data = DB::select('SELECT u1.blood_type AS "Blood type",
