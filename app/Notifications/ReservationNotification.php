@@ -6,24 +6,21 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
-use App\Models\User;
 use NotificationChannels\Twilio\TwilioChannel;
 use NotificationChannels\Twilio\TwilioSmsMessage;
 
-class InfectionNotification extends Notification implements ShouldQueue
+class ReservationNotification extends Notification implements ShouldQueue
 {
     use Queueable;
-
-    protected $user;
 
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct(User $user)
+    public function __construct()
     {
-        $this->user = $user;
+        //
     }
 
     /**
@@ -34,7 +31,7 @@ class InfectionNotification extends Notification implements ShouldQueue
      */
     public function via($notifiable)
     {
-        return [TwilioChannel::class, 'mail'];
+        return ['mail', TwilioChannel::class];
     }
 
     /**
@@ -46,15 +43,14 @@ class InfectionNotification extends Notification implements ShouldQueue
     public function toMail($notifiable)
     {
         return (new MailMessage)
-                    ->line('Your relative ('.$this->user->name.') has been infected!')
-                    ->line('Make sure you are safe by take the diagnose test.')
-                    ->action('Take the diagnose', url('/'));
+                    ->line('Your reservation has been confirmed')
+                    ->action('Visit Reservation', url('/appointments'))
+                    ->line('Thank you for using our application!');
     }
 
-    public function toTwilio($notifiable)
-    {
+    public function toTwilio($notifiable) {
         return (new TwilioSmsMessage())
-            ->content('Your relative ('.$this->user->name.') has been infected!');
+            ->content('Your reservation has been confirmed');
     }
 
     /**

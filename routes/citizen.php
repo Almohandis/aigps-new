@@ -20,3 +20,7 @@ Route::get('/notifications', 'NotificationController@index');
 
 Route::get('/articles', 'ArticleController@index');
 Route::get('/articles/{article}', 'ArticleController@show');
+
+//# User profile
+Route::get('/profile', 'ProfileController@index')->name('profile');
+Route::post('/profile/update', 'ProfileController@update');
