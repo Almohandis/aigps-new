@@ -6,54 +6,41 @@
             @endif
         </div>
         <div class="pt-8 sm:pt-0">
-            <h1 class="add-hero2">All campaigns</h1><br>
-            <div class="tbl-header">
-                <table>
-                    <tr>
-                        <th>#</th>
-                        <th>Campaign's start date</th>
-                        <th>Campaign's end date</th>
-                        <th>City</th>
-                        <th>Address</th>
-                        <th>Status</th>
-                        <th colspan="3">Action</th>
-                    </tr>
-                </table>
-            </div>
-            <div class="tbl-content">
-                <table>
-                    @php $i = 1 @endphp
-                    @foreach ($campaigns as $campaign)
-                        <form action="/staff/moh/manage-campaigns/update/{{ $campaign->id }}">
+            <h1 class="add-hero2">All upcoming campaigns</h1><br>
+            <form action="/staff/moh/manage-campaigns/add" id="procceed_form" method="POST">
+                @csrf
+                <input id="marker-location" type="hidden" name="location" value="">
+                <div class="tbl-header">
+                    <table>
+                        <tr>
+                            <th>#</th>
+                            <th>Campaign's start date</th>
+                            <th>Campaign's end date</th>
+                            <th>City</th>
+                            <th>Address</th>
+                            <th>Status</th>
+                            <th>Cancel</th>
+                            <th>Update</th>
+                        </tr>
+                    </table>
+                </div>
+                <div class="tbl-content">
+                    <table>
+                        @foreach ($campaigns as $id => $campaign)
                             <tr>
-                                <td>{{ $i++ }}</td>
-                                <td><input type="date" name="start_date" value="{{ $campaign->start_date }}"></td>
-                                <td><input type="date" name="end_date" value="{{ $campaign->end_date }}"></td>
-                                <td>
-                                    <select name="city" id="city">
-                                        <option selected value="{{ $campaign->city }}">{{ $campaign->city }}
-                                        </option>
-                                        @foreach ($cities as $city)
-                                            <option value="{{ $city }}">{{ $city }}</option>
-                                        @endforeach
-                                    </select>
-                                </td>
-                                <td><input type="text" name="address" value="{{ $campaign->address }}"></td>
-                                <td><input type="text" name="status" value="{{ $campaign->status }}"></td>
-                                <td><input type="submit" class="btn btn-primary" value="Update"></td>
-                                <td>
-                                    <div
-                                        style="background-color: crimson;color: white;height: 1.6rem;width: 5rem;text-align: center;margin-left: 2rem;cursor: pointer;">
-                                        <a href="{{ route('campaign-delete', $campaign->id) }}">Delete</a>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div
-                                        style="background-color: crimson;color: white;height: 1.6rem;width: 5rem;text-align: center;margin-left: 2rem;cursor: pointer;">
-                                        <a href="{{ route('campaign-view-doctors', $campaign->id) }}">View
-                                            doctors</a>
-                                    </div>
-                                </td>
+                                <td>{{ $id + 1 }}</td>
+                                <td>{{ $campaign->start_date }}</td>
+                                <td>{{ $campaign->end_date }}</td>
+                                <td>{{ $campaign->city }}</td>
+                                <td>{{ $campaign->address }}</td>
+                                <td>{{ $campaign->status }}</td>
+                                <td><a class="text-red-500" href="/staff/moh/manage-campaigns/{{$campaign->id}}/cancel"> Cancel </a></td>
+
+                                @if(now()->diffInDays($campaign->start_date) > 1)
+                                    <td><a class="text-blue-500" href="/staff/moh/manage-campaigns/{{$campaign->id}}/update"> Update </a></td>
+                                @else
+                                    <td>Can't update</td>
+                                @endif
                             </tr>
                         </form>
                     @endforeach
@@ -77,12 +64,20 @@
                         </div>
                         <div>
                             <label for="city">City</label>
+<<<<<<< HEAD
                             <select name="city" id="city">
                                 <option selected disabled hidden>Select city</option>
+=======
+                            <select name="city" class="block mt-1 w-full rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+>>>>>>> master
                                 @foreach ($cities as $city)
                                     <option value="{{ $city }}">{{ $city }}</option>
                                 @endforeach
                             </select>
+<<<<<<< HEAD
+=======
+                            <br>
+>>>>>>> master
                         </div>
                         <div style="  margin-top: -1.5rem;margin-left: 20rem;">
                             <label id="addressLabel" for="address" style="margin-left: 6rem;">Address</label>

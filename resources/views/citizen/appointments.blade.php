@@ -20,6 +20,13 @@
             <div class="flex flex-wrap" id="appointment_list">
                 @foreach ($appointments as $appointment)
                     <div class="bg-white shadow-md rounded-lg p-4" id="appointments">
+                        <div class="flex flex-wrap mb-5">
+                            <div class="">
+                                <h3 class="text-center text-2xl text-gray-800" id="appoint">
+                                    Campaign: {{ $appointment->city }}
+                                </h3>
+                            </div>
+                        </div>
                         <div class="flex flex-wrap">
                             <div class="">
                                 <h3 class="text-center text-lg text-gray-800" id="appoint">
@@ -30,7 +37,7 @@
                         <div class="flex flex-wrap">
                             <div class="">
                                 <h3 class="text-center text-lg text-gray-800" id="appoint">
-                                    {{ $appointment->address }}
+                                    Location: {{ $appointment->address }}
                                 </h3>
                             </div>
                         </div>

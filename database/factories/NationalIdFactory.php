@@ -14,7 +14,7 @@ class NationalIdFactory extends Factory
     public function definition()
     {
         return [
-            'national_id' => $this->faker->unique()->numberBetween(300,1000),
+            'national_id' => $this->faker->unique()->numberBetween(10000000000000, 99999999999999),
         ];
     }
 }

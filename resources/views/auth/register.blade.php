@@ -19,7 +19,17 @@
             <div>
                 <x-label for="national_id" value="National ID" />
 
-                <x-input id="national_id" class="block mt-1 w-full" type="text" name="national_id" :value="old('national_id')" required autofocus />
+                <x-input id="national_id" class="block mt-1 w-full" type="text" name="national_id" :value="old('national_id')" oninput="validateNid(this)"  required autofocus />
+
+                <script>
+                    function validateNid(input) {
+                        if (input.value.length != 14 || isNaN(input.value) || input.value[0] != '2') {
+                            input.style.outline = "red solid thin";
+                        } else {
+                            input.style.outline = "green solid thin";
+                        }
+                    }
+                </script>
             </div>
 
             <!-- Name -->

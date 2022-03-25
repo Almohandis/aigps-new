@@ -28,8 +28,19 @@
                 <div style="width: 21rem;margin-top: 3rem;margin-left: 6rem;">
                     <x-label for="national_id" value="National Id" class="text-black" />
 
-                    <x-input class="block mt-1 w-full" type="text" name="national_id" :value="old('national_id')"
+                    <x-input oninput="validateNid(this)" class="block mt-1 w-full" type="text" name="national_id" :value="old('national_id')"
                         style="width: 16rem;margin-left: 5rem;margin-top: -2rem;" required autofocus />
+
+                    <script>
+                        function validateNid(input) {
+                            if (input.value.length != 14 || isNaN(input.value) || input.value[0] != '2') {
+                                input.style.outline = "red solid thin";
+                            } else {
+                                input.style.outline = "green solid thin";
+                            }
+                        }
+                    </script>
+                        
                 </div>
 
                 <div style="margin-left: 40rem;margin-top: -2rem;">
