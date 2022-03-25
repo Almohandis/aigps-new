@@ -18,6 +18,7 @@
                 <button type="submit" id="generate-btn" class="btn btn-primary">Generate report</button>
             </form>
             @if (isset($data_by_general))
+                <h1>{{$report_title}}</h1>
                <div class="p-header"> <p>Total recoveries:</div> <div class="p-content">  {{ $data_by_general[0]->total_rec }}</div></p>
                <div class="p-header"><p>Total deaths:</div> <div class="p-content"> {{ $data_by_general[0]->total_deaths }}</p></div>
                <div class="p-header"><p>Diagnoses done: </div><div class="p-content">{{ $data_by_general[0]->total_diagnosed }}</p></div>

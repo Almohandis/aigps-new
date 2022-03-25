@@ -18,6 +18,7 @@
                 <button type="submit" id="generate-btn" class="btn btn-primary">Generate report</button>
             </form>
             @if (isset($data_by_personal))
+                <h1>{{ $report_title }}</h1>
                 <div class="tbl-header">
                     <table>
                         <tr>

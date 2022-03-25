@@ -10,7 +10,8 @@ use App\Models\Hospital;
 use App\Models\User;
 use Symfony\Contracts\Service\Attribute\Required;
 
-class MohController extends Controller {
+class MohController extends Controller
+{
     //# Get all hospitals to manage each hospital's doctors
     public function manageDoctors(Request $request)
     {

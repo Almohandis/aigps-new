@@ -42,10 +42,14 @@
                                     <td>Can't update</td>
                                 @endif
                             </tr>
-                        @endforeach
-                    </table>
-                </div>
-                <br>
+                        </form>
+                    @endforeach
+                </table>
+            </div>
+            <br>
+            <form action="/staff/moh/manage-campaigns/add" id="procceed_form" method="POST">
+                @csrf
+                <input id="marker-location" type="hidden" name="location" value="">
                 <div class="add-campaign">
                     <h2 class="add-hero">Add new campaign</h2>
                     <div class="mt-4">
@@ -60,12 +64,20 @@
                         </div>
                         <div>
                             <label for="city">City</label>
+<<<<<<< HEAD
+                            <select name="city" id="city">
+                                <option selected disabled hidden>Select city</option>
+=======
                             <select name="city" class="block mt-1 w-full rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+>>>>>>> master
                                 @foreach ($cities as $city)
                                     <option value="{{ $city }}">{{ $city }}</option>
                                 @endforeach
                             </select>
+<<<<<<< HEAD
+=======
                             <br>
+>>>>>>> master
                         </div>
                         <div style="  margin-top: -1.5rem;margin-left: 20rem;">
                             <label id="addressLabel" for="address" style="margin-left: 6rem;">Address</label>
@@ -78,13 +90,13 @@
                             <input type="button" id="doctor-add-button" value="Add doctor" class="add-doc-btn">
                         </div>
                     </div>
-
                 </div>
-                <h3 class="add-hero">Choose a location on the map</h3>
-                {{-- !! --}}
-                <div class="mx-auto text-center mt-5">
-                    <div id="map" class="mt-8 rounded-md border-solid border-4 border-black"
-                        style="width: 119%; height: 600px; max-height: 90vh; margin: 0px auto; position: relative; overflow: hidden;margin-left: -6rem;""></div>
+            </form>
+            <h3 class="add-hero">Choose a location on the map</h3>
+            {{-- !! --}}
+            <div class="mx-auto text-center mt-5">
+                <div id="map" class="mt-8 rounded-md border-solid border-4 border-black"
+                    style="width: 119%; height: 600px; max-height: 90vh; margin: 0px auto; position: relative; overflow: hidden;margin-left: -6rem;""></div>
                         <script src="https://maps.googleapis.com/maps/api/js?key={{ config('app.google_maps_api') }}&callback=initMap" defer>
                         </script>
                         <script>
@@ -159,17 +171,15 @@
                         </script>
                     </div>
 
-                    <div class="      mt-6" style="margin-right: -8rem;">
-                        <div class="mt-3 mx-auto text-right mr-5">
-                            <x-button type="submit" id="procceed_button" style="margin-bottom: 1rem;">
-                                Procceed
-                            </x-button>
-                        </div>
+                    <div class="           mt-6" style="margin-right: -8rem;">
+                    <div class="mt-3 mx-auto text-right mr-5">
+                        <x-button type="submit" id="procceed_button" style="margin-bottom: 1rem;">
+                            Procceed
+                        </x-button>
                     </div>
-                    {{-- !! --}}
-
-            </form>
+                </div>
+                {{-- !! --}}
+            </div>
         </div>
-    </div>
-    <script src="{{ asset('js/manage-campaigns.js') }}"></script>
+        <script src="{{ asset('js/manage-campaigns.js') }}"></script>
 </x-app-layout>

@@ -62,6 +62,7 @@
                 <button type="submit" id="generate-btn" class="btn btn-primary">Generate report</button>
             </form>
             @if (isset($data_by_city))
+                <h1>{{ $report_title }}</h1>
                 <div class="tbl-header">
                     <table>
                         <tr>
@@ -79,32 +80,34 @@
                             </tr>
                         @endforeach
                     </table>
-                @elseif (isset($campaigns))
-                    @php $i = 1; @endphp
-                    <div class="tbl-header">
-                        <table>
+                </div>
+            @elseif (isset($campaigns))
+                <h1>{{ $report_title }}</h1>
+                @php $i = 1; @endphp
+                <div class="tbl-header">
+                    <table>
+                        <tr>
+                            <th>#</th>
+                            <th>Start date</th>
+                            <th>End date</th>
+                            <th>City</th>
+                            <th>Address</th>
+                        </tr>
+                    </table>
+                </div>
+                <div class="tbl-content">
+                    <table>
+                        @foreach ($campaigns as $campaign)
                             <tr>
-                                <th>#</th>
-                                <th>Start date</th>
-                                <th>End date</th>
-                                <th>City</th>
-                                <th>Address</th>
+                                <td>{{ $i++ }}</td>
+                                <td>{{ $campaign->start_date }}</td>
+                                <td>{{ $campaign->end_date }}</td>
+                                <td>{{ $campaign->city }}</td>
+                                <td>{{ $campaign->address }}</td>
                             </tr>
-                        </table>
-                    </div>
-                    <div class="tbl-content">
-                        <table>
-                            @foreach ($campaigns as $campaign)
-                                <tr>
-                                    <td>{{ $i++ }}</td>
-                                    <td>{{ $campaign->start_date }}</td>
-                                    <td>{{ $campaign->end_date }}</td>
-                                    <td>{{ $campaign->city }}</td>
-                                    <td>{{ $campaign->address }}</td>
-                                </tr>
-                            @endforeach
-                        </table>
-                    </div>
+                        @endforeach
+                    </table>
+                </div>
             @endif
         </div>
         <div style="margin-top:4rem;">
