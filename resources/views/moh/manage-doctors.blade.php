@@ -33,8 +33,19 @@
                 <div class="add-doctor-div">
                     <h2 class="add-hero2" style="margin-bottom: 2rem;">To add new doctor, select a hospital and
                         enter national ID of doctor below</h2>
-                    <input type="number" name="national_id" id="add-doctor" placeholder="Type doctor's national ID"
+                    <input oninput="validateNid(this)" type="number" name="national_id" id="add-doctor" placeholder="Type doctor's national ID"
                         style="height: 2rem;margin-left: 23rem;border-width: 2px;border-color: gray;border-radius: 5px;">
+
+                    <script>
+                        function validateNid(input) {
+                            if (input.value.length != 14 || isNaN(input.value) || input.value[0] != '2') {
+                                input.style.outline = "red solid thin";
+                            } else {
+                                input.style.outline = "green solid thin";
+                            }
+                        }
+                    </script>
+                    
                     <input type="submit" value="Add doctor" class="add-doc-btn">
                 </div>
             </form>

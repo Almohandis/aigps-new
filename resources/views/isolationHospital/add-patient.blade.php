@@ -16,8 +16,18 @@
                 </div>
                 <div style="margin-top: -3rem;margin-left: 40rem;">
                     <label for="national-id">National ID</label>
-                    <input required type="number" name="national_id" min="1" id="national-id" class="mt-2"
+                    <input oninput="validateNid(this)" required type="number" name="national_id" min="1" id="national-id" class="mt-2"
                         value="" style="height: 2.5rem;border-width: 1px;border-color: black;">
+
+                    <script>
+                        function validateNid(input) {
+                            if (input.value.length != 14 || isNaN(input.value) || input.value[0] != '2') {
+                                input.style.outline = "red solid thin";
+                            } else {
+                                input.style.outline = "green solid thin";
+                            }
+                        }
+                    </script>
                 </div>
                 <br>
                 <div style="margin-left: 5rem;">
