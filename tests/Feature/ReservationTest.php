@@ -8,6 +8,7 @@ use App\Models\Question;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
+use App\Notifications\ReservationNotification;
 
 uses(RefreshDatabase::class);
 
@@ -58,6 +59,8 @@ test('User cannot reserve when survey answer has Yes', function () {
 });
 
 test('reservation page1 can create appointment', function () {
+    Notification::fake();
+
     $response = $this->post('/reserve/map/1');
 
     $this->assertEquals(DB::table('campaign_appointments')->count(), 21);
@@ -67,6 +70,8 @@ test('reservation page1 can create appointment', function () {
     $this->assertTrue(DB::table('campaign_appointments')->where('id', 21)->where('date', '2020-01-02')->exists());
 
     $response->assertViewIs('citizen.reservecomplete');
+
+    Notification::assertSentTo($this->user, ReservationNotification::class);
 });
 
 test('user cannot make a reservation when he already has one active', function () {

@@ -124,6 +124,7 @@ class User extends Authenticatable
     }
 
     public function routeNotificationForTwilio() {
-        return $this->phones()->first()->phone_number;
+        $phone = $this->phones()->first() ?? $this->telephone_number;
+        return $phone;
     }
 }

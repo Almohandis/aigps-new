@@ -71,12 +71,11 @@ class MohCampaignController extends Controller {
             return back()->with('message', 'Campaign could not be added');
     }
 
-    public function cancel(Campaign $campaign) {
+    public function delete(Campaign $campaign) {
         if (now()->diffInDays($campaign->start_date) < 1) {
             return back()->with('message', 'Can\'t cancel a campaign that is starting in two days !');
         }
 
-        $campaign->appointments()->update(['campaign_appointments.status' => 'cancelled']);
         $campaign->delete();
 
         //TODO: we should probably notify the user that their campaign has been cancelled
@@ -113,12 +112,39 @@ class MohCampaignController extends Controller {
     public function updateView(Request $request, Campaign $campaign) {
         $cities = ['6th of October', 'Alexandria', 'Aswan', 'Asyut', 'Beheira', 'Beni Suef', 'Cairo', 'Dakahlia', 'Damietta', 'Faiyum', 'Gharbia', 'Giza', 'Helwan', 'Ismailia', 'Kafr El Sheikh', 'Luxor', 'Matruh', 'Minya', 'Monufia', 'New Valley', 'North Sinai', 'Port Said', 'Qalyubia', 'Qena', 'Red Sea', 'Sharqia', 'Sohag', 'South Sinai', 'Suez'];
 
+
+
         if (now()->diffInDays($campaign->start_date) < 1) {
             return back()->with('message', 'Can\'t update a campaign that is starting in two days !');
         }
 
         return view('moh.update-campaign')
-            ->with('campaign', $campaign)
+            ->with('campaign', $campaign->load('doctors'))
             ->with('cities', $cities);
+    }
+
+    public function removeDoctor(Request $request, Campaign $campaign, User $doctor) {
+        $campaign->doctors()->detach($doctor->id);
+        return back()->with('message', 'Doctor removed successfully');
+    }
+
+    public function addDoctor(Request $request, Campaign $campaign) {
+        $request->validate([
+            'national_id' => 'required'
+        ]);
+
+        $doctor = User::where('national_id', $request->national_id)->first();
+
+        if (!$doctor) {
+            return back()->with('message', 'Doctor with ID ' . $request->national_id . ' does not exist');
+        }
+
+        if ($campaign->doctors()->where('user_id', $doctor->id)->first()) {
+            return back()->with('message', 'Doctor with ID ' . $request->national_id . ' is already assigned to this campaign');
+        }
+
+        $campaign->doctors()->attach($doctor->id);
+
+        return back()->with('message', 'Doctor Added successfully');
     }
 }

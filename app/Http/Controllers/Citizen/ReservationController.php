@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Campaign;
 use App\Models\User;
 use Carbon\Carbon;
+use App\Notifications\ReservationNotification;
 
 class ReservationController extends Controller {
     public function index(Request $request) {
@@ -213,6 +214,8 @@ class ReservationController extends Controller {
         }
 
         $request->user()->reservations()->attach($campaign->id, ['date' =>  $start->format('Y-m-d')]);
+
+        $request->user()->notify(new ReservationNotification());
 
         return view('citizen.reservecomplete');
     }
