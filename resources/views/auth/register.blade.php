@@ -13,7 +13,28 @@
             AIGPS
         </div>
 
-        <form method="POST" action="{{ route('register') }}">
+        <div class="text-red-500 m-4" id="error"></div>
+        <script>
+            var errors = {
+                national_id: '',
+                email: '',
+                password: '',
+                password_confirmation: ''
+            };
+
+            function updateError() {
+                for(var key in errors) {
+                    if (errors[key] != '') {
+                        document.getElementById('error').innerHTML = errors[key];
+                        return;
+                    }
+                }
+
+                document.getElementById('error').innerHTML = '';
+            }
+        </script>
+
+        <form method="POST" action="{{ route('register') }}" class="mt-4">
             @csrf
             <!-- National ID -->
             <div>
@@ -23,10 +44,14 @@
 
                 <script>
                     function validateNid(input) {
-                        if (input.value.length != 14 || isNaN(input.value) || input.value[0] != '2' || input.value[0] != '1' || input.value[0] != '3') {
+                        if (input.value.length != 14 || isNaN(input.value) || !(input.value[0] == '2' || input.value[0] == '1' || input.value[0] == '3')) {
                             input.style.outline = "red solid thin";
+                            errors.national_id = 'National ID is invalid';
+                            updateError();
                         } else {
                             input.style.outline = "green solid thin";
+                            errors.national_id = '';
+                            updateError();
                         }
                     }
                 </script>
@@ -49,8 +74,12 @@
                     function validateEmail(input) {
                         if (isEmail(input.value)) {
                             input.style.outline = "green solid thin";
+                            errors.email = '';
+                            updateError();
                         } else {
                             input.style.outline = "red solid thin";
+                            errors.email = 'Email is invalid';
+                            updateError();
                         }
                     }
 
@@ -76,8 +105,12 @@
                     function validatePassword(input) {
                         if (input.value.length >= 8) {
                             input.style.outline = "green solid thin";
+                            errors.password = '';
+                            updateError();
                         } else {
                             input.style.outline = "red solid thin";
+                            errors.password = 'Password must be at least 8 characters';
+                            updateError();
                         }
                     }
                 </script>
@@ -95,8 +128,12 @@
                     function validatePasswordConfirm(input) {
                         if (input.value.length >= 8 && input.value == document.getElementById('password').value) {
                             input.style.outline = "green solid thin";
+                            errors.password_confirmation = '';
+                            updateError();
                         } else {
                             input.style.outline = "red solid thin";
+                            errors.password_confirmation = 'Password confirmation must be at least 8 characters and match password';
+                            updateError();
                         }
                     }
                 </script>
