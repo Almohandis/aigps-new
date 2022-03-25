@@ -71,12 +71,11 @@ class MohCampaignController extends Controller {
             return back()->with('message', 'Campaign could not be added');
     }
 
-    public function cancel(Campaign $campaign) {
+    public function delete(Campaign $campaign) {
         if (now()->diffInDays($campaign->start_date) < 1) {
             return back()->with('message', 'Can\'t cancel a campaign that is starting in two days !');
         }
 
-        $campaign->appointments()->update(['campaign_appointments.status' => 'cancelled']);
         $campaign->delete();
 
         //TODO: we should probably notify the user that their campaign has been cancelled

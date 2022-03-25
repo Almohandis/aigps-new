@@ -51,7 +51,7 @@ Route::middleware('moh')->group(function () {
 
     Route::get('/moh/manage-campaigns', 'MohCampaignController@index');
     Route::post('/moh/manage-campaigns/add', 'MohCampaignController@create');
-    Route::get('/moh/manage-campaigns/{campaign}/cancel', 'MohCampaignController@cancel');
+    Route::get('/moh/manage-campaigns/{campaign}/delete', 'MohCampaignController@delete');
     Route::get('/moh/manage-campaigns/{campaign}/update', 'MohCampaignController@updateView');
     Route::post('/moh/manage-campaigns/{campaign}/update', 'MohCampaignController@update');
 

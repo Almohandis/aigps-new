@@ -40,7 +40,17 @@
             <div class="mt-4">
                 <x-label for="password" :value="__('Password')" />
 
-                <x-input id="password" class="block mt-1 w-full" type="password" name="password" required autocomplete="current-password" />
+                <x-input oninput="validatePassword(this)" id="password" class="block mt-1 w-full" type="password" name="password" required autocomplete="current-password" />
+
+                <script>
+                    function validatePassword(input) {
+                        if (input.value.length >= 8) {
+                            input.style.outline = "green solid thin";
+                        } else {
+                            input.style.outline = "red solid thin";
+                        }
+                    }
+                </script>
             </div>
 
             <!-- Remember Me -->
