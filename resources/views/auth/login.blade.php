@@ -27,7 +27,7 @@
 
                 <script>
                     function validateNid(input) {
-                        if (input.value.length != 14 || isNaN(input.value) || input.value[0] != '2') {
+                        if (input.value.length != 14 || isNaN(input.value) || input.value[0] != '2' || input.value[0] != '1' || input.value[0] != '3') {
                             input.style.outline = "red solid thin";
                         } else {
                             input.style.outline = "green solid thin";
@@ -40,7 +40,17 @@
             <div class="mt-4">
                 <x-label for="password" :value="__('Password')" />
 
-                <x-input id="password" class="block mt-1 w-full" type="password" name="password" required autocomplete="current-password" />
+                <x-input oninput="validatePassword(this)" id="password" class="block mt-1 w-full" type="password" name="password" required autocomplete="current-password" />
+
+                <script>
+                    function validatePassword(input) {
+                        if (input.value.length >= 8) {
+                            input.style.outline = "green solid thin";
+                        } else {
+                            input.style.outline = "red solid thin";
+                        }
+                    }
+                </script>
             </div>
 
             <!-- Remember Me -->

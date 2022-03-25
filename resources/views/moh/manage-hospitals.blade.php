@@ -36,44 +36,41 @@
             </div>
 
             <h1 class="add-hero">All hospitals</h1>
-            <h2 class="add-hero2">Determine which hospital to be an isolation</h2><br>
-            <form action="/staff/moh/manage-hospitals/update" method="POST">
-                @csrf
-                <div class="tbl-header">
-                    <table>
-                        <tr>
-                            <th>#</th>
-                            <th>Name</th>
-                            <th>City</th>
-                            <th>Total capacity</th>
-                            {{-- <td>Intensive care beds</td>
-                    <td>Available intensive care beds</td>
-                    <td>Available regular beds</td> --}}
-                            <th>Isolation</th>
-                        </tr>
+            
+            <div class="tbl-header">
+                <table>
+                    <tr>
+                        <th>#</th>
+                        <th>Name</th>
+                        <th>City</th>
+                        <th>Total capacity</th>
+                        {{-- <td>Intensive care beds</td>
+                <td>Available intensive care beds</td>
+                <td>Available regular beds</td> --}}
+                        <th>Update</th>
+                        <th>Delete</th>
+                    </tr>
 
-                    </table>
-                </div>
-                <div class="tbl-content">
-                    <table>
-                        @foreach ($hospitals as $hospital)
-                            <tr>
-                                <input type="hidden" class="id" value="{{ $hospital->id }}" name="id[]">
-                                <td>{{ $hospital->id }}</td>
-                                <td>{{ $hospital->name }}</td>
-                                <td>{{ $hospital->city }}</td>
-                                <td>{{ $hospital->capacity }}</td>
-                                {{-- <td>{{ $hospital->care_beds }}</td>
-                            <td>{{ $hospital->avail_care_beds }}</td>
-                            <td>{{ $hospital->available_beds }}</td> --}}
-                                <td><input type="number" min="0" max="1" name="is_isolation[]"
-                                        value="{{ $hospital->is_isolation }}" style="color:black"> </td>
-                            </tr>
-                        @endforeach
-                    </table>
-                </div>
-                <input type="submit" value="Update" class="update-btn4">
-            </form>
+                </table>
+            </div>
+            <div class="tbl-content">
+                <table>
+                    @foreach ($hospitals as $id => $hospital)
+                        <tr>
+                            <input type="hidden" class="id" value="{{ $hospital->id }}" name="id[]">
+                            <td>{{ $id + 1 }}</td>
+                            <td>{{ $hospital->name }}</td>
+                            <td>{{ $hospital->city }}</td>
+                            <td>{{ $hospital->capacity }}</td>
+                            <td><a href="/staff/moh/manage-hospitals/{{$hospital->id}}/update" class="text-blue-500"> Update </a></td>
+                            <td><a href="/staff/moh/manage-hospitals/{{$hospital->id}}/delete" class="text-red-500"> Delete </a></td>
+                            
+                        </tr>
+                    @endforeach
+                </table>
+            </div>
+            
+            
         </div>
     </div>
     <script src="{{ asset('js/manage-hospitals.js') }}"></script>

@@ -23,7 +23,7 @@
 
                 <script>
                     function validateNid(input) {
-                        if (input.value.length != 14 || isNaN(input.value) || input.value[0] != '2') {
+                        if (input.value.length != 14 || isNaN(input.value) || input.value[0] != '2' || input.value[0] != '1' || input.value[0] != '3') {
                             input.style.outline = "red solid thin";
                         } else {
                             input.style.outline = "green solid thin";
@@ -43,26 +43,63 @@
             <div class="mt-4">
                 <x-label for="email" :value="__('Email')" />
 
-                <x-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required />
+                <x-input oninput="validateEmail(this)" id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required />
+
+                <script>
+                    function validateEmail(input) {
+                        if (isEmail(input.value)) {
+                            input.style.outline = "green solid thin";
+                        } else {
+                            input.style.outline = "red solid thin";
+                        }
+                    }
+
+                    function isEmail(email) {
+                        return email.match(
+                            /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+                        );
+                    };
+                </script>
             </div>
 
             <!-- Password -->
             <div class="mt-4">
                 <x-label for="password" :value="__('Password')" />
 
-                <x-input id="password" class="block mt-1 w-full"
+                <x-input oninput="validatePassword(this)" id="password" class="block mt-1 w-full"
                                 type="password"
                                 name="password"
                                 required autocomplete="new-password" />
+
+                
+                <script>
+                    function validatePassword(input) {
+                        if (input.value.length >= 8) {
+                            input.style.outline = "green solid thin";
+                        } else {
+                            input.style.outline = "red solid thin";
+                        }
+                    }
+                </script>
             </div>
 
             <!-- Confirm Password -->
             <div class="mt-4">
                 <x-label for="password_confirmation" :value="__('Confirm Password')" />
 
-                <x-input id="password_confirmation" class="block mt-1 w-full"
+                <x-input oninput="validatePasswordConfirm(this)" id="password_confirmation" class="block mt-1 w-full"
                                 type="password"
                                 name="password_confirmation" required />
+
+                <script>
+                    function validatePasswordConfirm(input) {
+                        if (input.value.length >= 8 && input.value == document.getElementById('password').value) {
+                            input.style.outline = "green solid thin";
+                        } else {
+                            input.style.outline = "red solid thin";
+                        }
+                    }
+                </script>
             </div>
 
             
