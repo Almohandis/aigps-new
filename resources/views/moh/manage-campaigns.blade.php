@@ -20,21 +20,27 @@
                             <th>Address</th>
                             <th>Status</th>
                             <th>Cancel</th>
+                            <th>Update</th>
                         </tr>
                     </table>
                 </div>
                 <div class="tbl-content">
                     <table>
-                        @php $i = 1 @endphp
-                        @foreach ($campaigns as $campaign)
+                        @foreach ($campaigns as $id => $campaign)
                             <tr>
-                                <td>{{ $i++ }}</td>
+                                <td>{{ $id + 1 }}</td>
                                 <td>{{ $campaign->start_date }}</td>
                                 <td>{{ $campaign->end_date }}</td>
                                 <td>{{ $campaign->city }}</td>
                                 <td>{{ $campaign->address }}</td>
                                 <td>{{ $campaign->status }}</td>
                                 <td><a class="text-red-500" href="/staff/moh/manage-campaigns/{{$campaign->id}}/cancel"> Cancel </a></td>
+
+                                @if(now()->diffInDays($campaign->start_date) > 1)
+                                    <td><a class="text-blue-500" href="/staff/moh/manage-campaigns/{{$campaign->id}}/update"> Update </a></td>
+                                @else
+                                    <td>Can't update</td>
+                                @endif
                             </tr>
                         @endforeach
                     </table>
