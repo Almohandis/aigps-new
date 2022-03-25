@@ -93,17 +93,6 @@ test('moh can add new hospital', function () {
     $this->assertEquals(2, $hospitals);
 });
 
-//# Moh can update type of hospitals
-test('moh can update type of hospitals', function () {
-    $response = $this->post('/staff/moh/manage-hospitals/update', [
-        'id' => [1],
-        'is_isolation' => [1],
-    ]);
-
-    $hospital = Hospital::find(1);
-    $this->assertEquals(1, $hospital->is_isolation);
-});
-
 //# Moh can get hospital doctors using ajax
 test('moh can get hospital doctors using ajax', function () {
     $response = $this->get('/staff/moh/manage-doctors/1');
