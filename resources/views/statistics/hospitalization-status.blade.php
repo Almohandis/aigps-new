@@ -18,6 +18,7 @@
                 <button type="submit" id="generate-btn" class="btn btn-primary">Generate report</button>
             </form>
             @if (isset($data_by_city))
+                <h1>{{ $report_title }}</h1>
                 <div class="tbl-header">
                     <table>
                         <tr>
@@ -58,6 +59,7 @@
                     </table>
                 </div>
             @elseif(isset($data_by_hospital))
+                <h1>{{ $report_title }}</h1>
                 <div class="tbl-header">
                     <table>
                         <tr>
@@ -71,18 +73,19 @@
                 </div>
                 <div class="tbl-content">
                     <table>
-                    @foreach ($data_by_hospital as $hospital)
-                        <tr>
-                            <td>{{ $hospital->name }}</td>
-                            <td>{{ $hospital->city }}</td>
-                            <td>{{ $hospital->is_iso }}</td>
-                            <td>{{ $hospital->capacity }}</td>
-                            <td>{{ $hospital->avail_beds }}</td>
-                        </tr>
-                    @endforeach
+                        @foreach ($data_by_hospital as $hospital)
+                            <tr>
+                                <td>{{ $hospital->name }}</td>
+                                <td>{{ $hospital->city }}</td>
+                                <td>{{ $hospital->is_iso }}</td>
+                                <td>{{ $hospital->capacity }}</td>
+                                <td>{{ $hospital->avail_beds }}</td>
+                            </tr>
+                        @endforeach
                     </table>
                 </div>
             @elseif(isset($data_by_date))
+                <h1>{{ $report_title }}</h1>
                 <div class="tbl-header">
                     <table>
                         <tr>
@@ -97,19 +100,20 @@
                 </div>
                 <div class="tbl-content">
                     <table>
-                    @foreach ($data_by_date as $date)
-                        <tr>
-                            <td>{{ $date->hoz_date }}</td>
-                            <td>{{ $date->male }}</td>
-                            <td>{{ $date->male_pcnt }}</td>
-                            <td>{{ $date->female }}</td>
-                            <td>{{ $date->female_pcnt }}</td>
-                            <td>{{ $date->total }}</td>
-                        </tr>
-                    @endforeach
+                        @foreach ($data_by_date as $date)
+                            <tr>
+                                <td>{{ $date->hoz_date }}</td>
+                                <td>{{ $date->male }}</td>
+                                <td>{{ $date->male_pcnt }}</td>
+                                <td>{{ $date->female }}</td>
+                                <td>{{ $date->female_pcnt }}</td>
+                                <td>{{ $date->total }}</td>
+                            </tr>
+                        @endforeach
                     </table>
                 </div>
             @elseif(isset($data_by_age))
+                <h1>{{ $report_title }}</h1>
                 <div class="tbl-header">
                     <table>
                         <tr>

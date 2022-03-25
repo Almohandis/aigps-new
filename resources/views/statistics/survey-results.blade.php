@@ -28,26 +28,27 @@
                 <button type="submit" id="generate-btn" class="btn btn-primary">Generate report</button>
             </form>
             @if (isset($data_by_question))
-            <div class="tbl-header">
-                <table>
-                    <tr>
-                        <th>Question title</th>
-                        <th>Answered No</th>
-                        <th>Answered Yes</th>
-                    </tr>
-                </table>
-            </div>
-            <div class="tbl-content">
-                <table>
-                    @for ($i = 0; $i < count($data_by_question); $i++)
+                <h1>{{ $report_title }}</h1>
+                <div class="tbl-header">
+                    <table>
                         <tr>
-                            <td>{{ $data_by_question[$i]->title }}</td>
-                            <td>{{ $data_by_question[$i]->no }}</td>
-                            <td>{{ $data_by_question[$i]->yes }}</td>
+                            <th>Question title</th>
+                            <th>Answered No</th>
+                            <th>Answered Yes</th>
                         </tr>
-                    @endfor
-                </table>
-            </div>
+                    </table>
+                </div>
+                <div class="tbl-content">
+                    <table>
+                        @for ($i = 0; $i < count($data_by_question); $i++)
+                            <tr>
+                                <td>{{ $data_by_question[$i]->title }}</td>
+                                <td>{{ $data_by_question[$i]->no }}</td>
+                                <td>{{ $data_by_question[$i]->yes }}</td>
+                            </tr>
+                        @endfor
+                    </table>
+                </div>
             @elseif(isset($data_by_age))
 
             @elseif(isset($data_by_blood))
