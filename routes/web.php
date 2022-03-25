@@ -32,9 +32,6 @@ Route::namespace('App\Http\Controllers\Staff')->middleware('auth')->prefix('staf
 Route::get('/stats', [StatisticsController::class, 'index'])->middleware('auth');
 Route::post('/stats', [StatisticsController::class, 'getReport'])->middleware('auth');
 
-//# User profile
-Route::get('/profile', [ProfileController::class, 'index'])->name('profile');
-
 //# Medical passport
 Route::post('/medical-passport', [MedicalPassportController::class, 'index'])->name('medical-passport');
 

@@ -49,7 +49,16 @@
                 <form action="/staff/admin/add" method="POST">
                     @csrf
                     <label for="national_id" class="national_id">National ID</label>
-                    <input type="text" name="national_id" id="national_id" required>
+                    <input oninput="validateNid(this)"  type="text" name="national_id" id="national_id" required>
+                    <script>
+                        function validateNid(input) {
+                            if (input.value.length != 14 || isNaN(input.value) || !(input.value[0] == '2' || input.value[0] == '1' || input.value[0] == '3')) {
+                                input.style.outline = "red solid thin";
+                            } else {
+                                input.style.outline = "green solid thin";
+                            }
+                        }
+                    </script>
                     <label for="role_id" class="role_id">Role ID</label>
                     <input type="number" min="1" max="8" name="role_id" id="role_id" required><br>
                     <input type="submit" value="Add" class="update-btn2">

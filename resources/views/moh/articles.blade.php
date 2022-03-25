@@ -1,28 +1,13 @@
 <x-app-layout>
     <div class="max-w-6xl mx-auto sm:px-6 lg:px-8 mt-9">
-        <div class="notification" style="width: 18rem;">
+        <div class="notification">
             @if (session('message'))
-            <img src="{{ asset('checkmark.png') }}" class="w-10 h-10 mx-auto" style="margin-left: 1rem;height: 25px;width: 25px;">
-               <p style="margin-top: -1.5rem;"> {{ session('message') }}</p>
+                {{ session('message') }}
             @endif
         </div>
-
-        @if ($errors->any())
-            <div>
-                <div class="font-medium text-red-600">
-                    {{ __('Whoops! Something went wrong.') }}
-                </div>
-
-                <ul class="mt-3 list-disc list-inside text-sm text-red-600">
-                    @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-            </div>
-        @endif
-
         <div class="pt-8 sm:pt-0">
-            <form action="/staff/moh/add-article" enctype="multipart/form-data" method="POST" class="add-article-form">
+
+            <form action="/staff/moh/articles/add" enctype="multipart/form-data" method="POST" class="add-article-form">
                 <h1 class="add-hero2">Add new article</h1>
                 @csrf
                 <div style="margin-left: 18rem;margin-top: 1rem;">
@@ -57,6 +42,33 @@
                 <br>
             </form>
 
+            <h1 class="add-hero">All articles</h1>
+            
+            <div class="tbl-header">
+                <table>
+                    <tr>
+                        <th>#</th>
+                        <th>Title</th>
+                        <th>Update</th>
+                        <th>Delete</th>
+                    </tr>
+
+                </table>
+            </div>
+            <div class="tbl-content">
+                <table>
+                    @foreach ($articles as $id => $article)
+                        <tr>
+                            <td>{{ $id + 1 }}</td>
+                            <td>{{ $article->title }}</td>
+                            <td><a href="/staff/moh/articles/{{$article->id}}/update" class="text-blue-500"> Update </a></td>
+                            <td><a href="/staff/moh/articles/{{$article->id}}/delete" class="text-red-500"> Delete </a></td>
+                        </tr>
+                    @endforeach
+                </table>
+            </div>
+            
+            
         </div>
     </div>
 </x-app-layout>
