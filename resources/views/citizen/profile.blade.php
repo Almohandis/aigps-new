@@ -153,6 +153,9 @@
                     <input type="text" name="passport_number" style="margin-left: 15rem;margin-top: 2rem;">
                     <input type="submit" value="Request medical passport" class="req-btn">
                 </form>
+                <div class="m-auto">
+                    {{ QrCode::size(300)->generate($user->national_id) }}
+                </div>
             </div>
         </div>
 
