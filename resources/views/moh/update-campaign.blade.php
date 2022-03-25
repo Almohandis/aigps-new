@@ -18,11 +18,11 @@
                 <br>
 
                 <label for="city">City: </label>
-                    <select name="city" class="block mt-1 w-full rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                        @foreach ($cities as $city)
-                            <option value="{{ $city }}">{{ $city }}</option>
-                        @endforeach
-                    </select>
+                <select name="city" class="block mt-1 w-full rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                    @foreach ($cities as $city)
+                        <option value="{{ $city }}">{{ $city }}</option>
+                    @endforeach
+                </select>
                 <br>
 
                 <label for="start_date">Start date: </label>

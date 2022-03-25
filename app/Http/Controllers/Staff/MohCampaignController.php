@@ -14,8 +14,11 @@ use \Carbon\Carbon;
 class MohCampaignController extends Controller {
     //# Get all campaigns
     public function index(Request $request) {
+        $cities = ['6th of October', 'Alexandria', 'Aswan', 'Asyut', 'Beheira', 'Beni Suef', 'Cairo', 'Dakahlia', 'Damietta', 'Faiyum', 'Gharbia', 'Giza', 'Helwan', 'Ismailia', 'Kafr El Sheikh', 'Luxor', 'Matruh', 'Minya', 'Monufia', 'New Valley', 'North Sinai', 'Port Said', 'Qalyubia', 'Qena', 'Red Sea', 'Sharqia', 'Sohag', 'South Sinai', 'Suez'];
         $campaigns = Campaign::get();
-        return view('moh.manage-campaigns')->with('campaigns', $campaigns);
+        return view('moh.manage-campaigns')
+            ->with('campaigns', $campaigns)
+            ->with('cities', $cities);
     }
 
     //# Add new campaign
