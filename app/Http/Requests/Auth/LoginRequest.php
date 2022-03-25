@@ -29,7 +29,7 @@ class LoginRequest extends FormRequest
     public function rules()
     {
         return [
-            'national_id' => ['required'],
+            'national_id' => ['required', 'max:14', 'min:14'],
             'password' => ['required', 'string'],
         ];
     }

@@ -17,7 +17,7 @@ class AuthenticationTest extends TestCase
         parent::setUp();
 
         NationalId::create([
-            'national_id' => 555,
+            'national_id' => 22345678901234,
         ]);
 
         $this->withoutExceptionHandling();
@@ -33,11 +33,11 @@ class AuthenticationTest extends TestCase
     public function test_users_can_authenticate_using_the_login_screen()
     {
         $user = User::factory()->create([
-            'national_id' => 555,
+            'national_id' => 22345678901234,
         ]);
 
         $response = $this->post('/login', [
-            'national_id' => 555,
+            'national_id' => 22345678901234,
             'password' => 'password',
         ]);
 
@@ -50,11 +50,11 @@ class AuthenticationTest extends TestCase
         $this->expectException(\Illuminate\Validation\ValidationException::class);
 
         $user = User::factory()->create([
-            'national_id' => 555,
+            'national_id' => 22345678901234,
         ]);
 
         $this->post('/login', [
-            'national_id' => 555,
+            'national_id' => 22345678901234,
             'password' => 'wrong-password',
         ]);
 
