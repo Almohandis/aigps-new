@@ -21,15 +21,14 @@ class MohArticleController extends Controller {
             'image'     => 'mimes:jpg,png,jpeg,gif,svg|max:5048',
         ]);
 
-        $link = [];
-        preg_match('/ src="(.*)" title=/', $request->link, $link);
+        $link = str_replace('watch?v=', 'embed/', $request->link);
 
         Article::create([
             'title'             => $request->title,
             'content'           => $request->content,
             'path'              => $request->image?->store('public/articles') ?? NULL,
             'full_article_link' => $request->full_link ?? null,
-            'video_link'        => $link[1] ?? null,
+            'video_link'        => $link ?? null,
         ]);
 
         return back()->with('message', 'Article added successfully');
@@ -42,15 +41,14 @@ class MohArticleController extends Controller {
             'image'     => 'mimes:jpg,png,jpeg,gif,svg|max:5048',
         ]);
 
-        $link = [];
-        preg_match('/ src="(.*)" title=/', $request->link, $link);
+        $link = str_replace('watch?v=', 'embed/', $request->link);
 
         $article->update([
             'title'             => $request->title,
             'content'           => $request->content,
             'path'              => $request->image?->store('public/articles') ?? NULL,
             'full_article_link' => $request->full_link ?? null,
-            'video_link'        => $link[1] ?? null,
+            'video_link'        => $link ?? null,
         ]);
 
         return redirect('/staff/moh/articles')->with('message', 'Article updated successfully');

@@ -34,7 +34,7 @@ class InfectionNotification extends Notification implements ShouldQueue
      */
     public function via($notifiable)
     {
-        return [TwilioChannel::class];
+        return [TwilioChannel::class, 'mail'];
     }
 
     /**

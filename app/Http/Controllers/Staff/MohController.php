@@ -55,37 +55,4 @@ class MohController extends Controller {
         else
             return redirect('/staff/moh/manage-doctors')->with('message', 'Doctor could not be added');
     }
-
-    public function articleForm()
-    {
-        return view('moh.article-form');
-    }
-
-    public function addArticle(Request $request)
-    {
-        $request->validate([
-            'image' => 'mimes:jpg,png,jpeg,gif,svg|max:5048',
-            'title' => 'required|max:255',
-            'content' => 'required',
-        ]);
-
-        if ($request->image) {
-            $imgName  = time() . '.' . $request->image->extension();
-            $request->image->move(public_path('article_images'), $imgName);
-            $name = $request->file('image')->getClientOriginalName();
-        }
-
-        $link = [];
-        preg_match('/ src="(.*)" title=/', $request->link, $link);
-
-        Article::create([
-            'name'  => $name ?? null,
-            'path' => $imgName ?? null,
-            'title' => $request->title,
-            'content' => $request->content,
-            'video_link' => $link[1] ?? null,
-            'full_article_link' => $request->full_link ?? null,
-        ]);
-        return redirect()->back()->with('message', 'Article added successfully');
-    }
 }
