@@ -50,6 +50,9 @@ Route::middleware('moh')->group(function () {
     Route::post('/moh/manage-doctors/add', 'MohController@addDoctor'); //
     Route::get('/moh/manage-campaigns', 'MohController@manageCampaigns'); //
     Route::post('/moh/manage-campaigns/add', 'MohController@addCampaign'); //
+    Route::get('/moh/manage-campaigns/delete/{id}', 'MohController@deleteCampaign')->name('campaign-delete');
+    Route::get('/moh/manage-campaigns/view/{id}', 'MohController@viewCampaignDoctors')->name('campaign-view-doctors');
+    Route::get('/moh/manage-campaigns/update/{id}', 'MohController@updateCampaign');
     Route::post('/moh/manage-hospitals/add', 'MohController@addHospital'); //
     Route::get('/moh/article-form', 'MohController@articleForm');
     Route::post('/moh/add-article', 'MohController@addArticle');

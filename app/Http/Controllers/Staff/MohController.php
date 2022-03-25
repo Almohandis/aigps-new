@@ -12,12 +12,14 @@ use Symfony\Contracts\Service\Attribute\Required;
 
 class MohController extends Controller
 {
+    protected $cities = ['Alexandria', 'Aswan', 'Asyut', 'Beheira', 'Beni Suef', 'Cairo', 'Dakahlia', 'Damietta', 'Faiyum', 'Gharbia', 'Giza', 'Helwan', 'Ismailia', 'Kafr El Sheikh', 'Luxor', 'Matruh', 'Minya', 'Monufia', 'New Valley', 'North Sinai', 'Port Said', 'Qalyubia', 'Qena', 'Red Sea', 'Sharqia', 'Sohag', 'South Sinai', 'Suez', '6th of October'];
+
     //# Get all hospitals to manage
     public function manageHospitals(Request $request)
     {
         $hospitals = Hospital::all();
-        $cities = ['Alexandria', 'Aswan', 'Asyut', 'Beheira', 'Beni Suef', 'Cairo', 'Dakahlia', 'Damietta', 'Faiyum', 'Gharbia', 'Giza', 'Helwan', 'Ismailia', 'Kafr El Sheikh', 'Luxor', 'Matruh', 'Minya', 'Monufia', 'New Valley', 'North Sinai', 'Port Said', 'Qalyubia', 'Qena', 'Red Sea', 'Sharqia', 'Sohag', 'South Sinai', 'Suez', '6th of October'];
-        return view('moh.manage-hospitals', compact('hospitals', 'cities'));
+
+        return view('moh.manage-hospitals')->with(['hospitals' => $hospitals, 'cities' => $this->cities]);
     }
 
     //# Update hospitals
@@ -101,7 +103,7 @@ class MohController extends Controller
     public function manageCampaigns(Request $request)
     {
         $campaigns = Campaign::where('start_date', '>', now())->get();
-        return view('moh.manage-campaigns')->with('campaigns', $campaigns); //compact('campaigns'));
+        return view('moh.manage-campaigns')->with(['campaigns' => $campaigns, 'cities' => $this->cities]); //compact('campaigns'));
     }
 
     //# Add new campaign
@@ -154,6 +156,46 @@ class MohController extends Controller
             return redirect('/staff/moh/manage-campaigns')->with('message', 'Campaign added successfully');
         else
             return redirect('/staff/moh/manage-campaigns')->with('message', 'Campaign could not be added');
+    }
+
+    //# Delete campaign
+    public function deleteCampaign(Request $request, $id)
+    {
+        $campaign = Campaign::find($id);
+        if ($campaign) {
+            $campaign->delete();
+            return redirect()->back()->with('message', 'Campaign deleted successfully');
+        } else
+            return redirect()->back()->with('message', 'Campaign could not be deleted');
+    }
+
+    //# Update campaign
+    public function updateCampaign(Request $request, $id)
+    {
+        $campaign = Campaign::find($id);
+        if ($campaign) {
+            $campaign->update([
+                'start_date' => $request->start_date,
+                'end_date' => $request->end_date,
+                'location' => preg_replace(array('/\(/', '/\)/'), array('', ''), $request->location),
+                'city' => $request->city,
+                'address' => $request->address,
+                'capacity_per_day' => $request->capacity_per_day ?? 20,
+            ]);
+            return redirect()->back()->with('message', 'Campaign updated successfully');
+        } else
+            return redirect()->back()->with('message', 'Campaign could not be updated');
+    }
+
+    //# View campaign doctors
+    public function viewCampaignDoctors(Request $request, $id)
+    {
+        $campaign = Campaign::find($id);
+        if ($campaign) {
+            $doctors = $campaign->doctors()->get();
+            return view('moh.view-campaign-doctors')->with(['doctors' => $doctors, 'campaign' => $campaign]);
+        } else
+            return redirect()->back()->with('message', 'Campaign could not be found');
     }
 
     public function articleForm()

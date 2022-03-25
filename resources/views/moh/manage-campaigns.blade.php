@@ -6,38 +6,63 @@
             @endif
         </div>
         <div class="pt-8 sm:pt-0">
-            <h1 class="add-hero2">All upcoming campaigns</h1><br>
+            <h1 class="add-hero2">All campaigns</h1><br>
+            <div class="tbl-header">
+                <table>
+                    <tr>
+                        <th>#</th>
+                        <th>Campaign's start date</th>
+                        <th>Campaign's end date</th>
+                        <th>City</th>
+                        <th>Address</th>
+                        <th>Status</th>
+                        <th colspan="3">Action</th>
+                    </tr>
+                </table>
+            </div>
+            <div class="tbl-content">
+                <table>
+                    @php $i = 1 @endphp
+                    @foreach ($campaigns as $campaign)
+                        <form action="/staff/moh/manage-campaigns/update/{{ $campaign->id }}">
+                            <tr>
+                                <td>{{ $i++ }}</td>
+                                <td><input type="date" name="start_date" value="{{ $campaign->start_date }}"></td>
+                                <td><input type="date" name="end_date" value="{{ $campaign->end_date }}"></td>
+                                <td>
+                                    <select name="city" id="city">
+                                        <option selected value="{{ $campaign->city }}">{{ $campaign->city }}
+                                        </option>
+                                        @foreach ($cities as $city)
+                                            <option value="{{ $city }}">{{ $city }}</option>
+                                        @endforeach
+                                    </select>
+                                </td>
+                                <td><input type="text" name="address" value="{{ $campaign->address }}"></td>
+                                <td><input type="text" name="status" value="{{ $campaign->status }}"></td>
+                                <td><input type="submit" class="btn btn-primary" value="Update"></td>
+                                <td>
+                                    <div
+                                        style="background-color: crimson;color: white;height: 1.6rem;width: 5rem;text-align: center;margin-left: 2rem;cursor: pointer;">
+                                        <a href="{{ route('campaign-delete', $campaign->id) }}">Delete</a>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div
+                                        style="background-color: crimson;color: white;height: 1.6rem;width: 5rem;text-align: center;margin-left: 2rem;cursor: pointer;">
+                                        <a href="{{ route('campaign-view-doctors', $campaign->id) }}">View
+                                            doctors</a>
+                                    </div>
+                                </td>
+                            </tr>
+                        </form>
+                    @endforeach
+                </table>
+            </div>
+            <br>
             <form action="/staff/moh/manage-campaigns/add" id="procceed_form" method="POST">
                 @csrf
                 <input id="marker-location" type="hidden" name="location" value="">
-                <div class="tbl-header">
-                    <table>
-                        <tr>
-                            <th>#</th>
-                            <th>Campaign's start date</th>
-                            <th>Campaign's end date</th>
-                            <th>City</th>
-                            <th>Address</th>
-                            <th>Status</th>
-                        </tr>
-                    </table>
-                </div>
-                <div class="tbl-content">
-                    <table>
-                        @php $i = 1 @endphp
-                        @foreach ($campaigns as $campaign)
-                            <tr>
-                                <td>{{ $i++ }}</td>
-                                <td>{{ $campaign->start_date }}</td>
-                                <td>{{ $campaign->end_date }}</td>
-                                <td>{{ $campaign->city }}</td>
-                                <td>{{ $campaign->address }}</td>
-                                <td>{{ $campaign->status }}</td>
-                            </tr>
-                        @endforeach
-                    </table>
-                </div>
-                <br>
                 <div class="add-campaign">
                     <h2 class="add-hero">Add new campaign</h2>
                     <div class="mt-4">
@@ -52,8 +77,12 @@
                         </div>
                         <div>
                             <label for="city">City</label>
-                            <input type="text" name="city" id="city" placeholder="Campaign city" style="border-color: gray;border-width: 1px;"
-                                required><br>
+                            <select name="city" id="city">
+                                <option selected disabled hidden>Select city</option>
+                                @foreach ($cities as $city)
+                                    <option value="{{ $city }}">{{ $city }}</option>
+                                @endforeach
+                            </select>
                         </div>
                         <div style="  margin-top: -1.5rem;margin-left: 20rem;">
                             <label id="addressLabel" for="address" style="margin-left: 6rem;">Address</label>
@@ -66,13 +95,13 @@
                             <input type="button" id="doctor-add-button" value="Add doctor" class="add-doc-btn">
                         </div>
                     </div>
-
                 </div>
-                <h3 class="add-hero">Choose a location on the map</h3>
-                {{-- !! --}}
-                <div class="mx-auto text-center mt-5">
-                    <div id="map" class="mt-8 rounded-md border-solid border-4 border-black"
-                        style="width: 119%; height: 600px; max-height: 90vh; margin: 0px auto; position: relative; overflow: hidden;margin-left: -6rem;""></div>
+            </form>
+            <h3 class="add-hero">Choose a location on the map</h3>
+            {{-- !! --}}
+            <div class="mx-auto text-center mt-5">
+                <div id="map" class="mt-8 rounded-md border-solid border-4 border-black"
+                    style="width: 119%; height: 600px; max-height: 90vh; margin: 0px auto; position: relative; overflow: hidden;margin-left: -6rem;""></div>
                         <script src="https://maps.googleapis.com/maps/api/js?key={{ config('app.google_maps_api') }}&callback=initMap" defer>
                         </script>
                         <script>
@@ -147,17 +176,15 @@
                         </script>
                     </div>
 
-                    <div class="      mt-6" style="margin-right: -8rem;">
-                        <div class="mt-3 mx-auto text-right mr-5">
-                            <x-button type="submit" id="procceed_button" style="margin-bottom: 1rem;">
-                                Procceed
-                            </x-button>
-                        </div>
+                    <div class="           mt-6" style="margin-right: -8rem;">
+                    <div class="mt-3 mx-auto text-right mr-5">
+                        <x-button type="submit" id="procceed_button" style="margin-bottom: 1rem;">
+                            Procceed
+                        </x-button>
                     </div>
-                    {{-- !! --}}
-
-            </form>
+                </div>
+                {{-- !! --}}
+            </div>
         </div>
-    </div>
-    <script src="{{ asset('js/manage-campaigns.js') }}"></script>
+        <script src="{{ asset('js/manage-campaigns.js') }}"></script>
 </x-app-layout>
