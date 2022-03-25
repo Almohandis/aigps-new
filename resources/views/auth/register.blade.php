@@ -23,7 +23,7 @@
 
                 <script>
                     function validateNid(input) {
-                        if (input.value.length != 14 || isNaN(input.value) || input.value[0] != '2') {
+                        if (input.value.length != 14 || isNaN(input.value) || input.value[0] != '2' || input.value[0] != '1' || input.value[0] != '3') {
                             input.style.outline = "red solid thin";
                         } else {
                             input.style.outline = "green solid thin";

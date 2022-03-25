@@ -47,7 +47,17 @@
                 <h1 class="mt-5 text-2xl">Campaign Doctors:</h1><br>
 
                 <label for="national_id">Add doctor: </label>
-                <x-input type="text" name="national_id" placeholder="National ID" required></x-input>
+                <x-input oninput="validateNid(this)" type="text" name="national_id" placeholder="National ID" required></x-input>
+
+                <script>
+                    function validateNid(input) {
+                        if (input.value.length != 14 || isNaN(input.value) || input.value[0] != '2' || input.value[0] != '1' || input.value[0] != '3') {
+                            input.style.outline = "red solid thin";
+                        } else {
+                            input.style.outline = "green solid thin";
+                        }
+                    }
+                </script>
 
                 <input type="submit" value="Add" class="add-doc-btn mt-5">
 
