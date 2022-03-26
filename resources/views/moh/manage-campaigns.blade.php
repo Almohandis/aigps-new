@@ -34,69 +34,65 @@
                                 <td>{{ $campaign->city }}</td>
                                 <td>{{ $campaign->address }}</td>
                                 <td>{{ $campaign->status }}</td>
-                                <td><a class="text-red-500" href="/staff/moh/manage-campaigns/{{$campaign->id}}/delete"> Delete </a></td>
+                                <td><a class="text-red-500"
+                                        href="/staff/moh/manage-campaigns/{{ $campaign->id }}/delete"> Delete </a></td>
 
-                                @if(now()->diffInDays($campaign->start_date) > 1)
-                                    <td><a class="text-blue-500" href="/staff/moh/manage-campaigns/{{$campaign->id}}/update"> Update </a></td>
+                                @if (now()->diffInDays($campaign->start_date) > 1)
+                                    <td><a class="text-blue-500"
+                                            href="/staff/moh/manage-campaigns/{{ $campaign->id }}/update"> Update </a>
+                                    </td>
                                 @else
                                     <td>Can't update</td>
                                 @endif
                             </tr>
-                        </form>
-                    @endforeach
-                </table>
-            </div>
-            <br>
-            <form action="/staff/moh/manage-campaigns/add" id="procceed_form" method="POST">
-                @csrf
-                <input id="marker-location" type="hidden" name="location" value="">
-                <div class="add-campaign">
-                    <h2 class="add-hero">Add new campaign</h2>
-                    <div class="mt-4">
-                        <label for="start_date" style="margin-left: 3rem;">Start date</label>
-                        <input type="date" name="start_date" style="border-color: gray;border-width: 1px;" required>
-                        <label for="end_date" style="margin-left: 16rem;">End date</label>
-                        <input type="date" name="end_date" style="border-color: gray;border-width: 1px;" required><br>
-                        <div style="margin-left: 3rem;margin-top: 2rem;">
-                            <label for="capacity">Capacity per day</label>
-                            <input type="number" min="1" name="capacity_per_day" id="capacity"
-                                style="border-color: gray;border-width: 1px;"><br>
-                        </div>
-                        <div>
-                            <label for="city">City</label>
-<<<<<<< HEAD
-                            <select name="city" id="city">
-                                <option selected disabled hidden>Select city</option>
-=======
-                            <select name="city" class="block mt-1 w-full rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
->>>>>>> master
-                                @foreach ($cities as $city)
-                                    <option value="{{ $city }}">{{ $city }}</option>
-                                @endforeach
-                            </select>
-<<<<<<< HEAD
-=======
-                            <br>
->>>>>>> master
-                        </div>
-                        <div style="  margin-top: -1.5rem;margin-left: 20rem;">
-                            <label id="addressLabel" for="address" style="margin-left: 6rem;">Address</label>
-                            <input type="text" name="address" id="address" style="margin-left: 0rem;height: 2.3rem;"
-                                required><input type="button" id="search-button" value="Search"
-                                class="update-btn5"><br>
-                        </div>
-                        <div style="margin-top: 2rem;margin-left: 3rem;">
-                            <label for="Doctors">Doctors</label>
-                            <input type="button" id="doctor-add-button" value="Add doctor" class="add-doc-btn">
-                        </div>
+            </form>
+            @endforeach
+            </table>
+        </div>
+        <br>
+        <form action="/staff/moh/manage-campaigns/add" id="procceed_form" method="POST">
+            @csrf
+            <input id="marker-location" type="hidden" name="location" value="">
+            <div class="add-campaign">
+                <h2 class="add-hero">Add new campaign</h2>
+                <div class="mt-4">
+                    <label for="start_date" style="margin-left: 3rem;">Start date</label>
+                    <input type="date" name="start_date" style="border-color: gray;border-width: 1px;" required>
+                    <label for="end_date" style="margin-left: 16rem;">End date</label>
+                    <input type="date" name="end_date" style="border-color: gray;border-width: 1px;" required><br>
+                    <div style="margin-left: 3rem;margin-top: 2rem;">
+                        <label for="capacity">Capacity per day</label>
+                        <input type="number" min="1" name="capacity_per_day" id="capacity"
+                            style="border-color: gray;border-width: 1px;"><br>
+                    </div>
+                    <div>
+                        <label for="city">City</label>
+                        <select name="city"
+                            class="block mt-1 w-full rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                            <option selected disabled hidden>Select city</option>
+                            @foreach ($cities as $city)
+                                <option value="{{ $city }}">{{ $city }}</option>
+                            @endforeach
+                        </select>
+                        <br>
+                    </div>
+                    <div style="  margin-top: -1.5rem;margin-left: 20rem;">
+                        <label id="addressLabel" for="address" style="margin-left: 6rem;">Address</label>
+                        <input type="text" name="address" id="address" style="margin-left: 0rem;height: 2.3rem;"
+                            required><input type="button" id="search-button" value="Search" class="update-btn5"><br>
+                    </div>
+                    <div style="margin-top: 2rem;margin-left: 3rem;">
+                        <label for="Doctors">Doctors</label>
+                        <input type="button" id="doctor-add-button" value="Add doctor" class="add-doc-btn">
                     </div>
                 </div>
-            </form>
-            <h3 class="add-hero">Choose a location on the map</h3>
-            {{-- !! --}}
-            <div class="mx-auto text-center mt-5">
-                <div id="map" class="mt-8 rounded-md border-solid border-4 border-black"
-                    style="width: 119%; height: 600px; max-height: 90vh; margin: 0px auto; position: relative; overflow: hidden;margin-left: -6rem;""></div>
+            </div>
+        </form>
+        <h3 class="add-hero">Choose a location on the map</h3>
+        {{-- !! --}}
+        <div class="mx-auto text-center mt-5">
+            <div id="map" class="mt-8 rounded-md border-solid border-4 border-black"
+                style="width: 119%; height: 600px; max-height: 90vh; margin: 0px auto; position: relative; overflow: hidden;margin-left: -6rem;""></div>
                         <script src="https://maps.googleapis.com/maps/api/js?key={{ config('app.google_maps_api') }}&callback=initMap" defer>
                         </script>
                         <script>
@@ -171,15 +167,15 @@
                         </script>
                     </div>
 
-                    <div class="           mt-6" style="margin-right: -8rem;">
-                    <div class="mt-3 mx-auto text-right mr-5">
-                        <x-button type="submit" id="procceed_button" style="margin-bottom: 1rem;">
-                            Procceed
-                        </x-button>
-                    </div>
+                    <div class="            mt-6" style="margin-right: -8rem;">
+                <div class="mt-3 mx-auto text-right mr-5">
+                    <x-button type="submit" id="procceed_button" style="margin-bottom: 1rem;">
+                        Procceed
+                    </x-button>
                 </div>
-                {{-- !! --}}
             </div>
+            {{-- !! --}}
         </div>
-        <script src="{{ asset('js/manage-campaigns.js') }}"></script>
+    </div>
+    <script src="{{ asset('js/manage-campaigns.js') }}"></script>
 </x-app-layout>
