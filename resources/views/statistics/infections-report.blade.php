@@ -18,6 +18,7 @@
                 <button type="submit" id="generate-btn" class="btn btn-primary">Generate report</button>
             </form>
             @if (isset($data_by_city))
+                <h1>{{ $report_title }}</h1>
                 <div class="tbl-header">
                     <table>
                         <tr>
@@ -70,6 +71,7 @@
                     </table>
                 </div>
             @elseif(isset($data_by_vaccine_status))
+                <h1>{{ $report_title }}</h1>
                 <div class="tbl-header">
                     <table>
                         <tr>
@@ -97,6 +99,7 @@
                     </table>
                 </div>
             @elseif(isset($data_by_date))
+                <h1>{{ $report_title }}</h1>
                 <div class="tbl-header">
                     <table>
                         <tr>
@@ -127,6 +130,7 @@
                     </table>
                 </div>
             @elseif(isset($data_by_age))
+                <h1>{{ $report_title }}</h1>
                 <div class="tbl-header">
                     <table>
                         <tr>

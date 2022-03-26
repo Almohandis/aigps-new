@@ -28,6 +28,7 @@
                 <button type="submit" id="generate-btn" class="btn btn-primary">Generate report</button>
             </form>
             @if (isset($data_by_city))
+                <h1>{{ $report_title }}</h1>
                 <div class="tbl-header">
                     <table>
                         <tr>
@@ -68,24 +69,31 @@
                     </table>
                 </div>
             @elseif(isset($data_by_hospital))
-                <table>
-                    <tr>
-                        <th>Hospital name</th>
-                        <th>City</th>
-                        <th>Is isolation</th>
-                        <th>Capacity</th>
-                        <th>Available beds</th>
-                    </tr>
-                    @foreach ($data_by_hospital as $hospital)
+                <h1>{{ $report_title }}</h1>
+                <div class="tbl-header">
+                    <table>
                         <tr>
-                            <td>{{ $hospital->name }}</td>
-                            <td>{{ $hospital->city }}</td>
-                            <td>{{ $hospital->is_iso }}</td>
-                            <td>{{ $hospital->capacity }}</td>
-                            <td>{{ $hospital->avail_beds }}</td>
+                            <th>Hospital name</th>
+                            <th>City</th>
+                            <th>Is isolation</th>
+                            <th>Capacity</th>
+                            <th>Available beds</th>
                         </tr>
-                    @endforeach
-                </table>
+                    </table>
+                </div>
+                <div class="tbl-content">
+                    <table>
+                        @foreach ($data_by_hospital as $hospital)
+                            <tr>
+                                <td>{{ $hospital->name }}</td>
+                                <td>{{ $hospital->city }}</td>
+                                <td>{{ $hospital->is_iso }}</td>
+                                <td>{{ $hospital->capacity }}</td>
+                                <td>{{ $hospital->avail_beds }}</td>
+                            </tr>
+                        @endforeach
+                    </table>
+                </div>
             @endif
         </div>
     </div>
