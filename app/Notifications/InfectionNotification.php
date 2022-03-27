@@ -9,6 +9,7 @@ use Illuminate\Notifications\Notification;
 use App\Models\User;
 use NotificationChannels\Twilio\TwilioChannel;
 use NotificationChannels\Twilio\TwilioSmsMessage;
+use App\Mail\InfectionMail;
 
 class InfectionNotification extends Notification implements ShouldQueue
 {
@@ -32,9 +33,14 @@ class InfectionNotification extends Notification implements ShouldQueue
      * @param  mixed  $notifiable
      * @return array
      */
-    public function via($notifiable)
-    {
-        return [TwilioChannel::class, 'mail'];
+    public function via($notifiable) {
+        if ($this->user->emailProfiles()->count() > 0) {
+            return ['mail'];
+        } else {
+            return [];
+        }
+
+        // return [TwilioChannel::class, 'mail'];
     }
 
     /**
@@ -45,10 +51,7 @@ class InfectionNotification extends Notification implements ShouldQueue
      */
     public function toMail($notifiable)
     {
-        return (new MailMessage)
-                    ->line('Your relative ('.$this->user->name.') has been infected!')
-                    ->line('Make sure you are safe by take the diagnose test.')
-                    ->action('Take the diagnose', url('/'));
+        return (new InfectionMail)->to($this->user->emailProfiles()->first()->email);
     }
 
     public function toTwilio($notifiable)
