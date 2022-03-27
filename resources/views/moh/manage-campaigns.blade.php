@@ -64,20 +64,12 @@
                         </div>
                         <div>
                             <label for="city">City</label>
-<<<<<<< HEAD
-                            <select name="city" id="city">
-                                <option selected disabled hidden>Select city</option>
-=======
                             <select name="city" class="block mt-1 w-full rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
->>>>>>> master
                                 @foreach ($cities as $city)
                                     <option value="{{ $city }}">{{ $city }}</option>
                                 @endforeach
                             </select>
-<<<<<<< HEAD
-=======
                             <br>
->>>>>>> master
                         </div>
                         <div style="  margin-top: -1.5rem;margin-left: 20rem;">
                             <label id="addressLabel" for="address" style="margin-left: 6rem;">Address</label>
