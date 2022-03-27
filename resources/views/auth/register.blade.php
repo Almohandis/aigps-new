@@ -19,7 +19,8 @@
                 national_id: '',
                 email: '',
                 password: '',
-                password_confirmation: ''
+                password_confirmation: '',
+                workemail: '',
             };
 
             function updateError() {
@@ -194,6 +195,14 @@
             </div>
 
             <br>
+
+            
+            <!-- Work Address -->
+            <div class="mt-2 mb-4">
+                <x-label for="workemail" value="Work Email" />
+
+                <x-input oninput="validateEmail(this)" id="workemail" class="block mt-1 w-full" type="email" name="workemail" :value="old('workemail')" />
+            </div>
 
             <!-- Phones -->
             <div id="phones">
