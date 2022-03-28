@@ -58,32 +58,32 @@
         @endif
 
 
-        <p class="text-black text-center mt-2">Select a location</p>
+        <p class="text-black text-center mt-2" style="font-size: 25px;margin-bottom: 1rem;">Select a location</p>
 
         <div class="text-center text-xl my-4 mb-2 hidden" id="nearCampaigns">
             Campaigns Near you: 
-            <select class="text-md text-black" onchange="selectCampaignOption()">
+            <select class="text-md text-black" onchange="selectCampaignOption()" style="width: 20rem;">
                 <option value="-1">Select a campaign</option>
             </select>
         </div>
 
-        <div class="text-center text-xl my-4 mb-2 hidden" id="nearCampaignsUserLocation">
+        <div class="text-center text-xl my-4 mb-2 hidden" id="nearCampaignsUserLocation" style="margin-left: -13rem;">
             Campaigns Near you Based on your location: 
-            <select class="text-md text-black" onchange="selectCampaignOption()">
+            <select class="text-md text-black" onchange="selectCampaignOption()" style="width: 20rem;">
                 <option value="-1">Select a campaign</option>
             </select>
         </div>
         
-        <div class="text-center text-xl my-4 mb-2 hidden" id="nearCampaignsUserMarker">
+        <div class="text-center text-xl my-4 mb-2 hidden" id="nearCampaignsUserMarker" style="margin-left: -17rem;" >
             Campaigns Near you Based on your marker location: 
-            <select class="text-md text-black" onchange="selectCampaignOption()">
+            <select class="text-md text-black" onchange="selectCampaignOption()" style="width: 20rem;">
                 <option value="-1">Select a campaign</option>
             </select>
         </div>
 
-        <div class="text-center text-xl my-4 mb-2" id="nearCampaigns2">
+        <div class="text-center text-xl my-4 mb-2" id="nearCampaigns2" style="margin-left: 1.5rem;">
             Campaigns Timing:
-            <select class="text-md text-black" onchange="selectCampaignOption2()">
+            <select class="text-md text-black" onchange="selectCampaignOption2()" style="width: 20rem;">
                 <option value="-1">Select a campaign</option>
 
                 @foreach($campaigns as $index => $campaign)

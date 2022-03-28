@@ -6,9 +6,14 @@
                 {{ session('message') }}
             </div>
         @endif
-
+            
+        <div class="page-menu">
+            <input type="button"  style="background-color:#0fb639;color:white;" value="Account Settings" class="p-menu-btn" onclick="ChangeView('profile')">
+            <hr style="margin-left: 2.5rem;border-top-width: 2px;width: 70%;">
+            <input type="button" value="Medical Passport" class="p-menu-btn" onclick="ChangeView('passport')">
+        </div>
         <div class="mx-auto text-center mt-5" id="profile">
-            <div class="inline-block bg-black bg-opacity-50 p-8 text-justify" style="background-color: white;/*! box-shadow: black; */box-shadow: 0 .5rem 1.5rem rgba(0,0,0,.1);margin-left: 22rem;border-radius: 25px;">
+            <div class="inline-block bg-black bg-opacity-50 p-8 text-justify" style="background-color: white;/*! box-shadow: black; */box-shadow: 0 .5rem 1.5rem rgba(0,0,0,.1);margin-left: 22rem;border-radius: 25px;margin-top: -7rem;">
                 <h2 class="text-2xl">Account Settings</h2>
                 <form action="/profile/update" method="POST">
                     @csrf
@@ -159,11 +164,6 @@
             </div>
         </div>
 
-        <div class="page-menu">
-            <input type="button" value="Account Settings" class="p-menu-btn" onclick="ChangeView('profile')">
-            <hr style="margin-left: 2.5rem;border-top-width: 2px;width: 70%;">
-            <input type="button" value="Medical Passport" class="p-menu-btn" onclick="ChangeView('passport')">
-        </div>
 
         <script>
             function ChangeView(view) {
