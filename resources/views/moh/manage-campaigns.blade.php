@@ -64,14 +64,14 @@
                         </div>
                         <div style="margin-left: 3rem;margin-top: 2rem;">
                             <label for="city">City</label>
-                            <select name="city" class="block mt-1 w-full rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                            <select name="city" class="block mt-1 w-full rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" style="width: 18rem;margin-left: 3rem;margin-top: -2rem;">
                                 @foreach ($cities as $city)
                                     <option value="{{ $city }}">{{ $city }}</option>
                                 @endforeach
                             </select>
                             <br>
                         </div>
-                        <div style="  margin-top: -1.5rem;margin-left: 20rem;">
+                        <div style="  margin-top: -3.5rem;margin-left: 20rem;">
                             <label id="addressLabel" for="address" style="margin-left: 6rem;">Address</label>
                             <input type="text" name="address" id="address" style="margin-left: 0rem;height: 2.3rem;"
                                 required><input type="button" id="search-button" value="Search"
