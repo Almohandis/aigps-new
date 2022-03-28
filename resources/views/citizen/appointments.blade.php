@@ -1,6 +1,6 @@
 <x-app-layout>
     <div class="mt-6">
-        <img src="{{ asset('appointments.jpg') }}" class="second-header">
+        <img src="{{ asset('appointments.jpg') }}" class="second-header" style="margin-top: -293px;">
         <div class="divide"></div>
         <div class="wrap"></div>
         <h1 class="ml-5 text-left text-4xl text-white" style="text-shadow: 2px 2px 8px #000000;">

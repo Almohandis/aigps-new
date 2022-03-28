@@ -40,7 +40,7 @@
             <div class="tbl-header">
                 <table>
                     <tr>
-                        <th>#</th>
+                        {{-- <th>#</th> --}}
                         <th>Name</th>
                         <th>City</th>
                         <th>Total capacity</th>
@@ -58,7 +58,7 @@
                     @foreach ($hospitals as $id => $hospital)
                         <tr>
                             <input type="hidden" class="id" value="{{ $hospital->id }}" name="id[]">
-                            <td>{{ $id + 1 }}</td>
+                            {{-- <td>{{ $id + 1 }}</td> --}}
                             <td>{{ $hospital->name }}</td>
                             <td>{{ $hospital->city }}</td>
                             <td>{{ $hospital->capacity }}</td>

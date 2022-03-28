@@ -65,8 +65,8 @@
         <a class="slideshow-container__prev" onclick="plusSlides(-1,'slide-right')">&#10094;</a>
         <a class="slideshow-container__next" onclick="plusSlides(1,'slide-left')">&#10095;</a>
         <div id="myModal" class="modal">
-            <img class="modal-content" id="img01">
-          </div>
+            <img class="modal-content" id="img-modal-source">
+        </div>
     </div>
     <footer id="footer">
         <img src="{{ asset('mti.png') }}" class="footer-logo">

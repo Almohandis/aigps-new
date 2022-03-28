@@ -19,7 +19,7 @@
                 <div class="tbl-header" style="border:1px solid black">
                     <table>
                         <tr>
-                            <th>#</th>
+                            {{-- <th>#</th> --}}
                             <th>Name</th>
                             <th>National ID</th>
                             <th>Action</th>
@@ -93,7 +93,7 @@
                 });
                 button.appendChild(btn);
                 let tr = document.createElement('tr');
-                tr.appendChild(id);
+                // tr.appendChild(id);
                 tr.appendChild(name);
                 tr.appendChild(national_id);
                 tr.appendChild(button);

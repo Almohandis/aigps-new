@@ -1,4 +1,4 @@
-window.onscroll = function() {scrollFunction()};
+window.onscroll = function () { scrollFunction() };
 
 function scrollFunction() {
   if (document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) {
@@ -9,9 +9,9 @@ function scrollFunction() {
     document.getElementById("logo").style.transition = "0.5s";
     document.getElementById("title").style.transition = "0.5s";
     document.getElementById("menu").style.transition = "0.5s";
-    document.getElementById("header").style.backgroundColor ="rgba(18,16,16,0.85)";
+    document.getElementById("header").style.backgroundColor = "rgba(18,16,16,0.85)";
 
-    
+
 
   } else {
     document.getElementById("logo").style.height = "5.5rem";
@@ -21,32 +21,32 @@ function scrollFunction() {
     document.getElementById("logo").style.transition = "0.5s";
     document.getElementById("menu").style.transition = "0.5s";
     document.getElementById("title").style.transition = "0.5s";
-    document.getElementById("header").style.backgroundColor ="rgba(18,16,16,0.65)";
-    
+    document.getElementById("header").style.backgroundColor = "rgba(18,16,16,0.65)";
+
   }
-} 
+}
 function Scrolldown() {
-  window.scroll(0,300); 
+  window.scroll(0, 300);
 }
 
 
 
 
-console.log (window.location.href)
-if(window.location.href == 'http://127.0.0.1:8000/'){
+console.log(window.location.href)
+if (window.location.href == 'http://127.0.0.1:8000/') {
 
   var slideIndex = 1;
-  showSlides(slideIndex,'slide-left');
+  showSlides(slideIndex, 'slide-left');
 
   function plusSlides(n, animate) {
     showSlides(slideIndex += n, animate);
-  } 
-  
-  function showSlides(n,animate) {
+  }
+
+  function showSlides(n, animate) {
     var i;
     //var slides = document.getElementsByClassName("mySlides");
     var slides = document.getElementById("slideshow-container").getElementsByClassName('slideshow-container__slides');
-  
+
     if (n > slides.length) {
       slideIndex = 1
     }
@@ -56,7 +56,7 @@ if(window.location.href == 'http://127.0.0.1:8000/'){
     for (i = 0; i < slides.length; i++) {
       slides[i].style.display = "none";
     }
-  
+
     slides[slideIndex - 1].style.display = "block";
     slides[slideIndex - 1].classList.remove('slide-left');
     slides[slideIndex - 1].classList.remove('slide-right');
@@ -65,34 +65,43 @@ if(window.location.href == 'http://127.0.0.1:8000/'){
 }
 
 
-function viewArticles()
-{
-    var articles = document.getElementById('slideshow-container');
-    articles.style.display="block";
-    window.scrollBy(0, 800);
-    var footer = document.getElementById('footer');
-    footer.style.marginTop ="-0.5rem";
-    
+function viewArticles() {
+  var articles = document.getElementById('slideshow-container');
+  articles.style.display = "block";
+  window.scrollBy(0, 800);
+  var footer = document.getElementById('footer');
+  footer.style.marginTop = "-0.5rem";
+  gallerysettings();
+
+
 }
 // Get the modal
-var modal = document.getElementById('myModal');
+function gallerysettings()
+{
+  var modal = document.getElementById('myModal');
 
 // Get the image and insert it inside the modal - use its "alt" text as a caption
-var img = document.getElementById('myImg');
-var modalImg = document.getElementById("img01");
-img.onclick = function(){
+var images = document.getElementsByClassName('awareness-img');
+var modalImg = document.getElementById("img-modal-source");
+for (let i = 0 ; i<images.length; i++) {
+  console.log(1)
+  images[i].onclick = function () {
     modal.style.display = "block";
     modalImg.src = this.src;
-    
+    console.log(2)
+  }
 }
+
 
 
 // When the user clicks on <span> (x), close the modal
-modal.onclick = function() {
-    img01.className += " out";
-    setTimeout(function() {
-       modal.style.display = "none";
-       img01.className = "modal-content";
-     }, 400);
-    
- }
+modal.onclick = function () {
+  // modalImg.classList.add = "out";
+  setTimeout(function () {
+    modal.style.display = "none";
+    // modalImg.className = "modal-content";
+  }, 400);
+
+}
+
+}
