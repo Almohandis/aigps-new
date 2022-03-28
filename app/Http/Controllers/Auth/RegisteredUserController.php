@@ -48,7 +48,8 @@ class RegisteredUserController extends Controller
             'birthdate'         => 'required',
             'gender'            => 'required',
             'country'           =>  'required|string',
-            'city'              =>  'required|string'
+            'city'              =>  'required|string',
+            'workemail'         =>  ['email']
         ]);
 
         //# check if the provided national id exists in the database
@@ -84,6 +85,12 @@ class RegisteredUserController extends Controller
 
             //# create a new record in medical passport for the user
             $user->passport()->create();
+        }
+
+        if ($request->workemail) {
+            $user->emailProfiles()->create([
+                'email' => $request->workemail
+            ]);
         }
 
         //# user can have multiple phones, up to 10
