@@ -1,8 +1,9 @@
 <x-app-layout>
     <div class="max-w-6xl mx-auto sm:px-6 lg:px-8 mt-9">
-        <div class="notification">
+        <div class="notification" style="width: 18rem;">
             @if (session('message'))
-                {{ session('message') }}
+            <img src="{{ asset('checkmark.png') }}" class="w-10 h-10 mx-auto" style="margin-left: 1rem;height: 25px;width: 25px;">
+               <p style="margin-top: -1.5rem;"> {{ session('message') }}</p>
             @endif
         </div>
 
