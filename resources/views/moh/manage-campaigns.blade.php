@@ -35,7 +35,8 @@
                                 <td>{{ $campaign->address }}</td>
                                 <td>{{ $campaign->status }}</td>
                                 <td><a class="text-red-500"
-                                        href="/staff/moh/manage-campaigns/{{ $campaign->id }}/delete"> Delete </a></td>
+                                        href="/staff/moh/manage-campaigns/{{ $campaign->id }}/delete"> Delete </a>
+                                </td>
 
                                 @if (now()->diffInDays($campaign->start_date) > 1)
                                     <td><a class="text-blue-500"
@@ -69,7 +70,7 @@
                         <label for="city">City</label>
                         <select name="city"
                             class="block mt-1 w-full rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                            <option selected disabled hidden>Select city</option>
+                            <option selected hidden disabled>Select a city</option>
                             @foreach ($cities as $city)
                                 <option value="{{ $city }}">{{ $city }}</option>
                             @endforeach
@@ -87,12 +88,13 @@
                     </div>
                 </div>
             </div>
-        </form>
-        <h3 class="add-hero">Choose a location on the map</h3>
-        {{-- !! --}}
-        <div class="mx-auto text-center mt-5">
-            <div id="map" class="mt-8 rounded-md border-solid border-4 border-black"
-                style="width: 119%; height: 600px; max-height: 90vh; margin: 0px auto; position: relative; overflow: hidden;margin-left: -6rem;""></div>
+    </div>
+    </form>
+    <h3 class="add-hero">Choose a location on the map</h3>
+    {{-- !! --}}
+    <div class="mx-auto text-center mt-5">
+        <div id="map" class="mt-8 rounded-md border-solid border-4 border-black"
+            style="width: 119%; height: 600px; max-height: 90vh; margin: 0px auto; position: relative; overflow: hidden;margin-left: -6rem;""></div>
                         <script src="https://maps.googleapis.com/maps/api/js?key={{ config('app.google_maps_api') }}&callback=initMap" defer>
                         </script>
                         <script>
@@ -167,15 +169,15 @@
                         </script>
                     </div>
 
-                    <div class="            mt-6" style="margin-right: -8rem;">
-                <div class="mt-3 mx-auto text-right mr-5">
-                    <x-button type="submit" id="procceed_button" style="margin-bottom: 1rem;">
-                        Procceed
-                    </x-button>
-                </div>
+                    <div class="             mt-6" style="margin-right: -8rem;">
+            <div class="mt-3 mx-auto text-right mr-5">
+                <x-button type="submit" id="procceed_button" style="margin-bottom: 1rem;">
+                    Procceed
+                </x-button>
             </div>
-            {{-- !! --}}
         </div>
+        {{-- !! --}}
+    </div>
     </div>
     <script src="{{ asset('js/manage-campaigns.js') }}"></script>
 </x-app-layout>

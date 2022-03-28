@@ -127,4 +127,8 @@ class User extends Authenticatable
         $phone = $this->phones()->first() ?? $this->telephone_number;
         return $phone;
     }
+
+    public function emailProfiles() {
+        return $this->hasMany(EmailProfile::class);
+    }
 }
