@@ -716,6 +716,10 @@
       width:100%;
       table-layout: fixed;
     }
+    tr{
+      border-top-width: 2px;
+      border-color: rgba(0,0 ,0,0.03);
+    }
     .p-header {
       background: linear-gradient(to right, #e8d6b8, #acb5fac2);
       width: 15rem;
@@ -732,15 +736,15 @@
     }
     .tbl-header
     {
-      background: linear-gradient(to right, #e8d6b8, #acb5fac2);
+      background: linear-gradient(to right, #535252, #707fcee2);
     }
     .tbl-content{
       height:300px;
       overflow-x:auto;
       margin-top: 0px;
       border: 1px solid rgba(255,255,255,0.3);
-      background: linear-gradient(to right, #e8d6b830, #acb5fa5c);
       color: black;
+      box-shadow: 0 .5rem 1.5rem rgba(0,0,0,.2);
     }
     .tbl-header2 {
       background: linear-gradient(to right, #e8d6b8, #acb5fac2);

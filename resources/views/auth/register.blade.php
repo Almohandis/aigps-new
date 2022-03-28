@@ -13,7 +13,7 @@
             AIGPS
         </div>
 
-        <div class="text-red-500 m-4" id="error"></div>
+        <script src="https://kit.fontawesome.com/a1983178b4.js" crossorigin="anonymous"></script>
         <script>
             var errors = {
                 national_id: '',
@@ -26,12 +26,18 @@
             function updateError() {
                 for(var key in errors) {
                     if (errors[key] != '') {
-                        document.getElementById('error').innerHTML = errors[key];
-                        return;
+                        document.getElementById(key + '_close').style.display = 'inline-block';
+                        document.getElementById(key + '_check').style.display = 'none';
+                        document.getElementById(key + '_error').innerHTML = errors[key];
+                    } else if (document.getElementById(key).innerHTML != '') {
+                        document.getElementById(key + '_error').innerHTML = '';
+                        document.getElementById(key + '_close').style.display = 'none';
+                        document.getElementById(key + '_check').style.display = 'inline-block';
+                    } else {
+                        document.getElementById(key + '_close').style.display = 'none';
+                        document.getElementById(key + '_check').style.display = 'none';
                     }
                 }
-
-                document.getElementById('error').innerHTML = '';
             }
         </script>
 
@@ -39,15 +45,16 @@
             @csrf
             <!-- National ID -->
             <div>
-                <x-label for="national_id" value="National ID" />
-
+                <i id="national_id_close" class="fa-solid fa-close" style="display: inline-block; color: red;"></i>
+                <i id="national_id_check" class="fa-solid fa-check" style="display: inline-block; color: green;"></i>
+                <x-label for="national_id" value="National ID" style="display: inline-block;" />
                 <x-input id="national_id" class="block mt-1 w-full" type="text" name="national_id" :value="old('national_id')" oninput="validateNid(this)"  required autofocus />
-
+                <small class="text-red-500" id="national_id_error"></small>
                 <script>
                     function validateNid(input) {
                         if (input.value.length != 14 || isNaN(input.value) || !(input.value[0] == '2' || input.value[0] == '1' || input.value[0] == '3')) {
                             input.style.outline = "red solid thin";
-                            errors.national_id = 'National ID is invalid';
+                            errors.national_id = 'National ID is invalid [National Id must be 14 characters long, and starts with 1,2,3]';
                             updateError();
                         } else {
                             input.style.outline = "green solid thin";
@@ -67,10 +74,12 @@
 
             <!-- Email Address -->
             <div class="mt-4">
-                <x-label for="email" :value="__('Email')" />
+                <i id="email_close" class="fa-solid fa-close" style="display: inline-block; color: red;"></i>
+                <i  id="email_check" class="fa-solid fa-check" style="display: inline-block; color: green;"></i>
+                <x-label for="email" :value="__('Email')" style="display: inline-block;" />
 
                 <x-input oninput="validateEmail(this)" id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required />
-
+                <small class="text-red-500" id="email_error"></small>
                 <script>
                     function validateEmail(input) {
                         if (isEmail(input.value)) {
@@ -79,7 +88,7 @@
                             updateError();
                         } else {
                             input.style.outline = "red solid thin";
-                            errors.email = 'Email is invalid';
+                            errors.email = 'Email is invalid [e.g test@domain.com]';
                             updateError();
                         }
                     }
@@ -94,14 +103,16 @@
 
             <!-- Password -->
             <div class="mt-4">
-                <x-label for="password" :value="__('Password')" />
+                <i  id="password_close" class="fa-solid fa-close" style="display: inline-block; color: red;"></i>
+                <i  id="password_check" class="fa-solid fa-check" style="display: inline-block; color: green;"></i>
+                <x-label for="password" :value="__('Password')" style="display: inline-block;" />
 
                 <x-input oninput="validatePassword(this)" id="password" class="block mt-1 w-full"
                                 type="password"
                                 name="password"
                                 required autocomplete="new-password" />
 
-                
+                                <small class="text-red-500" id="password_error"></small>
                 <script>
                     function validatePassword(input) {
                         if (input.value.length >= 8) {
@@ -119,11 +130,14 @@
 
             <!-- Confirm Password -->
             <div class="mt-4">
-                <x-label for="password_confirmation" :value="__('Confirm Password')" />
+                <i  id="password_confirmation_close" class="fa-solid fa-close" style="display: inline-block; color: red;"></i>
+                <i  id="password_confirmation_check" class="fa-solid fa-check" style="display: inline-block; color: green;"></i>
+                <x-label for="password_confirmation" :value="__('Confirm Password')" style="display: inline-block;" />
 
                 <x-input oninput="validatePasswordConfirm(this)" id="password_confirmation" class="block mt-1 w-full"
                                 type="password"
                                 name="password_confirmation" required />
+                                <small class="text-red-500" id="password_confirmation_error"></small>
 
                 <script>
                     function validatePasswordConfirm(input) {
@@ -199,9 +213,12 @@
             
             <!-- Work Address -->
             <div class="mt-2 mb-4">
-                <x-label for="workemail" value="Work Email" />
+                <i id="workemail_close" class="fa-solid fa-close" style="display: inline-block; color: red;"></i>
+                <i id="workemail_check" class="fa-solid fa-check" style="display: inline-block; color: green;"></i>
+                <x-label for="workemail" value="Work Email" style="display: inline-block;" />
 
                 <x-input oninput="validateEmail(this)" id="workemail" class="block mt-1 w-full" type="email" name="workemail" :value="old('workemail')" />
+                <small class="text-red-500" id="workemail_error"></small>
             </div>
 
             <!-- Phones -->
@@ -252,6 +269,13 @@
                             document.getElementById('removeAPhone').classList.add('hidden');
                         }
                     }
+                }
+            </script>
+
+            <script>
+                for(var key in errors) {
+                    document.getElementById(key + '_close').style.display = 'none';
+                    document.getElementById(key + '_check').style.display = 'none';
                 }
             </script>
 

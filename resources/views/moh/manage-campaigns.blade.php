@@ -13,7 +13,7 @@
                 <div class="tbl-header">
                     <table>
                         <tr>
-                            <th>#</th>
+                            {{-- <th>#</th> --}}
                             <th>Campaign's start date</th>
                             <th>Campaign's end date</th>
                             <th>City</th>
@@ -28,7 +28,7 @@
                     <table>
                         @foreach ($campaigns as $id => $campaign)
                             <tr>
-                                <td>{{ $id + 1 }}</td>
+                                {{-- <td>{{ $id + 1 }}</td> --}}
                                 <td>{{ $campaign->start_date }}</td>
                                 <td>{{ $campaign->end_date }}</td>
                                 <td>{{ $campaign->city }}</td>
