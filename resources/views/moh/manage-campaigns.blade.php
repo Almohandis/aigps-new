@@ -36,11 +36,7 @@
                                 <td>{{ $campaign->status }}</td>
                                 <td><a class="text-red-500" href="/staff/moh/manage-campaigns/{{$campaign->id}}/delete"> Delete </a></td>
 
-                                @if(now()->diffInDays($campaign->start_date) > 1)
-                                    <td><a class="text-blue-500" href="/staff/moh/manage-campaigns/{{$campaign->id}}/update"> Update </a></td>
-                                @else
-                                    <td>Can't update</td>
-                                @endif
+                                <td><a class="text-blue-500" href="/staff/moh/manage-campaigns/{{$campaign->id}}/update"> Update </a></td>
                             </tr>
                         </form>
                     @endforeach
