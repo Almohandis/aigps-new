@@ -13,7 +13,7 @@
             AIGPS
         </div>
 
-        <script src="https://kit.fontawesome.com/a1983178b4.js" crossorigin="anonymous"></script>
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" rel="stylesheet">
         <script>
             var errors = {
                 national_id: '',
@@ -25,17 +25,23 @@
 
             function updateError() {
                 for(var key in errors) {
-                    if (errors[key] != '') {
-                        document.getElementById(key + '_close').style.display = 'inline-block';
-                        document.getElementById(key + '_check').style.display = 'none';
-                        document.getElementById(key + '_error').innerHTML = errors[key];
-                    } else if (document.getElementById(key).innerHTML != '') {
+                    if (errors[key] == '#') {
+                        document.getElementById(key + '_mark').style.display = 'inline-block';
+                        document.getElementById(key + '_mark').classList.add('fa-check');
+                        document.getElementById(key + '_mark').classList.remove('fa-close');
                         document.getElementById(key + '_error').innerHTML = '';
-                        document.getElementById(key + '_close').style.display = 'none';
-                        document.getElementById(key + '_check').style.display = 'inline-block';
+                        document.getElementById(key + '_mark').style.color = 'green';
+
+                    }
+                    else if (errors[key] != '') {
+                        document.getElementById(key + '_mark').style.color = 'red';
+                        document.getElementById(key + '_mark').classList.add('fa-close');
+                        document.getElementById(key + '_mark').classList.remove('fa-check');
+                        document.getElementById(key + '_mark').style.display = 'inline-block';
+                        document.getElementById(key + '_error').innerHTML = errors[key];
                     } else {
-                        document.getElementById(key + '_close').style.display = 'none';
-                        document.getElementById(key + '_check').style.display = 'none';
+                        document.getElementById(key + '_error').innerHTML = '';
+                        document.getElementById(key + '_mark').style.display = 'none';
                     }
                 }
             }
@@ -45,8 +51,7 @@
             @csrf
             <!-- National ID -->
             <div>
-                <i id="national_id_close" class="fa-solid fa-close" style="display: inline-block; color: red;"></i>
-                <i id="national_id_check" class="fa-solid fa-check" style="display: inline-block; color: green;"></i>
+                <i id="national_id_mark" class="fa-solid fa-close" style="display: inline-block; color: red;"></i>
                 <x-label for="national_id" value="National ID" style="display: inline-block;" />
                 <x-input id="national_id" class="block mt-1 w-full" type="text" name="national_id" :value="old('national_id')" oninput="validateNid(this)"  required autofocus />
                 <small class="text-red-500" id="national_id_error"></small>
@@ -58,7 +63,7 @@
                             updateError();
                         } else {
                             input.style.outline = "green solid thin";
-                            errors.national_id = '';
+                            errors.national_id = '#';
                             updateError();
                         }
                     }
@@ -74,8 +79,7 @@
 
             <!-- Email Address -->
             <div class="mt-4">
-                <i id="email_close" class="fa-solid fa-close" style="display: inline-block; color: red;"></i>
-                <i  id="email_check" class="fa-solid fa-check" style="display: inline-block; color: green;"></i>
+                <i id="email_mark" class="fa-solid fa-close" style="display: inline-block; color: red;"></i>
                 <x-label for="email" :value="__('Email')" style="display: inline-block;" />
 
                 <x-input oninput="validateEmail(this)" id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required />
@@ -84,7 +88,7 @@
                     function validateEmail(input) {
                         if (isEmail(input.value)) {
                             input.style.outline = "green solid thin";
-                            errors.email = '';
+                            errors.email = '#';
                             updateError();
                         } else {
                             input.style.outline = "red solid thin";
@@ -103,8 +107,7 @@
 
             <!-- Password -->
             <div class="mt-4">
-                <i  id="password_close" class="fa-solid fa-close" style="display: inline-block; color: red;"></i>
-                <i  id="password_check" class="fa-solid fa-check" style="display: inline-block; color: green;"></i>
+                <i  id="password_mark" class="fa-solid fa-close" style="display: inline-block; color: red;"></i>
                 <x-label for="password" :value="__('Password')" style="display: inline-block;" />
 
                 <x-input oninput="validatePassword(this)" id="password" class="block mt-1 w-full"
@@ -115,9 +118,9 @@
                                 <small class="text-red-500" id="password_error"></small>
                 <script>
                     function validatePassword(input) {
-                        if (input.value.length >= 8) {
+                        if (input.value.length >= 8 && containsUpperCase(input.value) && containsLowerCase(input.value) && containsNumber(input.value)) {
                             input.style.outline = "green solid thin";
-                            errors.password = '';
+                            errors.password = '#';
                             updateError();
                         } else {
                             input.style.outline = "red solid thin";
@@ -125,13 +128,24 @@
                             updateError();
                         }
                     }
+
+                    function containsUpperCase(str) {
+                        return /[A-Z]/.test(str);
+                    }
+
+                    function containsLowerCase(str) {
+                        return /[a-z]/.test(str);
+                    }
+
+                    function containsNumber(str) {
+                        return /[0-9]/.test(str);
+                    }
                 </script>
             </div>
 
             <!-- Confirm Password -->
             <div class="mt-4">
-                <i  id="password_confirmation_close" class="fa-solid fa-close" style="display: inline-block; color: red;"></i>
-                <i  id="password_confirmation_check" class="fa-solid fa-check" style="display: inline-block; color: green;"></i>
+                <i  id="password_confirmation_mark" class="fa-solid fa-close" style="display: inline-block; color: red;"></i>
                 <x-label for="password_confirmation" :value="__('Confirm Password')" style="display: inline-block;" />
 
                 <x-input oninput="validatePasswordConfirm(this)" id="password_confirmation" class="block mt-1 w-full"
@@ -143,7 +157,7 @@
                     function validatePasswordConfirm(input) {
                         if (input.value.length >= 8 && input.value == document.getElementById('password').value) {
                             input.style.outline = "green solid thin";
-                            errors.password_confirmation = '';
+                            errors.password_confirmation = '#';
                             updateError();
                         } else {
                             input.style.outline = "red solid thin";
@@ -213,12 +227,25 @@
             
             <!-- Work Address -->
             <div class="mt-2 mb-4">
-                <i id="workemail_close" class="fa-solid fa-close" style="display: inline-block; color: red;"></i>
-                <i id="workemail_check" class="fa-solid fa-check" style="display: inline-block; color: green;"></i>
+                <i id="workemail_mark" class="fa-solid fa-close" style="display: inline-block; color: red;"></i>
                 <x-label for="workemail" value="Work Email" style="display: inline-block;" />
 
-                <x-input oninput="validateEmail(this)" id="workemail" class="block mt-1 w-full" type="email" name="workemail" :value="old('workemail')" />
+                <x-input oninput="validateWorkEmail(this)" id="workemail" class="block mt-1 w-full" type="email" name="workemail" :value="old('workemail')" />
                 <small class="text-red-500" id="workemail_error"></small>
+
+                <script>
+                    function validateWorkEmail(input) {
+                        if (isEmail(input.value)) {
+                            input.style.outline = "green solid thin";
+                            errors.workemail = '#';
+                            updateError();
+                        } else {
+                            input.style.outline = "red solid thin";
+                            errors.workemail = 'Work Email is invalid [e.g test@domain.com]';
+                            updateError();
+                        }
+                    }
+                </script>
             </div>
 
             <!-- Phones -->
@@ -274,14 +301,17 @@
 
             <script>
                 for(var key in errors) {
-                    document.getElementById(key + '_close').style.display = 'none';
-                    document.getElementById(key + '_check').style.display = 'none';
+                    document.getElementById(key + '_mark').style.display = 'none';
                 }
             </script>
 
             <div class="flex items-center justify-end mt-4">
                 <a class="underline text-sm text-gray-600 hover:text-gray-900" href="{{ route('login') }}">
                     {{ __('Already registered?') }}
+                </a>
+
+                <a class="ml-4" href="/" style="border-radius: 5px; border: 1px solid gray; padding: 4px 10px;">
+                    {{ __('Cancel') }}
                 </a>
 
                 <x-button class="ml-4">
