@@ -5,16 +5,9 @@
                 {{ session('message') }}
             @endif
         </div>
-        <style>
-            .tr {
-                display: table-cell;
-            }
-
-            .td {
-                display: block;
-            }
-
-        </style>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.1/chart.min.js"
+                integrity="sha512-QSkVNOCYLtj73J4hbmVoOV6KVZuMluZlioC+trLpewV8qMjsWqlIQvkn1KGX2StWvPMdWGBqim1xlC8krl1EKQ=="
+                crossorigin="anonymous" referrerpolicy="no-referrer"></script>
         <div class="pt-8 sm:pt-0">
             <form id="form" action="/stats" method="POST">
                 @csrf
@@ -47,8 +40,44 @@
                         @endforeach
                     </table>
                 </div>
+                <div>
+                    <canvas id="vaccine" width="200" height="100"></canvas>
+                </div>
             @endif
         </div>
     </div>
+    @if (isset($data_by_vaccine_status))
+        <script>
+            const canvas = document.getElementById('vaccine').getContext('2d');
+
+            let xlabels = [];
+
+            @foreach ($data_by_vaccine_status as $status)
+                xlabels.push('{{ $status->vac_status }}');
+            @endforeach
+
+            let ylabels = [];
+
+            @foreach ($data_by_vaccine_status as $status)
+                ylabels.push('{{ $status->Total }}');
+            @endforeach
+
+            let data = {
+                labels: xlabels,
+                datasets: [{
+                    label: 'Persons count',
+                    backgroundColor: 'rgb(255, 99, 132)',
+                    borderColor: 'rgb(255, 99, 132)',
+                    data: ylabels
+                }]
+            };
+
+            let config = {
+                type: 'bar',
+                data: data
+            };
+            new Chart(canvas, config);
+        </script>
+    @endif
     <script src="{{ asset('js/statistics.js') }}"></script>
 </x-app-layout>

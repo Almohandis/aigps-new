@@ -173,6 +173,40 @@
                         @endforeach
                     </table>
                 </div>
+                <div>
+                    @php
+                        $counter = count($data_by_age);
+                        $sum = 0;
+                        $mean = 0;
+                        $variance = 0;
+                        $standard_deviation = 0;
+
+                        foreach ($data_by_age as $age) {
+                            $sum += $age->total;
+                        }
+
+                        $mean = round($sum / $counter, 2);
+
+                        $total = $sum;
+                        $sum = 0;
+
+                        foreach ($data_by_age as $age) {
+                            $sum += pow($age->total - $mean, 2);
+                        }
+
+                        $variance = round($sum / $counter, 2);
+
+                        $standard_deviation = round(sqrt($variance), 2);
+
+                    @endphp
+                </div>
+                <div>
+                    <P>Total infections = {{ $total }}</p>
+                    <canvas id="infections" width="200" height="100"></canvas>
+                    <p>Infections mean (µ) = {{ $mean }}</p>
+                    <p>Infections variance (σ<sup>2</sup>) = {{ $variance }}</p>
+                    <P>Infections standard deviation (σ) = {{ $standard_deviation }}</P>
+                </div>
             @endif
         </div>
     </div>
@@ -190,6 +224,38 @@
 
             @foreach ($data_by_city as $city)
                 ylabels.push('{{ $city->total_infections }}');
+            @endforeach
+
+            let data = {
+                labels: xlabels,
+                datasets: [{
+                    label: 'Infections count',
+                    backgroundColor: 'rgb(255, 99, 132)',
+                    borderColor: 'rgb(255, 99, 132)',
+                    data: ylabels
+                }]
+            };
+
+            let config = {
+                type: 'bar',
+                data: data
+            };
+            new Chart(canvas, config);
+        </script>
+    @elseif(isset($data_by_age))
+        <script>
+            const canvas = document.getElementById('infections').getContext('2d');
+
+            let xlabels = [];
+
+            @foreach ($data_by_age as $age)
+                xlabels.push('{{ $age->age }}');
+            @endforeach
+
+            let ylabels = [];
+
+            @foreach ($data_by_age as $age)
+                ylabels.push('{{ $age->total }}');
             @endforeach
 
             let data = {
