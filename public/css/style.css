@@ -1348,4 +1348,14 @@
   margin-top: 3rem;
   border-radius: 5px;
 }
+#removeAPhone
+{
+  cursor: pointer;
+  background-color: crimson;
+  transition: 0.5s;
+}
+#removeAPhone:hover
+{
+  background-color:  #6c0f22;
+}
   
