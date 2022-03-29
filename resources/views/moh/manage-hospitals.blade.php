@@ -40,7 +40,6 @@
             <div class="tbl-header">
                 <table>
                     <tr>
-                        {{-- <th>#</th> --}}
                         <th>Name</th>
                         <th>City</th>
                         <th>Total capacity</th>
@@ -55,10 +54,9 @@
             </div>
             <div class="tbl-content">
                 <table>
-                    @foreach ($hospitals as $id => $hospital)
+                    @foreach ($hospitals as $hospital)
                         <tr>
                             <input type="hidden" class="id" value="{{ $hospital->id }}" name="id[]">
-                            {{-- <td>{{ $id + 1 }}</td> --}}
                             <td>{{ $hospital->name }}</td>
                             <td>{{ $hospital->city }}</td>
                             <td>{{ $hospital->capacity }}</td>
@@ -68,6 +66,11 @@
                         </tr>
                     @endforeach
                 </table>
+            </div>
+
+            <!-- pagination -->
+            <div class="pagination">
+                {{ $hospitals->links() }}
             </div>
             
             

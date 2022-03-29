@@ -13,7 +13,6 @@
                 <div class="tbl-header">
                     <table>
                         <tr>
-                            {{-- <th>#</th> --}}
                             <th>Campaign's start date</th>
                             <th>Campaign's end date</th>
                             <th>City</th>
@@ -26,9 +25,8 @@
                 </div>
                 <div class="tbl-content">
                     <table>
-                        @foreach ($campaigns as $id => $campaign)
+                        @foreach ($campaigns as $campaign)
                             <tr>
-                                {{-- <td>{{ $id + 1 }}</td> --}}
                                 <td>{{ $campaign->start_date }}</td>
                                 <td>{{ $campaign->end_date }}</td>
                                 <td>{{ $campaign->city }}</td>
@@ -42,6 +40,12 @@
                     @endforeach
                 </table>
             </div>
+            
+            <!-- pagination -->
+            <div class="pagination">
+                {{ $campaigns->links() }}
+            </div>
+
             <br>
             <form action="/staff/moh/manage-campaigns/add" id="procceed_form" method="POST">
                 @csrf

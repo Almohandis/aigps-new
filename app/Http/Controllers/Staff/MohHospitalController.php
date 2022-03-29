@@ -12,7 +12,8 @@ use Symfony\Contracts\Service\Attribute\Required;
 
 class MohHospitalController extends Controller {
     public function index(Request $request) {
-        $hospitals = Hospital::all();
+        $hospitals = Hospital::paginate(10);
+
         $cities = ['Alexandria', 'Aswan', 'Asyut', 'Beheira', 'Beni Suef', 'Cairo', 'Dakahlia', 'Damietta', 'Faiyum', 'Gharbia', 'Giza', 'Helwan', 'Ismailia', 'Kafr El Sheikh', 'Luxor', 'Matruh', 'Minya', 'Monufia', 'New Valley', 'North Sinai', 'Port Said', 'Qalyubia', 'Qena', 'Red Sea', 'Sharqia', 'Sohag', 'South Sinai', 'Suez', '6th of October'];
 
         return view('moh.manage-hospitals', compact('hospitals', 'cities'));
