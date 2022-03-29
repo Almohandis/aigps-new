@@ -3,6 +3,7 @@
             <h4 class="mb-3 text-center"> Register </h4>
 
             <form method="POST">
+                @csrf
                 <div class="row">
                     <div class="col-12 col-md-6 col-lg-4">
                         <label>National ID *</label>
