@@ -69,24 +69,24 @@
                 @csrf
                 <input id="marker-location" type="hidden" name="location" value="">
                 <div class="form-group row">
-                    <div class="col-6">
+                    <div class="col-12 col-md-6">
                         <label>Start Date</label>
                         <input type="date" class="form-control" name="start_date" required>
                     </div>
 
-                    <div class="col-6">
+                    <div class="col-12 col-md-6">
                         <label>End Date</label>
                         <input type="date" class="form-control" name="end_date" required>
                     </div>
                 </div>
 
                 <div class="form-group row">
-                    <div class="col-6">
+                    <div class="col-12 col-md-6">
                         <label>Capacity</label>
                         <input class="form-control" type="number" min="1" name="capacity_per_day" required>
                     </div>
 
-                    <div class="col-6">
+                    <div class="col-12 col-md-6">
                         <label>City</label>
                         <select name="city" class="form-control">
                             @foreach ($cities as $city)
