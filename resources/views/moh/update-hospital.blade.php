@@ -1,36 +1,51 @@
 <x-app-layout>
-    <div class="max-w-6xl mx-auto sm:px-6 lg:px-8 mt-9">
-        <div class="notification">
-            @if (session('message'))
+    <link href="{{asset('css/reservation.css')}}" rel="stylesheet">
+
+    <div class="mt-5 text-center">
+        @if (session('message'))
+            <div class="container alert alert-dark" role="alert">
                 {{ session('message') }}
-            @endif
-        </div>
-        <div class="pt-8 sm:pt-0">
-            <h1 class="add-hero2">Update Hospital (#{{$hospital->id}})</h1><br>
+            </div>
+        @endif
+
+        <div class="text-start shadow container bg-white mt-5 rounded px-5 py-3 text-dark">
+            <h4 class="mb-3 text-center"> Update Hospital (#{{$hospital->id}}) </h4>    
             <form method="POST">
                 @csrf
-                <label for="address">Name: </label>
-                <x-input type="text" name="name" label="Name" value="{{$hospital->name}}" required></x-input>
-                <br>
+                <div class="form-group row">
+                    <div class="col-12 col-md-6">
+                        <label>Name</label>
+                        <input value="{{$hospital->name}}" type="text" class="form-control" name="name" required>
+                    </div>
 
-                <label for="capacity">Capacity: </label>
-                <x-input type="number" name="capacity" label="Capacity" value="{{$hospital->capacity}}" required></x-input>
-                <br>
+                    <div class="col-12 col-md-6">
+                        <label>Is Isolation</label>
+                        <br>
+                        <input value="{{$hospital->is_isolation}}" class="form-check-input" type="checkbox" name="is_isolation" checked>
+                    </div>
+                </div>
 
-                <label for="city">City: </label>
-                    <select name="city" class="block mt-1 w-full rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                        @foreach ($cities as $city)
-                            <option value="{{ $city }}">{{ $city }}</option>
-                        @endforeach
-                    </select>
-                <br>
+                <div class="form-group row">
+                    <div class="col-12 col-md-6">
+                        <label>Capacity</label>
+                        <input value="{{$hospital->capacity}}" class="form-control" type="number" min="1" name="capacity" required>
+                    </div>
 
-                <input type="checkbox" name="is_isolation">
-                <label for="is_isolation">Is Isolation</label>
-                <br>
+                    <div class="col-12 col-md-6">
+                        <label>City</label>
+                        <select name="city" class="form-control">
+                            @foreach ($cities as $city)
+                                <option value="{{ $city }}">{{ $city }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
 
-                <input type="submit" value="Update" class="add-doc-btn mt-5">
+                <div class="container text-center my-3">
+                    <button type="submit" style="width: 300px;" class="btn btn-success">Update</button>
+                </div>
             </form>
+
         </div>
     </div>
 </x-app-layout>

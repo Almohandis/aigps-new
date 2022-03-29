@@ -1,88 +1,128 @@
 <x-app-layout>
-    <div class="max-w-6xl mx-auto sm:px-6 lg:px-8 mt-9">
-        <div class="notification">
-            @if (session('message'))
+    <link href="{{asset('css/reservation.css')}}" rel="stylesheet">
+
+    <div class="mt-5 text-center">
+        @if (session('message'))
+            <div class="container alert alert-dark" role="alert">
                 {{ session('message') }}
-            @endif
-        </div>
-        <div class="pt-8 sm:pt-0">
-            <h1 class="add-hero2">Update Campaign (#{{$campaign->id}})</h1><br>
+            </div>
+        @endif
+
+        <div class="text-start shadow container bg-white mt-5 rounded px-5 py-3 text-dark">
+            <h4 class="mb-3 text-center"> Update Campaign #{{$campaign->id}} </h4>    
             <form method="POST">
                 @csrf
-                <label for="address">Address: </label>
-                <x-input type="text" name="address" label="Address" value="{{$campaign->address}}" required></x-input>
-                <br>
+                <input id="marker-location" type="hidden" name="location" value="">
+                <div class="form-group row">
+                    <div class="col-12 col-md-6">
+                        <label>Start Date</label>
+                        <input value="{{$campaign->start_date}}" type="date" class="form-control" name="start_date" required>
+                    </div>
 
-                <label for="location">Location: </label>
-                <x-input type="text" name="location" label="Location" value="{{$campaign->location}}" required></x-input>
-                <br>
+                    <div class="col-12 col-md-6">
+                        <label>End Date</label>
+                        <input value="{{$campaign->end_date}}" type="date" class="form-control" name="end_date" required>
+                    </div>
+                </div>
 
-                <label for="city">City: </label>
-                <select name="city" class="block mt-1 w-full rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                    @foreach ($cities as $city)
-                        <option value="{{ $city }}">{{ $city }}</option>
-                    @endforeach
-                </select>
-                <br>
+                <div class="form-group row">
+                    <div class="col-12 col-md-6">
+                        <label>Capacity</label>
+                        <input value="{{$campaign->capacity_per_day}}" class="form-control" type="number" min="1" name="capacity_per_day" required>
+                    </div>
 
-                <label for="start_date">Start date: </label>
-                <input type="date" name="start_date" label="Start date" value="{{$campaign->start_date}}" required></input>
-                <br>
+                    <div class="col-12 col-md-6">
+                        <label>City</label>
+                        <select name="city" class="form-control">
+                            @foreach ($cities as $city)
+                                <option value="{{ $city }}">{{ $city }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
 
-                <label for="end_date">End date: </label>
-                <input type="date" name="end_date" label="End date" value="{{$campaign->end_date}}" required></input>
-                <br>
+                <div class="form-group row">
+                    <div class="col">
+                        <label>Address</label>
+                        <input value="{{$campaign->address}}" class="form-control" type="text" name="address" required>
+                    </div>
+                </div>
 
-                <label for="capacity_per_day">Capacity per day: </label>
-                <x-input type="number" name="capacity_per_day" label="Capacity per day" value="{{$campaign->capacity_per_day}}" required></x-input>
-                <br>
+                <div class="mt-3">
+                    <h5>Select the location of the campaign in the map</h5>
+                    <div id="map" class="aigps-map"></div>
+                    <script src="https://maps.googleapis.com/maps/api/js?key={{ config('app.google_maps_api') }}&callback=initMap" defer></script>
+                    <script>
+                        let marker;
+                        let geocoder;
+                        let map;
 
-                <hr>
+                        function initMap() {
 
-                <input type="submit" value="Update" class="add-doc-btn mt-5">
-            </form>
+                            map = new google.maps.Map(document.getElementById('map'), {
+                                mapId: "dcba2c77acce5e73",
+                                zoom: 6,
+                                center: new google.maps.LatLng(26.8206, 30.8025),
+                                mapTypeControl: false,
+                            });
 
-            <form action="/staff/moh/manage-campaigns/{{$campaign->id}}/doctors/add"method="POST">
-                @csrf
-                <h1 class="mt-5 text-2xl">Campaign Doctors:</h1><br>
+                            var infowindow = new google.maps.InfoWindow();
+                            let markerIcon = {
+                                path: "M10.453 14.016l6.563-6.609-1.406-1.406-5.156 5.203-2.063-2.109-1.406 1.406zM12 2.016q2.906 0 4.945 2.039t2.039 4.945q0 1.453-0.727 3.328t-1.758 3.516-2.039 3.070-1.711 2.273l-0.75 0.797q-0.281-0.328-0.75-0.867t-1.688-2.156-2.133-3.141-1.664-3.445-0.75-3.375q0-2.906 2.039-4.945t4.945-2.039z",
+                                fillColor: "black",
+                                fillOpacity: 0.7,
+                                strokeWeight: 0,
+                                rotation: 0,
+                                scale: 2,
+                                anchor: new google.maps.Point(15, 30),
+                            };
 
-                <label for="national_id">Add doctor: </label>
-                <x-input oninput="validateNid(this)" type="text" name="national_id" placeholder="National ID" required></x-input>
+                            geocoder = new google.maps.Geocoder();
 
-                <script>
-                    function validateNid(input) {
-                        if (input.value.length != 14 || isNaN(input.value) || !(input.value[0] == '2' || input.value[0] == '1' || input.value[0] == '3')) {
-                            input.style.outline = "red solid thin";
-                        } else {
-                            input.style.outline = "green solid thin";
+                            marker = new google.maps.Marker({
+                                position: map.getCenter(),
+                                map: map,
+                                icon: markerIcon,
+                                draggable: true,
+                            });
+
+                            map.addListener('center_changed', () => {
+                                marker.setPosition(map.getCenter());
+                                document.getElementById('marker-location').value = marker.getPosition();
+                            });
+
+                            marker.addListener('dragend', () => {
+                                document.getElementById('marker-location').value = marker.getPosition();
+                            });
+
                         }
-                    }
-                </script>
 
-                <input type="submit" value="Add" class="add-doc-btn mt-5">
+                        function geocode(request) {
+                            marker.setMap(null);
+                            geocoder
+                                .geocode(request)
+                                .then((result) => {
+                                    const {
+                                        results
+                                    } = result;
+                                    map.zoom = 16;
+                                    map.setCenter(results[0].geometry.location);
+                                    marker.setPosition(results[0].geometry.location);
+                                    marker.setMap(map);
+                                    return results;
+                                })
+                                .catch((e) => {
+                                    alert("Couldn't find the location, please search with another address");
+                                });
+                        }
+                    </script>
+                </div>
 
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">Name</th>
-                            <th scope="col">National ID</th>
-                            <th scope="col">Delete</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach($campaign->doctors as $id => $doctor)
-                            <tr>
-                                <td>{{ $id + 1 }}</td>
-                                <td>{{$doctor->name}}</td>
-                                <td>{{$doctor->national_id}}</td>
-                                <td><a href="/staff/moh/manage-campaigns/{{$campaign->id}}/doctors/{{$doctor->id}}/remove" class="text-red-500">Remove</a></td>
-                            </tr>
-                        @endforeach
-                    </tbody>
-                </table>
+                <div class="container text-center my-3">
+                    <button type="submit" style="width: 300px;" class="btn btn-success">Update</button>
+                </div>
             </form>
+
         </div>
     </div>
-    <script src="{{ asset('js/manage-campaigns.js') }}"></script>
 </x-app-layout>
