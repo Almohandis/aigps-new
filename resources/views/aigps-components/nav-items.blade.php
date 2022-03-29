@@ -1,0 +1,45 @@
+<a class="nav-link text-dark" href="/">Home</a>
+<a class="nav-link text-dark" href="/reserve">Vaccine</a>
+<a class="nav-link text-dark" href="/stats">Pandemic Statistics</a>
+<a class="nav-link text-dark" href="/contact"">Contact Us</a>
+
+@auth
+    @if (Auth::user()->isNationalId())
+        <a class="nav-link text-dark" href="/staff/nationalid/modify">
+            Modify national IDs
+        </a>
+    @elseif (Auth::user()->isMoia())
+        <a class="nav-link text-dark" href="/staff/moia/escorting">
+            Campaigns
+        </a>
+    @elseif (Auth::user()->isHospital())
+        <a class="nav-link text-dark" href="/staff/isohospital/modify">
+            Modify hospital statistics
+        </a>
+
+        <a class="nav-link text-dark" href="/staff/isohospital/infection">
+            Hospitalization
+        </a>
+    @elseif (Auth::user()->isClerk())
+        <a class="nav-link text-dark" href="/staff/clerk">
+            Insert patient data
+        </a>
+    @elseif (Auth::user()->isAdmin())
+        <a class="nav-link text-dark" href="/staff/admin">
+            Manage roles
+        </a>
+    @elseif (Auth::user()->isMoh())
+        <a class="nav-link text-dark dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown">
+            Manage
+        </a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="/staff/moh/manage-hospitals">Manage Hospitals</a></li>
+            <li><a class="dropdown-item" href="/staff/moh/manage-doctors">Manage Doctors</a></li>
+            <li><a class="dropdown-item" href="/staff/moh/manage-campaigns">Manage Campaigns</a></li>
+          </ul>
+    @endif
+
+@else
+    <a class="nav-link text-dark" href="/login">Login</a>
+    <a class="nav-link text-dark" href="/register">Register</a>
+@endauth

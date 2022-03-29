@@ -9,12 +9,11 @@ use Illuminate\Support\Facades\Response;
 
 class HomePageController extends Controller
 {
-    public function index()
-    {
-        $articles = Article::all();
+    public function index() {
+        return view('welcome');
+    }
 
-        return view('welcome', [
-            'articles' => $articles
-        ]);
+    public function contact() {
+        return view('contact');
     }
 }
