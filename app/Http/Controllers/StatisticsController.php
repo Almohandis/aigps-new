@@ -142,44 +142,12 @@ class StatisticsController extends Controller
                 return view('statistics.blood-type-dist', ['data_by_blood' => $data, 'names' => $names, 'report_by' => $report_by, 'report_title' => $report_title]);
                 break;
             case 'Age segment':
-                $A_plus = DB::select('SELECT IF(TIMESTAMPDIFF(YEAR,`birthdate`, now())<=20,"Children",
-                                    IF(TIMESTAMPDIFF(YEAR,`birthdate`, now())<=40,"Youth", "Elder") )  AS age,  COUNT(*) AS A_plus
-                                    FROM `users`
-                                    WHERE `blood_type`="A+" GROUP BY age;');
-                $A_minus = DB::select('SELECT IF(TIMESTAMPDIFF(YEAR,`birthdate`, now())<=20,"Children",
-                                    IF(TIMESTAMPDIFF(YEAR,`birthdate`, now())<=40,"Youth", "Elder") )  AS age, COUNT(*) AS A_minus
-                                    FROM `users`
-                                    WHERE `blood_type`="A-" GROUP BY age;');
-                $B_plus = DB::select('SELECT IF(TIMESTAMPDIFF(YEAR,`birthdate`, now())<=20,"Children",
-                                    IF(TIMESTAMPDIFF(YEAR,`birthdate`, now())<=40,"Youth", "Elder") )  AS age, COUNT(*) AS B_plus
-                                    FROM `users`
-                                    WHERE `blood_type`="B+" GROUP BY age;');
-                $B_minus = DB::select('SELECT IF(TIMESTAMPDIFF(YEAR,`birthdate`, now())<=20,"Children",
-                                    IF(TIMESTAMPDIFF(YEAR,`birthdate`, now())<=40,"Youth", "Elder") )  AS age, COUNT(*) AS B_minus
-                                    FROM `users`
-                                    WHERE `blood_type`="B-" GROUP BY age;');
-                $AB_plus = DB::select('SELECT IF(TIMESTAMPDIFF(YEAR,`birthdate`, now())<=20,"Children",
-                                    IF(TIMESTAMPDIFF(YEAR,`birthdate`, now())<=40,"Youth", "Elder") )  AS age, COUNT(*) AS AB_plus
-                                    FROM `users`
-                                    WHERE `blood_type`="AB+" GROUP BY age;');
-                $AB_minus = DB::select('SELECT IF(TIMESTAMPDIFF(YEAR,`birthdate`, now())<=20,"Children",
-                                    IF(TIMESTAMPDIFF(YEAR,`birthdate`, now())<=40,"Youth", "Elder") )  AS age, COUNT(*) AS AB_minus
-                                    FROM `users`
-                                    WHERE `blood_type`="AB-" GROUP BY age;');
-                $O_plus = DB::select('SELECT IF(TIMESTAMPDIFF(YEAR,`birthdate`, now())<=20,"Children",
-                                    IF(TIMESTAMPDIFF(YEAR,`birthdate`, now())<=40,"Youth", "Elder") )  AS age, COUNT(*) AS O_plus
-                                    FROM `users`
-                                    WHERE `blood_type`="O+" GROUP BY age;');
-                $O_minus = DB::select('SELECT IF(TIMESTAMPDIFF(YEAR,`birthdate`, now())<=20,"Children",
-                                    IF(TIMESTAMPDIFF(YEAR,`birthdate`, now())<=40,"Youth", "Elder") )  AS age, COUNT(*) AS O_minus
-                                    FROM `users`
-                                    WHERE `blood_type`="O-" GROUP BY age;');
-
-                $data = [$A_plus, $A_minus, $B_plus,  $B_minus, $AB_plus,  $AB_minus,  $O_plus, $O_minus];
-                $data = json_encode($data, true);
-                $data = json_decode($data, true);
+                $data = DB::select('SELECT DISTINCT IF( TIMESTAMPDIFF(YEAR, u1.birthdate, now())<= 20, "Children", IF( TIMESTAMPDIFF(YEAR, u1.birthdate, now())<= 40, "Youth", "Elder" ) ) AS age, ( SELECT count(*) FROM users as u2 WHERE IF( TIMESTAMPDIFF(YEAR, u2.birthdate, now())<= 20, "Children", IF( TIMESTAMPDIFF(YEAR, u2.birthdate, now())<= 40, "Youth", "Elder" ) )= age and u2.blood_type = "A+" ) as A_plus, ( SELECT count(*) FROM users as u2 WHERE IF( TIMESTAMPDIFF(YEAR, u2.birthdate, now())<= 20, "Children", IF( TIMESTAMPDIFF(YEAR, u2.birthdate, now())<= 40, "Youth", "Elder" ) )= age and u2.blood_type = "A-" ) as A_minus, ( SELECT count(*) FROM users as u2 WHERE IF( TIMESTAMPDIFF(YEAR, u2.birthdate, now())<= 20, "Children", IF( TIMESTAMPDIFF(YEAR, u2.birthdate, now())<= 40, "Youth", "Elder" ) )= age and u2.blood_type = "B+" ) as B_plus, ( SELECT count(*) FROM users as u2 WHERE IF( TIMESTAMPDIFF(YEAR, u2.birthdate, now())<= 20, "Children", IF( TIMESTAMPDIFF(YEAR, u2.birthdate, now())<= 40, "Youth", "Elder" ) )= age and u2.blood_type = "B-" ) as B_minus, ( SELECT count(*) FROM users as u2 WHERE IF( TIMESTAMPDIFF(YEAR, u2.birthdate, now())<= 20, "Children", IF( TIMESTAMPDIFF(YEAR, u2.birthdate, now())<= 40, "Youth", "Elder" ) )= age and u2.blood_type = "AB+" ) as AB_plus, ( SELECT count(*) FROM users as u2 WHERE IF( TIMESTAMPDIFF(YEAR, u2.birthdate, now())<= 20, "Children", IF( TIMESTAMPDIFF(YEAR, u2.birthdate, now())<= 40, "Youth", "Elder" ) )= age and u2.blood_type = "AB-" ) as AB_minus, ( SELECT count(*) FROM users as u2 WHERE IF( TIMESTAMPDIFF(YEAR, u2.birthdate, now())<= 20, "Children", IF( TIMESTAMPDIFF(YEAR, u2.birthdate, now())<= 40, "Youth", "Elder" ) )= age and u2.blood_type = "O+" ) as O_plus, ( SELECT count(*) FROM users as u2 WHERE IF( TIMESTAMPDIFF(YEAR, u2.birthdate, now())<= 20, "Children", IF( TIMESTAMPDIFF(YEAR, u2.birthdate, now())<= 40, "Youth", "Elder" ) )= age and u2.blood_type = "O-" ) as O_minus from users AS u1 group by age order by age;');
+                $data = json_encode($data);
+                $data = json_decode($data);
                 $report_title = 'Blood type distribution by age segments';
-                return view('statistics.blood-type-dist', ['data_by_age' => (array)$data, 'names' => $names, 'report_by' => $report_by, 'cities' => $this->cities, 'blood_types' => $this->blood_types, 'report_title' => $report_title]);
+                // return $data;
+                return view('statistics.blood-type-dist', ['data_by_age' => $data, 'names' => $names, 'report_by' => $report_by, 'report_title' => $report_title]);
                 break;
             default:
                 return null;

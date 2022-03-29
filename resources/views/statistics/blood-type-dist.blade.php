@@ -218,28 +218,19 @@
                 </div>
                 <div class="tbl-content">
                     <table>
-                        <tr class="tr">
-                            <td class="td">Children</td>
-                            <td class="td">Elder</td>
-                            <td class="td">Youth</td>
-                        </tr>
-                        @for ($k = 0; $k < 8; $k++)
-                            <tr class="tr">
-                                @for ($i = 0, $j = 0; $i < count($ages); $i++, $j++)
-                                    @if (isset($data_by_age[$k][$j]))
-                                        @if ($data_by_age[$k][$j]['age'] == $ages[$i])
-                                            <td class="td">{{ $data_by_age[$k][$j][$blood_types[$k]] }}
-                                            </td>
-                                        @else
-                                            @php $j--; @endphp
-                                            <td class="td">0</td>
-                                        @endif
-                                    @else
-                                        <td class="td">0</td>
-                                    @endif
-                                @endfor
+                        @foreach ($data_by_age as $age)
+                            <tr>
+                                <td>{{ $age->age }}</td>
+                                <td>{{ $age->A_plus }}</td>
+                                <td>{{ $age->A_minus }}</td>
+                                <td>{{ $age->B_plus }}</td>
+                                <td>{{ $age->B_minus }}</td>
+                                <td>{{ $age->AB_plus }}</td>
+                                <td>{{ $age->AB_minus }}</td>
+                                <td>{{ $age->O_plus }}</td>
+                                <td>{{ $age->O_minus }}</td>
                             </tr>
-                        @endfor
+                        @endforeach
                     </table>
                 </div>
             @elseif(isset($data_by_blood))
