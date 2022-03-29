@@ -279,7 +279,7 @@
                         class="block mt-1 p-3" type="number" name="phone1" required />
                 </div>
 
-                <div onclick="addPhone()" style="width: 10rem;background-color: #356cb2;"
+                <div onclick="addPhone()" style="width: 10rem;background-color: #3b82f6;"
                     class="text-center bg-blue-500 text-white text-medium px-3 py-2 mt-3 rounded-md shadow-sm hover:bg-blue-400">
                     Add Phone
                 </div>
