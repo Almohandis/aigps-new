@@ -198,9 +198,6 @@
                 </div>
             @elseif(isset($data_by_age))
                 <h1>{{ $report_title }}</h1>
-                @php
-                    $ages = ['Children', 'Elder', 'Youth'];
-                @endphp
                 <div class="tbl-header">
                     <table>
                         <tr>
@@ -218,29 +215,69 @@
                 </div>
                 <div class="tbl-content">
                     <table>
-                        <tr class="tr">
-                            <td class="td">Children</td>
-                            <td class="td">Elder</td>
-                            <td class="td">Youth</td>
-                        </tr>
-                        @for ($k = 0; $k < 8; $k++)
-                            <tr class="tr">
-                                @for ($i = 0, $j = 0; $i < count($ages); $i++, $j++)
-                                    @if (isset($data_by_age[$k][$j]))
-                                        @if ($data_by_age[$k][$j]['age'] == $ages[$i])
-                                            <td class="td">{{ $data_by_age[$k][$j][$blood_types[$k]] }}
-                                            </td>
-                                        @else
-                                            @php $j--; @endphp
-                                            <td class="td">0</td>
-                                        @endif
-                                    @else
-                                        <td class="td">0</td>
-                                    @endif
-                                @endfor
+                        @foreach ($data_by_age as $age)
+                            <tr>
+                                <td>{{ $age->age }}</td>
+                                <td>{{ $age->A_plus }}</td>
+                                <td>{{ $age->A_minus }}</td>
+                                <td>{{ $age->B_plus }}</td>
+                                <td>{{ $age->B_minus }}</td>
+                                <td>{{ $age->AB_plus }}</td>
+                                <td>{{ $age->AB_minus }}</td>
+                                <td>{{ $age->O_plus }}</td>
+                                <td>{{ $age->O_minus }}</td>
                             </tr>
-                        @endfor
+                        @endforeach
                     </table>
+                </div>
+                <div>
+                    @php
+                        $counters = array_fill(0, count($data_by_age), 8);
+                        $sums = array_fill(0, count($data_by_age), 0);
+                        $means = array_fill(0, count($data_by_age), 0);
+                        $variances = array_fill(0, count($data_by_age), 0);
+                        $standard_deviations = array_fill(0, count($data_by_age), 0);
+
+                        for ($i = 0; $i < count($counters); $i++) {
+                            foreach ($data_by_age[$i] as $key => $blood_type) {
+                                if (is_numeric($blood_type) && $key != 'total') {
+                                    $sums[$i] += $blood_type;
+                                }
+                            }
+                        }
+
+                        for ($i = 0; $i < count($counters); $i++) {
+                            $means[$i] = round($sums[$i] / $counters[$i], 2);
+                        }
+
+                        $sums = array_fill(0, count($data_by_age), 0);
+
+                        for ($i = 0; $i < count($counters); $i++) {
+                            foreach ($data_by_age[$i] as $key => $blood_type) {
+                                if (is_numeric($blood_type) && $key != 'total') {
+                                    $sums[$i] += pow($blood_type - $means[$i], 2);
+                                }
+                            }
+                        }
+
+                        for ($i = 0; $i < count($counters); $i++) {
+                            $variances[$i] = round($sums[$i] / $counters[$i], 2);
+                        }
+
+                        for ($i = 0; $i < count($counters); $i++) {
+                            $standard_deviations[$i] = round(sqrt($variances[$i]), 2);
+                        }
+                    @endphp
+                </div>
+                <div>
+                    @for ($i = 0; $i < count($counters); $i++)
+                        <P>Total {{ $data_by_age[$i]->age }} = {{ $data_by_age[$i]->total }}</p>
+                        <canvas id="{{ $age->age }}" width="200" height="100"></canvas>
+                        <p>{{ $data_by_age[$i]->age }} mean (µ) = {{ $means[$i] }}</p>
+                        <p>{{ $data_by_age[$i]->age }} variance (σ<sup>2</sup>) = {{ $variances[$i] }}</p>
+                        <P>{{ $data_by_age[$i]->age }} standard deviation (σ) = {{ $standard_deviations[$i] }}</P>
+                    @endfor
+
                 </div>
             @elseif(isset($data_by_blood))
                 <h1>{{ $report_title }}</h1>
@@ -266,226 +303,339 @@
                         @endfor
                     </table>
                 </div>
+                <div>
+                    @php
+                        $counter = count($data_by_blood);
+                        $sum = 0;
+                        $mean = 0;
+                        $variance = 0;
+                        $standard_deviation = 0;
+                        foreach ($data_by_blood as $blood) {
+                            $sum += $blood->total_blood_type_count;
+                        }
+                        $mean = $counter ? round($sum / $counter, 2) : 0;
+                        $sum = 0;
+                        foreach ($data_by_blood as $blood) {
+                            $sum += pow($blood->total_blood_type_count - $mean, 2);
+                        }
+
+                        $variance = $counter ? round($sum / $counter, 2) : 0;
+
+                        $standard_deviation = round(sqrt($variance), 2);
+
+                    @endphp
+                </div>
+                <div>
+                    <P>Blood types count = {{ $counter }}</P>
+                    <canvas id="total_blood" width="200" height="100"></canvas>
+                    <p>Blood types mean (µ) = {{ $mean }}</p>
+                    <p>Blood types variance (σ<sup>2</sup>) = {{ $variance }}</p>
+                    <P>Blood types standard deviation (σ) = {{ $standard_deviation }}</P>
+                </div>
             @endif
         </div>
     </div>
-    <script>
-        const a_plus = document.getElementById('a-plus').getContext('2d');
-        const a_minus = document.getElementById('a-minus').getContext('2d');
-        const b_plus = document.getElementById('b-plus').getContext('2d');
-        const b_minus = document.getElementById('b-minus').getContext('2d');
-        const ab_plus = document.getElementById('ab-plus').getContext('2d');
-        const ab_minus = document.getElementById('ab-minus').getContext('2d');
-        const o_plus = document.getElementById('o-plus').getContext('2d');
-        const o_minus = document.getElementById('o-minus').getContext('2d');
+    @if (isset($data_by_city))
+        <script>
+            const a_plus = document.getElementById('a-plus').getContext('2d');
+            const a_minus = document.getElementById('a-minus').getContext('2d');
+            const b_plus = document.getElementById('b-plus').getContext('2d');
+            const b_minus = document.getElementById('b-minus').getContext('2d');
+            const ab_plus = document.getElementById('ab-plus').getContext('2d');
+            const ab_minus = document.getElementById('ab-minus').getContext('2d');
+            const o_plus = document.getElementById('o-plus').getContext('2d');
+            const o_minus = document.getElementById('o-minus').getContext('2d');
 
-        let xlabels = [];
-        @foreach ($data_by_city as $city)
-            {
-            xlabels.push("{{ $city->city }}");
+            let xlabels = [];
+            @foreach ($data_by_city as $city)
+                {
+                xlabels.push("{{ $city->city }}");
+                }
+            @endforeach
+
+            // A+
+            let ylabels_a_plus = [];
+            @foreach ($data_by_city as $city)
+                {
+                ylabels_a_plus.push("{{ $city->A_plus }}");
+                }
+            @endforeach
+
+            const data_a_plus = {
+                labels: xlabels,
+                datasets: [{
+                    label: 'A+ count',
+                    backgroundColor: 'rgb(255, 99, 132)',
+                    borderColor: 'rgb(255, 99, 132)',
+                    data: ylabels_a_plus,
+                }]
             }
-        @endforeach
 
-        // A+
-        let ylabels_a_plus = [];
-        @foreach ($data_by_city as $city)
-            {
-            ylabels_a_plus.push("{{ $city->A_plus }}");
+            const config_a_plus = {
+                type: 'bar',
+                data: data_a_plus
+            };
+            new Chart(a_plus, config_a_plus);
+            ////////////////////////////////
+
+            // A-
+            let ylabels_a_minus = [];
+            @foreach ($data_by_city as $city)
+                {
+                ylabels_a_minus.push("{{ $city->A_minus }}");
+                }
+            @endforeach
+
+            const data_a_minus = {
+                labels: xlabels,
+                datasets: [{
+                    label: 'A- count',
+                    backgroundColor: 'rgb(255, 99, 132)',
+                    borderColor: 'rgb(255, 99, 132)',
+                    data: ylabels_a_minus,
+                }]
             }
-        @endforeach
 
-        const data_a_plus = {
-            labels: xlabels,
-            datasets: [{
-                label: 'A+ count',
-                backgroundColor: 'rgb(255, 99, 132)',
-                borderColor: 'rgb(255, 99, 132)',
-                data: ylabels_a_plus,
-            }]
-        }
+            const config_a_minus = {
+                type: 'bar',
+                data: data_a_minus
+            };
+            new Chart(a_minus, config_a_minus);
+            ////////////////////////////////
 
-        const config_a_plus = {
-            type: 'bar',
-            data: data_a_plus
-        };
-        new Chart(a_plus, config_a_plus);
-        ////////////////////////////////
+            // B+
+            let ylabels_b_plus = [];
+            @foreach ($data_by_city as $city)
+                {
+                ylabels_b_plus.push("{{ $city->B_plus }}");
+                }
+            @endforeach
 
-        // A-
-        let ylabels_a_minus = [];
-        @foreach ($data_by_city as $city)
-            {
-            ylabels_a_minus.push("{{ $city->A_minus }}");
+            const data_b_plus = {
+                labels: xlabels,
+                datasets: [{
+                    label: 'B+ count',
+                    backgroundColor: 'rgb(255, 99, 132)',
+                    borderColor: 'rgb(255, 99, 132)',
+                    data: ylabels_b_plus,
+                }]
             }
-        @endforeach
 
-        const data_a_minus = {
-            labels: xlabels,
-            datasets: [{
-                label: 'A- count',
-                backgroundColor: 'rgb(255, 99, 132)',
-                borderColor: 'rgb(255, 99, 132)',
-                data: ylabels_a_minus,
-            }]
-        }
+            const config_b_plus = {
+                type: 'bar',
+                data: data_b_plus
+            };
+            new Chart(b_plus, config_b_plus);
+            ////////////////////////////////
 
-        const config_a_minus = {
-            type: 'bar',
-            data: data_a_minus
-        };
-        new Chart(a_minus, config_a_minus);
-        ////////////////////////////////
+            // B-
+            let ylabels_b_minus = [];
+            @foreach ($data_by_city as $city)
+                {
+                ylabels_b_minus.push("{{ $city->B_minus }}");
+                }
+            @endforeach
 
-        // B+
-        let ylabels_b_plus = [];
-        @foreach ($data_by_city as $city)
-            {
-            ylabels_b_plus.push("{{ $city->B_plus }}");
+            const data_b_minus = {
+                labels: xlabels,
+                datasets: [{
+                    label: 'B- count',
+                    backgroundColor: 'rgb(255, 99, 132)',
+                    borderColor: 'rgb(255, 99, 132)',
+                    data: ylabels_b_minus,
+                }]
             }
-        @endforeach
 
-        const data_b_plus = {
-            labels: xlabels,
-            datasets: [{
-                label: 'B+ count',
-                backgroundColor: 'rgb(255, 99, 132)',
-                borderColor: 'rgb(255, 99, 132)',
-                data: ylabels_b_plus,
-            }]
-        }
+            const config_b_minus = {
+                type: 'bar',
+                data: data_b_minus
+            };
+            new Chart(b_minus, config_b_minus);
+            ////////////////////////////////
 
-        const config_b_plus = {
-            type: 'bar',
-            data: data_b_plus
-        };
-        new Chart(b_plus, config_b_plus);
-        ////////////////////////////////
+            // AB+
+            let ylabels_ab_plus = [];
+            @foreach ($data_by_city as $city)
+                {
+                ylabels_ab_plus.push("{{ $city->AB_plus }}");
+                }
+            @endforeach
 
-        // B-
-        let ylabels_b_minus = [];
-        @foreach ($data_by_city as $city)
-            {
-            ylabels_b_minus.push("{{ $city->B_minus }}");
+            const data_ab_plus = {
+                labels: xlabels,
+                datasets: [{
+                    label: 'AB+ count',
+                    backgroundColor: 'rgb(255, 99, 132)',
+                    borderColor: 'rgb(255, 99, 132)',
+                    data: ylabels_ab_plus,
+                }]
             }
-        @endforeach
 
-        const data_b_minus = {
-            labels: xlabels,
-            datasets: [{
-                label: 'B- count',
-                backgroundColor: 'rgb(255, 99, 132)',
-                borderColor: 'rgb(255, 99, 132)',
-                data: ylabels_b_minus,
-            }]
-        }
+            const config_ab_plus = {
+                type: 'bar',
+                data: data_ab_plus
+            };
+            new Chart(ab_plus, config_ab_plus);
+            ////////////////////////////////
 
-        const config_b_minus = {
-            type: 'bar',
-            data: data_b_minus
-        };
-        new Chart(b_minus, config_b_minus);
-        ////////////////////////////////
+            // AB-
+            let ylabels_ab_minus = [];
+            @foreach ($data_by_city as $city)
+                {
+                ylabels_ab_minus.push("{{ $city->AB_minus }}");
+                }
+            @endforeach
 
-        // AB+
-        let ylabels_ab_plus = [];
-        @foreach ($data_by_city as $city)
-            {
-            ylabels_ab_plus.push("{{ $city->AB_plus }}");
+            const data_ab_minus = {
+                labels: xlabels,
+                datasets: [{
+                    label: 'AB- count',
+                    backgroundColor: 'rgb(255, 99, 132)',
+                    borderColor: 'rgb(255, 99, 132)',
+                    data: ylabels_ab_minus,
+                }]
             }
-        @endforeach
 
-        const data_ab_plus = {
-            labels: xlabels,
-            datasets: [{
-                label: 'AB+ count',
-                backgroundColor: 'rgb(255, 99, 132)',
-                borderColor: 'rgb(255, 99, 132)',
-                data: ylabels_ab_plus,
-            }]
-        }
+            const config_ab_minus = {
+                type: 'bar',
+                data: data_ab_minus
+            };
+            new Chart(ab_minus, config_ab_minus);
+            ////////////////////////////////
 
-        const config_ab_plus = {
-            type: 'bar',
-            data: data_ab_plus
-        };
-        new Chart(ab_plus, config_ab_plus);
-        ////////////////////////////////
+            // O+
+            let ylabels_o_plus = [];
+            @foreach ($data_by_city as $city)
+                {
+                ylabels_o_plus.push("{{ $city->O_plus }}");
+                }
+            @endforeach
 
-        // AB-
-        let ylabels_ab_minus = [];
-        @foreach ($data_by_city as $city)
-            {
-            ylabels_ab_minus.push("{{ $city->AB_minus }}");
+            const data_o_plus = {
+                labels: xlabels,
+                datasets: [{
+                    label: 'O+ count',
+                    backgroundColor: 'rgb(255, 99, 132)',
+                    borderColor: 'rgb(255, 99, 132)',
+                    data: ylabels_o_plus,
+                }]
             }
-        @endforeach
 
-        const data_ab_minus = {
-            labels: xlabels,
-            datasets: [{
-                label: 'AB- count',
-                backgroundColor: 'rgb(255, 99, 132)',
-                borderColor: 'rgb(255, 99, 132)',
-                data: ylabels_ab_minus,
-            }]
-        }
+            const config_o_plus = {
+                type: 'bar',
+                data: data_o_plus
+            };
+            new Chart(o_plus, config_o_plus);
+            ////////////////////////////////
 
-        const config_ab_minus = {
-            type: 'bar',
-            data: data_ab_minus
-        };
-        new Chart(ab_minus, config_ab_minus);
-        ////////////////////////////////
+            // O-
+            let ylabels_o_minus = [];
+            @foreach ($data_by_city as $city)
+                {
+                ylabels_o_minus.push("{{ $city->O_minus }}");
+                }
+            @endforeach
 
-        // O+
-        let ylabels_o_plus = [];
-        @foreach ($data_by_city as $city)
-            {
-            ylabels_o_plus.push("{{ $city->O_plus }}");
+            const data_o_minus = {
+                labels: xlabels,
+                datasets: [{
+                    label: 'O- count',
+                    backgroundColor: 'rgb(255, 99, 132)',
+                    borderColor: 'rgb(255, 99, 132)',
+                    data: ylabels_o_minus,
+                }]
             }
-        @endforeach
 
-        const data_o_plus = {
-            labels: xlabels,
-            datasets: [{
-                label: 'O+ count',
-                backgroundColor: 'rgb(255, 99, 132)',
-                borderColor: 'rgb(255, 99, 132)',
-                data: ylabels_o_plus,
-            }]
-        }
+            const config_o_minus = {
+                type: 'bar',
+                data: data_o_minus
+            };
+            new Chart(o_minus, config_o_minus);
+            ////////////////////////////////
+        </script>
+    @elseif(isset($data_by_blood))
+        <script>
+            const total_blood = document.getElementById('total_blood').getContext('2d');
 
-        const config_o_plus = {
-            type: 'bar',
-            data: data_o_plus
-        };
-        new Chart(o_plus, config_o_plus);
-        ////////////////////////////////
+            let xlabels = [];
+            @foreach ($data_by_blood as $blood)
+                {
+                xlabels.push("{{ $blood->blood_type }}");
+                }
+            @endforeach
 
-        // O-
-        let ylabels_o_minus = [];
-        @foreach ($data_by_city as $city)
-            {
-            ylabels_o_minus.push("{{ $city->O_minus }}");
+            // total blood
+            let ylabels = [];
+            @foreach ($data_by_blood as $blood)
+                {
+                ylabels.push("{{ $blood->total_blood_type_count }}");
+                }
+            @endforeach
+
+            const data = {
+                labels: xlabels,
+                datasets: [{
+                    label: 'Persons count',
+                    backgroundColor: 'rgb(255, 99, 132)',
+                    borderColor: 'rgb(255, 99, 132)',
+                    data: ylabels,
+                }]
             }
-        @endforeach
 
-        const data_o_minus = {
-            labels: xlabels,
-            datasets: [{
-                label: 'O- count',
-                backgroundColor: 'rgb(255, 99, 132)',
-                borderColor: 'rgb(255, 99, 132)',
-                data: ylabels_o_minus,
-            }]
-        }
+            const config = {
+                type: 'bar',
+                data: data
+            };
+            new Chart(total_blood, config);
+        </script>
+    @elseif(isset($data_by_age))
+        <script>
+            const canvases = document.querySelectorAll('canvas');
 
-        const config_o_minus = {
-            type: 'bar',
-            data: data_o_minus
-        };
-        new Chart(o_minus, config_o_minus);
-        ////////////////////////////////
-    </script>
+            let xlabels = ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'];
+
+            // total blood
+            let ylabels = [
+                @foreach ($data_by_age as $age)
+                    [
+                    @foreach ($age as $key => $blood_type)
+                        @if (is_numeric($blood_type) && $key != 'total')
+                            "{{ $blood_type }}",
+                        @endif
+                    @endforeach
+                    ],
+                @endforeach
+            ];
+
+            let data_ = [];
+            for (let i = 0; i < canvases.length; i++) {
+                let temp = {
+                    labels: xlabels,
+                    datasets: [{
+                        label: 'Persons count',
+                        backgroundColor: 'rgb(255, 99, 132)',
+                        borderColor: 'rgb(255, 99, 132)',
+                        data: ylabels[i]
+                    }]
+                };
+                data_.push(temp);
+            }
+
+
+            let config = [];
+            for (let i = 0; i < canvases.length; i++) {
+                let temp = {
+                    type: 'bar',
+                    data: data_[i]
+                };
+                config.push(temp);
+            }
+
+            for (let i = 0; i < canvases.length; i++) {
+                new Chart(canvases[i].getContext('2d'), config[i]);
+            }
+        </script>
+    @endif
 
     <script src="{{ asset('js/statistics.js') }}"></script>
 
