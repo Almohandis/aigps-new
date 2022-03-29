@@ -36,6 +36,4 @@ Route::post('/stats', [StatisticsController::class, 'getReport'])->middleware('a
 Route::post('/medical-passport', [MedicalPassportController::class, 'index'])->name('medical-passport');
 
 //# Contact page
-Route::get('/contact', function () {
-    return view('contact');
-});
+Route::get('/contact', 'App\Http\Controllers\Citizen\HomePageController@contact');

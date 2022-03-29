@@ -10,7 +10,7 @@ use Symfony\Contracts\Service\Attribute\Required;
 
 class MohArticleController extends Controller {
     public function index(Request $request) {
-        $articles = Article::all();
+        $articles = Article::paginate(10);
         return view('moh.articles')->with('articles', $articles);
     }
 

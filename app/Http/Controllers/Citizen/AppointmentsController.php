@@ -11,7 +11,11 @@ use Illuminate\Support\Facades\DB;
 class AppointmentsController extends Controller
 {
     public function index(Request $request) {
-        $appointments = $request->user()->reservations()->where('campaign_appointments.status', '!=', 'cancelled')->orderBy('date', 'asc')->get();
+        $appointments = $request->user()
+            ->reservations()
+            ->where('campaign_appointments.status', '!=', 'cancelled')
+            ->orderBy('date', 'asc')
+            ->paginate(10);
 
         return view('citizen.appointments')->with('appointments', $appointments);
     }

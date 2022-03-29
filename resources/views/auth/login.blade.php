@@ -16,39 +16,93 @@
             AIGPS
         </div>
 
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" rel="stylesheet">
+        <script>
+            var errors = {
+                national_id: '',
+                password: ''
+            };
+
+            function updateError() {
+                for(var key in errors) {
+                    if (errors[key] == '#') {
+                        document.getElementById(key + '_mark').style.display = 'inline-block';
+                        document.getElementById(key + '_mark').classList.add('fa-check');
+                        document.getElementById(key + '_mark').classList.remove('fa-close');
+                        document.getElementById(key + '_error').innerHTML = '';
+                        document.getElementById(key + '_mark').style.color = 'green';
+                        document.getElementById('submitBtn').disabled = false;
+                    }
+                    else if (errors[key] != '') {
+                        document.getElementById(key + '_mark').style.color = 'red';
+                        document.getElementById(key + '_mark').classList.add('fa-close');
+                        document.getElementById(key + '_mark').classList.remove('fa-check');
+                        document.getElementById(key + '_mark').style.display = 'inline-block';
+                        document.getElementById(key + '_error').innerHTML = errors[key];
+                        document.getElementById('submitBtn').disabled = true;
+                    } else {
+                        document.getElementById(key + '_error').innerHTML = '';
+                        document.getElementById(key + '_mark').style.display = 'none';
+                    }
+                }
+            }
+        </script>
+
         <form method="POST" action="{{ route('login') }}">
             @csrf
 
             <!-- National ID -->
             <div>
-                <x-label for="national_id" value="National ID" />
+                <i  id="national_id_mark" class="fa-solid fa-close" style="display: inline-block; color: red;"></i>
+                
+                <x-label style="display: inline-block;" for="national_id" value="National ID" />
 
                 <x-input id="national_id" class="block mt-1 w-full" type="text" name="national_id" :value="old('national_id')" oninput="validateNid(this)"  required autofocus />
-
+                <small class="text-red-500" id="national_id_error"></small>
                 <script>
                     function validateNid(input) {
                         if (input.value.length != 14 || isNaN(input.value) || !(input.value[0] == '2' || input.value[0] == '1' || input.value[0] == '3')) {
                             input.style.outline = "red solid thin";
+                            errors.national_id = 'National Id error [National Id must be 14 digits and start with 2, 1 or 3]';
                         } else {
                             input.style.outline = "green solid thin";
+                            errors.national_id = '#';
                         }
+                        updateError();
                     }
                 </script>
             </div>
 
             <!-- Password -->
             <div class="mt-4">
-                <x-label for="password" :value="__('Password')" />
+                <i  id="password_mark" class="fa-solid fa-close" style="display: inline-block; color: red;"></i>
+                <x-label style="display: inline-block;" for="password" :value="__('Password')" />
 
                 <x-input oninput="validatePassword(this)" id="password" class="block mt-1 w-full" type="password" name="password" required autocomplete="current-password" />
-
+                <small class="text-red-500" id="password_error"></small>
                 <script>
                     function validatePassword(input) {
-                        if (input.value.length >= 8) {
+                        if (input.value.length >= 8 && containsUpperCase(input.value) && containsLowerCase(input.value) && containsNumber(input.value)) {
                             input.style.outline = "green solid thin";
+                            errors.password = '#';
                         } else {
                             input.style.outline = "red solid thin";
+                            errors.password = 'Password error [Password must be at least 8 characters]';
                         }
+
+                        updateError();
+                    }
+
+                    function containsUpperCase(str) {
+                        return /[A-Z]/.test(str);
+                    }
+
+                    function containsLowerCase(str) {
+                        return /[a-z]/.test(str);
+                    }
+
+                    function containsNumber(str) {
+                        return /[0-9]/.test(str);
                     }
                 </script>
             </div>
@@ -71,7 +125,7 @@
                 </div>
 
                 <div class="mt-3 mx-auto text-center">
-                    <x-button>
+                    <x-button id="submitBtn">
                         {{ __('Log in') }}
                     </x-button>
                 </div>

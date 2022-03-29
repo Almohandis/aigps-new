@@ -47,7 +47,6 @@
             <div class="tbl-header">
                 <table>
                     <tr>
-                        <th>#</th>
                         <th>Title</th>
                         <th>Update</th>
                         <th>Delete</th>
@@ -57,9 +56,8 @@
             </div>
             <div class="tbl-content">
                 <table>
-                    @foreach ($articles as $id => $article)
+                    @foreach ($articles as $article)
                         <tr>
-                            <td>{{ $id + 1 }}</td>
                             <td>{{ $article->title }}</td>
                             <td><a href="/staff/moh/articles/{{$article->id}}/update" class="text-blue-500"> Update </a></td>
                             <td><a href="/staff/moh/articles/{{$article->id}}/delete" class="text-red-500"> Delete </a></td>
@@ -68,6 +66,10 @@
                 </table>
             </div>
             
+            <!-- pagnation -->
+            <div class="flex justify-center">
+                {{ $articles->links() }}
+            </div>
             
         </div>
     </div>

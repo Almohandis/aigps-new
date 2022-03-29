@@ -48,8 +48,7 @@ class RegisteredUserController extends Controller
             'birthdate'         => 'required',
             'gender'            => 'required',
             'country'           =>  'required|string',
-            'city'              =>  'required|string',
-            'workemail'         =>  ['email']
+            'city'              =>  'required|string'
         ]);
 
         //# check if the provided national id exists in the database
