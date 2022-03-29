@@ -1,76 +1,96 @@
 <x-app-layout>
-    <div class="max-w-6xl mx-auto sm:px-6 lg:px-8 mt-9">
-        <div class="notification">
-            @if (session('message'))
+    <link href="{{asset('css/reservation.css')}}" rel="stylesheet">
+
+    <div class="mt-5 text-center">
+        <h1 class="aigps-title">Manage Articles</h1>
+
+        @if (session('message'))
+            <div class="container alert alert-dark" role="alert">
                 {{ session('message') }}
-            @endif
-        </div>
-        <div class="pt-8 sm:pt-0">
-
-            <form action="/staff/moh/articles/add" enctype="multipart/form-data" method="POST" class="add-article-form">
-                <h1 class="add-hero2">Add new article</h1>
-                @csrf
-                <div style="margin-left: 18rem;margin-top: 1rem;">
-                    <label for="title">Article title</label>
-                    <input style="width: 25rem;" type="text" name="title" id="title" placeholder="Enter article title"
-                        required>
-                </div>
-                <br>
-                <div style="margin-left: 18rem;">
-                    <label for="content">Article content</label>
-                    <br>
-                    <textarea style="margin-left: 7rem;margin-top: -2rem;" name="content" id="content" cols="30" rows="10"
-                        placeholder="Enter article content" required></textarea>
-                </div>
-                <br>
-                <div style="margin-left: 18rem;">
-                    <label for="image">Add image</label>
-                    <input type="file" name="image" id="image" style="margin-left: 1.5rem;">
-                </div>
-                <br>
-                <div style="margin-left: 18rem;">
-                    <label for="full-link">(Optional) Link to the full article</label>
-                    <input type="text" name="full_link" id="full-link" placeholder="Enter full article link">
-                </div>
-                <br>
-                <div style="margin-left: 18rem;">
-                    <label for="video">(Optional) Link to video</label>
-                    <input type="text" name="link" id="video" placeholder="Enter video link">
-                </div>
-                <br>
-                <input type="submit" value="Add article" class="submit" style="margin-top: -2rem;">
-                <br>
-            </form>
-
-            <h1 class="add-hero">All articles</h1>
-            
-            <div class="tbl-header">
-                <table>
-                    <tr>
-                        <th>Title</th>
-                        <th>Update</th>
-                        <th>Delete</th>
-                    </tr>
-
-                </table>
             </div>
-            <div class="tbl-content">
-                <table>
+        @endif
+
+        <div class="table-responsive text-start shadow container bg-white mt-5 rounded px-5 py-3 text-dark">
+            <h4 class="text-center mb-3"> All Articles </h4>
+
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th scope="col">Title</th>
+                        <th scope="col">Update</th>
+                        <th scope="col">Delete</th>
+                    </tr>
+                </thead>
+                <tbody>
                     @foreach ($articles as $article)
                         <tr>
                             <td>{{ $article->title }}</td>
-                            <td><a href="/staff/moh/articles/{{$article->id}}/update" class="text-blue-500"> Update </a></td>
-                            <td><a href="/staff/moh/articles/{{$article->id}}/delete" class="text-red-500"> Delete </a></td>
+                            <td>
+                                <a class="btn btn-outline-primary" href="/staff/moh/articles/{{$article->id}}/update"> Update </a>
+                            </td>
+                            <td>
+                                <a class="btn btn-outline-danger" href="/staff/moh/articles/{{$article->id}}/delete"> Delete </a>
+                            </td>
                         </tr>
                     @endforeach
-                </table>
+                </tbody>
+            </table>
+
+            <div class="flex">
+                <ul class="pagination justify-content-center">
+                    @if ($articles->previousPageUrl())
+                        <li class="page-item"><a class="page-link" href="/staff/moh/articles/?page={{ $articles->currentPage() - 1 }}">Previous</a></li>
+                    @endif
+                    
+                    
+                    @for($page = 1; $page <= $articles->lastPage(); $page++)
+                        <li class="page-item"><a class="page-link" href="/staff/moh/articles/?page={{ $page }}">{{ $page }}</a></li>
+                    @endfor
+
+                    @if ($articles->nextPageUrl())
+                        <li class="page-item"><a class="page-link" href="/staff/moh/articles/?page={{ $articles->currentPage() + 1 }}">Next</a></li>
+                    @endif
+                </ul>
             </div>
-            
-            <!-- pagnation -->
-            <div class="flex justify-center">
-                {{ $articles->links() }}
-            </div>
-            
+        </div>
+
+        <div class="text-start shadow container bg-white mt-5 rounded px-5 py-3 text-dark">
+            <h4 class="mb-3 text-center"> Add a new Article </h4>    
+            <form action="/staff/moh/articles/add" method="POST">
+                @csrf
+                <div class="row">
+                    <div class="col-12 col-md-6">
+                        <label>Title</label>
+                        <input type="text" class="form-control" name="title" placeholder="Enter article title" required>
+                    </div>
+
+                    <div class="col-12 col-md-6">
+                        <label>Add image</label>
+                        <br>
+                        <input class="form-control" type="file" name="image">
+                    </div>
+                </div>
+
+                <div class="row mt-2">
+                    <div class="col-12 col-md-6">
+                        <label>Content</label>
+                        <textarea class="form-control" rows="5" name="content" placeholder="Enter article content" required></textarea>
+                    </div>
+
+                    <div class="col-12 col-md-6">
+                        <label>(Optional) Link to the full article</label>
+                        <input class="form-control" type="text" name="full_link" placeholder="Enter full article link">
+                    
+                        <label class="mt-2">(Optional) Link to video</label>
+                        <input class="form-control" type="text" name="link" placeholder="Enter full article link">
+                    </div>
+                </div>
+
+                <div class="container text-center my-3">
+                    <button type="submit" style="width: 300px;" class="btn btn-success">Add</button>
+                </div>
+            </form>
+
         </div>
     </div>
 </x-app-layout>

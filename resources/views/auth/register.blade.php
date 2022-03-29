@@ -1,19 +1,6 @@
-<x-auth-layout>
-    <x-auth-card>
-        <x-slot name="logo">
-            <a href="/">
-                <x-application-logo class="w-20 h-20 fill-current text-gray-500" />
-            </a>
-        </x-slot>
-
-        <!-- Validation Errors -->
-        <x-auth-validation-errors class="mb-4" :errors="$errors" />
-
-        <div class="text-2xl font-bold text-center mb-4">
-            AIGPS
-        </div>
-
+<x-app-layout>
         <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" rel="stylesheet">
+
         <script>
             var errors = {
                 national_id: '',
@@ -22,11 +9,11 @@
                 password_confirmation: '',
                 workemail: '',
             };
-
             function updateError() {
                 for(var key in errors) {
                     if (errors[key] == '#') {
-                        document.getElementById(key + '_mark').style.display = 'inline-block';
+                        document.getElementById(key + '_mark').classList.remove('text-danger');
+                        document.getElementById(key + '_mark').classList.add('text-success');
                         document.getElementById(key + '_mark').classList.add('fa-check');
                         document.getElementById(key + '_mark').classList.remove('fa-close');
                         document.getElementById(key + '_error').innerHTML = '';
@@ -34,291 +21,269 @@
                         document.getElementById('submitBtn').disabled = false;
                     }
                     else if (errors[key] != '') {
-                        document.getElementById(key + '_mark').style.color = 'red';
+                        document.getElementById(key + '_mark').classList.remove('text-success');
+                        document.getElementById(key + '_mark').classList.add('text-danger');
                         document.getElementById(key + '_mark').classList.add('fa-close');
                         document.getElementById(key + '_mark').classList.remove('fa-check');
-                        document.getElementById(key + '_mark').style.display = 'inline-block';
+                        document.getElementById(key + '_mark').classList.remove('visually-hidden');
                         document.getElementById(key + '_error').innerHTML = errors[key];
                         document.getElementById('submitBtn').disabled = true;
                     } else {
                         document.getElementById(key + '_error').innerHTML = '';
-                        document.getElementById(key + '_mark').style.display = 'none';
+                        document.getElementById(key + '_mark').classList.add('visually-hidden');
                     }
                 }
             }
         </script>
 
-        <form method="POST" action="{{ route('register') }}" class="mt-4">
-            @csrf
-            <!-- National ID -->
-            <div>
-                <i id="national_id_mark" class="fa-solid fa-close" style="display: inline-block; color: red;"></i>
-                <x-label for="national_id" value="National ID" style="display: inline-block;" />
-                <x-input id="national_id" class="block mt-1 w-full" type="text" name="national_id" :value="old('national_id')" oninput="validateNid(this)"  required autofocus />
-                <small class="text-red-500" id="national_id_error"></small>
-                <script>
-                    function validateNid(input) {
-                        if (input.value.length != 14 || isNaN(input.value) || !(input.value[0] == '2' || input.value[0] == '1' || input.value[0] == '3')) {
-                            input.style.outline = "red solid thin";
-                            errors.national_id = 'National ID is invalid [National Id must be 14 characters long, and starts with 1,2,3]';
-                            updateError();
-                        } else {
-                            input.style.outline = "green solid thin";
-                            errors.national_id = '#';
-                            updateError();
+        <div class="text-start shadow container bg-white mt-5 rounded px-5 py-3 text-dark">
+            <h4 class="mb-3 text-center"> Register </h4>
+
+            @if ($errors->any())
+                <div>
+                    <div class="alert alert-danger" role="alert">
+                        <p>Something went wrong. Please check the form below for errors.</p>
+
+                        <ul class="">
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                </div>
+            @endif
+
+
+            <form method="POST">
+                @csrf
+                <div class="row">
+                    <div class="col-12 col-md-6 mt-2">
+                        <i id="national_id_mark" class="fa-solid fa-close text-danger visually-hidden"></i>
+                        <label>National ID *</label>
+                        <input type="text" class="form-control" name="national_id" oninput="validateNid(this)" required>
+                        <div id="national_id_error" class="form-text text-danger"></div>
+                    </div>
+
+                    <script>
+                        function validateNid(input) {
+                            if (input.value.length != 14 || isNaN(input.value) || !(input.value[0] == '2' || input.value[0] == '1' || input.value[0] == '3')) {
+                                input.style.outline = "red solid thin";
+                                errors.national_id = 'National ID is invalid [National Id must be 14 characters long, and starts with 1,2,3]';
+                                updateError();
+                            } else {
+                                input.style.outline = "green solid thin";
+                                errors.national_id = '#';
+                                updateError();
+                            }
                         }
-                    }
-                </script>
-            </div>
+                    </script>
 
-            <!-- Name -->
-            <div class="mt-4">
-                <x-label for="name" :value="__('Name')" />
+                    <div class="col-12 col-md-6 mt-2">
+                        <label>Name *</label>
+                        <input type="text" class="form-control" name="email" required>
+                        <div id="name_error" class="form-text text-danger"></div>
+                    </div>
 
-                <x-input id="name" class="block mt-1 w-full" type="text" name="name" :value="old('name')" required autofocus />
-            </div>
+                    <div class="col-12 col-md-6 mt-2">
+                        <i id="email_mark" class="fa-solid fa-close text-danger visually-hidden"></i>
+                        <label>Email *</label>
+                        <input type="email" class="form-control" name="email" oninput="validateEmail(this)" required>
+                        <div id="email_error" class="form-text text-danger"></div>
+                    </div>
 
-            <!-- Email Address -->
-            <div class="mt-4">
-                <i id="email_mark" class="fa-solid fa-close" style="display: inline-block; color: red;"></i>
-                <x-label for="email" :value="__('Email')" style="display: inline-block;" />
-
-                <x-input oninput="validateEmail(this)" id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required />
-                <small class="text-red-500" id="email_error"></small>
-                <script>
-                    function validateEmail(input) {
-                        if (isEmail(input.value)) {
-                            input.style.outline = "green solid thin";
-                            errors.email = '#';
-                            updateError();
-                        } else {
-                            input.style.outline = "red solid thin";
-                            errors.email = 'Email is invalid [e.g test@domain.com]';
-                            updateError();
+                    <script>
+                        function validateEmail(input) {
+                            if (isEmail(input.value)) {
+                                input.style.outline = "green solid thin";
+                                errors.email = '#';
+                                updateError();
+                            } else {
+                                input.style.outline = "red solid thin";
+                                errors.email = 'Email is invalid [e.g test@domain.com]';
+                                updateError();
+                            }
                         }
-                    }
+                        function isEmail(email) {
+                            return email.match(
+                                /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+                            );
+                        };
+                    </script>
 
-                    function isEmail(email) {
-                        return email.match(
-                            /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-                        );
-                    };
-                </script>
-            </div>
+                    <div class="col-12 col-md-6 mt-2">
+                        <i id="password_mark" class="fa-solid fa-close text-danger visually-hidden"></i>
+                        <label>Password *</label>
+                        <input id="password" type="password" class="form-control" name="password" oninput="validatePassword(this)" required>
+                        <div id="password_error" class="form-text text-danger"></div>
+                    </div>
 
-            <!-- Password -->
-            <div class="mt-4">
-                <i  id="password_mark" class="fa-solid fa-close" style="display: inline-block; color: red;"></i>
-                <x-label for="password" :value="__('Password')" style="display: inline-block;" />
-
-                <x-input oninput="validatePassword(this)" id="password" class="block mt-1 w-full"
-                                type="password"
-                                name="password"
-                                required autocomplete="new-password" />
-
-                                <small class="text-red-500" id="password_error"></small>
-                <script>
-                    function validatePassword(input) {
-                        if (input.value.length >= 8 && containsUpperCase(input.value) && containsLowerCase(input.value) && containsNumber(input.value)) {
-                            input.style.outline = "green solid thin";
-                            errors.password = '#';
-                            updateError();
-                        } else {
-                            input.style.outline = "red solid thin";
-                            errors.password = 'Password must be at least 8 characters';
-                            updateError();
+                    <script>
+                        function validatePassword(input) {
+                            if (input.value.length >= 8 && containsUpperCase(input.value) && containsLowerCase(input.value) && containsNumber(input.value)) {
+                                input.style.outline = "green solid thin";
+                                errors.password = '#';
+                                updateError();
+                            } else {
+                                input.style.outline = "red solid thin";
+                                errors.password = 'Password must be at least 8 characters';
+                                updateError();
+                            }
                         }
-                    }
-
-                    function containsUpperCase(str) {
-                        return /[A-Z]/.test(str);
-                    }
-
-                    function containsLowerCase(str) {
-                        return /[a-z]/.test(str);
-                    }
-
-                    function containsNumber(str) {
-                        return /[0-9]/.test(str);
-                    }
-                </script>
-            </div>
-
-            <!-- Confirm Password -->
-            <div class="mt-4">
-                <i  id="password_confirmation_mark" class="fa-solid fa-close" style="display: inline-block; color: red;"></i>
-                <x-label for="password_confirmation" :value="__('Confirm Password')" style="display: inline-block;" />
-
-                <x-input oninput="validatePasswordConfirm(this)" id="password_confirmation" class="block mt-1 w-full"
-                                type="password"
-                                name="password_confirmation" required />
-                                <small class="text-red-500" id="password_confirmation_error"></small>
-
-                <script>
-                    function validatePasswordConfirm(input) {
-                        if (input.value.length >= 8 && input.value == document.getElementById('password').value) {
-                            input.style.outline = "green solid thin";
-                            errors.password_confirmation = '#';
-                            updateError();
-                        } else {
-                            input.style.outline = "red solid thin";
-                            errors.password_confirmation = 'Password confirmation must be at least 8 characters and match password';
-                            updateError();
+                        function containsUpperCase(str) {
+                            return /[A-Z]/.test(str);
                         }
-                    }
-                </script>
-            </div>
-
-            
-            <!-- Address -->
-            <div class="mt-4">
-                <x-label :value="__('Address')" />
-
-                <x-input class="block mt-1 w-full" type="text" name="address" :value="old('address')" required autofocus />
-            </div>
-
-            <!-- Telephone Number -->
-            <div class="mt-4">
-                <x-label :value="__('Telephone number')" />
-
-                <x-input class="block mt-1 w-full" type="text" name="telephone_number" :value="old('telephone_number')" required autofocus />
-            </div>
-
-            <!-- Country -->
-            <div class="mt-4">
-                <x-label :value="__('Country')" />
-
-                <select name="country" class="block mt-1 w-full rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                    @foreach ($countries as $country)
-                        <option value="{{ $country }}">{{ $country }}</option>
-                    @endforeach
-                </select>
-            </div>
-
-            <!-- City -->
-            <div class="mt-4">
-                <x-label :value="__('City')" />
-
-                <select name="city" class="block mt-1 w-full rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                    @foreach ($cities as $city)
-                        <option value="{{ $city }}">{{ $city }}</option>
-                    @endforeach
-                </select>
-            </div>
-
-            <!-- Gender -->
-            <div class="mt-3">
-                <x-label :value="__('Gender')" />
-
-                <select name="gender" class="block mt-1 w-full rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                    <option value="Male">Male</option>
-                    <option value="Female">Female</option>
-                </select>
-            </div>
-
-            <!-- Birthdate -->
-            <div class="mt-3">
-                <x-label :value="__('Birthdate')" />
-
-                <x-input class="block mt-1 w-full" type="date" name="birthdate" :value="old('birthdate')" required />
-            </div>
-
-            <br>
-
-            
-            <!-- Work Address -->
-            <div class="mt-2 mb-4">
-                <i id="workemail_mark" class="fa-solid fa-close" style="display: inline-block; color: red;"></i>
-                <x-label for="workemail" value="Work Email" style="display: inline-block;" />
-
-                <x-input oninput="validateWorkEmail(this)" id="workemail" class="block mt-1 w-full" type="email" name="workemail" :value="old('workemail')" />
-                <small class="text-red-500" id="workemail_error"></small>
-
-                <script>
-                    function validateWorkEmail(input) {
-                        if (isEmail(input.value)) {
-                            input.style.outline = "green solid thin";
-                            errors.workemail = '#';
-                            updateError();
-                        } else {
-                            input.style.outline = "red solid thin";
-                            errors.workemail = 'Work Email is invalid [e.g test@domain.com]';
-                            updateError();
+                        function containsLowerCase(str) {
+                            return /[a-z]/.test(str);
                         }
-                    }
-                </script>
-            </div>
-
-            <!-- Phones -->
-            <div id="phones">
-                <input style="height: 2.5rem; border-radius: 5px; width: 100%;" placeholder="+20" class="block mt-1 p-3" type="number" name="phone1" required />
-            </div>
-
-            <div onclick="addPhone()"
-                class="text-center bg-blue-500 text-white text-medium px-3 py-2 mt-3 rounded-md shadow-sm hover:bg-blue-400">
-                Add Phone
-            </div>
-
-            <div id="removeAPhone" onclick="removePhone()"
-                class="hidden text-center bg-black text-white text-medium px-3 py-2 mt-3 rounded-md shadow-sm">
-                Remove Phone
-            </div>
-
-            <script>
-                var phones = 2;
-                var phone_input = document.getElementById('phones');
-
-                function addPhone() {
-                    var phone = document.createElement('input');
-                    phone.setAttribute('type', 'number');
-                    phone.setAttribute('name', 'phone' + phones);
-                    phone.setAttribute('placeholder', '+20');
-                    phone.setAttribute('required', '');
-                    phone.setAttribute('class', 'block mt-1');
-                    phone.style.height= "2.5rem";
-                    phone.style.borderRadius="5px";
-                    phone.style.width="100%";
-
-                    phone_input.appendChild(phone);
-
-                    phones++;
-
-                    if (phones > 2) {
-                        document.getElementById('removeAPhone').classList.remove('hidden');
-                    }
-                }
-
-                function removePhone() {
-                    if (phones > 2) {
-                        phone_input.removeChild(phone_input.lastChild);
-                        phones--;
-
-                        if (phones == 2) {
-                            document.getElementById('removeAPhone').classList.add('hidden');
+                        function containsNumber(str) {
+                            return /[0-9]/.test(str);
                         }
-                    }
-                }
-            </script>
+                    </script>
 
-            <script>
-                for(var key in errors) {
-                    document.getElementById(key + '_mark').style.display = 'none';
-                }
-            </script>
+                    <div class="col-12 col-md-6 mt-2">
+                        <i id="password_confirmation_mark" class="fa-solid fa-close text-danger visually-hidden"></i>
+                        <label>Confirm Password *</label>
+                        <input type="password" class="form-control" name="password_confirmation" oninput="validatePasswordConfirm(this)" required>
+                        <div id="password_confirmation_error" class="form-text text-danger"></div>
+                    </div>
 
-            <div class="flex items-center justify-end mt-4">
-                <a class="underline text-sm text-gray-600 hover:text-gray-900" href="{{ route('login') }}">
-                    {{ __('Already registered?') }}
-                </a>
+                    <script>
+                        function validatePasswordConfirm(input) {
+                            if (input.value.length >= 8 && input.value == document.getElementById('password').value) {
+                                input.style.outline = "green solid thin";
+                                errors.password_confirmation = '#';
+                                updateError();
+                            } else {
+                                input.style.outline = "red solid thin";
+                                errors.password_confirmation = 'Password confirmation must be at least 8 characters and match password';
+                                updateError();
+                            }
+                        }
+                    </script>
 
-                <a class="ml-4" href="/" style="border-radius: 5px; border: 1px solid gray; padding: 4px 10px;">
-                    {{ __('Cancel') }}
-                </a>
+                    <div class="col-12 col-md-6 mt-2">
+                        <label>Address *</label>
+                        <input type="text" class="form-control" name="address" required>
+                    </div>
 
-                <x-button class="ml-4" id="submitBtn">
-                    {{ __('Register') }}
-                </x-button>
-            </div>
-        </form>
-    </x-auth-card>
-</x-auth-layout>
+                    <div class="col-12 col-md-6 mt-2">
+                        <label>Telephone Number *</label>
+                        <input type="text" class="form-control" name="telephone_number" required>
+                    </div>
+
+                    <div class="col-12 col-md-6 mt-2">
+                        <label>Country *</label>
+                        <select name="country" class="form-control">
+                            @foreach ($countries as $country)
+                                <option value="{{ $country }}">{{ $country }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    <div class="col-12 col-md-6 mt-2">
+                        <label>City *</label>
+                        <select name="city" class="form-control">
+                            @foreach ($cities as $city)
+                                <option value="{{ $city }}">{{ $city }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    <div class="col-12 col-md-6 mt-2">
+                        <label>Gender *</label>
+                        <select name="gender" class="form-control">
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
+                        </select>
+                    </div>
+
+                    <div class="col-12 col-md-6 mt-2">
+                        <label>Birthdate *</label>
+                        <input type="date" class="form-control" name="birthdate" required>
+                    </div>
+
+                    <div class="col-12 col-md-6 mt-2">
+                        <i id="workemail_mark" class="fa-solid fa-close text-danger visually-hidden"></i>
+                        <label>Work Email *</label>
+                        <input type="email" class="form-control" name="workemail" oninput="validateWorkEmail(this)">
+                        <div id="workemail_error" class="form-text text-danger"></div>
+                    </div>
+
+                    <script>
+                        function validateWorkEmail(input) {
+                            if (isEmail(input.value)) {
+                                input.style.outline = "green solid thin";
+                                errors.workemail = '#';
+                                updateError();
+                            } else {
+                                input.style.outline = "red solid thin";
+                                errors.workemail = 'Work Email is invalid [e.g test@domain.com]';
+                                updateError();
+                            }
+                        }
+                    </script>
+
+                    <div class="col-12 col-md-6 mt-2" id="phones">
+                        <label>Mobile Number *</label>
+                        <input type="number" class="form-control" name="phone1" required>
+                    </div>
+
+                    <script>
+                        var phones = 2;
+                        var phone_input = document.getElementById('phones');
+
+                        function addPhone() {
+                            var phone = phone_input.cloneNode(true);
+                            phone.setAttribute('id', 'phone' + phones);
+                            phone.children[1].value = '';
+                            phone.children[1].name = 'phone' + phones;
+
+                            phone_input.parentNode.insertBefore(phone, phone_input.nextSibling);
+
+                            phones++;
+
+                            if (phones > 2) {
+                                document.getElementById('removeAPhone').classList.remove('visually-hidden');
+                            }
+                        }
+
+                        function removePhone() {
+                            if (phones > 2) {
+                                phones--;
+                                document.getElementById('phone' + phones).remove();
+                                if (phones == 2) {
+                                    document.getElementById('removeAPhone').classList.add('visually-hidden');
+                                }
+                            }
+                        }
+                    </script>
+                </div>
+
+                <div class="d-flex mt-3 justify-content-center">
+                    <div class="btn btn-outline-danger border-0 visually-hidden" onclick="removePhone()" id="removeAPhone">
+                        Remove phone
+                    </div>
+
+                    <div class="btn btn-outline-primary border-0" onclick="addPhone()">
+                        Add Phone
+                    </div>
+                </div>
+
+                <div class="mt-4">
+                    <a class="text-muted" href="/login">
+                        Already registered?
+                    </a>
+                </div>
+
+                <div class="d-flex justify-content-between mt-3">
+                    <button class="btn btn-outline-secondary border-0">
+                        Cancel
+                    </button>
+
+                    <button class="btn btn-success" id="submitBtn" style="width: 150px;" disabled>
+                        Submit
+                    </button>
+                </div>
+            </form>
+        </div>
+</x-app-layout>
