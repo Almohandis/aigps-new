@@ -5,29 +5,18 @@
     </video>
 
     <div class="container aigps-welcome-content">
-        <h1 class="project-name" style="text-shadow: 2px 2px 8px #000000;">AIGPS</h1>
-        <p class="type">
-            The new AI system
-            <br>
-            that is used as a tool
-            <br>
-            to support the fight
-            <br>
-            against any
-            <br>
-            viral pandemic.
+        <h1 class="text-white h1">AIGPS</h1>
+        <p class="text-light mt-1">
+            The new AI system that is used as a tool <br> to support the fight against any viral pandemic.
         </p>
 
-        <div class="reserve_button">
-            <a href="/reserve"
-                class="mx-auto mt-8 text-center bg-blue-500 text-white text-lg font-semibold px-4 py-2 rounded-lg shadow-lg hover:bg-blue-400">
-                Reserve Vaccination
+        <div class="flex my-md">
+            <a href="/reserve" class="btn btn-success btn-md">
+                Reserve Vaccine
             </a>
-        </div>
-        <div class="article_button">
-            <a class="mx-auto mt-8 text-center bg-blue-500 text-white text-lg font-semibold px-4 py-2 rounded-lg shadow-lg hover:bg-blue-400"
-                id="article_button" onclick="viewArticles()">
-                View gallery >>
+
+            <a href="/gallery" class="btn btn-success btn-md ms-2">
+                Visit Gallery
             </a>
         </div>
 
