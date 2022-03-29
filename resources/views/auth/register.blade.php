@@ -31,7 +31,7 @@
                         document.getElementById(key + '_mark').classList.remove('fa-close');
                         document.getElementById(key + '_error').innerHTML = '';
                         document.getElementById(key + '_mark').style.color = 'green';
-
+                        document.getElementById('submitBtn').disabled = false;
                     }
                     else if (errors[key] != '') {
                         document.getElementById(key + '_mark').style.color = 'red';
@@ -39,6 +39,7 @@
                         document.getElementById(key + '_mark').classList.remove('fa-check');
                         document.getElementById(key + '_mark').style.display = 'inline-block';
                         document.getElementById(key + '_error').innerHTML = errors[key];
+                        document.getElementById('submitBtn').disabled = true;
                     } else {
                         document.getElementById(key + '_error').innerHTML = '';
                         document.getElementById(key + '_mark').style.display = 'none';
@@ -314,7 +315,7 @@
                     {{ __('Cancel') }}
                 </a>
 
-                <x-button class="ml-4">
+                <x-button class="ml-4" id="submitBtn">
                     {{ __('Register') }}
                 </x-button>
             </div>

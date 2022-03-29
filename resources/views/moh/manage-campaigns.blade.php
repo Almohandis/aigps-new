@@ -13,7 +13,6 @@
                 <div class="tbl-header">
                     <table>
                         <tr>
-                            {{-- <th>#</th> --}}
                             <th>Campaign's start date</th>
                             <th>Campaign's end date</th>
                             <th>City</th>
@@ -26,9 +25,8 @@
                 </div>
                 <div class="tbl-content">
                     <table>
-                        @foreach ($campaigns as $id => $campaign)
+                        @foreach ($campaigns as $campaign)
                             <tr>
-                                {{-- <td>{{ $id + 1 }}</td> --}}
                                 <td>{{ $campaign->start_date }}</td>
                                 <td>{{ $campaign->end_date }}</td>
                                 <td>{{ $campaign->city }}</td>
@@ -42,46 +40,51 @@
                                         href="/staff/moh/manage-campaigns/{{ $campaign->id }}/update"> Update </a>
                                 </td>
                             </tr>
-            </form>
-            @endforeach
-            </table>
-        </div>
-        <br>
-        <form action="/staff/moh/manage-campaigns/add" id="procceed_form" method="POST">
-            @csrf
-            <input id="marker-location" type="hidden" name="location" value="">
-            <div class="add-campaign">
-                <h2 class="add-hero">Add new campaign</h2>
-                <div class="mt-4">
-                    <label for="start_date" style="margin-left: 3rem;">Start date</label>
-                    <input type="date" name="start_date" style="border-color: gray;border-width: 1px;" required>
-                    <label for="end_date" style="margin-left: 16rem;">End date</label>
-                    <input type="date" name="end_date" style="border-color: gray;border-width: 1px;" required><br>
-                    <div style="margin-left: 3rem;margin-top: 2rem;">
-                        <label for="capacity">Capacity per day</label>
-                        <input type="number" min="1" name="capacity_per_day" id="capacity"
-                            style="border-color: gray;border-width: 1px;"><br>
-                    </div>
-                    <div style="margin-left: 3rem;margin-top: 2rem;">
-                        <label for="city">City</label>
-                        <select name="city"
-                            class="block mt-1 w-full rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                            style="width: 18rem;margin-left: 3rem;margin-top: -2rem;">
-                            @foreach ($cities as $city)
-                                <option value="{{ $city }}">{{ $city }}</option>
-                            @endforeach
-                        </select>
-                        <br>
-                    </div>
-                    <div style="  margin-top: -3.5rem;margin-left: 20rem;">
-                        <label id="addressLabel" for="address" style="margin-left: 6rem;">Address</label>
-                        <input type="text" name="address" id="address" style="margin-left: 0rem;height: 2.3rem;"
-                            required><input type="button" id="search-button" value="Search" class="update-btn5"><br>
-                    </div>
-                    <div style="margin-top: 2rem;margin-left: 3rem;">
-                        <label for="Doctors">Doctors</label>
-                        <input type="button" id="doctor-add-button" value="Add doctor" class="add-doc-btn">
+                        </form>
+                    @endforeach
+                </table>
+            </div>
+            
+            <!-- pagination -->
+            <div class="pagination">
+                {{ $campaigns->links() }}
+            </div>
 
+            <br>
+            <form action="/staff/moh/manage-campaigns/add" id="procceed_form" method="POST">
+                @csrf
+                <input id="marker-location" type="hidden" name="location" value="">
+                <div class="add-campaign">
+                    <h2 class="add-hero">Add new campaign</h2>
+                    <div class="mt-4">
+                        <label for="start_date" style="margin-left: 3rem;">Start date</label>
+                        <input type="date" name="start_date" style="border-color: gray;border-width: 1px;" required>
+                        <label for="end_date" style="margin-left: 16rem;">End date</label>
+                        <input type="date" name="end_date" style="border-color: gray;border-width: 1px;" required><br>
+                        <div style="margin-left: 3rem;margin-top: 2rem;">
+                            <label for="capacity">Capacity per day</label>
+                            <input type="number" min="1" name="capacity_per_day" id="capacity"
+                                style="border-color: gray;border-width: 1px;"><br>
+                        </div>
+                        <div style="margin-left: 3rem;margin-top: 2rem;">
+                            <label for="city">City</label>
+                            <select name="city" class="block mt-1 w-full rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" style="width: 18rem;margin-left: 3rem;margin-top: -2rem;">
+                                @foreach ($cities as $city)
+                                    <option value="{{ $city }}">{{ $city }}</option>
+                                @endforeach
+                            </select>
+                            <br>
+                        </div>
+                        <div style="  margin-top: -3.5rem;margin-left: 20rem;">
+                            <label id="addressLabel" for="address" style="margin-left: 6rem;">Address</label>
+                            <input type="text" name="address" id="address" style="margin-left: 0rem;height: 2.3rem;"
+                                required><input type="button" id="search-button" value="Search"
+                                class="update-btn5"><br>
+                        </div>
+                        <div style="margin-top: 2rem;margin-left: 3rem;">
+                            <label for="Doctors">Doctors</label>
+                            <input type="button" id="doctor-add-button" value="Add doctor" class="add-doc-btn">
+                        </div>
                     </div>
                 </div>
             </div>
