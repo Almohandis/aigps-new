@@ -7,7 +7,7 @@ trait Roles {
         return $this->role_id == 1;
     }
 
-    public function isNid() {
+    public function isNationalId() {
         return $this->role_id == 2;
     }
 
@@ -33,5 +33,9 @@ trait Roles {
 
     public function isSpokesPerson() {
         return $this->role_id == 8;
+    }
+
+    public function isAdmin() {
+        return $this->role_id == 9;
     }
 }
