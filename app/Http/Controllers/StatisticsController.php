@@ -123,8 +123,8 @@ class StatisticsController extends Controller
                 return view('statistics.blood-type-dist', ['data_by_city' => $data, 'names' => $names, 'report_by' => $report_by, 'cities' => $this->cities, 'report_title' => $report_title, 'total_count' => $total_count]);
                 break;
             case 'Blood type':
-                $data = DB::select('SELECT u1.blood_type AS "Blood type",
-                        (SELECT COUNT(*) FROM users AS u5 WHERE u5.blood_type=u1.blood_type) AS "Total persons from this type",
+                $data = DB::select('SELECT u1.blood_type AS "blood_type",
+                        (SELECT COUNT(*) FROM users AS u5 WHERE u5.blood_type=u1.blood_type) AS total_blood_type_count,
                         ROUND( COUNT(*)/(SELECT COUNT(*) FROM users AS u4 WHERE u4.blood_type IS NOT NULL)*100,1) as "Percentage of this type",
                         ROUND(
                         (SELECT COUNT(*) FROM users AS u2 WHERE u2.blood_type=u1.blood_type AND  gender="Male" )/
@@ -134,11 +134,11 @@ class StatisticsController extends Controller
                         (SELECT COUNT(*) FROM users AS u2 WHERE u2.blood_type=u1.blood_type AND  gender="Female" )/
                         (SELECT COUNT(*) FROM users AS u3 WHERE u3.blood_type=u1.blood_type AND  gender IS NOT NULL)*100,1)
                         as "Female percentage"
-                        FROM users AS u1 GROUP BY u1.blood_type;
-                        ');
+                        FROM users AS u1 where u1.blood_type is not null GROUP BY u1.blood_type order by u1.blood_type;');
                 $data = json_encode($data);
                 $data = json_decode($data);
                 $report_title = 'Blood type distribution';
+                // return $data;
                 return view('statistics.blood-type-dist', ['data_by_blood' => $data, 'names' => $names, 'report_by' => $report_by, 'report_title' => $report_title]);
                 break;
             case 'Age segment':
