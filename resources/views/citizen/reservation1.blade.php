@@ -18,28 +18,28 @@
             <div class="row">
                 <div class="col-12 col-md-6 col-xl-3 visually-hidden" id="nearCampaigns">
                     <p>Near your city</p>
-                    <select onchange="selectCampaignOption()" class="form-select">
+                    <select onchange="selectCampaignOption('nearCampaigns')" class="form-select">
                         <option value="-1">Select a campaign</option>
                     </select>
                 </div>
 
                 <div class="col-12 col-md-6 col-xl-3 visually-hidden" id="nearCampaignsUserLocation">
                     <p>Near your location</p>
-                    <select onchange="selectCampaignOption()" class="form-select">
+                    <select onchange="selectCampaignOption('nearCampaignsUserLocation')" class="form-select">
                         <option value="-1">Select a campaign</option>
                     </select>
                 </div>
 
                 <div class="col-12 col-md-6 col-xl-3 visually-hidden" id="nearCampaignsUserMarker">
                     <p>Near the marker</p>
-                    <select onchange="selectCampaignOption()" class="form-select">
+                    <select onchange="selectCampaignOption('nearCampaignsUserMarker')" class="form-select">
                         <option value="-1">Select a campaign</option>
                     </select>
                 </div>
 
                 <div class="col-12 col-md-6 col-xl-3" id="nearCampaigns2">
                     <p>Based on time</p>
-                    <select onchange="selectCampaignOption()" class="form-select">
+                    <select onchange="selectCampaignOption('nearCampaigns2')" class="form-select">
                         <option value="-1">Select a campaign</option>
     
                         @foreach ($campaigns as $index => $campaign)
@@ -50,10 +50,11 @@
             </div>
 
             <div>
-                <div class="alert alert-success mt-5 visually-hidden" role="alert" id="campaign_selection">
+                <div class="alert alert-success mt-5" role="alert" id="campaign_selection">
                     <p>
                         You have selected: <span class="fw-bold">Campaign Name</span>
                     </p>
+                    <p id="distance"> Distance: </p>
                 </div> 
             </div>
 
@@ -73,23 +74,26 @@
                     var distancesUserLocation = [];
                     var distancesUserMarker = [];
 
-                    function selectCampaignOption() {
-                        var val = parseInt(document.querySelector("#nearCampaigns>select").value);
+                    function selectCampaignOption(id) {
+                        var val = parseInt(document.querySelector("#" + id + ">select").value);
 
                         if (val != -1) {
                             selectCampaign(locations[val])
                         }
+
                     }
 
-                    function selectCampaignOption2() {
-                        var val = parseInt(document.querySelector("#nearCampaigns2>select").value);
-
-                        if (val != -1) {
-                            selectCampaign(locations[val])
-                        }
+                    function getDistanceByLocation(location) {
+                        distances.forEach(function(element, index) {
+                            if (location[0] == element.name) {
+                                document.getElementById('distance').innerHTML = "Distance: " + element.distance.toFixed(2) + " km";
+                                return;
+                            }
+                        });
                     }
 
                     function selectCampaign(campaign) {
+                        getDistanceByLocation(campaign);
                         document.getElementById('campaign_selection').classList.remove('visually-hidden');
                         document.getElementById('campaign_selection').children[0].children[0].innerHTML = campaign[0];
 
