@@ -68,7 +68,7 @@
                         </button>
                     </div>
                     <div class="hidden justify-between items-center w-full md:flex md:w-auto md:order-1" id="mobile-menu-2">
-                        <ul class="flex flex-col mt-4 md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium" id="menu" style="font-size: 16px;">
+                        <ul class="flex flex-col mt-4 md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium"  id="menu" style="font-size: 16px;">
                             <li>
                                 <a href="/" class="block py-2 pr-4 pl-3 text-white bg-blue-700 rounded md:bg-transparent md:p-0 md:hover:text-blue-100">Home</a>
                             </li>
@@ -90,7 +90,6 @@
             </nav>
 
             <div class="flex flex-row">
-                <div class="basis-1/2 w-full"></div>
                 <div class="basis-1/2 w-full">
                     {{ $slot }}
                 </div>
