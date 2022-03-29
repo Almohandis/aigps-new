@@ -123,8 +123,8 @@ class StatisticsController extends Controller
                 return view('statistics.blood-type-dist', ['data_by_city' => $data, 'names' => $names, 'report_by' => $report_by, 'cities' => $this->cities, 'report_title' => $report_title, 'total_count' => $total_count]);
                 break;
             case 'Blood type':
-                $data = DB::select('SELECT u1.blood_type AS "Blood type",
-                        (SELECT COUNT(*) FROM users AS u5 WHERE u5.blood_type=u1.blood_type) AS "Total persons from this type",
+                $data = DB::select('SELECT u1.blood_type AS "blood_type",
+                        (SELECT COUNT(*) FROM users AS u5 WHERE u5.blood_type=u1.blood_type) AS total_blood_type_count,
                         ROUND( COUNT(*)/(SELECT COUNT(*) FROM users AS u4 WHERE u4.blood_type IS NOT NULL)*100,1) as "Percentage of this type",
                         ROUND(
                         (SELECT COUNT(*) FROM users AS u2 WHERE u2.blood_type=u1.blood_type AND  gender="Male" )/
@@ -134,52 +134,20 @@ class StatisticsController extends Controller
                         (SELECT COUNT(*) FROM users AS u2 WHERE u2.blood_type=u1.blood_type AND  gender="Female" )/
                         (SELECT COUNT(*) FROM users AS u3 WHERE u3.blood_type=u1.blood_type AND  gender IS NOT NULL)*100,1)
                         as "Female percentage"
-                        FROM users AS u1 GROUP BY u1.blood_type;
-                        ');
+                        FROM users AS u1 where u1.blood_type is not null GROUP BY u1.blood_type order by u1.blood_type;');
                 $data = json_encode($data);
                 $data = json_decode($data);
                 $report_title = 'Blood type distribution';
+                // return $data;
                 return view('statistics.blood-type-dist', ['data_by_blood' => $data, 'names' => $names, 'report_by' => $report_by, 'report_title' => $report_title]);
                 break;
             case 'Age segment':
-                $A_plus = DB::select('SELECT IF(TIMESTAMPDIFF(YEAR,`birthdate`, now())<=20,"Children",
-                                    IF(TIMESTAMPDIFF(YEAR,`birthdate`, now())<=40,"Youth", "Elder") )  AS age,  COUNT(*) AS A_plus
-                                    FROM `users`
-                                    WHERE `blood_type`="A+" GROUP BY age;');
-                $A_minus = DB::select('SELECT IF(TIMESTAMPDIFF(YEAR,`birthdate`, now())<=20,"Children",
-                                    IF(TIMESTAMPDIFF(YEAR,`birthdate`, now())<=40,"Youth", "Elder") )  AS age, COUNT(*) AS A_minus
-                                    FROM `users`
-                                    WHERE `blood_type`="A-" GROUP BY age;');
-                $B_plus = DB::select('SELECT IF(TIMESTAMPDIFF(YEAR,`birthdate`, now())<=20,"Children",
-                                    IF(TIMESTAMPDIFF(YEAR,`birthdate`, now())<=40,"Youth", "Elder") )  AS age, COUNT(*) AS B_plus
-                                    FROM `users`
-                                    WHERE `blood_type`="B+" GROUP BY age;');
-                $B_minus = DB::select('SELECT IF(TIMESTAMPDIFF(YEAR,`birthdate`, now())<=20,"Children",
-                                    IF(TIMESTAMPDIFF(YEAR,`birthdate`, now())<=40,"Youth", "Elder") )  AS age, COUNT(*) AS B_minus
-                                    FROM `users`
-                                    WHERE `blood_type`="B-" GROUP BY age;');
-                $AB_plus = DB::select('SELECT IF(TIMESTAMPDIFF(YEAR,`birthdate`, now())<=20,"Children",
-                                    IF(TIMESTAMPDIFF(YEAR,`birthdate`, now())<=40,"Youth", "Elder") )  AS age, COUNT(*) AS AB_plus
-                                    FROM `users`
-                                    WHERE `blood_type`="AB+" GROUP BY age;');
-                $AB_minus = DB::select('SELECT IF(TIMESTAMPDIFF(YEAR,`birthdate`, now())<=20,"Children",
-                                    IF(TIMESTAMPDIFF(YEAR,`birthdate`, now())<=40,"Youth", "Elder") )  AS age, COUNT(*) AS AB_minus
-                                    FROM `users`
-                                    WHERE `blood_type`="AB-" GROUP BY age;');
-                $O_plus = DB::select('SELECT IF(TIMESTAMPDIFF(YEAR,`birthdate`, now())<=20,"Children",
-                                    IF(TIMESTAMPDIFF(YEAR,`birthdate`, now())<=40,"Youth", "Elder") )  AS age, COUNT(*) AS O_plus
-                                    FROM `users`
-                                    WHERE `blood_type`="O+" GROUP BY age;');
-                $O_minus = DB::select('SELECT IF(TIMESTAMPDIFF(YEAR,`birthdate`, now())<=20,"Children",
-                                    IF(TIMESTAMPDIFF(YEAR,`birthdate`, now())<=40,"Youth", "Elder") )  AS age, COUNT(*) AS O_minus
-                                    FROM `users`
-                                    WHERE `blood_type`="O-" GROUP BY age;');
-
-                $data = [$A_plus, $A_minus, $B_plus,  $B_minus, $AB_plus,  $AB_minus,  $O_plus, $O_minus];
-                $data = json_encode($data, true);
-                $data = json_decode($data, true);
+                $data = DB::select('SELECT DISTINCT IF( TIMESTAMPDIFF(YEAR, u1.birthdate, now())<= 20, "Children", IF( TIMESTAMPDIFF(YEAR, u1.birthdate, now())<= 40, "Youth", "Elder" ) ) AS age, ( SELECT count(*) FROM users as u2 WHERE IF( TIMESTAMPDIFF(YEAR, u2.birthdate, now())<= 20, "Children", IF( TIMESTAMPDIFF(YEAR, u2.birthdate, now())<= 40, "Youth", "Elder" ) )= age and u2.blood_type = "A+" ) as A_plus, ( SELECT count(*) FROM users as u2 WHERE IF( TIMESTAMPDIFF(YEAR, u2.birthdate, now())<= 20, "Children", IF( TIMESTAMPDIFF(YEAR, u2.birthdate, now())<= 40, "Youth", "Elder" ) )= age and u2.blood_type = "A-" ) as A_minus, ( SELECT count(*) FROM users as u2 WHERE IF( TIMESTAMPDIFF(YEAR, u2.birthdate, now())<= 20, "Children", IF( TIMESTAMPDIFF(YEAR, u2.birthdate, now())<= 40, "Youth", "Elder" ) )= age and u2.blood_type = "B+" ) as B_plus, ( SELECT count(*) FROM users as u2 WHERE IF( TIMESTAMPDIFF(YEAR, u2.birthdate, now())<= 20, "Children", IF( TIMESTAMPDIFF(YEAR, u2.birthdate, now())<= 40, "Youth", "Elder" ) )= age and u2.blood_type = "B-" ) as B_minus, ( SELECT count(*) FROM users as u2 WHERE IF( TIMESTAMPDIFF(YEAR, u2.birthdate, now())<= 20, "Children", IF( TIMESTAMPDIFF(YEAR, u2.birthdate, now())<= 40, "Youth", "Elder" ) )= age and u2.blood_type = "AB+" ) as AB_plus, ( SELECT count(*) FROM users as u2 WHERE IF( TIMESTAMPDIFF(YEAR, u2.birthdate, now())<= 20, "Children", IF( TIMESTAMPDIFF(YEAR, u2.birthdate, now())<= 40, "Youth", "Elder" ) )= age and u2.blood_type = "AB-" ) as AB_minus, ( SELECT count(*) FROM users as u2 WHERE IF( TIMESTAMPDIFF(YEAR, u2.birthdate, now())<= 20, "Children", IF( TIMESTAMPDIFF(YEAR, u2.birthdate, now())<= 40, "Youth", "Elder" ) )= age and u2.blood_type = "O+" ) as O_plus, ( SELECT count(*) FROM users as u2 WHERE IF( TIMESTAMPDIFF(YEAR, u2.birthdate, now())<= 20, "Children", IF( TIMESTAMPDIFF(YEAR, u2.birthdate, now())<= 40, "Youth", "Elder" ) )= age and u2.blood_type = "O-" ) as O_minus, ( SELECT COUNT(*) FROM USERS AS U2 WHERE IF( TIMESTAMPDIFF(YEAR, u2.birthdate, now())<= 20, "Children", IF( TIMESTAMPDIFF(YEAR, u2.birthdate, now())<= 40, "Youth", "Elder" ) )= age AND u2.blood_type IS NOT null ) as total from users AS u1 group by age order by age;');
+                $data = json_encode($data);
+                $data = json_decode($data);
                 $report_title = 'Blood type distribution by age segments';
-                return view('statistics.blood-type-dist', ['data_by_age' => (array)$data, 'names' => $names, 'report_by' => $report_by, 'cities' => $this->cities, 'blood_types' => $this->blood_types, 'report_title' => $report_title]);
+                // return $data;
+                return view('statistics.blood-type-dist', ['data_by_age' => $data, 'names' => $names, 'report_by' => $report_by, 'report_title' => $report_title]);
                 break;
             default:
                 return null;
@@ -212,8 +180,9 @@ class StatisticsController extends Controller
                 $data = DB::select('SELECT u1.city, ( SELECT COUNT(*) FROM recoveries_id, users AS u2 WHERE u2.id = recoveries_id.id AND u2.city = u1.city ) as total_rec, ( SELECT COUNT(*) FROM recoveries_id, users AS u2 WHERE u2.gender = "Male" AND recoveries_id.id = u2.id AND u1.city = u2.city ) AS male_count, Round( ifnull( ( SELECT male_count / total_rec * 100 ), 0 ), 1 ) as male_pcnt, ( SELECT COUNT(*) FROM recoveries_id, users AS u2 WHERE u2.gender = "Female" AND recoveries_id.id = u2.id AND u1.city = u2.city ) AS female_count, Round( ifnull( ( SELECT female_count / total_rec * 100 ), 0 ), 1 ) as female_pcnt, ( SELECT COUNT(*) FROM hospitals AS hos1 WHERE hos1.city = u1.city ) AS tot_hos, ( SELECT ifnull( round( ( ( ( SELECT sum(hos3.capacity) FROM hospitals as hos3 where hos3.city = u1.city ) - ( SELECT COUNT(*) FROM hospitalizations AS hoz2, hospitals as hos2 WHERE hoz2.hospital_id = hos2.id AND hoz2.checkout_date IS NULL and hos2.city = u1.city ) )/ ( SELECT count(*) FROM hospitals as hos3 where hos3.city = u1.city ) ), 0 ), 0 ) ) AS avg_avail_beds FROM users AS u1 GROUP BY u1.city ORDER BY u1.city;');
                 $data = json_encode($data);
                 $data = json_decode($data);
+                // return $data;
                 $report_title = 'Recoveries report in each city';
-                return view('statistics.recoveries-report', ['data_by_city' => $data, 'names' => $names, 'report_by' => $report_by, 'cities' => $this->cities, 'report_title' => $report_title]);
+                return view('statistics.recoveries-report', ['data_by_city' => $data, 'names' => $names, 'report_by' => $report_by, 'report_title' => $report_title]);
                 break;
             case 'Hospital':
                 $data = DB::select('SELECT hos1.name, hos1.city,
@@ -260,6 +229,7 @@ class StatisticsController extends Controller
                 $data = DB::select('SELECT u1.city, ( SELECT COUNT(*) FROM deaths_id, users AS u2 WHERE u2.id = deaths_id.id AND u2.city = u1.city ) as total_deaths, ( SELECT COUNT(*) FROM deaths_id, users AS u2 WHERE u2.gender = "Male" AND deaths_id.id = u2.id AND u1.city = u2.city ) AS male_count, Round( ifnull( ( SELECT male_count / total_deaths * 100 ), 0 ), 1 ) as male_pcnt, ( SELECT COUNT(*) FROM deaths_id, users AS u2 WHERE u2.gender = "Female" AND deaths_id.id = u2.id AND u1.city = u2.city ) AS female_count, Round( ifnull( ( SELECT female_count / total_deaths * 100 ), 0 ), 1 ) as female_pcnt, ( SELECT COUNT(*) FROM hospitals AS hos1 WHERE hos1.city = u1.city ) AS tot_hos, ( SELECT ifnull( round( ( ( ( SELECT sum(hos3.capacity) FROM hospitals as hos3 where hos3.city = u1.city ) - ( SELECT COUNT(*) FROM hospitalizations AS hoz2, hospitals as hos2 WHERE hoz2.hospital_id = hos2.id AND hoz2.checkout_date IS NULL and hos2.city = u1.city ) )/ ( SELECT count(*) FROM hospitals as hos3 where hos3.city = u1.city ) ), 0 ), 0 ) ) AS avg_avail_beds FROM users AS u1 GROUP BY u1.city ORDER BY u1.city;');
                 $data = json_encode($data);
                 $data = json_decode($data);
+                // return $data;
                 $report_title = 'Deaths report in each city';
                 return view('statistics.deaths-report', ['data_by_city' => $data, 'names' => $names, 'report_by' => $report_by, 'cities' => $this->cities, 'report_title' => $report_title]);
                 break;
@@ -360,6 +330,7 @@ class StatisticsController extends Controller
                 $data = DB::select('SELECT u1.city, ( SELECT COUNT(*) FROM infections_id, users AS u2 WHERE u2.id = infections_id.id AND u2.city = u1.city ) as total_infections, ( SELECT COUNT(*) FROM infections_id, users AS u2 WHERE u2.gender = "Male" AND infections_id.id = u2.id AND u1.city = u2.city ) AS male_count, Round( ifnull( ( SELECT male_count / total_infections * 100 ), 0 ), 1 ) as male_pcnt, ( SELECT COUNT(*) FROM infections_id, users AS u2 WHERE u2.gender = "Female" AND infections_id.id = u2.id AND u1.city = u2.city ) AS female_count, Round( ifnull( ( SELECT female_count / total_infections * 100 ), 0 ), 1 ) as female_pcnt, ( SELECT COUNT(*) FROM hospitals AS hos1 WHERE hos1.city = u1.city ) AS tot_hos, ( SELECT ifnull( round( ( ( ( SELECT sum(hos3.capacity) FROM hospitals as hos3 where hos3.city = u1.city ) - ( SELECT COUNT(*) FROM hospitalizations AS hoz2, hospitals as hos2 WHERE hoz2.hospital_id = hos2.id AND hoz2.checkout_date IS NULL and hos2.city = u1.city ) )/ ( SELECT count(*) FROM hospitals as hos3 where hos3.city = u1.city ) ), 0 ), 0 ) ) AS avg_avail_beds FROM users AS u1 GROUP BY u1.city;');
                 $data = json_encode($data);
                 $data = json_decode($data);
+                // return $data;
                 $report_title = 'Infections report in each city';
                 return view('statistics.infections-report', ['data_by_city' => $data, 'names' => $names, 'report_by' => $report_by, 'cities' => $this->cities, 'report_title' => $report_title]);
                 break;
