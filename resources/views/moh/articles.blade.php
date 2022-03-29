@@ -10,6 +10,20 @@
             </div>
         @endif
 
+        @if ($errors->any())
+            <div class="container">
+                <div class="alert alert-danger" role="alert">
+                    <p>Something went wrong. Please check the form below for errors.</p>
+
+                    <ul class="">
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            </div>
+        @endif
+
         <div class="table-responsive text-start shadow container bg-white mt-5 rounded px-5 py-3 text-dark">
             <h4 class="text-center mb-3"> All Articles </h4>
 
@@ -56,7 +70,7 @@
 
         <div class="text-start shadow container bg-white mt-5 rounded px-5 py-3 text-dark">
             <h4 class="mb-3 text-center"> Add a new Article </h4>    
-            <form action="/staff/moh/articles/add" method="POST">
+            <form action="/staff/moh/articles/add" method="POST" enctype="multipart/form-data">
                 @csrf
                 <div class="row">
                     <div class="col-12 col-md-6">
@@ -67,7 +81,7 @@
                     <div class="col-12 col-md-6">
                         <label>Add image</label>
                         <br>
-                        <input class="form-control" type="file" name="image">
+                        <input class="form-control" type="file" name="image" required>
                     </div>
                 </div>
 

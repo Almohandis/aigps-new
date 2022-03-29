@@ -2,9 +2,17 @@
     <link href="{{asset('css/reservation.css')}}" rel="stylesheet">
 
     <div class="mt-5 text-center">
-        @if (session('message'))
-            <div class="container alert alert-dark" role="alert">
-                {{ session('message') }}
+        @if ($errors->any())
+            <div class="container">
+                <div class="alert alert-danger" role="alert">
+                    <p>Something went wrong. Please check the form below for errors.</p>
+
+                    <ul class="">
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
             </div>
         @endif
 

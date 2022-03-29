@@ -18,7 +18,7 @@ class MohArticleController extends Controller {
         $request->validate([
             'title'     => 'required',
             'content'   => 'required',
-            'image'     => 'mimes:jpg,png,jpeg,gif,svg|max:5048',
+            'image'     => 'required|image',
         ]);
 
         $link = str_replace('watch?v=', 'embed/', $request->link);
@@ -37,8 +37,7 @@ class MohArticleController extends Controller {
     public function update(Request $request, Article $article) {
         $request->validate([
             'title'     => 'required',
-            'content'   => 'required',
-            'image'     => 'mimes:jpg,png,jpeg,gif,svg|max:5048',
+            'content'   => 'required'
         ]);
 
         $link = str_replace('watch?v=', 'embed/', $request->link);
@@ -46,7 +45,7 @@ class MohArticleController extends Controller {
         $article->update([
             'title'             => $request->title,
             'content'           => $request->content,
-            'path'              => $request->image?->store('public/articles') ?? NULL,
+            'path'              => $request->image?->store('public/articles') ?? $article->path,
             'full_article_link' => $request->full_link ?? null,
             'video_link'        => $link ?? null,
         ]);

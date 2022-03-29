@@ -2,15 +2,23 @@
     <link href="{{asset('css/reservation.css')}}" rel="stylesheet">
 
     <div class="mt-5 text-center">
-        @if (session('message'))
-            <div class="container alert alert-dark" role="alert">
-                {{ session('message') }}
+        @if ($errors->any())
+            <div class="container">
+                <div class="alert alert-danger" role="alert">
+                    <p>Something went wrong. Please check the form below for errors.</p>
+
+                    <ul class="">
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
             </div>
         @endif
 
         <div class="text-start shadow container bg-white mt-5 rounded px-5 py-3 text-dark">
             <h4 class="mb-3 text-center"> Update Article # {{$article->id}} </h4>    
-            <form method="POST">
+            <form method="POST" enctype="multipart/form-data">
                 @csrf
                 <div class="row">
                     <div class="col-12 col-md-6">
