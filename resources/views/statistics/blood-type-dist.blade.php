@@ -198,9 +198,6 @@
                 </div>
             @elseif(isset($data_by_age))
                 <h1>{{ $report_title }}</h1>
-                @php
-                    $ages = ['Children', 'Elder', 'Youth'];
-                @endphp
                 <div class="tbl-header">
                     <table>
                         <tr>
@@ -232,6 +229,55 @@
                             </tr>
                         @endforeach
                     </table>
+                </div>
+                <div>
+                    @php
+                        $counters = array_fill(0, count($data_by_age), 8);
+                        $sums = array_fill(0, count($data_by_age), 0);
+                        $means = array_fill(0, count($data_by_age), 0);
+                        $variances = array_fill(0, count($data_by_age), 0);
+                        $standard_deviations = array_fill(0, count($data_by_age), 0);
+
+                        for ($i = 0; $i < count($counters); $i++) {
+                            foreach ($data_by_age[$i] as $key => $blood_type) {
+                                if (is_numeric($blood_type) && $key != 'total') {
+                                    $sums[$i] += $blood_type;
+                                }
+                            }
+                        }
+
+                        for ($i = 0; $i < count($counters); $i++) {
+                            $means[$i] = round($sums[$i] / $counters[$i], 2);
+                        }
+
+                        $sums = array_fill(0, count($data_by_age), 0);
+
+                        for ($i = 0; $i < count($counters); $i++) {
+                            foreach ($data_by_age[$i] as $key => $blood_type) {
+                                if (is_numeric($blood_type) && $key != 'total') {
+                                    $sums[$i] += pow($blood_type - $means[$i], 2);
+                                }
+                            }
+                        }
+
+                        for ($i = 0; $i < count($counters); $i++) {
+                            $variances[$i] = round($sums[$i] / $counters[$i], 2);
+                        }
+
+                        for ($i = 0; $i < count($counters); $i++) {
+                            $standard_deviations[$i] = round(sqrt($variances[$i]), 2);
+                        }
+                    @endphp
+                </div>
+                <div>
+                    @for ($i = 0; $i < count($counters); $i++)
+                        <P>Total {{ $data_by_age[$i]->age }} = {{ $data_by_age[$i]->total }}</p>
+                        <canvas id="{{ $age->age }}" width="200" height="100"></canvas>
+                        <p>{{ $data_by_age[$i]->age }} mean (µ) = {{ $means[$i] }}</p>
+                        <p>{{ $data_by_age[$i]->age }} variance (σ<sup>2</sup>) = {{ $variances[$i] }}</p>
+                        <P>{{ $data_by_age[$i]->age }} standard deviation (σ) = {{ $standard_deviations[$i] }}</P>
+                    @endfor
+
                 </div>
             @elseif(isset($data_by_blood))
                 <h1>{{ $report_title }}</h1>
@@ -541,6 +587,53 @@
                 data: data
             };
             new Chart(total_blood, config);
+        </script>
+    @elseif(isset($data_by_age))
+        <script>
+            const canvases = document.querySelectorAll('canvas');
+
+            let xlabels = ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'];
+
+            // total blood
+            let ylabels = [
+                @foreach ($data_by_age as $age)
+                    [
+                    @foreach ($age as $key => $blood_type)
+                        @if (is_numeric($blood_type) && $key != 'total')
+                            "{{ $blood_type }}",
+                        @endif
+                    @endforeach
+                    ],
+                @endforeach
+            ];
+
+            let data_ = [];
+            for (let i = 0; i < canvases.length; i++) {
+                let temp = {
+                    labels: xlabels,
+                    datasets: [{
+                        label: 'Persons count',
+                        backgroundColor: 'rgb(255, 99, 132)',
+                        borderColor: 'rgb(255, 99, 132)',
+                        data: ylabels[i]
+                    }]
+                };
+                data_.push(temp);
+            }
+
+
+            let config = [];
+            for (let i = 0; i < canvases.length; i++) {
+                let temp = {
+                    type: 'bar',
+                    data: data_[i]
+                };
+                config.push(temp);
+            }
+
+            for (let i = 0; i < canvases.length; i++) {
+                new Chart(canvases[i].getContext('2d'), config[i]);
+            }
         </script>
     @endif
 
