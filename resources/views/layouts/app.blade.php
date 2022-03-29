@@ -15,8 +15,13 @@
     <body>
         <x-navigation />
 
-        <div class="ai-gps-main">
+        <div class="aigps-main pb-5">
             {{ $slot }}
         </div>
+
+        <footer class="aigps-footer text-dark py-1">
+            <img src="{{ asset('mti.png') }}" class="aigps-footer-img">
+            © 2022 MTI University. All Rights Reserved
+        </footer>
     </body>
 </html>

@@ -1,56 +1,40 @@
 <x-app-layout>
-    <div class="mt-6">
-        <img src="{{ asset('appointments.jpg') }}" class="second-header" style="margin-top: -293px;">
-        <div class="divide"></div>
-        <div class="wrap"></div>
-        <h1 class="ml-5 text-left text-4xl text-white" style="text-shadow: 2px 2px 8px #000000;">
-            My Appointments
-        </h1>
-        <script>
-            function Scrolldown() {
-                        window.scroll(0,580); 
-                        
-                    
-                    }
-                    window.onload = Scrolldown;
-        </script>
+    <div class="mt-5 text-center">
+        <h1 class="aigps-title">Appointments</h1>
+    </div>
 
-        <!-- List appointments -->
-        <div class="ml-5 mt-6">
-            <div class="flex flex-wrap" id="appointment_list">
-                @foreach ($appointments as $appointment)
-                    <div class="bg-white shadow-md rounded-lg p-4" id="appointments">
-                        <div class="flex flex-wrap mb-5">
-                            <div class="">
-                                <h3 class="text-center text-2xl text-gray-800" id="appoint">
-                                    Campaign: {{ $appointment->city }}
-                                </h3>
-                            </div>
-                        </div>
-                        <div class="flex flex-wrap">
-                            <div class="">
-                                <h3 class="text-center text-lg text-gray-800" id="appoint">
-                                    Appointment at: {{ $appointment->pivot->date }}
-                                </h3>
-                            </div>
-                        </div>
-                        <div class="flex flex-wrap">
-                            <div class="">
-                                <h3 class="text-center text-lg text-gray-800" id="appoint">
-                                    Location: {{ $appointment->address }}
-                                </h3>
-                            </div>
-                        </div>
-                        <div class="flex flex-wrap">
-                            <div class="cancel-appointment">
-                                <a href="/appointments/{{ $appointment->pivot->id }}/cancel" class="text-red-500" id="cancel">
-                                    Cancel
-                                </a>
-                            </div>
-                    </div>
-                    <hr />
-                @endforeach
+    <div class="container mt-5p-5 text-dark">
+        @foreach ($appointments as $appointment)
+            <div class="card rounded my-5 shadow">
+                <div class="card-header">
+                    Appointment number #{{$appointment->pivot->id}}
+                </div>
+
+                <div class="card-body">
+                    <h5 class="card-title">Campaign at: {{$appointment->city}} </h5>
+                    <p class="card-text">Location: {{ $appointment->address }}</p>
+                    <p class="card-text text-muted">Date: {{ $appointment->pivot->date }}</p>
+                    <a href="/appointments/{{ $appointment->pivot->id }}/cancel" class="btn btn-outline-danger">Cancel</a>
+                </div>
             </div>
+        @endforeach
+
+        <div class="flex">
+            <ul class="pagination justify-content-center">
+                @if ($appointments->previousPageUrl())
+                    <li class="page-item"><a class="page-link" href="/appointments?page={{ $appointments->currentPage() - 1 }}">Previous</a></li>
+                @endif
+                
+                
+                @for($page = 1; $page <= $appointments->lastPage(); $page++)
+                    <li class="page-item"><a class="page-link" href="/appointments?page={{ $page }}">{{ $page }}</a></li>
+                @endfor
+
+                @if ($appointments->nextPageUrl())
+                    <li class="page-item"><a class="page-link" href="/appointments?page={{ $appointments->currentPage() + 1 }}">Next</a></li>
+                @endif
+            </ul>
         </div>
+
     </div>
 </x-app-layout>
