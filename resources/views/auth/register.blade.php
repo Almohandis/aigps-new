@@ -61,8 +61,8 @@
                 </div>
             </div>
             <div class="col-12 col-md-6 col-lg-4">
-                <label>Work Email *</label>
-                <input type="email" class="form-control" name="name" required>
+                <label>Work Email (optional)</label>
+                <input type="email" class="form-control" name="name" >
             </div>
             <div class="col-12 col-md-6 col-lg-4">
                 <label>Mobile Number *</label>
@@ -76,7 +76,7 @@
                   Already registered?
                 </a>
 
-                <button class="bg-primary text-white" style="border-radius: 5px;border:none">
+                <button class="bg-primary text-white" style="border-radius: 5px;border:none" type="submit">
                     Submit
                 </button>
             </div>
