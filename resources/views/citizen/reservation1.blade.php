@@ -58,7 +58,7 @@
             </div>
 
             <div class="mx-auto text-center mt-5">
-                <div id="map" class="map"></div>
+                <div id="map" class="aigps-map"></div>
 
                     <script src="https://maps.googleapis.com/maps/api/js?key={{ config('app.google_maps_api') }}&callback=initMap" defer></script>
                 
