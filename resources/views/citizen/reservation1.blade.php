@@ -131,6 +131,9 @@
                             center: new google.maps.LatLng(26.8206, 30.8025)
                         });
 
+                        const trafficLayer = new google.maps.TrafficLayer();
+                        trafficLayer.setMap(map);
+
                         cities.forEach(function(city) {
                             const cityCircle = new google.maps.Circle({
                                 strokeColor: "#FF1111",
