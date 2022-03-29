@@ -32,13 +32,30 @@
         <a class="nav-link text-dark dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown">
             Manage
         </a>
-          <ul class="dropdown-menu">
+        <ul class="dropdown-menu">
             <li><a class="dropdown-item" href="/staff/moh/manage-hospitals">Manage Hospitals</a></li>
             <li><a class="dropdown-item" href="/staff/moh/manage-doctors">Manage Doctors</a></li>
             <li><a class="dropdown-item" href="/staff/moh/manage-campaigns">Manage Campaigns</a></li>
             <li><a class="dropdown-item" href="/staff/moh/articles">Manage Articles</a></li>
-          </ul>
+        </ul>
     @endif
+
+    <a class="nav-link text-dark dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown">
+        {{ Auth::user()->name }}
+    </a>
+    <ul class="dropdown-menu">
+        <li><a class="dropdown-item" href="/appointments">My Appointments</a></li>
+        <li><a class="dropdown-item" href="/profile">My profile</a></li>
+        <form method="POST" action="{{ route('logout') }}">
+            @csrf
+            <li>
+                <a class="dropdown-item" href="/logout"
+                    onclick="event.preventDefault();this.closest('form').submit();">
+                    Logout
+                </a>
+            </li>
+        </form>
+    </ul>
 
 @else
     <a class="nav-link text-dark" href="/login">Login</a>
