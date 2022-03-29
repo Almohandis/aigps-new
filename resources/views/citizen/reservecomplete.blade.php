@@ -1,23 +1,20 @@
-<x-base-layout>
-    <div class="mt-10 mx-auto text-center">
-        <div class="mx-auto text-center mt-2" style="margin-top:8rem;">
-            <p class="inline-block text-center text-xl bg-blue-500 font-bold rounded-full text-white w-8 h-8 pt-1" id="c1">1</p>
-            <div class="inline-block mx-3 bg-black w-10 h-1 mb-1 bg-opacity-50" id="l2"></div>
-            <p class="inline-block text-center text-xl bg-white  font-bold rounded-full text-blue-500  w-8 h-8 pt-1" id="c3">✓</p>
-        </div>
-        <div class="mx-auto inline-block bg-black bg-opacity-50 p-8 text-justify w-[300] text-center" style="background-color: white;border-radius:25px; box-shadow: 0 .5rem 1.5rem rgba(0,0,0,.2);">
-            <img src="{{ asset('checkmark.png') }}" class="w-10 h-10 mx-auto">
-            <p class="text-black text-center mt-2 font-bold" style="font-size:20px;">
+<x-app-layout>
+    <link href="{{asset('css/reservation.css')}}" rel="stylesheet">
+
+
+    <div class="mt-5 text-center">
+        <h1 class="aigps-title">Vaccination reservation</h1>
+
+        <div class="text-center shadow container bg-white mt-5 rounded p-5 text-dark">
+            <img src="{{ asset('checkmark.png') }}" class="aigps-check">
+
+            <p class="text-black mt-2 fw-bold">
                 Your request has been successfully submitted Appointment details will be sent in a SMS.
             </p>
 
-            <div class="mt-6">
-                <div class="mt-3 mx-auto text-center mr-5">
-                    <a href="/" class="inline-block bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                        Home
-                    </a>
-                </div>
-            </div>
+            <a href="/" class="btn btn-success">
+                Home
+            </a>
         </div>
     </div>
-</x-base-layout>
+</x-app-layout>
