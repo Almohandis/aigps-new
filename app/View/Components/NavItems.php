@@ -4,7 +4,7 @@ namespace App\View\Components;
 
 use Illuminate\View\Component;
 
-class Navigation extends Component
+class NavItems extends Component
 {
     /**
      * Create a new component instance.
@@ -23,6 +23,6 @@ class Navigation extends Component
      */
     public function render()
     {
-        return view('aigps-components.navigation');
+        return view('aigps-components.nav-items');
     }
 }

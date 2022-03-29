@@ -1,0 +1,24 @@
+.aigps-nav {
+    position: fixed !important;
+    top: 10px;
+    left: 5%;
+    width: 90%;
+    border-radius: 10px;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 9999;
+}
+
+.aigps-nav-mobile {
+    display: none !important;
+}
+
+@media only screen and (max-width: 1000px) {
+    .aigps-nav-desktop {
+        display: none !important;
+    }
+
+    .aigps-nav-mobile {
+        display: flex !important;
+        position: fixed !important;
+    }
+  }
