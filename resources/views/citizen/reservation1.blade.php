@@ -50,7 +50,7 @@
             </div>
 
             <div>
-                <div class="alert alert-success mt-5" role="alert" id="campaign_selection">
+                <div class="alert alert-success mt-5 visually-hidden" role="alert" id="campaign_selection">
                     <p>
                         You have selected: <span class="fw-bold">Campaign Name</span>
                     </p>
