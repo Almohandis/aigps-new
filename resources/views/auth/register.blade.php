@@ -8,7 +8,10 @@
                 password: '',
                 password_confirmation: '',
                 workemail: '',
+                gender: '',
+                birthdate: '',
             };
+
             function updateError() {
                 for(var key in errors) {
                     if (errors[key] == '#') {
@@ -60,21 +63,42 @@
                     <div class="col-12 col-md-6 mt-2">
                         <i id="national_id_mark" class="fa-solid fa-close text-danger visually-hidden"></i>
                         <label>National ID *</label>
-                        <input type="text" class="form-control" name="national_id" oninput="validateNid(this)" required>
+                        <input id="national_id" type="text" class="form-control" name="national_id" oninput="validateNid(this)" required>
                         <div id="national_id_error" class="form-text text-danger"></div>
                     </div>
 
                     <script>
                         function validateNid(input) {
-                            if (input.value.length != 14 || isNaN(input.value) || !(input.value[0] == '2' || input.value[0] == '1' || input.value[0] == '3')) {
+                            if (! isValidNid(input.value)) {
                                 input.style.outline = "red solid thin";
-                                errors.national_id = 'National ID is invalid [National Id must be 14 characters long, and starts with 1,2,3]';
+                                errors.national_id = 'National ID must be valid [National Id must be 14 characters long, and starts with 1,2,3]';
                                 updateError();
                             } else {
                                 input.style.outline = "green solid thin";
                                 errors.national_id = '#';
                                 updateError();
                             }
+                        }
+
+                        function isValidNid(input) {
+                            let days_per_month = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+
+                            if (input.length != 14 || isNaN(input) || !(input[0] == '2' || input[0] == '3')) {
+                                return false;
+                            }
+
+                            let month = parseInt(input.substring(3, 5));
+                            let day = parseInt(input.substring(5, 7));
+
+                            if (month > 12 || month < 1) {
+                                return false;
+                            }
+
+                            if (day > days_per_month[month - 1] || day < 1) {
+                                return false;
+                            }
+
+                            return true;
                         }
                     </script>
 
@@ -125,7 +149,7 @@
                                 updateError();
                             } else {
                                 input.style.outline = "red solid thin";
-                                errors.password = 'Password must be at least 8 characters';
+                                errors.password = 'Password must be at least 8 characters, have a capital and small letter, and have a number.';
                                 updateError();
                             }
                         }
@@ -155,7 +179,7 @@
                                 updateError();
                             } else {
                                 input.style.outline = "red solid thin";
-                                errors.password_confirmation = 'Password confirmation must be at least 8 characters and match password';
+                                errors.password_confirmation = 'Password confirmation must match password';
                                 updateError();
                             }
                         }
@@ -167,12 +191,7 @@
                     </div>
 
                     <div class="col-12 col-md-6 mt-2">
-                        <label>Telephone Number *</label>
-                        <input type="text" class="form-control" name="telephone_number" required>
-                    </div>
-
-                    <div class="col-12 col-md-6 mt-2">
-                        <label>Country *</label>
+                        <label>Nationality *</label>
                         <select name="country" class="form-control">
                             @foreach ($countries as $country)
                                 <option value="{{ $country }}">{{ $country }}</option>
@@ -190,16 +209,74 @@
                     </div>
 
                     <div class="col-12 col-md-6 mt-2">
+                        <i id="gender_mark" class="fa-solid fa-close text-danger visually-hidden"></i>
                         <label>Gender *</label>
-                        <select name="gender" class="form-control">
+
+                        <select name="gender" class="form-control" onchange="validateGender(this)" required>
+                            <option value="">Select Gender</option>
                             <option value="Male">Male</option>
                             <option value="Female">Female</option>
                         </select>
+
+                        <div id="gender_error" class="form-text text-danger"></div>
+
+                        <script>
+                            function validateGender(input) {
+                                let nid = document.getElementById('national_id').value;
+
+                                if (! nid[12]) return;
+
+                                if (input.value == 'Male' && nid[12] % 2 != 0) {
+                                    input.style.outline = "green solid thin";
+                                    errors.gender = '#';
+                                    updateError();
+                                } else if (input.value == 'Female' && nid[12] % 2 == 0) {
+                                    input.style.outline = "green solid thin";
+                                    errors.gender = '#';
+                                    updateError();
+                                } else {
+                                    input.style.outline = "red solid thin";
+                                    errors.gender = 'Gender must match the gender in your national id';
+                                    updateError();
+                                }
+                            }
+                        </script>
                     </div>
 
                     <div class="col-12 col-md-6 mt-2">
+                        <i id="birthdate_mark" class="fa-solid fa-close text-danger visually-hidden"></i>
+
                         <label>Birthdate *</label>
-                        <input type="date" class="form-control" name="birthdate" required>
+                        <input type="date" class="form-control" name="birthdate" required oninput="validateBirthDate(this)">
+
+                        <div id="birthdate_error" class="form-text text-danger"></div>
+
+                        <script>
+                            function validateBirthDate(input) {
+                                let nid = document.getElementById('national_id').value;
+
+                                if (! nid[6]) return;
+
+                                let birthdate = new Date(input.value);
+                                let birthdate_year = birthdate.getFullYear().toString().substr(-2);
+                                let birthdate_month = birthdate.getMonth() + 1;
+                                let birthdate_day = birthdate.getDate();
+
+                                let nid_year = parseInt(nid.substring(1, 3));
+                                let nid_month = parseInt(nid.substring(3, 5));
+                                let nid_day = parseInt(nid.substring(5, 7));
+
+                                if (birthdate_year == nid_year && birthdate_month == nid_month && birthdate_day == nid_day) {
+                                    input.style.outline = "green solid thin";
+                                    errors.birthdate = '#';
+                                    updateError();
+                                } else {
+                                    input.style.outline = "red solid thin";
+                                    errors.birthdate = 'Birthdate must match the birthdate in your national id';
+                                    updateError();
+                                }
+                            }
+                        </script>
                     </div>
 
                     <div class="col-12 col-md-6 mt-2">
@@ -211,7 +288,7 @@
 
                     <script>
                         function validateWorkEmail(input) {
-                            if (isEmail(input.value)) {
+                            if (isEmail(input.value) || input.value == "") {
                                 input.style.outline = "green solid thin";
                                 errors.workemail = '#';
                                 updateError();

@@ -44,6 +44,8 @@
         {{ Auth::user()->name }}
     </a>
     <ul class="dropdown-menu">
+        <li><p class="dropdown-item-text"> {{ Auth::user()->getRoleName() }}</p></li>
+        <hr>
         <li><a class="dropdown-item" href="/appointments">My Appointments</a></li>
         <li><a class="dropdown-item" href="/profile">My profile</a></li>
         <form method="POST" action="{{ route('logout') }}">

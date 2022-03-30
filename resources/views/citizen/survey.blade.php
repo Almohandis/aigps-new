@@ -1,62 +1,49 @@
-<x-base-layout>
-    <div class="mt-6">
-        <img src="{{ asset('survey.jpg') }}" class="fourth-header">
-        <div class="divide"></div>
-        <div class="wrap"></div>
-        <h1 class="ml-5 text-left text-4xl text-white" style="text-shadow: 2px 2px 8px #000000;">
-            Complete the survey
-        </h1>
-        <script src="https://kit.fontawesome.com/a1983178b4.js" crossorigin="anonymous"></script>
+<x-app-layout>
+    <link href="{{asset('css/reservation.css')}}" rel="stylesheet">
 
-        <script>
-            function Scrolldown() {
-                window.scroll(0, 650);
-            }
-            window.onload = Scrolldown;
-        </script>
-        <div class="mx-auto text-center mt-5">
 
-            <form class="inline-block bg-black bg-opacity-50 p-8 text-justify" method="POST" action="/survey"
-                style="box-shadow: 0 .5rem 1.5rem rgba(0, 0, 0, 0.2);background-color: white;border-radius: 25px;">
-                <img src="{{ asset('mioh-logo.png') }}" class="moh-logo">
-                @if ($errors->any())
-                    <div>
-                        <div class="errors">
-                            <i class="fa-solid fa-circle-exclamation"></i>
-                            <a class="error">{{ __('Please Answer All The Survey Questions') }}</a>
-                        </div>
+    <div class="mt-5 text-center">
+        <h1 class="aigps-title">Survey</h1>
 
-                        <ul class="mt-3 list-disc list-inside text-sm text-red-600" style="text-align:center;">
+        <div class="text-start shadow container bg-white mt-5 rounded p-5 text-dark">
+            <div class="text-center">
+                <img width="100" class="text-center mb-2" src="{{ asset('mioh-logo.png') }}">
+            </div>
+
+            @if ($errors->any())
+                <div>
+                    <div class="alert alert-danger" role="alert">
+                        <p>Something went wrong. Please check the form below for errors.</p>
+
+                        <ul class="">
                             @foreach ($errors->all() as $error)
                                 <li>{{ $error }}</li>
                             @endforeach
                         </ul>
                     </div>
-                @endif
+                </div>
+            @endif
 
+            <form action="/survey" method="POST" id="procceed_form" class="text-center">
                 @csrf
 
                 @foreach ($questions as $question)
-                    <div class="mt-3">
-                        <label class="text-white font-medium text-sm" id="Q"> {{ $question->title }} </label>
-                        <div class="radio">
-                            <input class="ml-5" type="radio" name="answers[{{ $question->id }}]"
-                                value="Yes" />
-                            <label class="text-gray-400 text-sm mr-5" id="Q">Yes</label>
-                            <input type="radio" name="answers[{{ $question->id }}]" value="No" />
-                            <label class="text-gray-400 text-sm" id="Q">No</label>
+                    <div class="mt-3 row text-start">
+                        <label class="text-black col-12 col-md-9"> {{ $question->title }} </label>
+                        <div class="d-flex radio col-12 col-md-3 justify-content-center">
+                            <input class="form-check-input me-2" type="radio" name="answers[{{ $question->id }}]" value="Yes">
+                            <label class="me-3">Yes</label>
+                            <input class="form-check-input me-2" type="radio" name="answers[{{ $question->id }}]" value="No">
+                            <label class="text-gray-400 text-sm">No</label>
                         </div>
                     </div>
                     <br>
                 @endforeach
-                <div class="mt-6">
-                    <div class="mt-3 mx-auto text-right">
-                        <x-button>
-                            Submit
-                        </x-button>
-                    </div>
-                </div>
+
+                <button class="btn btn-success mt-5" type="submit" id="procceed_button" style="width: 200px;">
+                    Submit
+                </button>
             </form>
         </div>
     </div>
-</x-base-layout>
+</x-app-layout>
