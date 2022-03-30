@@ -353,9 +353,9 @@
                 </div>
 
                 <div class="d-flex justify-content-between mt-3">
-                    <button class="btn btn-outline-secondary border-0">
+                    <a class="btn btn-outline-secondary border-0" href="/">
                         Cancel
-                    </button>
+                    </a>
 
                     <button class="btn btn-success" id="submitBtn" style="width: 150px;" disabled>
                         Submit
