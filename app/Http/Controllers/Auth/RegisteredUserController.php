@@ -44,7 +44,6 @@ class RegisteredUserController extends Controller
             'password'          => ['required', 'confirmed', Rules\Password::defaults()],
             'national_id'       => ['required', 'max:14', 'min:14'], //# 'unique:users'
             'address'           => 'required|string',
-            'telephone_number'  => 'required',
             'birthdate'         => 'required',
             'gender'            => 'required',
             'country'           =>  'required|string',
@@ -68,7 +67,6 @@ class RegisteredUserController extends Controller
             'password' => Hash::make($request->password),
             'national_id' => $request->national_id,
             'address'           =>  $request->address,
-            'telephone_number'  =>  $request->telephone_number,
             'birthdate'         =>  $request->birthdate,
             'gender'            =>  $gender,
             'country'           =>  $request->country,
@@ -111,8 +109,8 @@ class RegisteredUserController extends Controller
 
         $user->notify(new RegisterationNotification());
 
-        Auth::login($user);
+        // Auth::login($user);
 
-        return redirect('/survey');
+        return view('auth.register-complete');
     }
 }
