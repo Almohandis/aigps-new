@@ -39,11 +39,15 @@ trait Roles {
         return $this->role_id == 9;
     }
 
+    public function isEmployee() {
+        return $this->role_id != 3;
+    }
+
     public function getRoleName() {
         if ($this->role_id == 9) {
             return 'System Admin';
         } else if ($this->role_id == 8) {
-            return 'SpokesPerson';
+            return 'Spokes Person';
         } else if ($this->role_id == 7) {
             return 'Preseident Advisor';
         } else if ($this->role_id == 6) {
@@ -59,5 +63,23 @@ trait Roles {
         } else if ($this->role_id == 1) {
             return 'Ministry of health';
         }
+    }
+
+    public function scopeEmployees($query) {
+        return $query->where('role_id', '!=', '3');
+    }
+
+    public static function getRoleNames() {
+        return [
+            'Ministry of health',
+            'National Id Entry',
+            'System User',
+            'Ministry of Internal Affairs',
+            'Campaign Clerk',
+            'Hospital',
+            'Preseident Advisor',
+            'Spokes Person',
+            'System Admin'
+        ];
     }
 }

@@ -18,8 +18,8 @@ Route::middleware('survey')->group(function () {
 
 Route::get('/notifications', 'NotificationController@index');
 
-Route::get('/articles', 'ArticleController@index');
-Route::get('/articles/{article}', 'ArticleController@show');
+Route::get('/gallery', 'ArticleController@index');
+Route::get('/gallery/{article}', 'ArticleController@show');
 
 //# User profile
 Route::get('/profile', 'ProfileController@index')->name('profile');
