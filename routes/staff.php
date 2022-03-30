@@ -51,10 +51,10 @@ Route::middleware('moh')->prefix('/moh')->group(function () {
     Route::get('/manage-hospitals/{hospital}/update', 'MohHospitalController@updateView');
     Route::post('/manage-hospitals/{hospital}/update', 'MohHospitalController@update');
 
-    Route::get('/manage-doctors', 'MohController@manageDoctors');
-    Route::get('/manage-doctors/{id}', 'MohController@getDoctors');
-    Route::get('/manage-doctors/remove-doctor/{id}', 'MohController@removeDoctor');
-    Route::post('/manage-doctors/add', 'MohController@addDoctor');
+    Route::get('/manage-doctors', 'MohDoctorController@index');
+    Route::get('/manage-doctors/{hospital}/doctors', 'MohDoctorController@doctors');
+    Route::post('/manage-doctors/{hospital}/doctors/add', 'MohDoctorController@add');
+    Route::post('/manage-doctors/doctors/{doctor}/delete', 'MohDoctorController@delete');
 
     Route::get('/manage-campaigns', 'MohCampaignController@index');
     Route::post('/manage-campaigns/add', 'MohCampaignController@create');
