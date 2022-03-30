@@ -36,11 +36,11 @@
 
     <div class="flex container justify-content-center">
         <div class="text-start shadow container bg-white mt-5 rounded px-3 py-3 text-dark row justify-content-center">
-            <div class="col-12 col-sm-6 d-sm-flex d-none flex">
-                <img height="300px" src="{{ asset('images/login2.jpg') }}" alt="AIGPS" class=" d-inline align-middle">
+            <div class="col-12 col-md-6 d-md-block d-none row justify-content-center">
+                <img class="img-fluid align-middle mt-5 mt-md-3 mt-lg-0" height="300px" src="{{ asset('images/login2.jpg') }}" alt="AIGPS">
             </div>
 
-            <form class="col-12 col-sm-6" method="POST" action="{{ route('login') }}">
+            <form class="col-12 col-md-6" method="POST" action="{{ route('login') }}">
                 @csrf
                 <div class="row justify-content-center">
                     <div class="text-center">
