@@ -30,6 +30,6 @@ class Hospital extends Model
 
     public function patients()
     {
-        return $this->belongsToMany(User::class, 'hospitalizations')->withPivot('checkin_date', 'checkout_date');
+        return $this->belongsToMany(User::class, 'hospitalizations')->withPivot('id', 'checkin_date', 'checkout_date');
     }
 }

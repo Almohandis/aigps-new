@@ -32,13 +32,12 @@ Route::middleware('isolation')->prefix('/isohospital')->group(function () {
     Route::get('/', 'IsolationHospitalController@index');
     Route::post('/update', 'IsolationHospitalController@update');
 
-    Route::get('/infection', 'IsolationHospitalController@infection');
-    Route::post('/infection/save/{id}', 'IsolationHospitalController@save');
-    Route::get('/infection/more/{id}', 'IsolationHospitalController@more')->name('infection-more');
-    Route::post('/infection/more/{id}', 'IsolationHospitalController@submit');
-    Route::get('/infection/checkout/{id}', 'IsolationHospitalController@checkout')->name('infection-checkout'); // make this test
-    Route::get('/infection/add', 'IsolationHospitalController@addPatient'); // redo its test
-    Route::post('/infection/add', 'IsolationHospitalController@submitAddPatient'); //
+    Route::get('/infection', 'InfectionController@index');
+    Route::post('/infection/add', 'InfectionController@add');
+    Route::post('/infection/{hospitalization}/checkout', 'InfectionController@checkout');
+
+    Route::get('/infection/{user}/update', 'InfectionController@updateView');
+    Route::post('/infection/{user}/update', 'InfectionController@update');
 });
 
 
