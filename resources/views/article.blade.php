@@ -9,7 +9,7 @@
                 <iframe class="embed-responsive-item" src="{{ $article->link }}" allowfullscreen></iframe>
             </div>
         @elseif($article->path)
-            <img class="w-full" src="{{ Storage::disk('public')->url($article->path) }}" alt="">
+            <img class="w-full" src="{{ asset('storage/'.$article->path) }}" alt="">
         @endif
 
         <div class="mx-auto text-center mt-5 text-white">
