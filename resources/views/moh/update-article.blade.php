@@ -36,7 +36,7 @@
                 <div class="row mt-2">
                     <div class="col-12 col-md-6">
                         <label>Content</label>
-                        <textarea value="{{$article->content}}" class="form-control" rows="5" name="content" placeholder="Enter article content" required></textarea>
+                        <textarea class="form-control" rows="5" name="content" placeholder="Enter article content" required>{{$article->content}}</textarea>
                     </div>
 
                     <div class="col-12 col-md-6">
