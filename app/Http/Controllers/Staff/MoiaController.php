@@ -10,7 +10,8 @@ class MoiaController extends Controller
 {
     public function index()
     {
-        $campaigns = Campaign::where('start_date', '>', now())->get();
+        $campaigns = Campaign::where('start_date', '>', now())->paginate(10);
+
         return view('moia.moia-escorting', compact('campaigns'));
     }
 
