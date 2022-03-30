@@ -1,4 +1,5 @@
 <x-app-layout>
+    <link href="{{asset('css/reservation.css')}}" rel="stylesheet">
     <div class="max-w-6xl mx-auto sm:px-6 lg:px-8 mt-9">
         <div class="notification">
             @if (session('message'))
@@ -208,6 +209,54 @@
                     <P>Infections standard deviation (σ) = {{ $standard_deviation }}</P>
                 </div>
             @endif
+        </div>
+        <div class="mx-auto text-center mt-5">
+            <div id="map" class="aigps-map"></div>
+
+            <script src="https://maps.googleapis.com/maps/api/js?key={{ config('app.google_maps_api') }}&callback=initMap" defer>
+            </script>
+
+            <script>
+                function initMap() {
+
+                    let cities = [
+                        @foreach ($cities as $city)
+                            {
+                            name: "{{ $city->city }}",
+                            center: {
+                            lat: {{ $city->lat }},
+                            lng: {{ $city->lng }}
+                            },
+
+                            population: {{ ($city->total * 100) / $max / 100 }}
+                            },
+                        @endforeach
+                    ];
+
+
+
+                    var map = new google.maps.Map(document.getElementById('map'), {
+                        mapId: "dcba2c77acce5e73",
+                        zoom: 6,
+                        center: new google.maps.LatLng(26.8206, 30.8025)
+                    });
+
+
+                    cities.forEach(function(city) {
+                        const cityCircle = new google.maps.Circle({
+                            strokeColor: "#FF1111",
+                            strokeOpacity: Math.max(city.population, 0.7) + 0.1,
+                            strokeWeight: 2,
+                            fillColor: "#FF0000",
+                            fillOpacity: Math.max(0.09, Math.min(city.population, 0.5)),
+                            map,
+                            center: city.center,
+                            radius: 30000,
+                        });
+                    });
+
+                }
+            </script>
         </div>
     </div>
     @if (isset($data_by_city))

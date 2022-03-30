@@ -55,7 +55,7 @@
                     <p>Based on time</p>
                     <select onchange="selectCampaignOption('nearCampaigns2')" class="form-select">
                         <option value="-1">Select a campaign</option>
-    
+
                         @foreach ($campaigns as $index => $campaign)
                             <option value="{{ $index }}">{{ $campaign->address }}</option>
                         @endforeach
@@ -71,14 +71,14 @@
                     <p id="distance"> Distance: </p>
                     <p id="start_date"> Starts At: </p>
                     <p id="end_date"> Ends At: </p>
-                </div> 
+                </div>
             </div>
 
             <div class="mx-auto text-center mt-5">
                 <div id="map" class="aigps-map"></div>
 
                 <script src="https://maps.googleapis.com/maps/api/js?key={{ config('app.google_maps_api') }}&callback=initMap" defer></script>
-    
+
                 <script>
                     var locations = [
                         @foreach ($campaigns as $campaign)
@@ -123,19 +123,19 @@
                         getUserLocation();
                         getUserCity();
 
-                        let cities = [
-                            @foreach ($cities as $city)
-                                {
-                                name: "{{ $city->city }}",
-                                center: {
-                                lat: {{ $city->lat }},
-                                lng: {{ $city->lng }}
-                                },
-                            
-                                population: {{ ($city->total * 100) / $max / 100 }}
-                                },
-                            @endforeach
-                        ];
+                        // let cities = [
+                        //     @foreach ($cities as $city)
+                        //         {
+                        //         name: "{{ $city->city }}",
+                        //         center: {
+                        //         lat: {{ $city->lat }},
+                        //         lng: {{ $city->lng }}
+                        //         },
+
+                        //         population: {{ ($city->total * 100) / $max / 100 }}
+                        //         },
+                        //     @endforeach
+                        // ];
 
                         let markerIcon = {
                             path: "M10.453 14.016l6.563-6.609-1.406-1.406-5.156 5.203-2.063-2.109-1.406 1.406zM12 2.016q2.906 0 4.945 2.039t2.039 4.945q0 1.453-0.727 3.328t-1.758 3.516-2.039 3.070-1.711 2.273l-0.75 0.797q-0.281-0.328-0.75-0.867t-1.688-2.156-2.133-3.141-1.664-3.445-0.75-3.375q0-2.906 2.039-4.945t4.945-2.039z",
@@ -156,18 +156,18 @@
                         const trafficLayer = new google.maps.TrafficLayer();
                         trafficLayer.setMap(map);
 
-                        cities.forEach(function(city) {
-                            const cityCircle = new google.maps.Circle({
-                                strokeColor: "#FF1111",
-                                strokeOpacity: Math.max(city.population, 0.7) + 0.1,
-                                strokeWeight: 2,
-                                fillColor: "#FF0000",
-                                fillOpacity: Math.max(0.09, Math.min(city.population, 0.5)),
-                                map,
-                                center: city.center,
-                                radius: 30000,
-                            });
-                        });
+                        // cities.forEach(function(city) {
+                        //     const cityCircle = new google.maps.Circle({
+                        //         strokeColor: "#FF1111",
+                        //         strokeOpacity: Math.max(city.population, 0.7) + 0.1,
+                        //         strokeWeight: 2,
+                        //         fillColor: "#FF0000",
+                        //         fillOpacity: Math.max(0.09, Math.min(city.population, 0.5)),
+                        //         map,
+                        //         center: city.center,
+                        //         radius: 30000,
+                        //     });
+                        // });
 
                         var infowindow = new google.maps.InfoWindow();
                         var marker, i;
