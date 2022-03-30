@@ -6,10 +6,10 @@
 
         @foreach($articles as $article)
             <div class="mx-auto text-center mt-5 text-white">
-                @if($article->type == 'image')
-                    <img src="{{ $article->link }}" alt="">
+                @if($article->path)
+                    <img src="{{ $article->path }}" alt="">
                 @endif
-                <a href="/articles/{{ $article->id }}">
+                <a href="/gallery/{{ $article->id }}">
                     {{ $article->title }}
                 </a>
             </div>
