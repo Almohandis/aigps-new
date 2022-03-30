@@ -28,16 +28,17 @@ Route::post('/clerk', 'CampaignClerkController@store')->middleware('clerk');
 
 //# Isolation hospital routes
 // group the Isolation hospital routes into a single middleware group
-Route::middleware('isolation')->group(function () {
-    Route::get('/isohospital/modify', 'IsolationHospitalController@index'); //
-    Route::post('/isohospital/update', 'IsolationHospitalController@modify'); //
-    Route::get('/isohospital/infection', 'IsolationHospitalController@infection'); //
-    Route::post('/isohospital/infection/save/{id}', 'IsolationHospitalController@save'); //
-    Route::get('/isohospital/infection/more/{id}', 'IsolationHospitalController@more')->name('infection-more'); //
-    Route::post('/isohospital/infection/more/{id}', 'IsolationHospitalController@submit'); //
-    Route::get('/isohospital/infection/checkout/{id}', 'IsolationHospitalController@checkout')->name('infection-checkout'); // make this test
-    Route::get('/isohospital/infection/add', 'IsolationHospitalController@addPatient'); // redo its test
-    Route::post('/isohospital/infection/add', 'IsolationHospitalController@submitAddPatient'); //
+Route::middleware('isolation')->prefix('/isohospital')->group(function () {
+    Route::get('/', 'IsolationHospitalController@index');
+    Route::post('/update', 'IsolationHospitalController@update');
+
+    Route::get('/infection', 'IsolationHospitalController@infection');
+    Route::post('/infection/save/{id}', 'IsolationHospitalController@save');
+    Route::get('/infection/more/{id}', 'IsolationHospitalController@more')->name('infection-more');
+    Route::post('/infection/more/{id}', 'IsolationHospitalController@submit');
+    Route::get('/infection/checkout/{id}', 'IsolationHospitalController@checkout')->name('infection-checkout'); // make this test
+    Route::get('/infection/add', 'IsolationHospitalController@addPatient'); // redo its test
+    Route::post('/infection/add', 'IsolationHospitalController@submitAddPatient'); //
 });
 
 

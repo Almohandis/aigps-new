@@ -1,36 +1,59 @@
 <x-app-layout>
-    <div class="max-w-6xl mx-auto sm:px-6 lg:px-8 mt-9">
-        <div class="notification">
-            @if (session('message'))
-                {{ session('message') }}
-            @endif
-        </div>
-        <div class="pt-8 sm:pt-0">
-            <h1>Choose a hospital to update its statistics</h1>
-            <form action="/staff/isohospital/update" method='POST'>
-                <select name="hospital">
-                    <option value="" selected hidden disabled>Choose a hospital</option>
-                    @foreach ($hospitals as $hospital)
-                        <option value="{{ $hospital->id }}">{{ $hospital->name }}</option>
-                    @endforeach
-                </select>
-                <h1>Update statistics</h1>
+    <link href="{{asset('css/reservation.css')}}" rel="stylesheet">
 
-                @csrf
-                Total capacity: <input type="number" min="0" name="total_capacity" placeholder="Total capacity">
-                <br>
-                Intensive care capacity: <input type="number" min="0" name="care_beds" placeholder="Intensive care capacity">
-                <br>
-                Available intensive care beds: <input type="number" min="0" name="avail_care_beds" placeholder="Available intensive care beds">
-                <br>
-                Available regular beds: <input type="number" min="0" name="available_beds" placeholder="Available beds">
-                <br>
-                Recoveries: <input type="number" min="0" name="recoveries" placeholder="Number of recoveries">
-                <br>
-                Deaths: <input type="number" min="0" name="deaths" placeholder="Number of deaths">
-                <br>
-                <input type="submit" value="Update">
-            </form>
-        </div>
+    <div class="mt-5 text-center">
+        <h1 class="aigps-title">Update Hospital Statistics</h1>
+
+        @if (session('success'))
+            <div class="container alert alert-success" role="alert">
+                {{ session('success') }}
+            </div>
+        @endif
+
+        @if ($errors->any())
+            <div>
+                <div class="alert alert-danger" role="alert">
+                    <p>Something went wrong.</p>
+
+                    <ul class="">
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            </div>
+        @endif
+
+        @if($hospital)
+            <div class="text-start shadow container bg-white mt-5 rounded px-5 py-3 text-dark">
+                <h4 class="mb-3 text-center"> Update statistics for hospital [{{ $hospital->name }}] </h4>    
+                <form action="/staff/isohospital/update" method="POST">
+                    @csrf
+                    <div class="form-group row">
+                        <div class="col-12 col-md-6">
+                            <label>Capacity</label>
+                            <input type="text" class="form-control" name="capacity" value="{{$hospital->capacity}}" required>
+                        </div>
+
+                        <div class="col-12 col-md-6">
+                            <label>Recoveries</label>
+                            <input type="text" class="form-control" name="recoveries" value="0" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-12 col-md-6">
+                            <label>Deaths</label>
+                            <input type="text" class="form-control" name="deaths" value="0" required>
+                        </div>
+                    </div>
+
+                    <div class="container text-center my-3">
+                        <button type="submit" style="width: 300px;" class="btn btn-success">Update</button>
+                    </div>
+                </form>
+
+            </div>
+        @endif
     </div>
 </x-app-layout>

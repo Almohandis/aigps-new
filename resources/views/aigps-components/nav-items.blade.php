@@ -13,7 +13,7 @@
             Campaigns
         </a>
     @elseif (Auth::user()->isHospital())
-        <a class="nav-link text-dark" href="/staff/isohospital/modify">
+        <a class="nav-link text-dark" href="/staff/isohospital">
             Modify hospital statistics
         </a>
 

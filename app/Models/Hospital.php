@@ -19,8 +19,7 @@ class Hospital extends Model
         'is_isolation',
     ];
 
-    public function statistics()
-    {
+    public function statistics(){
         return $this->hasMany(HospitalStatistics::class);
     }
 

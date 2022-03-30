@@ -12,55 +12,47 @@ use App\Models\User;
 use App\Models\NationalId;
 use Illuminate\Support\Facades\DB;
 
-class IsolationHospitalController extends Controller
-{
-    protected $cities = ['6th of October', 'Alexandria', 'Aswan', 'Asyut', 'Beheira', 'Beni Suef', 'Cairo', 'Dakahlia', 'Damietta', 'Faiyum', 'Gharbia', 'Giza', 'Helwan', 'Ismailia', 'Kafr El Sheikh', 'Luxor', 'Matruh', 'Minya', 'Monufia', 'New Valley', 'North Sinai', 'Port Said', 'Qalyubia', 'Qena', 'Red Sea', 'Sharqia', 'Sohag', 'South Sinai', 'Suez'];
+class IsolationHospitalController extends Controller {
+    public function index(Request $request) {
+        $hospital = $request->user()->hospital()->first();
 
-    public function index()
-    {
-        $hospitals = Hospital::where('is_isolation', 1)->get();
-        return view('isolationHospital.isolation-hospital', compact('hospitals'));
+        if (! $hospital || ! $hospital->is_isolation) {
+            return view('isolationHospital.isolation-hospital')
+                ->with('hospital', null)
+                ->withErrors('You arent a member of any isolation hospital !');
+        }
+
+        return view('isolationHospital.isolation-hospital')
+            ->with('hospital', $hospital);
     }
 
-    public function modify(Request $request)
-    {
-        //# Check if the user is authorized to modify the hospital
-        if (!$request->hospital)
-            return redirect()->back()->with('message', 'Please choose a hospital');
-        //('hospital_id',$request->hospital)
-        if (Auth::user()->hospital_id == $request->hospital) {
-            $hospital = Hospital::find($request->hospital);
-            if (false
-                // $request->total_capacity === null
-                // || $request->care_beds === null
-                // || $request->avail_care_beds === null
-                // || $request->available_beds === null
-                // || $request->recoveries === null
-                // || $request->deaths === null
-            ) {
-                return redirect()->back()->with('message', 'Please fill in the fields');
-            }
-            if (false
-                // $request->total_capacity >= 0 && $request->available_beds >= 0 && $request->care_beds >= 0 && $request->avail_care_beds >= 0
-                // && $request->recoveries >= 0 && $request->deaths >= 0
-            ) {
-                $hospital->update([
-                    'capacity' => $request->total_capacity,
-                    'care_beds' => $request->care_beds,
-                    'avail_care_beds' => $request->avail_care_beds,
-                    'available_beds' => $request->available_beds,
-                ]);
-                HospitalStatistics::create([
-                    'hospital_id' => $hospital->id,
-                    'date' => now(),
-                    'recoveries' => $request->recoveries,
-                    'deaths' => $request->deaths,
-                ]);
-            }
-            return redirect('/staff/isohospital/modify')->with('message', 'Hospital statistics updated successfully');
-        } else {
-            return redirect()->back()->with('message', 'You are not authorized to modify this hospital');
+    public function update(Request $request) {
+        $request->validate([
+            'capacity'          =>  ['required', 'numeric', 'min:0'],
+            'recoveries'        =>  ['required', 'numeric', 'min:0'],
+            'deaths'            =>  ['required', 'numeric', 'min:0']
+        ]);
+
+        $hospital = $request->user()->hospital()->first();
+
+        if (! $hospital || $hospital->is_isolation == false) {
+            return back()
+                ->with('hospital', null)
+                ->withErrors('You arent a member of any isolation hospital !');
         }
+
+        $hospital->update([
+            'capacity'          =>      $request->capacity
+        ]);
+
+        HospitalStatistics::create([
+            'hospital_id'       => $hospital->id,
+            'date'              => now(),
+            'recoveries'        => $request->recoveries,
+            'deaths'            => $request->deaths,
+        ]);
+
+        return back()->withSuccess('Hospital Statistics updated successfully.');
     }
 
     public function infection(Request $request)
