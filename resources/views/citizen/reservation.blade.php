@@ -7,8 +7,22 @@
 
         <div class="text-start shadow container bg-white mt-5 rounded p-5 text-dark">
             @if ($message)
-                <div class="alert alert-warning" role="alert">
+                <div class="alert alert-info" role="alert">
                     {{ $message }}
+                </div>
+            @endif
+
+            @if ($errors->any())
+                <div>
+                    <div class="alert alert-danger" role="alert">
+                        <p>Something went wrong.</p>
+
+                        <ul class="">
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
                 </div>
             @endif
 
@@ -55,6 +69,8 @@
                         You have selected: <span class="fw-bold">Campaign Name</span>
                     </p>
                     <p id="distance"> Distance: </p>
+                    <p id="start_date"> Starts At: </p>
+                    <p id="end_date"> Ends At: </p>
                 </div> 
             </div>
 
@@ -67,7 +83,7 @@
                     var locations = [
                         @foreach ($campaigns as $campaign)
                             ["{{ preg_replace('/\s+/', ' ', trim($campaign->address)) }}", {{ $campaign->location }}, {{ $campaign->id }},
-                            "{{ $campaign->start_date }}", "{{ $campaign->status }}"],
+                            "{{ $campaign->start_date }}", "{{ $campaign->status }}", "{{ $campaign->end_date }}"],
                         @endforeach
                     ];
                     var distances = [];
@@ -87,6 +103,8 @@
                         distances.forEach(function(element, index) {
                             if (location[0] == element.name) {
                                 document.getElementById('distance').innerHTML = "Distance: " + element.distance.toFixed(2) + " km";
+                                document.getElementById('start_date').innerHTML = "Starts At: " + location[4];
+                                document.getElementById('end_date').innerHTML = "Ends At: " + location[6];
                                 return;
                             }
                         });
@@ -179,6 +197,7 @@
 
                             google.maps.event.addListener(marker, 'click', (function(marker, i) {
                                 return function() {
+                                    console.log(locations[i])
                                     let content = '<div id="content text-start">' +
                                         '<div>' +
                                         '</div>' +
@@ -186,7 +205,7 @@
                                         locations[i][0] + '</h5>' +
                                         '<div id="bodyContent">' +
                                         '<p class="text-start"><strong>Start date:</strong> ' + locations[i][4] + '</p>' +
-                                        '<p class="text-start"><strong>End date:</strong> ' + locations[i][5] + '</p>' +
+                                        '<p class="text-start"><strong>End date:</strong> ' + locations[i][6] + '</p>' +
                                         '</div>' +
                                         '</div>';
                                     infowindow.setContent(content);
