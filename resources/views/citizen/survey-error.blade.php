@@ -1,10 +1,20 @@
-<x-base-layout>
-    <div class="mt-5" style="margin-top: 200px;">
-        <div class="mx-auto text-center mt-5"
-            style="background-color: white;box-shadow: 0 .5rem 1.5rem rgba(0,0,0,.2);height: 13rem;width: 75rem;margin-left: 10rem;border-radius: 25px;">
-            <i class="fa-solid fa-circle-exclamation" style="margin-top: 2rem;font-size: 50px;"></i>
-            <h1 class="text-red-500 text-bold" style="padding-top: 2rem;font-size: 20px;color:black;"> You cannot reserve vaccines
-                right now, you need to take the survey again after 1 week to insure you have been recovered.</h1>
+<x-app-layout>
+    <link href="{{asset('css/reservation.css')}}" rel="stylesheet">
+
+
+    <div class="mt-5 text-center">
+        <div class="text-start shadow container bg-white mt-5 rounded p-5 text-dark">
+            <div class="text-center">
+                <img width="100" class="text-center mb-2" src="{{ asset('mioh-logo.png') }}">
+            </div>
+
+            <div>
+                <div class="alert alert-danger" role="alert">
+                    <h3> You cannot reserve vaccines right now, you need to take the survey again after 14 days to insure you have been recovered.</h3>
+                </div>
+            </div>
+            
+
         </div>
     </div>
-</x-base-layout>
+</x-app-layout>

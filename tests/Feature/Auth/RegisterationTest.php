@@ -4,6 +4,8 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\Models\NationalId;
 use App\Models\User;
 use App\Providers\RouteServiceProvider;
+use Illuminate\Support\Facades\Notification;
+use App\Notifications\RegisterationNotification;
 
 uses(RefreshDatabase::class);
 
@@ -21,14 +23,14 @@ test('registration screen can be rendered', function () {
 
 
 test('new users can register', function () {
+    Notification::fake();
     $response = $this->post('/register', [
         'national_id'           =>  '22345678901234',
         'name' => 'Test User',
         'email' => 'test@example.com',
-        'password' => 'password',
-        'password_confirmation' => 'password',
+        'password' => 'Test1234',
+        'password_confirmation' => 'Test1234',
         'address' => 'Test Address',
-        'telephone_number' => '555-555-5555',
         'country'       =>  'US',
         'city'         =>  'CA',
         'birthdate'    =>  '1990-01-01',
@@ -36,9 +38,9 @@ test('new users can register', function () {
     ]);
 
     $this->assertEquals(1, User::count());
+    Notification::assertSentTo(User::first(), RegisterationNotification::class);
 
-    $this->assertAuthenticated();
-    $response->assertRedirect('/survey');
+    $response->assertViewIs('auth.register-complete');
 });
 
 test('new users cannot register with invalid national id', function () {
@@ -46,10 +48,9 @@ test('new users cannot register with invalid national id', function () {
         'national_id'           =>  333,
         'name' => 'Test User',
         'email' => 'test@example.com',
-        'password' => 'password',
-        'password_confirmation' => 'password',
+        'password' => 'Test1234',
+        'password_confirmation' => 'Test1234',
         'address' => 'Test Address',
-        'telephone_number' => '555-555-5555',
         'country'       =>  'US',
         'city'         =>  'CA',
         'birthdate'    =>  '1990-01-01',
