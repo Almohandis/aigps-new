@@ -169,11 +169,11 @@ class ReservationController extends Controller {
 
         }
 
-        return view('citizen.reservation1')->with([
+        return view('citizen.reservation')->with([
             'campaigns' => $campaigns,
             'cities' => $citiesData,
             'max' => $max,
-            'message' => $request->user()->is_diagnosed ? null : 'You have to get a diagnosis appointment first',
+            'message' => $request->user()->is_diagnosed ? null : 'You will recieve diagnosis during your first reservation.',
         ]);
     }
 

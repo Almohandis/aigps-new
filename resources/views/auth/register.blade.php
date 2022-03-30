@@ -167,7 +167,7 @@
                     </div>
 
                     <div class="col-12 col-md-6 mt-2">
-                        <label>Country *</label>
+                        <label>Nationality *</label>
                         <select name="country" class="form-control">
                             @foreach ($countries as $country)
                                 <option value="{{ $country }}">{{ $country }}</option>
