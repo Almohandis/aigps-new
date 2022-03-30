@@ -25,7 +25,6 @@ class ProfileController extends Controller
             'email'             => ['required', 'string', 'email', 'max:255'],
             'password'          => ['required', 'confirmed', Rules\Password::defaults()],
             'address'           => 'required|string',
-            'telephone_number'  => 'required',
             'birthdate'         => 'required',
             'gender'            => 'required',
             'country'           =>  'required|string',
@@ -47,6 +46,6 @@ class ProfileController extends Controller
             'city'              =>  $request->city
         ]);
 
-        return back()->with('message', 'Settings updated successfully !');
+        return back()->withSuccess('Settings updated successfully !');
     }
 }

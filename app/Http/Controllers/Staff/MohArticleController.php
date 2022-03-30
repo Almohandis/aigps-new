@@ -26,7 +26,7 @@ class MohArticleController extends Controller {
         Article::create([
             'title'             => $request->title,
             'content'           => $request->content,
-            'path'              => $request->image?->store('public/articles') ?? NULL,
+            'path'              => $request->image?->store('articles') ?? NULL,
             'full_article_link' => $request->full_link ?? null,
             'video_link'        => $link ?? null,
         ]);

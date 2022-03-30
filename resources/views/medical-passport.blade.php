@@ -1,25 +1,61 @@
-<x-base-layout>
-    <div class="mt-6">
-        <h1 class="ml-5 text-left text-4xl text-white" style="text-shadow: 2px 2px 8px #000000;">
-            Medical passport
-        </h1>
+<x-app-layout>
+    <div class="mt-5 text-center">
+        <h1 class="aigps-title">Medical Passport</h1>
 
-        <div class="mx-auto text-center mt-5">
+        <div class="text-start shadow container bg-white mt-5 rounded p-5 text-dark">
+            <h3 class="text-center mb-3">VACCINE CERTIFICATE</h3>
 
-            <div class="inline-block bg-black bg-opacity-50 p-8 text-justify">
-                <h1>VACCINE CERTIFICATE</h1>
-                <p>Full name: {{ $user->name }}</p>
-                <p>National ID: {{ $user->national_id }}</p>
-                <p>Date of birth: {{ $user->birthdate }}</p>
-                <p>Blood type: {{ $user->blood_type }}</p>
-                <p>Passport number: {{ $user->passport_number }}</p>
-                <p>Vaccine name: {{ $medical_passport->vaccine_name }}</p>
-                <p>Dose dates</p>
-                @foreach ($vaccine_dates as $vaccine_date)
-                    <p>{{ $vaccine_date->vaccine_date }}</p>
-                @endforeach
-                <br><br>
-                <p>Certificate date: {{ $date }}</p>
-            </div>
+            <table class="table table-striped">
+                <tbody>
+                    <tr>
+                        <th scope="row">Full Name</th>
+                        <td>{{ Auth::user()->name }}</td>
+                    </tr>
+
+                    <tr>
+                        <th scope="row">National ID</th>
+                        <td>{{ Auth::user()->national_id }}</td>
+                    </tr>
+                    
+                    <tr>
+                        <th scope="row">Date of birth</th>
+                        <td>{{ Auth::user()->birthdate }}</td>
+                    </tr>
+
+                    <tr>
+                        <th scope="row">Blood type</th>
+                        <td>{{ Auth::user()->blood_type }}</td>
+                    </tr>
+                    
+                    <tr>
+                        <th scope="row">Passport number</th>
+                        <td>{{ $passport->passport_number }}</td>
+                    </tr>
+                    
+                    <tr>
+                        <th scope="row">Vaccine name</th>
+                        <td>{{ $passport->vaccine_name }}</td>
+                    </tr>
+
+                    @foreach ($dates as $id => $vaccine_date)
+                        <tr>
+                            <th scope="row">Dose #{{ $id }} Date</th>
+                            <td>{{ $vaccine_date->vaccine_date }}</td>
+                        </tr>
+                    @endforeach
+
+                    <tr>
+                        <th scope="row">QR Code</th>
+                        <td> {{ QrCode::size(100)->generate(Auth::user()->national_id) }} </td>
+                    </tr>
+
+                    <tr>
+                        <th scope="row">Certificate date</th>
+                        <td>{{ $date }}</td>
+                    </tr>
+                </tbody>
+            </table>
+            
         </div>
-</x-base-layout>
+    </div>
+</x-app-layout>
