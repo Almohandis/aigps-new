@@ -1,174 +1,219 @@
 <x-app-layout>
-    <div class="mt-6">
-        <div class="mx-auto text-center mt-5">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" rel="stylesheet">
 
-            <form class="inline-block bg-black bg-opacity-50 p-8 text-justify" method="POST" action="/staff/clerk"
-                style="background-color: white;box-shadow: 0 .5rem 1.5rem rgba(0,0,0,.1);border-radius: 25px;">
-                @if ($errors->any())
-                    <div>
-                        <div class="font-medium text-red-600">
-                            {{ __('Whoops! Something went wrong.') }}
-                        </div>
+    <script>
+            var errors = {
+                national_id: ''
+            };
 
-                        <ul class="mt-3 list-disc list-inside text-sm text-red-600">
-                            @foreach ($errors->all() as $error)
-                                <li>{{ $error }}</li>
-                            @endforeach
-                        </ul>
-                    </div>
-                @endif
+            function updateError() {
+                for(var key in errors) {
+                    if (errors[key] == '#') {
+                        document.getElementById(key + '_mark').classList.remove('text-danger');
+                        document.getElementById(key + '_mark').classList.add('text-success');
+                        document.getElementById(key + '_mark').classList.add('fa-check');
+                        document.getElementById(key + '_mark').classList.remove('fa-close');
+                        document.getElementById(key + '_error').innerHTML = '';
+                        document.getElementById(key + '_mark').style.color = 'green';
+                        document.getElementById('submitBtn').disabled = false;
+                    }
+                    else if (errors[key] != '') {
+                        document.getElementById(key + '_mark').classList.remove('text-success');
+                        document.getElementById(key + '_mark').classList.add('text-danger');
+                        document.getElementById(key + '_mark').classList.add('fa-close');
+                        document.getElementById(key + '_mark').classList.remove('fa-check');
+                        document.getElementById(key + '_mark').classList.remove('visually-hidden');
+                        document.getElementById(key + '_error').innerHTML = errors[key];
+                        document.getElementById('submitBtn').disabled = true;
+                    } else {
+                        document.getElementById(key + '_error').innerHTML = '';
+                        document.getElementById(key + '_mark').classList.add('visually-hidden');
+                    }
+                }
+            }
+        </script>
 
-                @isset($success)
-                    <div class="font-medium text-green-600">
-                        {{ $success }}
-                    </div>
-                @endisset
+    <div class="mt-5 text-center">
+        @if ($errors->any())
+            <div class="container">
+                <div class="alert alert-danger" role="alert">
+                    <p>Something went wrong. Please check the form below for errors.</p>
 
+                    <ul class="">
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            </div>
+        @endif
+
+        @if (session('success'))
+            <div class="container alert alert-success" role="alert">
+                {{ session('success') }}
+            </div>
+        @endif
+
+        <div class="text-start shadow container bg-white mt-5 rounded px-5 py-3 text-dark">
+            <h4 class="mb-3 text-center"> Insert Patient Data </h4>    
+
+            <form method="POST">
                 @csrf
-                <div style="width: 21rem;margin-top: 3rem;margin-left: 6rem;">
-                    <x-label for="national_id" value="National Id" class="text-black" />
-
-                    <x-input oninput="validateNid(this)" class="block mt-1 w-full" type="text" name="national_id" :value="old('national_id')"
-                        style="width: 16rem;margin-left: 5rem;margin-top: -2rem;" required autofocus />
+                <div class="row">
+                    <div class="col-12 col-md-6 mt-2">
+                        <i id="national_id_mark" class="fa-solid fa-close text-danger visually-hidden"></i>
+                        <label>National ID *</label>
+                        <input id="national_id" type="text" class="form-control" name="national_id" oninput="validateNid(this)" required>
+                        <div id="national_id_error" class="form-text text-danger"></div>
+                    </div>
 
                     <script>
                         function validateNid(input) {
-                            if (input.value.length != 14 || isNaN(input.value) || !(input.value[0] == '2' || input.value[0] == '1' || input.value[0] == '3')) {
+                            if (! isValidNid(input.value)) {
                                 input.style.outline = "red solid thin";
+                                errors.national_id = 'National ID must be valid [National Id must be 14 characters long, and starts with 1,2,3]';
+                                updateError();
                             } else {
                                 input.style.outline = "green solid thin";
+                                errors.national_id = '#';
+                                updateError();
                             }
                         }
+
+                        function isValidNid(input) {
+                            let days_per_month = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+
+                            if (input.length != 14 || isNaN(input) || !(input[0] == '2' || input[0] == '3')) {
+                                return false;
+                            }
+
+                            let month = parseInt(input.substring(3, 5));
+                            let day = parseInt(input.substring(5, 7));
+
+                            if (month > 12 || month < 1) {
+                                return false;
+                            }
+
+                            if (day > days_per_month[month - 1] || day < 1) {
+                                return false;
+                            }
+
+                            return true;
+                        }
                     </script>
+
+                    <div class="col-12 col-md-6 mt-2">
+                        <label>City *</label>
+                        <select name="city" class="form-control">
+                            @foreach ($cities as $city)
+                                <option value="{{ $city }}">{{ $city }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    <div class="col-12 col-md-6 mt-2">
+                        <label>Blood Type *</label>
                         
-                </div>
-
-                <div style="margin-left: 40rem;margin-top: -2rem;">
-                    <x-label for="city" value="City" class="text-black" />
-
-                    <select name="city" class="block mt-1 w-full"
-                        style="width: 12rem;margin-left: 3rem;margin-top: -2rem;border-radius: 5px;">
-                        <option value="Alexandria">Alexandria</option>
-                        <option value="Aswan">Aswan</option>
-                        <option value="Asyut">Asyut</option>
-                        <option value="Beheira">Beheira</option>
-                        <option value="Beni Suef">Beni Suef</option>
-                        <option value="Cairo">Cairo</option>
-                        <option value="Dakahlia">Dakahlia</option>
-                        <option value="Damietta">Damietta</option>
-                        <option value="Faiyum">Faiyum</option>
-                        <option value="Gharbia">Gharbia</option>
-                        <option value="Giza">Giza</option>
-                        <option value="Helwan">Helwan</option>
-                        <option value="Ismailia">Ismailia</option>
-                        <option value="Kafr El Sheikh">Kafr El Sheikh</option>
-                        <option value="Luxor">Luxor</option>
-                        <option value="Matruh">Matruh</option>
-                        <option value="Minya">Minya</option>
-                        <option value="Monufia">Monufia</option>
-                        <option value="New Valley">New Valley</option>
-                        <option value="North Sinai">North Sinai</option>
-                        <option value="Port Said">Port Said</option>
-                        <option value="Qalyubia">Qalyubia</option>
-                        <option value="Qena">Qena</option>
-                        <option value="Red Sea">Red Sea</option>
-                        <option value="Sharqia">Sharqia</option>
-                        <option value="Sohag">Sohag</option>
-                        <option value="South Sinai">South Sinai</option>
-                        <option value="Suez">Suez</option>
-                        <option value="6th of October">6th of October</option>
-                    </select>
-                </div>
-                <div style="margin-left: 5rem;margin-top: 4rem;">
-                    <x-label for="vaccine_name" value="Vaccine name" class="text-black" />
-
-                    <x-input style="width: 16rem;margin-left: 6rem;margin-top: -2rem;" class="block mt-1 w-full"
-                        type="text" name="vaccine_name" :value="old('vaccine_name')" />
-                </div>
-
-                <div style="margin-top: -1.8rem;margin-left: 40rem;">
-                    <x-label for="blood_type" value="blood_type" class="text-black" />
-
-                    <select name="blood_type" class="block mt-1 w-full"
-                        style="width: 7rem;margin-left: 6rem;margin-top: -2rem;border-radius: 5px;">
-                        <option value="A+">A+</option>
-                        <option value="A-">A-</option>
-                        <option value="B+">B+</option>
-                        <option value="B-">B-</option>
-                        <option value="AB+">AB+</option>
-                        <option value="AB-">AB-</option>
-                        <option value="O+">O+</option>
-                        <option value="O-">O-</option>
-                    </select>
-                </div>
-
-                <div class="mt-3" style="margin-left: 11rem;margin-top: 3rem;">
-                    <input type="checkbox" name="is_diagnosed" value="true" />
-                    <x-label value="Is Diagnosed" class="text-black inline-block" />
-                </div>
-
-                <div class="mt-4" style="margin-top: 3rem;margin-left:4rem;">
-                    <p class="text-xl text-black"> Infection status </p>
-                    <div style="margin-left: 2rem;margin-top: 1rem;">
-                        <x-label value="Infection Date:" class="text-black inline-block" />
-                        <input
-                            style="border-width: 2px;width: 16rem;text-align: center;border-radius: 5px;height: 2.5rem;"
-                            type="date" name="infection" />
-                    </div>
-                    <br>
-                    <div style="margin-top: -3.5rem;margin-left: 40rem;">
-                        <input type="checkbox" name="is_recovered" value="true" />
-                        <x-label value="Is Recovered" class="text-black inline-block" />
-                    </div>
-                </div>
-
-                <div class="mt-3" style="margin-top: 3rem; margin-left:4rem;">
-                    <p class="text-xl text-black"> Chronic Diseases </p>
-
-                    <div id="diseases" style="margin-top: 2rem;margin-left: 8rem;">
+                        <select name="blood_type" class="form-control">
+                            <option value="A+">A+</option>
+                            <option value="A-">A-</option>
+                            <option value="B+">B+</option>
+                            <option value="B-">B-</option>
+                            <option value="AB+">AB+</option>
+                            <option value="AB-">AB-</option>
+                            <option value="O+">O+</option>
+                            <option value="O-">O-</option>
+                        </select>
                     </div>
 
-                    <div onclick="addDisease()"
-                    style="width: 8rem;margin-left: 8rem;"
-                        class="text-center bg-blue-500 text-white text-medium px-3 py-2 mt-3 rounded-md shadow-sm hover:bg-blue-400">
-                        Add Disease
+                    <div class="col-12 col-md-6 mt-2 mb-5">
+                        <label class="container">&nbsp;</label>
+                        <input class="form-check-input" type="checkbox" name="is_diagnosed" value="true" />
+                        <label>Is Diagnosed</label>
                     </div>
 
-                    <script>
-                        function Scrolldown() {
-                            window.scroll(0,550); 
+                    <hr>
+
+                    <div class="col-12">
+                        <h5>
+                            Infection Status
+                            <small class="fw-normal text-muted">optional</small>
+                        </h5>
+                    </div>
+
+                    <div class="col-12 col-md-6 mt-2">
+                        <label>Infection Date: </label>
+                        <input type="date" class="form-control" name="infection">
+                    </div>
+
+                    <div class="col-12 col-md-6 mt-2 mb-5">
+                        <label class="container">&nbsp;</label>
+                        <input class="form-check-input" type="checkbox" name="is_recovered" value="true" />
+                        <label>Is Recovered </label>
+                    </div>
+
+                    <hr>
+
+                    <div class="col-12">
+                        <h5>
+                            Chronic Diseases
+                            <small class="fw-normal text-muted">optional</small>
+                        </h5>
+                    </div>
+
+                    <div id="diseases">
+                    </div>
+
+                    <div class="d-flex mt-3 justify-content-center">
+                        <div class="btn btn-outline-danger border-0 visually-hidden" onclick="removeDisease()" id="removeDisease">
+                            Remove Disease
+                        </div>
+
+                        <div class="btn btn-outline-primary border-0" onclick="addDisease()">
+                            Add Disease
+                        </div>
+
+                        <script>
+                            var diseases = 1;
+                            var disease_input = document.getElementById('diseases');
+
+                            function addDisease() {
+                                var disease = document.createElement('input');
+                                disease.setAttribute('type', 'text');
+                                disease.setAttribute('name', 'disease' + diseases);
+                                disease.setAttribute('placeholder', 'Disease Name');
+                                disease.setAttribute('required', '');
+                                disease.setAttribute('class', 'form-control mt-2');
+
+                                disease_input.appendChild(disease);
+
+                                diseases++;
+
+                                if (diseases > 1) {
+                                    document.getElementById('removeDisease').classList.remove('visually-hidden');
+                                }
                             }
-                        window.onload = Scrolldown;
-                        var diseases = 1;
-                        var disease_input = document.getElementById('diseases');
 
-                        function addDisease() {
-                            var disease = document.createElement('input');
-                            disease.setAttribute('type', 'text');
-                            disease.setAttribute('name', 'disease' + diseases);
-                            disease.setAttribute('placeholder', 'Name');
-                            disease.setAttribute('required', '');
-                            disease.setAttribute('class', 'block mt-1');
+                            function removeDisease() {
+                                disease_input.removeChild(disease_input.lastChild);
 
-                            disease_input.appendChild(disease);
+                                diseases--;
 
-                            diseases++;
-                        }
-                    </script>
+                                if (diseases == 1) {
+                                    document.getElementById('removeDisease').classList.add('visually-hidden');
+                                }
+                            }
+                        </script>
+                    </div>
                 </div>
 
-
-                <div class="mt-6">
-                    <div class="mt-3 mx-auto text-right">
-                        <button onclick="window.location.href='/'"class="cancel-btn" type="reset" style="margin-right: 1rem;">
-                            CANCEL
-                        </button>
-                        <x-button>
-                            Save
-                        </x-button>
-                    </div>
+                <div class="d-flex justify-content-center mt-3">
+                    <button class="btn btn-success" id="submitBtn" style="width: 150px;" disabled>
+                        Submit
+                    </button>
                 </div>
             </form>
+
         </div>
     </div>
 </x-app-layout>

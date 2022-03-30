@@ -1,94 +1,166 @@
 <x-app-layout>
-    <div class="max-w-6xl mx-auto sm:px-6 lg:px-8 mt-9">
-        <div class="notification">
-            @if (session('message'))
-                {{ session('message') }}
-            @endif
-        </div>
-        <div class="pt-8 sm:pt-0">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" rel="stylesheet">
 
+    <script>
+        var errors = {
+            national_id: ''
+        };
 
+        function updateError() {
+            for(var key in errors) {
+                if (errors[key] == '#') {
+                    document.getElementById(key + '_mark').classList.remove('text-danger');
+                    document.getElementById(key + '_mark').classList.add('text-success');
+                    document.getElementById(key + '_mark').classList.add('fa-check');
+                    document.getElementById(key + '_mark').classList.remove('fa-close');
+                    document.getElementById(key + '_error').innerHTML = '';
+                    document.getElementById(key + '_mark').style.color = 'green';
+                    document.getElementById('submitBtn').disabled = false;
+                }
+                else if (errors[key] != '') {
+                    document.getElementById(key + '_mark').classList.remove('text-success');
+                    document.getElementById(key + '_mark').classList.add('text-danger');
+                    document.getElementById(key + '_mark').classList.add('fa-close');
+                    document.getElementById(key + '_mark').classList.remove('fa-check');
+                    document.getElementById(key + '_mark').classList.remove('visually-hidden');
+                    document.getElementById(key + '_error').innerHTML = errors[key];
+                    document.getElementById('submitBtn').disabled = true;
+                } else {
+                    document.getElementById(key + '_error').innerHTML = '';
+                    document.getElementById(key + '_mark').classList.add('visually-hidden');
+                }
+            }
+        }
+    </script>
 
-            <h1 class="hospital-patients">Hospital patients</h1>
-            @php
-                $i = 1;
-            @endphp
-            @if ($patients)
-                <div class="tbl-header2">
-                    <table>
-                        <tr>
-                            <th>National ID</th>
-                            <th>Name</th>
-                            <th style="padding-left: 3rem;">Birthdate</th>
-                            <th style="padding-left: 2.5rem;">Gender</th>
-                            <th style="padding-left: 3rem;">Address</th>
-                            <th style="padding-left: 7rem;">Telephone number</th>
-                            <th style="padding-left: 8rem;">Blood type</th>
-                            <th style="padding-left: 9rem;">Diagnose status</th>
-                            <th colspan="3" style="padding-left: 15rem;">Actions</th>
-                        </tr>
-                    </table>
-                </div>
-                <div class="tbl-content2">
-                    <table>
-                        @foreach ($patients as $patient)
-                            <form method="POST"
-                                action="/staff/isohospital/infection/save/{{ $patient->national_id }}">
-                                @csrf
-                                <tr>
-                                    <td>{{ $patient->national_id }}</td>
-                                    <td><input type="text" contenteditable="false" name="name"
-                                            value="{{ $patient->name }}" style="margin-left: -4rem;width: 12rem;">
-                                    </td>
-                                    <td><input type="date" contenteditable="false" name="birthdate"
-                                            value="{{ $patient->birthdate }}"
-                                            style="margin-left: 4px;height: 2.4rem;width: 7.5rem;border-width: 1px;border-color: black;">
-                                    </td>
-                                    <td><input type="text" contenteditable="false" name="gender"
-                                            value="{{ $patient->gender }}" style="width: 5rem;"></td>
-                                    <td><input type="text" contenteditable="false" name="address"
-                                            value="{{ $patient->address }}"
-                                            style="margin-left: -3rem;width: 13.5rem;">
-                                    </td>
-                                    <td><input type="text" contenteditable="false" name="telephone_number"
-                                            value="{{ $patient->telephone_number }}"
-                                            style="width: 10rem;margin-left: 2.5rem;">
-                                    </td>
-                                    <td><input type=" text" contenteditable="false" name="blood_type"
-                                            value="{{ $patient->blood_type }}"
-                                            style="width: 4rem;margin-left: 5rem;height: 2rem;border-width: 1px;border-color: black;">
-                                    </td>
-                                    <td style="padding-left: 3rem;"><input type="number" contenteditable="false"
-                                            name="is_diagnosed" value="{{ $patient->is_diagnosed }}" min="0" max="1"
-                                            style="height: 2rem;border-color: black;border-width: 1px;">
-                                    </td>
-                                    <td><input type="submit" contenteditable="false" class="buttons"
-                                            data-id="{{ $patient->id++ }}"
-                                            data-patient_id="{{ $patient->national_id }}" value="Save"
-                                            style="margin-left: 4.3rem;background-color: #0fb639;color: white;width: 3rem;cursor: pointer;height: 2rem;">
-                                    </td>
-                                    <td>
-                                        <div
-                                            style="background-color: crimson;color: white;height: 1.6rem;width: 5rem;text-align: center;margin-left: 2rem;cursor: pointer;">
-                                            <a href="{{ route('infection-checkout', $patient->national_id) }}">Check
-                                                out</a>
-                                        </div>
-                                    </td>
-                                    <td style="width: 4rem;">
-                                        <div
-                                            style="background-color: #5a5acd;height: 1.6rem;color: white;width: 3rem;text-align: center;margin-left: -1rem;cursor: pointer;">
-                                            <a href="{{ route('infection-more', $patient->national_id) }}">More</a>
-                                        </div>
-                                    </td>
-                                </tr>
-                            </form>
+    <div class="mt-5 text-center">
+        <h1 class="aigps-title">Manage Hospital Patients</h1>
+
+        @if (session('success'))
+            <div class="container alert alert-success" role="alert">
+                {{ session('success') }}
+            </div>
+        @endif
+
+        @if ($errors->any())
+            <div class="container">
+                <div class="alert alert-danger" role="alert">
+                    <p>Something went wrong. Please check the form below for errors.</p>
+
+                    <ul class="">
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
                         @endforeach
-                    </table>
+                    </ul>
                 </div>
-            @endif
-            <form action="/staff/isohospital/infection/add" method="GET" style="margin-top: 2rem;">
-                <input type="submit" value="Add new patient" class="add-new-patient-btn">
-            </form>
-        </div>
+            </div>
+        @endif
+
+        @if($hospital)
+            <div class="table-responsive text-start shadow container bg-white mt-5 rounded px-5 py-3 text-dark">
+                <h4 class="text-center mb-3"> All patients in the hospital [{{ $hospital->name }}] </h4>
+        
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th scope="col">National ID</th>
+                            <th scope="col">Name</th>
+                            <th scope="col">Update</th>
+                            <th scope="col">Checkout</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($patients as $patient)
+                            <tr>
+                                <td>{{ $patient->national_id }}</td>
+                                <td>{{ $patient->name }}</td>
+                                <td><a class="btn btn-outline-primary" href="/staff/isohospital/infection/{{$patient->id}}/update">Update</a></td>
+
+                                <form method="POST" action="/staff/isohospital/infection/{{$patient->pivot->id}}/checkout">
+                                    <td>
+                                        @csrf
+                                        <button class="btn btn-outline-danger"> Checkout </button>
+                                    </td>
+                                </form>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+
+                <div class="flex">
+                    <ul class="pagination justify-content-center">
+                        @if ($patients->previousPageUrl())
+                            <li class="page-item"><a class="page-link" href="/staff/isohospital/infection?page={{ $patients->currentPage() - 1 }}">Previous</a></li>
+                        @endif
+                        
+                        
+                        @for($page = 1; $page <= $patients->lastPage(); $page++)
+                            <li class="page-item"><a class="page-link" href="/staff/isohospital/infection?page={{ $page }}">{{ $page }}</a></li>
+                        @endfor
+
+                        @if ($patients->nextPageUrl())
+                            <li class="page-item"><a class="page-link" href="/staff/isohospital/infection?page={{ $patients->currentPage() + 1 }}">Next</a></li>
+                        @endif
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="text-center shadow container bg-white mt-5 rounded px-5 py-3 text-dark">
+                <h4 class="mb-3 text-center"> Add a new Patient </h4>    
+                <form action="/staff/isohospital/infection/add" method="POST">
+                    @csrf
+
+                    <div class="row">
+                        <div class="col-12 mt-2">
+                            <i id="national_id_mark" class="fa-solid fa-close text-danger visually-hidden"></i>
+                            <label>National ID *</label>
+                            <input id="national_id" type="text" class="form-control" name="national_id" oninput="validateNid(this)" required>
+                            <div id="national_id_error" class="form-text text-danger"></div>
+                        </div>
+                    </div>
+
+                    <script>
+                        function validateNid(input) {
+                            if (! isValidNid(input.value)) {
+                                input.style.outline = "red solid thin";
+                                errors.national_id = 'National ID must be valid [National Id must be 14 characters long, and starts with 1,2,3]';
+                                updateError();
+                            } else {
+                                input.style.outline = "green solid thin";
+                                errors.national_id = '#';
+                                updateError();
+                            }
+                        }
+
+                        function isValidNid(input) {
+                            let days_per_month = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+
+                            if (input.length != 14 || isNaN(input) || !(input[0] == '2' || input[0] == '3')) {
+                                return false;
+                            }
+
+                            let month = parseInt(input.substring(3, 5));
+                            let day = parseInt(input.substring(5, 7));
+
+                            if (month > 12 || month < 1) {
+                                return false;
+                            }
+
+                            if (day > days_per_month[month - 1] || day < 1) {
+                                return false;
+                            }
+
+                            return true;
+                        }
+                    </script>
+                    <div class="container text-center my-3">
+                        <button id="submitBtn" type="submit" style="width: 300px;" class="btn btn-success" disabled>Add</button>
+                    </div>
+                </form>
+
+            </div>
+        @endif
+        
+
     </div>
 </x-app-layout>

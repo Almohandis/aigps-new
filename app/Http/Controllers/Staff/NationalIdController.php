@@ -7,38 +7,48 @@ use App\Http\Controllers\Controller;
 use App\Models\NationalId;
 use Illuminate\Support\Facades\Redirect;
 
-class NationalIdController extends Controller
-{
-    //# Redirect to national id modify page
-    public function index()
-    {
-        // $nationalIds = NationalId::all();
-        return view('nationalID.modify');
+class NationalIdController extends Controller {
+    public function index() {
+        $nationalIds = NationalId::paginate(10);
+
+        return view('national-id-entry.index')
+            ->with('nationalIds', $nationalIds);
     }
 
-    //# Modify national id
-    public function modify(Request $request)
-    {
-        if (!$request->entered_id)
-            return redirect()->back()->with('message', 'Please enter a valid national ID');
-        $check_id = NationalId::find($request->entered_id);
+    public function add(Request $request) {
+        $request->validate([
+            'national_id'   =>  ['required', 'min:14', 'max:14', 'unique:national_ids']
+        ]);
 
-        if ($request->add) {
-            if ($check_id) {
-                return redirect()->back()->with('message', 'National ID already exists');
-            } else {
-                NationalId::create([
-                    'national_id' => $request->entered_id
-                ]);
-                return redirect('/staff/nationalid/modify')->with('message', 'National ID added successfully');
-            }
-        } else if ($request->delete) {
-            if ($check_id) {
-                $check_id->delete();
-                return redirect('/staff/nationalid/modify')->with('message', 'National ID deleted successfully');
-            } else {
-                return redirect()->back()->with('message', 'National ID does not exist');
-            }
-        }
+        $nationalId = new NationalId();
+        $nationalId->national_id = $request->national_id;
+        $nationalId->save();
+
+        return back()->withSuccess('National Id has been added successfully.');
+    }
+
+    public function delete(Request $request) {
+        $request->validate([
+            'national_id'   =>  ['required', 'exists:national_ids']
+        ]);
+
+        $nationalId = NationalId::find($request->national_id);
+        $nationalId->delete();
+
+        return back()->withSuccess('National Id has been deleted successfully.');
+    }
+
+    public function update(Request $request) {
+        $request->validate([
+            'national_id'   =>  ['required', 'min:14', 'max:14', 'exists:national_ids'],
+            'national_id_new'   =>  ['required', 'min:14', 'max:14']
+        ]);
+
+        $nationalId = NationalId::find($request->national_id);
+
+        $nationalId->national_id = $request->national_id_new;
+        $nationalId->save();
+
+        return back()->withSuccess('National Id has been updated successfully.');
     }
 }

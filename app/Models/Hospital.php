@@ -19,8 +19,7 @@ class Hospital extends Model
         'is_isolation',
     ];
 
-    public function statistics()
-    {
+    public function statistics(){
         return $this->hasMany(HospitalStatistics::class);
     }
 
@@ -28,8 +27,9 @@ class Hospital extends Model
     {
         return $this->hasMany(User::class);
     }
+
     public function patients()
     {
-        return $this->belongsToMany(User::class, 'hospitalizations')->withPivot('checkin_date', 'checkout_date');
+        return $this->belongsToMany(User::class, 'hospitalizations')->withPivot('id', 'checkin_date', 'checkout_date');
     }
 }
