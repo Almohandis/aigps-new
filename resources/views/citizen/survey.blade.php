@@ -24,21 +24,22 @@
                 </div>
             @endif
 
-            @foreach ($questions as $question)
-                <div class="mt-3 row">
-                    <label class="text-black col-12 col-md-9"> {{ $question->title }} </label>
-                    <div class="d-flex radio col-12 col-md-3 justify-content-center">
-                        <input class="form-check-input me-2" type="radio" name="answers[{{ $question->id }}]" value="Yes">
-                        <label class="me-3">Yes</label>
-                        <input class="form-check-input me-2" type="radio" name="answers[{{ $question->id }}]" value="No">
-                        <label class="text-gray-400 text-sm">No</label>
-                    </div>
-                </div>
-                <br>
-            @endforeach
-
             <form action="/survey" method="POST" id="procceed_form" class="text-center">
                 @csrf
+
+                @foreach ($questions as $question)
+                    <div class="mt-3 row text-start">
+                        <label class="text-black col-12 col-md-9"> {{ $question->title }} </label>
+                        <div class="d-flex radio col-12 col-md-3 justify-content-center">
+                            <input class="form-check-input me-2" type="radio" name="answers[{{ $question->id }}]" value="Yes">
+                            <label class="me-3">Yes</label>
+                            <input class="form-check-input me-2" type="radio" name="answers[{{ $question->id }}]" value="No">
+                            <label class="text-gray-400 text-sm">No</label>
+                        </div>
+                    </div>
+                    <br>
+                @endforeach
+
                 <button class="btn btn-success mt-5" type="submit" id="procceed_button" style="width: 200px;">
                     Submit
                 </button>
