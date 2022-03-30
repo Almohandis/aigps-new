@@ -80,7 +80,7 @@
 
                     <div class="col-12 col-md-6 mt-2">
                         <label>Name *</label>
-                        <input type="text" class="form-control" name="email" required>
+                        <input type="text" class="form-control" name="name" required>
                         <div id="name_error" class="form-text text-danger"></div>
                     </div>
 
@@ -204,7 +204,7 @@
 
                     <div class="col-12 col-md-6 mt-2">
                         <i id="workemail_mark" class="fa-solid fa-close text-danger visually-hidden"></i>
-                        <label>Work Email *</label>
+                        <label>Work Email (optional)</label>
                         <input type="email" class="form-control" name="workemail" oninput="validateWorkEmail(this)">
                         <div id="workemail_error" class="form-text text-danger"></div>
                     </div>
