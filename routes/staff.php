@@ -69,14 +69,8 @@ Route::middleware('moh')->prefix('/moh')->group(function () {
     Route::get('/articles/{article}/delete', 'MohArticleController@delete');
 });
 
-//# Admin routes
-// group the Admin routes into one middleware group
 Route::middleware('admin')->group(function () {
-    Route::get('/admin', 'AdminController@index'); //
-    Route::post('/admin/update', 'AdminController@update');
-    Route::post('/admin/add', 'AdminController@add'); //
-});
-
-Route::post('/test', function (Request $request) {
-    return $request->all();
+    Route::get('/admin', 'AdminController@index');
+    Route::post('/admin/{employee}/update', 'AdminController@update');
+    Route::post('/admin/add', 'AdminController@add');
 });
