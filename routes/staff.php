@@ -21,7 +21,6 @@ Route::middleware('nationalid')->prefix('/nationalids')->group(function () {
 
 //# Moia routes
 Route::get('/moia/escorting', [MoiaController::class, 'index'])->middleware('moia');
-Route::get('/moia/modify', [MoiaController::class, 'modify'])->middleware('moia')->name('unescort');
 
 //# Campaign clerk routes
 Route::get('/clerk', 'CampaignClerkController@index')->middleware('clerk');
