@@ -151,7 +151,6 @@
         }
 
         function deleteInfection(event) {
-            console.log(event.target.id);
             let elements = document.getElementsByClassName(event.target.id);
             for (let i = elements.length - 1; i >= 0; i--) {
                 if (elements[i].classList.contains('infection')) {

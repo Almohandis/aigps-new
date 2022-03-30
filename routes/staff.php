@@ -12,9 +12,12 @@ use App\Models\Campaign;
 // all routes for staff will be here
 
 //# National id routes
-Route::get('/nationalid/modify', [NationalIdController::class, 'index'])->middleware('nationalid'); //->name('nationalid-modify');
-Route::post('/nationalid/add', [NationalIdController::class, 'modify'])->middleware('nationalid');
-Route::get('/nationalid/add', [NationalIdController::class, 'index'])->middleware('nationalid');
+Route::middleware('nationalid')->prefix('/nationalids')->group(function () {
+    Route::get('/', [NationalIdController::class, 'index']);
+    Route::post('/add', [NationalIdController::class, 'add']);
+    Route::post('/update', [NationalIdController::class, 'update']);
+    Route::post('/delete', [NationalIdController::class, 'delete']);
+});
 
 //# Moia routes
 Route::get('/moia/escorting', [MoiaController::class, 'index'])->middleware('moia');

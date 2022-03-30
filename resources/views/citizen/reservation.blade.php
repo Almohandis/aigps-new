@@ -197,7 +197,6 @@
 
                             google.maps.event.addListener(marker, 'click', (function(marker, i) {
                                 return function() {
-                                    console.log(locations[i])
                                     let content = '<div id="content text-start">' +
                                         '<div>' +
                                         '</div>' +
