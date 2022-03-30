@@ -64,7 +64,7 @@
                     <tr>
                         <th scope="col">National ID</th>
                         <th scope="col">Name</th>
-                        <th scope="col">Modify Doctors</th>
+                        <th scope="col">Remove Doctor</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -76,7 +76,7 @@
                             <form method="POST" action="/staff/moh/manage-doctors/doctors/{{$doctor->id}}/delete">
                                 <td>
                                     @csrf
-                                    <button class="btn btn-outline-danger"> Delete </button>
+                                    <button class="btn btn-outline-danger"> Remove </button>
                                 </td>
                             </form>
                         </tr>
