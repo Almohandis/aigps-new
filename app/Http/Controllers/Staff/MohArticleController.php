@@ -45,7 +45,7 @@ class MohArticleController extends Controller {
         $article->update([
             'title'             => $request->title,
             'content'           => $request->content,
-            'path'              => $request->image?->store('public/articles') ?? $article->path,
+            'path'              => $request->image?->store('articles') ?? $article->path,
             'full_article_link' => $request->full_link ?? null,
             'video_link'        => $link ?? null,
         ]);
