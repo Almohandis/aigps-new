@@ -1,37 +1,50 @@
 <x-app-layout>
-    <div class="max-w-6xl mx-auto sm:px-6 lg:px-8 mt-9">
-        <div class="notification">
-            @if (session('message'))
-                {{ session('message') }}
-            @endif
-        </div>
-        <div class="pt-8 sm:pt-0">
-            <h1 class="add-hero2">All available campaigns</h1>
-            <div class="tbl-header">
-                <table>
+    <link href="{{asset('css/reservation.css')}}" rel="stylesheet">
+
+    <div class="mt-5 text-center">
+        <h1 class="aigps-title">Observe Campaigns</h1>
+
+        <div class="table-responsive text-start shadow container bg-white mt-5 rounded px-5 py-3 text-dark">
+            <h4 class="text-center mb-3"> Current Campaigns </h4>
+    
+            <table class="table table-hover">
+                <thead>
                     <tr>
-                        <th>#</th>
-                        <th>Start date</th>
-                        <th>End date</th>
-                        <th>City</th>
-                        <th>Address</th>
+                        <th scope="col">Campaign's start date</th>
+                        <th scope="col">Campaign's end date</th>
+                        <th scope="col">City</th>
+                        <th scope="col">Address</th>
+                        <th scope="col">Status</th>
                     </tr>
-                </table>
-            </div>
-            <div class="tbl-content">
-                <table>
+                </thead>
+                <tbody>
                     @foreach ($campaigns as $campaign)
                         <tr>
-                            <td>{{ $campaign->id }}</td>
                             <td>{{ $campaign->start_date }}</td>
                             <td>{{ $campaign->end_date }}</td>
                             <td>{{ $campaign->city }}</td>
                             <td>{{ $campaign->address }}</td>
-                            <td></td>
-
+                            <td>{{ $campaign->status }}</td>
                         </tr>
                     @endforeach
-                </table>
+                </tbody>
+            </table>
+
+            <div class="flex">
+                <ul class="pagination justify-content-center">
+                    @if ($campaigns->previousPageUrl())
+                        <li class="page-item"><a class="page-link" href="/staff/moia/escorting?page={{ $campaigns->currentPage() - 1 }}">Previous</a></li>
+                    @endif
+                    
+                    
+                    @for($page = 1; $page <= $campaigns->lastPage(); $page++)
+                        <li class="page-item"><a class="page-link" href="/staff/moia/escorting?page={{ $page }}">{{ $page }}</a></li>
+                    @endfor
+
+                    @if ($campaigns->nextPageUrl())
+                        <li class="page-item"><a class="page-link" href="/staff/moia/escorting?page={{ $campaigns->currentPage() + 1 }}">Next</a></li>
+                    @endif
+                </ul>
             </div>
         </div>
     </div>

@@ -10,14 +10,15 @@ use App\Models\MedicalPassport;
 
 class CampaignClerkController extends Controller
 {
-    public function index()
-    {
-        return view('clerk.clerk');
+    public function index() {
+        $cities = ['6th of October', 'Alexandria', 'Aswan', 'Asyut', 'Beheira', 'Beni Suef', 'Cairo', 'Dakahlia', 'Damietta', 'Faiyum', 'Gharbia', 'Giza', 'Helwan', 'Ismailia', 'Kafr El Sheikh', 'Luxor', 'Matruh', 'Minya', 'Monufia', 'New Valley', 'North Sinai', 'Port Said', 'Qalyubia', 'Qena', 'Red Sea', 'Sharqia', 'Sohag', 'South Sinai', 'Suez'];
+
+        return view('clerk.clerk')
+            ->with('cities', $cities)
+            ->with('countries', \Countries::getList('en'));
     }
 
-    public function store(Request $request)
-    {
-        // return $request->all();
+    public function store(Request $request) {
         $request->validate([
             'national_id' => 'required|string|max:255',
             'blood_type' => 'required|string|max:3',
@@ -27,12 +28,12 @@ class CampaignClerkController extends Controller
         $user = User::where('national_id', $request->national_id)->first();
 
         if (!$user) {
-            return redirect()->back()->withErrors(['national_id' => 'User not found']);
+            return back()->withErrors(['national_id' => 'User not found']);
         }
 
         $blood_types = ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'];
         if (!in_array($request->blood_type, $blood_types)) {
-            return redirect()->back()->withErrors(['blood_type' => 'Invalid blood type']);
+            return back()->withErrors(['blood_type' => 'Invalid blood type']);
         }
 
         //# increase dose count if patient already has been diagnosed because they have just taken vaccination
@@ -41,7 +42,7 @@ class CampaignClerkController extends Controller
                 'vaccine_dose_count' => $user->passport->vaccine_dose_count + 1,
                 'vaccine_name' => $request->vaccine_name,
             ]);
-            // return $user->passport()->first()->dates()->get();
+
             $date = $user->passport()->first()->dates()->create([
                 'vaccine_date' => now(),
             ]);
@@ -82,6 +83,6 @@ class CampaignClerkController extends Controller
             ]);
         }
 
-        return view('clerk.clerk')->with('success', 'User updated successfully');
+        return back()->withSuccess('User updated successfully');
     }
 }
