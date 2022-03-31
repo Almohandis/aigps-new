@@ -88,6 +88,12 @@
                     @endif
 
                     <tr>
+                        <th colspan="2" class="text-center py-3">
+                            <h5> Medical Passport Data </h5>
+                        </th>
+                    </tr>
+
+                    <tr>
                         <th scope="row">QR Code</th>
                         <td> {{ QrCode::size(100)->generate(Auth::user()->national_id) }} </td>
                     </tr>
@@ -98,7 +104,7 @@
                     </tr>
                 </tbody>
             </table>
-</div>
+        </div>
 
             <div class="row justify-content-center">
                 <button class="btn btn-primary" onclick="createPDF()">Print</button>
