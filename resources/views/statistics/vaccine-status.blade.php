@@ -1,5 +1,5 @@
 <x-app-layout>
-    <div class="max-w-6xl mx-auto sm:px-6 lg:px-8 mt-9">
+    <div class="table-responsive text-start shadow container bg-white mt-5 rounded px-5 py-3 text-dark">
         <div class="notification">
             @if (session('message'))
                 {{ session('message') }}
@@ -29,8 +29,8 @@
             </form>
             @if (isset($data_by_vaccine_status))
                 <h1>{{ $report_title }}</h1>
-                <div class="tbl-header">
-                    <table>
+                <table class="table table-hover">
+                    <thead>
                         <tr>
                             <th>Vaccine status category</th>
                             <th>Number of males</th>
@@ -39,10 +39,9 @@
                             <th>Female percentage</th>
                             <th>Total</th>
                         </tr>
-                    </table>
-                </div>
-                <div class="tbl-content">
-                    <table>
+                    </thead>
+                
+                    <tbody>
                         @foreach ($data_by_vaccine_status as $status)
                             <tr>
                                 <td>{{ $status->vac_status }}</td>
@@ -53,12 +52,12 @@
                                 <td>{{ $status->total }}</td>
                             </tr>
                         @endforeach
-                    </table>
-                </div>
+                    </tbody>
+                </table>
             @elseif(isset($data_by_city_age_segment))
                 <h1>{{ $report_title }}</h1>
-                <div class="tbl-header">
-                    <table>
+                <table class="table table-hover">
+                    <thead>
                         <tr>
                             <th>City</th>
                             <th>Age segment</th>
@@ -67,10 +66,9 @@
                             <th>Fully vaccinated</th>
                             <th>Total</th>
                         </tr>
-                    </table>
-                </div>
-                <div class="tbl-content">
-                    <table>
+                    </thead>
+                
+                    <tbody>
                         @foreach ($data_by_city_age_segment as $city)
                             <tr>
                                 <td>{{ $city->city }}</td>
@@ -81,8 +79,8 @@
                                 <td>{{ $city->total }}</td>
                             </tr>
                         @endforeach
-                    </table>
-                </div>
+                    </tbody>
+                </table>
             @endif
         </div>
     </div>
