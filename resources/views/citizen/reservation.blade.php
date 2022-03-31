@@ -30,38 +30,74 @@
 
             <h4> Select a campaign </h4>
             <p class="text-muted">Select a campaign either through the map or through the select options.</p>
+            
+            <div class="accordion mb-4" id="campaignsAccordion">
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="flush-headingOne">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne">
+                            List of campaigns
+                        </button>
+                    </h2>
+                    <div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#campaignsAccordion">
+                        <div class="accordion-body">
+                            <div class="ms-1 row mb-3">
+                                <div class="col-12 col-md-2">
+                                    <p class="mt-2">Sort By</p>
+                                </div>
 
-            <div class="row">
-                <div class="col-12 col-md-6 col-xl-3 visually-hidden" id="nearCampaigns">
-                    <p>Near your city</p>
-                    <select onchange="selectCampaignOption('nearCampaigns')" class="form-select">
-                        <option value="-1">Select a campaign</option>
-                    </select>
-                </div>
+                                <div class="col-12 col-md-10">
+                                    <select class="form-select" onchange="sortCampaigns(this)">
+                                        <option value="0">Ascending start date</option>
+                                        <option value="1">Descending start date</option>
+                                        <option value="2">Near your city</option>
+                                        <option value="3">Near your marker</option>
+                                        <option value="4">Near your location</option>
+                                    </select>
+                                </div>
+                            </div>
 
-                <div class="col-12 col-md-6 col-xl-3 visually-hidden" id="nearCampaignsUserLocation">
-                    <p>Near your location</p>
-                    <select onchange="selectCampaignOption('nearCampaignsUserLocation')" class="form-select">
-                        <option value="-1">Select a campaign</option>
-                    </select>
-                </div>
+                            
+                            <div class="m-0 mb-3 card visually-hidden" id="campaignCopy">
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-between">
+                                        <h6 class="fw-bold mb-0 campaign-number">Campaign Number </h6>
 
-                <div class="col-12 col-md-6 col-xl-3 visually-hidden" id="nearCampaignsUserMarker">
-                    <p>Near the marker</p>
-                    <select onchange="selectCampaignOption('nearCampaignsUserMarker')" class="form-select">
-                        <option value="-1">Select a campaign</option>
-                    </select>
-                </div>
+                                        <button class="btn btn-primary campaign-select">
+                                            Select
+                                        </button>
+                                    </div>
 
-                <div class="col-12 col-md-6 col-xl-3" id="nearCampaigns2">
-                    <p>Based on time</p>
-                    <select onchange="selectCampaignOption('nearCampaigns2')" class="form-select">
-                        <option value="-1">Select a campaign</option>
-    
-                        @foreach ($campaigns as $index => $campaign)
-                            <option value="{{ $index }}">{{ $campaign->address }}</option>
-                        @endforeach
-                    </select>
+                                    <small class="mb-2 text-muted campaign-city">Location in</small>
+
+                                    <div class="row mt-3">
+                                        <div class="col-12 col-md-6">
+                                            <h6 class="card-subtitle">Start Date</h6>
+                                            <p class="card-text text-muted campaign-start"></p>
+                                        </div>
+
+                                        <div class="col-12 col-md-6">
+                                            <h6 class="card-subtitle">End Date</h6>
+                                            <p class="card-text text-muted campaign-end"></p>
+                                        </div>
+                                    </div>
+
+                                    <div class="mt-3">
+                                        <strong>Address: </strong>
+                                        <span class="text-muted campaign-address"></span>
+                                    </div>
+
+                                    <div class="mt-3">
+                                        <strong>Distance: </strong>
+                                        <span class="text-muted campaign-distance"></span>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div id="campaigns-list">
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -84,22 +120,27 @@
                 <script>
                     var locations = [
                         @foreach ($campaigns as $campaign)
-                            ["{{ preg_replace('/\s+/', ' ', trim($campaign->address)) }}", {{ $campaign->location }}, {{ $campaign->id }},
-                            "{{ $campaign->start_date }}", "{{ $campaign->status }}", "{{ $campaign->end_date }}"],
+                            {
+                                lat: [{{ $campaign->location }}][0],
+                                lng: [{{ $campaign->location }}][1],
+                                city: '{{ $campaign->city }}',
+                                address: '{{ $campaign->address }}',
+                                start_date: '{{ $campaign->start_date }}',
+                                end_date: '{{ $campaign->end_date }}',
+                                status: '{{ $campaign->status }}',
+                                id: {{ $campaign->id }}
+                            },
                         @endforeach
                     ];
+
+                    var locationsDescTime = [];
+                    var locationsMarker = [];
+                    var locationsCity = [];
+                    var locationsUserLocation = [];
+
+                    var userLocationAvailable = false;
+
                     var distances = [];
-                    var distancesUserLocation = [];
-                    var distancesUserMarker = [];
-
-                    function selectCampaignOption(id) {
-                        var val = parseInt(document.querySelector("#" + id + ">select").value);
-
-                        if (val != -1) {
-                            selectCampaign(locations[val])
-                        }
-
-                    }
 
                     function getDistanceByLocation(location) {
                         distances.forEach(function(element, index) {
@@ -113,32 +154,22 @@
                     }
 
                     function selectCampaign(campaign) {
-                        getDistanceByLocation(campaign);
                         document.getElementById('campaign_selection').classList.remove('visually-hidden');
-                        document.getElementById('campaign_selection').children[0].children[0].innerHTML = campaign[0];
+                        document.getElementById('campaign_selection').children[0].children[0].innerHTML = campaign.address;
+
+                        document.getElementById('distance').innerHTML = "Distance: " + campaign.distance.toFixed(2) + " km";
+                        document.getElementById('start_date').innerHTML = "Starts At: " + campaign.start_date;
+                        document.getElementById('end_date').innerHTML = "Ends At: " + campaign.end_date;
 
                         document.getElementById('procceed_button').removeAttribute('disabled');
-                        document.getElementById('procceed_form').action = '/reserve/map/' + campaign[3];
+                        document.getElementById('procceed_form').action = '/reserve/map/' + campaign.id;
+                    }
+
+                    function getUserDescTime() {
+                        locationsDescTime = JSON.parse(JSON.stringify(locations)).reverse();
                     }
 
                     function initMap() {
-                        getUserLocation();
-                        getUserCity();
-
-                        let cities = [
-                            @foreach ($cities as $city)
-                                {
-                                name: "{{ $city->city }}",
-                                center: {
-                                lat: {{ $city->lat }},
-                                lng: {{ $city->lng }}
-                                },
-                            
-                                population: {{ ($city->total * 100) / $max / 100 }}
-                                },
-                            @endforeach
-                        ];
-
                         let markerIcon = {
                             path: "M10.453 14.016l6.563-6.609-1.406-1.406-5.156 5.203-2.063-2.109-1.406 1.406zM12 2.016q2.906 0 4.945 2.039t2.039 4.945q0 1.453-0.727 3.328t-1.758 3.516-2.039 3.070-1.711 2.273l-0.75 0.797q-0.281-0.328-0.75-0.867t-1.688-2.156-2.133-3.141-1.664-3.445-0.75-3.375q0-2.906 2.039-4.945t4.945-2.039z",
                             fillColor: "red",
@@ -158,19 +189,6 @@
                         const trafficLayer = new google.maps.TrafficLayer();
                         trafficLayer.setMap(map);
 
-                        cities.forEach(function(city) {
-                            const cityCircle = new google.maps.Circle({
-                                strokeColor: "#FF1111",
-                                strokeOpacity: Math.max(city.population, 0.7) + 0.1,
-                                strokeWeight: 2,
-                                fillColor: "#FF0000",
-                                fillOpacity: Math.max(0.09, Math.min(city.population, 0.5)),
-                                map,
-                                center: city.center,
-                                radius: 30000,
-                            });
-                        });
-
                         var infowindow = new google.maps.InfoWindow();
                         var marker, i;
 
@@ -180,6 +198,8 @@
                             icon: markerIcon,
                             draggable: true,
                         });
+
+                        getUserMarkerLocation(userMarker.getPosition().lat(), userMarker.getPosition().lng());
 
                         map.addListener('center_changed', () => {
                             userMarker.setPosition(map.getCenter());
@@ -192,7 +212,7 @@
 
                         for (i = 0; i < locations.length; i++) {
                             marker = new google.maps.Marker({
-                                position: new google.maps.LatLng(locations[i][1], locations[i][2]),
+                                position: new google.maps.LatLng(locations[i].lat, locations[i].lng),
                                 map: map,
                                 icon: getMarker(locations[i]),
                             });
@@ -203,10 +223,10 @@
                                         '<div>' +
                                         '</div>' +
                                         '<h5 class="text-start"><strong>Address:</strong> ' +
-                                        locations[i][0] + '</h5>' +
+                                        locations[i].address + '</h5>' +
                                         '<div id="bodyContent">' +
-                                        '<p class="text-start"><strong>Start date:</strong> ' + locations[i][4] + '</p>' +
-                                        '<p class="text-start"><strong>End date:</strong> ' + locations[i][6] + '</p>' +
+                                        '<p class="text-start"><strong>Start date:</strong> ' + locations[i].start_date + '</p>' +
+                                        '<p class="text-start"><strong>End date:</strong> ' + locations[i].end_date + '</p>' +
                                         '</div>' +
                                         '</div>';
                                     infowindow.setContent(content);
@@ -215,6 +235,13 @@
                                 }
                             })(marker, i));
                         }
+  
+                        getUserLocation();
+                        getUserCity();
+                        getUserDescTime();
+
+                        sortCampaigns({value: 0});
+                        console.log(locations)
                     }
 
                     function getMarker(location) {
@@ -249,11 +276,7 @@
                             anchor: new google.maps.Point(15, 30),
                         };
 
-                        if (location[5] == 'active') {
-                            return greenMarker;
-                        }
-
-                        return redMarker;
+                        return greenMarker;
                     }
 
                     function calculateDistance(lat1, lon1, lat2, lon2) {
@@ -270,37 +293,33 @@
                         var geocoder = new google.maps.Geocoder();
 
                         geocoder.geocode({
-                            'address': 'Port Said, EG'
+                            'address': "{{ Auth::user()->city }}"
                         }, function(results, status) {
                             if (status == google.maps.GeocoderStatus.OK) {
                                 var Lat = results[0].geometry.location.lat();
                                 var Lng = results[0].geometry.location.lng();
 
-                                distances = sortLocations(Lat, Lng);
+                                let distancesSorted = sortLocations(Lat, Lng);
 
-                                var select = document.querySelector('#nearCampaigns>select');
-                                for (var i = 0; i < distances.length; i++) {
-                                    // add option in select
-                                    var option = document.createElement('option');
-                                    option.value = distances[i].id;
-                                    option.text = distances[i].name;
-                                    select.appendChild(option);
+                                for (i = 0; i < distancesSorted.length; i++) {
+                                    locationsCity[i] = distancesSorted[i].location;
+                                    locationsCity[i].distance = distancesSorted[i].distance;
                                 }
-
-                                document.getElementById('nearCampaigns').classList.remove('visually-hidden');
                             }
                         });
                     }
 
                     function sortLocations(lat, lng) {
                         var result = [];
+                        distances = [];
 
                         for (var i = 0; i < locations.length; i++) {
-                            var dist = calculateDistance(lat, lng, locations[i][1], locations[i][2]);
+                            var dist = calculateDistance(lat, lng, locations[i].lat, locations[i].lng);
                             result.push({
                                 id: i,
                                 distance: dist,
-                                name: locations[i][0],
+                                name: locations[i].address,
+                                location: locations[i]
                             });
                         }
 
@@ -308,6 +327,10 @@
                         result.sort(function(a, b) {
                             return a.distance - b.distance;
                         });
+
+                        for(var i = 0; i < result.length; i++) {
+                            distances.push(result[i].distance);
+                        }
 
                         return result;
                     }
@@ -320,41 +343,64 @@
                                     lng: position.coords.longitude,
                                 };
 
-                                distancesUserLocation = sortLocations(userLocation.lat, userLocation.lng);
+                                let distancesSorted = sortLocations(userLocation.lat, userLocation.lng);
 
-                                var select = document.querySelector('#nearCampaignsUserLocation>select');
-                                for (var i = 0; i < distancesUserLocation.length; i++) {
-                                    // add option in select
-                                    var option = document.createElement('option');
-                                    option.value = distancesUserLocation[i].id;
-                                    option.text = distancesUserLocation[i].name;
-                                    select.appendChild(option);
+                                for (i = 0; i < distancesSorted.length; i++) {
+                                    locationsUserLocation[i] = distancesSorted[i].location;
+                                    locationsUserLocation[i].distance = distancesSorted[i].distance;
                                 }
 
-                                document.getElementById('nearCampaignsUserLocation').classList.remove('visually-hidden');
+                                userLocationAvailable = true;
                             });
                         }
                     }
 
                     function getUserMarkerLocation(lat, lng) {
-                        distancesUserMarker = sortLocations(lat, lng);
+                        let distancesSorted = sortLocations(lat, lng);
 
-                        var select = document.querySelector('#nearCampaignsUserMarker>select');
-
-                        // remove all options from select
-                        while (select.children[1]) {
-                            select.removeChild(select.children[1]);
+                        for (i = 0; i < distancesSorted.length; i++) {
+                            locationsMarker[i] = distancesSorted[i].location;
+                            locationsMarker[i].distance = distancesSorted[i].distance;
                         }
+                    }
 
-                        for (var i = 0; i < distancesUserMarker.length; i++) {
-                            // add option in select
-                            var option = document.createElement('option');
-                            option.value = distancesUserMarker[i].id;
-                            option.text = distancesUserMarker[i].name;
-                            select.appendChild(option);
+                    function sortCampaigns(input) {
+                        if (input.value == 1) {
+                            generateCampaignsList(locationsDescTime);
+                        } else if (input.value == 2) {
+                            generateCampaignsList(locationsCity);
+                        } else if (input.value == 3) {
+                            generateCampaignsList(locationsMarker);
+                        } else if (input.value == 4) {
+                            generateCampaignsList(locationsUserLocation);
+                        } else {
+                            generateCampaignsList(locations);
                         }
+                    }
 
-                        document.getElementById('nearCampaignsUserMarker').classList.remove('visually-hidden');
+                    function generateCampaignsList(array) {
+                        const campaignsList = document.getElementById('campaigns-list');
+
+                        campaignsList.innerHTML = '';
+
+                        for (let i = 0; i < array.length; i++) {
+                            let copy = document.getElementById('campaignCopy').cloneNode(true);
+                            copy.classList.remove('visually-hidden');
+
+                            copy.querySelector('.campaign-number').innerHTML = 'Campaign Number #' + array[i].id;
+                            copy.querySelector('.campaign-city').innerHTML = 'Located at ' + array[i].city;
+                            copy.querySelector('.campaign-address').innerHTML = array[i].address;
+                            copy.querySelector('.campaign-start').innerHTML = array[i].start_date;
+                            copy.querySelector('.campaign-end').innerHTML = array[i].end_date;
+                            copy.querySelector('.campaign-distance').innerHTML = array[i].distance.toFixed(2) + ' km';
+                            copy.querySelector('.campaign-select').onclick = function () {
+                                selectCampaign(array[i]);
+                            }
+
+
+                            // add copy to list
+                            campaignsList.appendChild(copy);
+                        }
                     }
                 </script>
             </div>
