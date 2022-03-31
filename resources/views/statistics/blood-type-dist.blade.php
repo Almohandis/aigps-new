@@ -131,65 +131,84 @@
             @endphp
         </div>
         <div>
-            <P>Total A+ count = {{ $total_count->tot_a_plus }}</P>
+            <div class="">
+                <P>Total A+ count = {{ $total_count->tot_a_plus }}</P>
+            </div>
             <canvas id="a-plus" width="200" height="100"></canvas>
-            <p>A+ mean (µ) = {{ $means[0] }}</p>
-            <p>A+ variance (σ<sup>2</sup>) = {{ $variances[0] }}</p>
-            <P>A+ standard deviation (σ) = {{ $standard_deviations[0] }}</P>
+            <div class="alert alert-info mt-5">
+                <p>A+ mean (µ) = {{ $means[0] }}</p>
+                <p>A+ variance (σ<sup>2</sup>) = {{ $variances[0] }}</p>
+                <P>A+ standard deviation (σ) = {{ $standard_deviations[0] }}</P>
+            </div>
         </div>
         <div>
             <P>Total A- count = {{ $total_count->tot_a_minus }}</P>
             <canvas id="a-minus" width="200" height="100"></canvas>
-            <p>A- mean (µ) = {{ $means[1] }}</p>
-            <p>A- variance (σ<sup>2</sup>) = {{ $variances[1] }}</p>
-            <P>A- standard deviation (σ) = {{ $standard_deviations[1] }}</P>
+            <div class="alert alert-info mt-5">
+                <p>A- mean (µ) = {{ $means[1] }}</p>
+                <p>A- variance (σ<sup>2</sup>) = {{ $variances[1] }}</p>
+                <P>A- standard deviation (σ) = {{ $standard_deviations[1] }}</P>
+            </div>
         </div>
         <div>
             <P>Total B+ count = {{ $total_count->tot_b_plus }}</P>
             <canvas id="b-plus" width="200" height="100"></canvas>
-            <p>B+ mean (µ) = {{ $means[2] }}</p>
-            <p>B+ variance (σ<sup>2</sup>) = {{ $variances[2] }}</p>
-            <P>B+ standard deviation (σ) = {{ $standard_deviations[2] }}</P>
+            <div class="alert alert-info mt-5">
+                <p>B+ mean (µ) = {{ $means[2] }}</p>
+                <p>B+ variance (σ<sup>2</sup>) = {{ $variances[2] }}</p>
+                <P>B+ standard deviation (σ) = {{ $standard_deviations[2] }}</P>
+            </div>
+
         </div>
         <div>
             <P>Total B- count = {{ $total_count->tot_b_minus }}</P>
             <canvas id="b-minus" width="200" height="100"></canvas>
-            <p>B- mean (µ) = {{ $means[3] }}</p>
-            <p>B- variance (σ<sup>2</sup>) = {{ $variances[3] }}</p>
-            <P>B- standard deviation (σ) = {{ $standard_deviations[3] }}</P>
+            <div class="alert alert-info mt-5">
+                <p>B- mean (µ) = {{ $means[3] }}</p>
+                <p>B- variance (σ<sup>2</sup>) = {{ $variances[3] }}</p>
+                <P>B- standard deviation (σ) = {{ $standard_deviations[3] }}</P>
+            </div>
         </div>
         <div>
             <P>Total AB+ count = {{ $total_count->tot_ab_plus }}</P>
             <canvas id="ab-plus" width="200" height="100"></canvas>
-            <p>AB+ mean (µ) = {{ $means[4] }}</p>
-            <p>AB+ variance (σ<sup>2</sup>) = {{ $variances[4] }}</p>
-            <P>AB+ standard deviation (σ) = {{ $standard_deviations[4] }}</P>
+            <div class="alert alert-info mt-5">
+                <p>AB+ mean (µ) = {{ $means[4] }}</p>
+                <p>AB+ variance (σ<sup>2</sup>) = {{ $variances[4] }}</p>
+                <P>AB+ standard deviation (σ) = {{ $standard_deviations[4] }}</P>
+            </div>
         </div>
         <div>
             <P>Total AB- count = {{ $total_count->tot_ab_minus }}</P>
             <canvas id="ab-minus" width="200" height="100"></canvas>
-            <p>AB- mean (µ) = {{ $means[5] }}</p>
-            <p>AB- variance (σ<sup>2</sup>) = {{ $variances[5] }}</p>
-            <P>AB- standard deviation (σ) = {{ $standard_deviations[5] }}</P>
+            <div class="alert alert-info mt-5">
+                <p>AB- mean (µ) = {{ $means[5] }}</p>
+                <p>AB- variance (σ<sup>2</sup>) = {{ $variances[5] }}</p>
+                <P>AB- standard deviation (σ) = {{ $standard_deviations[5] }}</P>
+            </div>
         </div>
         <div>
             <P>Total O+ count = {{ $total_count->tot_o_plus }}</P>
             <canvas id="o-plus" width="200" height="100"></canvas>
-            <p>O+ mean (µ) = {{ $means[6] }}</p>
-            <p>O+ variance (σ<sup>2</sup>) = {{ $variances[6] }}</p>
-            <P>O+ standard deviation (σ) = {{ $standard_deviations[6] }}</P>
+            <div class="alert alert-info mt-5">
+                <p>O+ mean (µ) = {{ $means[6] }}</p>
+                <p>O+ variance (σ<sup>2</sup>) = {{ $variances[6] }}</p>
+                <P>O+ standard deviation (σ) = {{ $standard_deviations[6] }}</P>
+            </div>
         </div>
         <div>
             <P>Total O- count = {{ $total_count->tot_o_minus }}</P>
             <canvas id="o-minus" width="200" height="100"></canvas>
-            <p>O- mean (µ) = {{ $means[7] }}</p>
-            <p>O- variance (σ<sup>2</sup>) = {{ $variances[7] }}</p>
-            <P>O- standard deviation (σ) = {{ $standard_deviations[7] }}</P>
+            <div class="alert alert-info mt-5">
+                <p>O- mean (µ) = {{ $means[7] }}</p>
+                <p>O- variance (σ<sup>2</sup>) = {{ $variances[7] }}</p>
+                <P>O- standard deviation (σ) = {{ $standard_deviations[7] }}</P>
+            </div>
         </div>
     @elseif(isset($data_by_age))
         <h1>{{ $report_title }}</h1>
-        <div class="tbl-header">
-            <table>
+        <table class="table table-hover">
+            <thead>
                 <tr>
                     <th>Age segment</th>
                     <th>A+</th>
@@ -201,10 +220,9 @@
                     <th>O+</th>
                     <th>O-</th>
                 </tr>
-            </table>
-        </div>
-        <div class="tbl-content">
-            <table>
+            </thead>
+
+            <tbody>
                 @foreach ($data_by_age as $age)
                     <tr>
                         <td>{{ $age->age }}</td>
@@ -218,8 +236,8 @@
                         <td>{{ $age->O_minus }}</td>
                     </tr>
                 @endforeach
-            </table>
-        </div>
+            </tbody>
+        </table>
         <div>
             @php
                 $counters = array_fill(0, count($data_by_age), 8);
@@ -263,16 +281,18 @@
             @for ($i = 0; $i < count($counters); $i++)
                 <P>Total {{ $data_by_age[$i]->age }} = {{ $data_by_age[$i]->total }}</p>
                 <canvas id="{{ $age->age }}" width="200" height="100"></canvas>
-                <p>{{ $data_by_age[$i]->age }} mean (µ) = {{ $means[$i] }}</p>
-                <p>{{ $data_by_age[$i]->age }} variance (σ<sup>2</sup>) = {{ $variances[$i] }}</p>
-                <P>{{ $data_by_age[$i]->age }} standard deviation (σ) = {{ $standard_deviations[$i] }}</P>
+                <div class="alert alert-info mt-5">
+                    <p>{{ $data_by_age[$i]->age }} mean (µ) = {{ $means[$i] }}</p>
+                    <p>{{ $data_by_age[$i]->age }} variance (σ<sup>2</sup>) = {{ $variances[$i] }}</p>
+                    <P>{{ $data_by_age[$i]->age }} standard deviation (σ) = {{ $standard_deviations[$i] }}</P>
+                </div>
             @endfor
 
         </div>
     @elseif(isset($data_by_blood))
         <h1>{{ $report_title }}</h1>
-        <div class="tbl-header">
-            <table>
+        <table class="table table-hover">
+            <thead>
                 <tr>
                     <th>Blood type</th>
                     <th>Total persons from this type</th>
@@ -280,10 +300,9 @@
                     <th>Male percentage</th>
                     <th>Female percentage</th>
                 </tr>
-            </table>
-        </div>
-        <div class="tbl-content">
-            <table>
+            </thead>
+
+            <tbody>
                 @for ($i = 0; $i < count($data_by_blood); $i++)
                     <tr>
                         @foreach ($data_by_blood[$i] as $item)
@@ -291,8 +310,8 @@
                         @endforeach
                     </tr>
                 @endfor
-            </table>
-        </div>
+            </tbody>
+        </table>
         <div>
             @php
                 $counter = count($data_by_blood);
@@ -318,9 +337,11 @@
         <div>
             <P>Blood types count = {{ $counter }}</P>
             <canvas id="total_blood" width="200" height="100"></canvas>
-            <p>Blood types mean (µ) = {{ $mean }}</p>
-            <p>Blood types variance (σ<sup>2</sup>) = {{ $variance }}</p>
-            <P>Blood types standard deviation (σ) = {{ $standard_deviation }}</P>
+            <div class="alert alert-info mt-5">
+                <p>Blood types mean (µ) = {{ $mean }}</p>
+                <p>Blood types variance (σ<sup>2</sup>) = {{ $variance }}</p>
+                <P>Blood types standard deviation (σ) = {{ $standard_deviation }}</P>
+            </div>
         </div>
         @endif
     </div>
