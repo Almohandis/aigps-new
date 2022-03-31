@@ -10,9 +10,11 @@ use Carbon\Carbon;
 use App\Notifications\ReservationNotification;
 use App\Models\City;
 
-class ReservationController extends Controller {
-    public function index(Request $request) {
-        if (! $this->canReserve($request)) {
+class ReservationController extends Controller
+{
+    public function index(Request $request)
+    {
+        if (!$this->canReserve($request)) {
             return view('citizen.survey-error');
         }
 
@@ -36,8 +38,9 @@ class ReservationController extends Controller {
 		]);
     }
 
-    public function reserve(Request $request, Campaign $campaign) {
-        if (! $this->canReserve($request)) {
+    public function reserve(Request $request, Campaign $campaign)
+    {
+        if (!$this->canReserve($request)) {
             return view('citizen.survey-error');
         }
 
@@ -79,7 +82,8 @@ class ReservationController extends Controller {
         return view('citizen.reservecomplete')->with('diagnosed', $request->user()->is_diagnosed);
     }
 
-    private function canReserve(Request $request) {
-        return ! $request->user()->answers()->where('question_user.created_at', '>', now()->subDays(14))->where('answer', 'Yes')->first();
+    private function canReserve(Request $request)
+    {
+        return !$request->user()->answers()->where('question_user.created_at', '>', now()->subDays(14))->where('answer', 'Yes')->first();
     }
 }
