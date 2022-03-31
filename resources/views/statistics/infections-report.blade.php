@@ -1,6 +1,5 @@
 <x-app-layout>
-    <link href="{{asset('css/reservation.css')}}" rel="stylesheet">
-    <div class="max-w-6xl mx-auto sm:px-6 lg:px-8 mt-9">
+    <div class="table-responsive text-start shadow container bg-white mt-5 rounded px-5 py-3 text-dark">
         <div class="notification">
             @if (session('message'))
                 {{ session('message') }}
@@ -23,8 +22,8 @@
             </form>
             @if (isset($data_by_city))
                 <h1>{{ $report_title }}</h1>
-                <div class="tbl-header">
-                    <table>
+                <table class="table table-hover">
+                    <thead>
                         <tr>
                             <th>City</th>
                             <th>Number of males</th>
@@ -35,10 +34,9 @@
                             <th>Total hospitals</th>
                             <th>Average available beds</th>
                         </tr>
-                    </table>
-                </div>
-                <div class="tbl-content">
-                    <table>
+                    </thead>
+               
+                    <tbody>
                         @foreach ($data_by_city as $city)
                             <tr>
                                 <td>{{ $city->city }}</td>
@@ -51,8 +49,8 @@
                                 <td>{{ $city->avg_avail_beds }}</td>
                             </tr>
                         @endforeach
-                    </table>
-                </div>
+                    </tbody>
+                </table>
                 <div>
                     @php
                         $counter = count($data_by_city);
@@ -89,8 +87,8 @@
                 </div>
             @elseif(isset($data_by_vaccine_status))
                 <h1>{{ $report_title }}</h1>
-                <div class="tbl-header">
-                    <table>
+                <table class="table table-hover">
+                    <thead>
                         <tr>
                             <th>Vaccine status</th>
                             <th>Number of males</th>
@@ -99,10 +97,9 @@
                             <th>Female percentage</th>
                             <th>Total number of infections</th>
                         </tr>
-                    </table>
-                </div>
-                <div class="tbl-content">
-                    <table>
+                    </thead>
+            
+                    <tbody>
                         @foreach ($data_by_vaccine_status as $vac)
                             <tr>
                                 <td>{{ $vac->vac_status }}</td>
@@ -113,12 +110,12 @@
                                 <td>{{ $vac->total }}</td>
                             </tr>
                         @endforeach
-                    </table>
-                </div>
+                    </tbody>
+                </table>
             @elseif(isset($data_by_date))
                 <h1>{{ $report_title }}</h1>
-                <div class="tbl-header">
-                    <table>
+                <table class="table table-hover">
+                    <thead>
                         <tr>
                             <th colspan="6">Total number of infections starting from {{ $date }} until now</th>
                         </tr>
@@ -130,10 +127,9 @@
                             <th>Females percentage</th>
                             <th>Total infections</th>
                         </tr>
-                    </table>
-                </div>
-                <div class="tbl-content">
-                    <table>
+                    </thead>
+               
+                    <tbody>
                         @foreach ($data_by_date as $date)
                             <tr>
                                 <td>{{ $date->infection_date }}</td>
@@ -144,12 +140,12 @@
                                 <td>{{ $date->total_inf }}</td>
                             </tr>
                         @endforeach
-                    </table>
-                </div>
+                    </tbody>
+                </table>
             @elseif(isset($data_by_age))
                 <h1>{{ $report_title }}</h1>
-                <div class="tbl-header">
-                    <table>
+                <table class="table table-hover">
+                    <thead>
                         <tr>
                             <th>Age segment</th>
                             <th>Number of males</th>
@@ -158,10 +154,9 @@
                             <th>Female percentage</th>
                             <th>Total infections</th>
                         </tr>
-                    </table>
-                </div>
-                <div class="tbl-content">
-                    <table>
+                    </thead>
+                
+                    <tbody>
                         @foreach ($data_by_age as $segment)
                             <tr>
                                 <td>{{ $segment->age }}</td>
@@ -172,8 +167,8 @@
                                 <td>{{ $segment->total }}</td>
                             </tr>
                         @endforeach
-                    </table>
-                </div>
+                    </tbody>
+                </table>
                 <div>
                     @php
                         $counter = count($data_by_age);

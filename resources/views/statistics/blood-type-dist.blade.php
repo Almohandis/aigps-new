@@ -1,5 +1,5 @@
 <x-app-layout>
-    <div class="max-w-6xl mx-auto sm:px-6 lg:px-8 mt-9">
+    <div class="table-responsive text-start shadow container bg-white mt-5 rounded px-5 py-3 text-dark">
         <div class="notification">
             @if (session('message'))
                 {{ session('message') }}
@@ -22,8 +22,8 @@
             </form>
             @if (isset($data_by_city))
                 <h1>{{ $report_title }}</h1>
-                <div class="tbl-header">
-                    <table>
+                <table class="table table-hover">
+                    <thead>
                         <tr>
                             <th>City</th>
                             <th>A+</th>
@@ -35,10 +35,9 @@
                             <th>O+</th>
                             <th>O-</th>
                         </tr>
-                    </table>
-                </div>
-                <div class="tbl-content">
-                    <table>
+                    </thead>
+
+                    <tbody>
                         @foreach ($data_by_city as $city)
                             <tr>
                                 <td>{{ $city->city }}</td>
@@ -52,278 +51,279 @@
                                 <td>{{ $city->O_minus }}</td>
                             </tr>
                         @endforeach
-                    </table>
-                </div>
-                <div>
-                    @php
-                        $counters = array_fill(0, 8, 0);
-                        $sums = array_fill(0, 8, 0);
-                        $means = array_fill(0, 8, 0);
-                        $variances = array_fill(0, 8, 0);
-                        $standard_deviations = array_fill(0, 8, 0);
-                        foreach ($data_by_city as $city) {
-                            if ($city->A_plus != 0) {
-                                $counters[0]++;
-                            }
-                            if ($city->A_minus != 0) {
-                                $counters[1]++;
-                            }
-                            if ($city->B_plus != 0) {
-                                $counters[2]++;
-                            }
-                            if ($city->B_minus != 0) {
-                                $counters[3]++;
-                            }
-                            if ($city->AB_plus != 0) {
-                                $counters[4]++;
-                            }
-                            if ($city->AB_minus != 0) {
-                                $counters[5]++;
-                            }
-                            if ($city->O_plus != 0) {
-                                $counters[6]++;
-                            }
-                            if ($city->O_minus != 0) {
-                                $counters[7]++;
-                            }
-                        }
-                        $means[0] = $counters[0] ? round($total_count->tot_a_plus / $counters[0], 2) : 0;
-                        $means[1] = $counters[1] ? round($total_count->tot_a_minus / $counters[1], 2) : 0;
-                        $means[2] = $counters[2] ? round($total_count->tot_b_plus / $counters[2], 2) : 0;
-                        $means[3] = $counters[3] ? round($total_count->tot_b_minus / $counters[3], 2) : 0;
-                        $means[4] = $counters[4] ? round($total_count->tot_ab_plus / $counters[4], 2) : 0;
-                        $means[5] = $counters[5] ? round($total_count->tot_ab_minus / $counters[5], 2) : 0;
-                        $means[6] = $counters[6] ? round($total_count->tot_o_plus / $counters[6], 2) : 0;
-                        $means[7] = $counters[7] ? round($total_count->tot_o_minus / $counters[7], 2) : 0;
-
-                        foreach ($data_by_city as $city) {
-                            if ($city->A_plus != 0) {
-                                $sums[0] += pow($city->A_plus - $means[0], 2);
-                            }
-                            if ($city->A_minus != 0) {
-                                $sums[1] += pow($city->A_minus - $means[1], 2);
-                            }
-                            if ($city->B_plus != 0) {
-                                $sums[2] += pow($city->B_plus - $means[2], 2);
-                            }
-                            if ($city->B_minus != 0) {
-                                $sums[3] += pow($city->B_minus - $means[3], 2);
-                            }
-                            if ($city->AB_plus != 0) {
-                                $sums[4] += pow($city->AB_plus - $means[4], 2);
-                            }
-                            if ($city->AB_minus != 0) {
-                                $sums[5] += pow($city->AB_minus - $means[5], 2);
-                            }
-                            if ($city->O_plus != 0) {
-                                $sums[6] += pow($city->O_plus - $means[6], 2);
-                            }
-                            if ($city->O_minus != 0) {
-                                $sums[7] += pow($city->O_minus - $means[7], 2);
-                            }
-                        }
-                        for ($i = 0; $i < 8; $i++) {
-                            $variances[$i] = $counters[$i] ? round($sums[$i] / $counters[$i], 2) : 0;
-                        }
-                        for ($i = 0; $i < 8; $i++) {
-                            $standard_deviations[$i] = round(sqrt($variances[$i]), 2);
-                        }
-                    @endphp
-                </div>
-                <div>
-                    <P>Total A+ count = {{ $total_count->tot_a_plus }}</P>
-                    <canvas id="a-plus" width="200" height="100"></canvas>
-                    <p>A+ mean (µ) = {{ $means[0] }}</p>
-                    <p>A+ variance (σ<sup>2</sup>) = {{ $variances[0] }}</p>
-                    <P>A+ standard deviation (σ) = {{ $standard_deviations[0] }}</P>
-                </div>
-                <div>
-                    <P>Total A- count = {{ $total_count->tot_a_minus }}</P>
-                    <canvas id="a-minus" width="200" height="100"></canvas>
-                    <p>A- mean (µ) = {{ $means[1] }}</p>
-                    <p>A- variance (σ<sup>2</sup>) = {{ $variances[1] }}</p>
-                    <P>A- standard deviation (σ) = {{ $standard_deviations[1] }}</P>
-                </div>
-                <div>
-                    <P>Total B+ count = {{ $total_count->tot_b_plus }}</P>
-                    <canvas id="b-plus" width="200" height="100"></canvas>
-                    <p>B+ mean (µ) = {{ $means[2] }}</p>
-                    <p>B+ variance (σ<sup>2</sup>) = {{ $variances[2] }}</p>
-                    <P>B+ standard deviation (σ) = {{ $standard_deviations[2] }}</P>
-                </div>
-                <div>
-                    <P>Total B- count = {{ $total_count->tot_b_minus }}</P>
-                    <canvas id="b-minus" width="200" height="100"></canvas>
-                    <p>B- mean (µ) = {{ $means[3] }}</p>
-                    <p>B- variance (σ<sup>2</sup>) = {{ $variances[3] }}</p>
-                    <P>B- standard deviation (σ) = {{ $standard_deviations[3] }}</P>
-                </div>
-                <div>
-                    <P>Total AB+ count = {{ $total_count->tot_ab_plus }}</P>
-                    <canvas id="ab-plus" width="200" height="100"></canvas>
-                    <p>AB+ mean (µ) = {{ $means[4] }}</p>
-                    <p>AB+ variance (σ<sup>2</sup>) = {{ $variances[4] }}</p>
-                    <P>AB+ standard deviation (σ) = {{ $standard_deviations[4] }}</P>
-                </div>
-                <div>
-                    <P>Total AB- count = {{ $total_count->tot_ab_minus }}</P>
-                    <canvas id="ab-minus" width="200" height="100"></canvas>
-                    <p>AB- mean (µ) = {{ $means[5] }}</p>
-                    <p>AB- variance (σ<sup>2</sup>) = {{ $variances[5] }}</p>
-                    <P>AB- standard deviation (σ) = {{ $standard_deviations[5] }}</P>
-                </div>
-                <div>
-                    <P>Total O+ count = {{ $total_count->tot_o_plus }}</P>
-                    <canvas id="o-plus" width="200" height="100"></canvas>
-                    <p>O+ mean (µ) = {{ $means[6] }}</p>
-                    <p>O+ variance (σ<sup>2</sup>) = {{ $variances[6] }}</p>
-                    <P>O+ standard deviation (σ) = {{ $standard_deviations[6] }}</P>
-                </div>
-                <div>
-                    <P>Total O- count = {{ $total_count->tot_o_minus }}</P>
-                    <canvas id="o-minus" width="200" height="100"></canvas>
-                    <p>O- mean (µ) = {{ $means[7] }}</p>
-                    <p>O- variance (σ<sup>2</sup>) = {{ $variances[7] }}</p>
-                    <P>O- standard deviation (σ) = {{ $standard_deviations[7] }}</P>
-                </div>
-            @elseif(isset($data_by_age))
-                <h1>{{ $report_title }}</h1>
-                <div class="tbl-header">
-                    <table>
-                        <tr>
-                            <th>Age segment</th>
-                            <th>A+</th>
-                            <th>A-</th>
-                            <th>B+</th>
-                            <th>B-</th>
-                            <th>AB+</th>
-                            <th>AB-</th>
-                            <th>O+</th>
-                            <th>O-</th>
-                        </tr>
-                    </table>
-                </div>
-                <div class="tbl-content">
-                    <table>
-                        @foreach ($data_by_age as $age)
-                            <tr>
-                                <td>{{ $age->age }}</td>
-                                <td>{{ $age->A_plus }}</td>
-                                <td>{{ $age->A_minus }}</td>
-                                <td>{{ $age->B_plus }}</td>
-                                <td>{{ $age->B_minus }}</td>
-                                <td>{{ $age->AB_plus }}</td>
-                                <td>{{ $age->AB_minus }}</td>
-                                <td>{{ $age->O_plus }}</td>
-                                <td>{{ $age->O_minus }}</td>
-                            </tr>
-                        @endforeach
-                    </table>
-                </div>
-                <div>
-                    @php
-                        $counters = array_fill(0, count($data_by_age), 8);
-                        $sums = array_fill(0, count($data_by_age), 0);
-                        $means = array_fill(0, count($data_by_age), 0);
-                        $variances = array_fill(0, count($data_by_age), 0);
-                        $standard_deviations = array_fill(0, count($data_by_age), 0);
-
-                        for ($i = 0; $i < count($counters); $i++) {
-                            foreach ($data_by_age[$i] as $key => $blood_type) {
-                                if (is_numeric($blood_type) && $key != 'total') {
-                                    $sums[$i] += $blood_type;
-                                }
-                            }
-                        }
-
-                        for ($i = 0; $i < count($counters); $i++) {
-                            $means[$i] = round($sums[$i] / $counters[$i], 2);
-                        }
-
-                        $sums = array_fill(0, count($data_by_age), 0);
-
-                        for ($i = 0; $i < count($counters); $i++) {
-                            foreach ($data_by_age[$i] as $key => $blood_type) {
-                                if (is_numeric($blood_type) && $key != 'total') {
-                                    $sums[$i] += pow($blood_type - $means[$i], 2);
-                                }
-                            }
-                        }
-
-                        for ($i = 0; $i < count($counters); $i++) {
-                            $variances[$i] = round($sums[$i] / $counters[$i], 2);
-                        }
-
-                        for ($i = 0; $i < count($counters); $i++) {
-                            $standard_deviations[$i] = round(sqrt($variances[$i]), 2);
-                        }
-                    @endphp
-                </div>
-                <div>
-                    @for ($i = 0; $i < count($counters); $i++)
-                        <P>Total {{ $data_by_age[$i]->age }} = {{ $data_by_age[$i]->total }}</p>
-                        <canvas id="{{ $age->age }}" width="200" height="100"></canvas>
-                        <p>{{ $data_by_age[$i]->age }} mean (µ) = {{ $means[$i] }}</p>
-                        <p>{{ $data_by_age[$i]->age }} variance (σ<sup>2</sup>) = {{ $variances[$i] }}</p>
-                        <P>{{ $data_by_age[$i]->age }} standard deviation (σ) = {{ $standard_deviations[$i] }}</P>
-                    @endfor
-
-                </div>
-            @elseif(isset($data_by_blood))
-                <h1>{{ $report_title }}</h1>
-                <div class="tbl-header">
-                    <table>
-                        <tr>
-                            <th>Blood type</th>
-                            <th>Total persons from this type</th>
-                            <th>Percentage of this type</th>
-                            <th>Male percentage</th>
-                            <th>Female percentage</th>
-                        </tr>
-                    </table>
-                </div>
-                <div class="tbl-content">
-                    <table>
-                        @for ($i = 0; $i < count($data_by_blood); $i++)
-                            <tr>
-                                @foreach ($data_by_blood[$i] as $item)
-                                    <td>{{ $item }}</td>
-                                @endforeach
-                            </tr>
-                        @endfor
-                    </table>
-                </div>
-                <div>
-                    @php
-                        $counter = count($data_by_blood);
-                        $sum = 0;
-                        $mean = 0;
-                        $variance = 0;
-                        $standard_deviation = 0;
-                        foreach ($data_by_blood as $blood) {
-                            $sum += $blood->total_blood_type_count;
-                        }
-                        $mean = $counter ? round($sum / $counter, 2) : 0;
-                        $sum = 0;
-                        foreach ($data_by_blood as $blood) {
-                            $sum += pow($blood->total_blood_type_count - $mean, 2);
-                        }
-
-                        $variance = $counter ? round($sum / $counter, 2) : 0;
-
-                        $standard_deviation = round(sqrt($variance), 2);
-
-                    @endphp
-                </div>
-                <div>
-                    <P>Blood types count = {{ $counter }}</P>
-                    <canvas id="total_blood" width="200" height="100"></canvas>
-                    <p>Blood types mean (µ) = {{ $mean }}</p>
-                    <p>Blood types variance (σ<sup>2</sup>) = {{ $variance }}</p>
-                    <P>Blood types standard deviation (σ) = {{ $standard_deviation }}</P>
-                </div>
-            @endif
+                    </tbody>
+                </table>
         </div>
+        <div>
+            @php
+                $counters = array_fill(0, 8, 0);
+                $sums = array_fill(0, 8, 0);
+                $means = array_fill(0, 8, 0);
+                $variances = array_fill(0, 8, 0);
+                $standard_deviations = array_fill(0, 8, 0);
+                foreach ($data_by_city as $city) {
+                    if ($city->A_plus != 0) {
+                        $counters[0]++;
+                    }
+                    if ($city->A_minus != 0) {
+                        $counters[1]++;
+                    }
+                    if ($city->B_plus != 0) {
+                        $counters[2]++;
+                    }
+                    if ($city->B_minus != 0) {
+                        $counters[3]++;
+                    }
+                    if ($city->AB_plus != 0) {
+                        $counters[4]++;
+                    }
+                    if ($city->AB_minus != 0) {
+                        $counters[5]++;
+                    }
+                    if ($city->O_plus != 0) {
+                        $counters[6]++;
+                    }
+                    if ($city->O_minus != 0) {
+                        $counters[7]++;
+                    }
+                }
+                $means[0] = $counters[0] ? round($total_count->tot_a_plus / $counters[0], 2) : 0;
+                $means[1] = $counters[1] ? round($total_count->tot_a_minus / $counters[1], 2) : 0;
+                $means[2] = $counters[2] ? round($total_count->tot_b_plus / $counters[2], 2) : 0;
+                $means[3] = $counters[3] ? round($total_count->tot_b_minus / $counters[3], 2) : 0;
+                $means[4] = $counters[4] ? round($total_count->tot_ab_plus / $counters[4], 2) : 0;
+                $means[5] = $counters[5] ? round($total_count->tot_ab_minus / $counters[5], 2) : 0;
+                $means[6] = $counters[6] ? round($total_count->tot_o_plus / $counters[6], 2) : 0;
+                $means[7] = $counters[7] ? round($total_count->tot_o_minus / $counters[7], 2) : 0;
+                
+                foreach ($data_by_city as $city) {
+                    if ($city->A_plus != 0) {
+                        $sums[0] += pow($city->A_plus - $means[0], 2);
+                    }
+                    if ($city->A_minus != 0) {
+                        $sums[1] += pow($city->A_minus - $means[1], 2);
+                    }
+                    if ($city->B_plus != 0) {
+                        $sums[2] += pow($city->B_plus - $means[2], 2);
+                    }
+                    if ($city->B_minus != 0) {
+                        $sums[3] += pow($city->B_minus - $means[3], 2);
+                    }
+                    if ($city->AB_plus != 0) {
+                        $sums[4] += pow($city->AB_plus - $means[4], 2);
+                    }
+                    if ($city->AB_minus != 0) {
+                        $sums[5] += pow($city->AB_minus - $means[5], 2);
+                    }
+                    if ($city->O_plus != 0) {
+                        $sums[6] += pow($city->O_plus - $means[6], 2);
+                    }
+                    if ($city->O_minus != 0) {
+                        $sums[7] += pow($city->O_minus - $means[7], 2);
+                    }
+                }
+                for ($i = 0; $i < 8; $i++) {
+                    $variances[$i] = $counters[$i] ? round($sums[$i] / $counters[$i], 2) : 0;
+                }
+                for ($i = 0; $i < 8; $i++) {
+                    $standard_deviations[$i] = round(sqrt($variances[$i]), 2);
+                }
+            @endphp
+        </div>
+        <div>
+            <P>Total A+ count = {{ $total_count->tot_a_plus }}</P>
+            <canvas id="a-plus" width="200" height="100"></canvas>
+            <p>A+ mean (µ) = {{ $means[0] }}</p>
+            <p>A+ variance (σ<sup>2</sup>) = {{ $variances[0] }}</p>
+            <P>A+ standard deviation (σ) = {{ $standard_deviations[0] }}</P>
+        </div>
+        <div>
+            <P>Total A- count = {{ $total_count->tot_a_minus }}</P>
+            <canvas id="a-minus" width="200" height="100"></canvas>
+            <p>A- mean (µ) = {{ $means[1] }}</p>
+            <p>A- variance (σ<sup>2</sup>) = {{ $variances[1] }}</p>
+            <P>A- standard deviation (σ) = {{ $standard_deviations[1] }}</P>
+        </div>
+        <div>
+            <P>Total B+ count = {{ $total_count->tot_b_plus }}</P>
+            <canvas id="b-plus" width="200" height="100"></canvas>
+            <p>B+ mean (µ) = {{ $means[2] }}</p>
+            <p>B+ variance (σ<sup>2</sup>) = {{ $variances[2] }}</p>
+            <P>B+ standard deviation (σ) = {{ $standard_deviations[2] }}</P>
+        </div>
+        <div>
+            <P>Total B- count = {{ $total_count->tot_b_minus }}</P>
+            <canvas id="b-minus" width="200" height="100"></canvas>
+            <p>B- mean (µ) = {{ $means[3] }}</p>
+            <p>B- variance (σ<sup>2</sup>) = {{ $variances[3] }}</p>
+            <P>B- standard deviation (σ) = {{ $standard_deviations[3] }}</P>
+        </div>
+        <div>
+            <P>Total AB+ count = {{ $total_count->tot_ab_plus }}</P>
+            <canvas id="ab-plus" width="200" height="100"></canvas>
+            <p>AB+ mean (µ) = {{ $means[4] }}</p>
+            <p>AB+ variance (σ<sup>2</sup>) = {{ $variances[4] }}</p>
+            <P>AB+ standard deviation (σ) = {{ $standard_deviations[4] }}</P>
+        </div>
+        <div>
+            <P>Total AB- count = {{ $total_count->tot_ab_minus }}</P>
+            <canvas id="ab-minus" width="200" height="100"></canvas>
+            <p>AB- mean (µ) = {{ $means[5] }}</p>
+            <p>AB- variance (σ<sup>2</sup>) = {{ $variances[5] }}</p>
+            <P>AB- standard deviation (σ) = {{ $standard_deviations[5] }}</P>
+        </div>
+        <div>
+            <P>Total O+ count = {{ $total_count->tot_o_plus }}</P>
+            <canvas id="o-plus" width="200" height="100"></canvas>
+            <p>O+ mean (µ) = {{ $means[6] }}</p>
+            <p>O+ variance (σ<sup>2</sup>) = {{ $variances[6] }}</p>
+            <P>O+ standard deviation (σ) = {{ $standard_deviations[6] }}</P>
+        </div>
+        <div>
+            <P>Total O- count = {{ $total_count->tot_o_minus }}</P>
+            <canvas id="o-minus" width="200" height="100"></canvas>
+            <p>O- mean (µ) = {{ $means[7] }}</p>
+            <p>O- variance (σ<sup>2</sup>) = {{ $variances[7] }}</p>
+            <P>O- standard deviation (σ) = {{ $standard_deviations[7] }}</P>
+        </div>
+    @elseif(isset($data_by_age))
+        <h1>{{ $report_title }}</h1>
+        <div class="tbl-header">
+            <table>
+                <tr>
+                    <th>Age segment</th>
+                    <th>A+</th>
+                    <th>A-</th>
+                    <th>B+</th>
+                    <th>B-</th>
+                    <th>AB+</th>
+                    <th>AB-</th>
+                    <th>O+</th>
+                    <th>O-</th>
+                </tr>
+            </table>
+        </div>
+        <div class="tbl-content">
+            <table>
+                @foreach ($data_by_age as $age)
+                    <tr>
+                        <td>{{ $age->age }}</td>
+                        <td>{{ $age->A_plus }}</td>
+                        <td>{{ $age->A_minus }}</td>
+                        <td>{{ $age->B_plus }}</td>
+                        <td>{{ $age->B_minus }}</td>
+                        <td>{{ $age->AB_plus }}</td>
+                        <td>{{ $age->AB_minus }}</td>
+                        <td>{{ $age->O_plus }}</td>
+                        <td>{{ $age->O_minus }}</td>
+                    </tr>
+                @endforeach
+            </table>
+        </div>
+        <div>
+            @php
+                $counters = array_fill(0, count($data_by_age), 8);
+                $sums = array_fill(0, count($data_by_age), 0);
+                $means = array_fill(0, count($data_by_age), 0);
+                $variances = array_fill(0, count($data_by_age), 0);
+                $standard_deviations = array_fill(0, count($data_by_age), 0);
+                
+                for ($i = 0; $i < count($counters); $i++) {
+                    foreach ($data_by_age[$i] as $key => $blood_type) {
+                        if (is_numeric($blood_type) && $key != 'total') {
+                            $sums[$i] += $blood_type;
+                        }
+                    }
+                }
+                
+                for ($i = 0; $i < count($counters); $i++) {
+                    $means[$i] = round($sums[$i] / $counters[$i], 2);
+                }
+                
+                $sums = array_fill(0, count($data_by_age), 0);
+                
+                for ($i = 0; $i < count($counters); $i++) {
+                    foreach ($data_by_age[$i] as $key => $blood_type) {
+                        if (is_numeric($blood_type) && $key != 'total') {
+                            $sums[$i] += pow($blood_type - $means[$i], 2);
+                        }
+                    }
+                }
+                
+                for ($i = 0; $i < count($counters); $i++) {
+                    $variances[$i] = round($sums[$i] / $counters[$i], 2);
+                }
+                
+                for ($i = 0; $i < count($counters); $i++) {
+                    $standard_deviations[$i] = round(sqrt($variances[$i]), 2);
+                }
+            @endphp
+        </div>
+        <div>
+            @for ($i = 0; $i < count($counters); $i++)
+                <P>Total {{ $data_by_age[$i]->age }} = {{ $data_by_age[$i]->total }}</p>
+                <canvas id="{{ $age->age }}" width="200" height="100"></canvas>
+                <p>{{ $data_by_age[$i]->age }} mean (µ) = {{ $means[$i] }}</p>
+                <p>{{ $data_by_age[$i]->age }} variance (σ<sup>2</sup>) = {{ $variances[$i] }}</p>
+                <P>{{ $data_by_age[$i]->age }} standard deviation (σ) = {{ $standard_deviations[$i] }}</P>
+            @endfor
+
+        </div>
+    @elseif(isset($data_by_blood))
+        <h1>{{ $report_title }}</h1>
+        <div class="tbl-header">
+            <table>
+                <tr>
+                    <th>Blood type</th>
+                    <th>Total persons from this type</th>
+                    <th>Percentage of this type</th>
+                    <th>Male percentage</th>
+                    <th>Female percentage</th>
+                </tr>
+            </table>
+        </div>
+        <div class="tbl-content">
+            <table>
+                @for ($i = 0; $i < count($data_by_blood); $i++)
+                    <tr>
+                        @foreach ($data_by_blood[$i] as $item)
+                            <td>{{ $item }}</td>
+                        @endforeach
+                    </tr>
+                @endfor
+            </table>
+        </div>
+        <div>
+            @php
+                $counter = count($data_by_blood);
+                $sum = 0;
+                $mean = 0;
+                $variance = 0;
+                $standard_deviation = 0;
+                foreach ($data_by_blood as $blood) {
+                    $sum += $blood->total_blood_type_count;
+                }
+                $mean = $counter ? round($sum / $counter, 2) : 0;
+                $sum = 0;
+                foreach ($data_by_blood as $blood) {
+                    $sum += pow($blood->total_blood_type_count - $mean, 2);
+                }
+                
+                $variance = $counter ? round($sum / $counter, 2) : 0;
+                
+                $standard_deviation = round(sqrt($variance), 2);
+                
+            @endphp
+        </div>
+        <div>
+            <P>Blood types count = {{ $counter }}</P>
+            <canvas id="total_blood" width="200" height="100"></canvas>
+            <p>Blood types mean (µ) = {{ $mean }}</p>
+            <p>Blood types variance (σ<sup>2</sup>) = {{ $variance }}</p>
+            <P>Blood types standard deviation (σ) = {{ $standard_deviation }}</P>
+        </div>
+        @endif
+    </div>
     </div>
     @if (isset($data_by_city))
         <script>

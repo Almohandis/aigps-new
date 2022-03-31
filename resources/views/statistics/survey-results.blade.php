@@ -1,5 +1,5 @@
 <x-app-layout>
-    <div class="max-w-6xl mx-auto sm:px-6 lg:px-8 mt-9">
+    <div class="table-responsive text-start shadow container bg-white mt-5 rounded px-5 py-3 text-dark">
         <div class="notification">
             @if (session('message'))
                 {{ session('message') }}
@@ -29,17 +29,16 @@
             </form>
             @if (isset($data_by_question))
                 <h1>{{ $report_title }}</h1>
-                <div class="tbl-header">
-                    <table>
+                <table class="table table-hover">
+                    <thead>
                         <tr>
                             <th>Question title</th>
                             <th>Answered No</th>
                             <th>Answered Yes</th>
                         </tr>
-                    </table>
-                </div>
-                <div class="tbl-content">
-                    <table>
+                    </thead>
+                
+                    <tbody>
                         @for ($i = 0; $i < count($data_by_question); $i++)
                             <tr>
                                 <td>{{ $data_by_question[$i]->title }}</td>

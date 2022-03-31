@@ -1,5 +1,5 @@
 <x-app-layout>
-    <div class="max-w-6xl mx-auto sm:px-6 lg:px-8 mt-9">
+    <div class="table-responsive text-start shadow container bg-white mt-5 rounded px-5 py-3 text-dark">
         <div class="notification">
             @if (session('message'))
                 {{ session('message') }}
@@ -19,8 +19,8 @@
             </form>
             @if (isset($data_by_personal))
                 <h1>{{ $report_title }}</h1>
-                <div class="tbl-header">
-                    <table>
+                <table class="table table-hover">
+                    <thead>
                         <tr>
                             <th>#</th>
                             <th>Infection date</th>
@@ -28,10 +28,9 @@
                             <th>City</th>
                             <th>Recovery status</th>
                         </tr>
-                    </table>
-                </div>
-                <div class="tbl-content">
-                    <table>
+                    </thead>
+                
+                    <tbody>
                         @php $i=1; @endphp
                         @foreach ($data_by_personal as $infection)
                             <tr>
@@ -42,8 +41,8 @@
                                 <td>{{ $infection->is_recovered ? 'Recovered' : 'Not recovered' }}</td>
                             </tr>
                         @endforeach
-                    </table>
-                </div>
+                    </tbody>
+                </table>
             @endif
         </div>
     </div>
