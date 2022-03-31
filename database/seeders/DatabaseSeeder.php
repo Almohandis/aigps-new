@@ -15,10 +15,10 @@ class DatabaseSeeder extends Seeder
     {
         $this->call([
             NationalIdSeeder::class,
-            HospitalSeeder::class,
             QuestionSeeder::class,
-            ArticleSeeder::class,
             CampaignSeeder::class,
+            HospitalSeeder::class,
+            ArticleSeeder::class,
             UserSeeder::class,
             InfectionSeeder::class,
             VaccineDateSeeder::class,
