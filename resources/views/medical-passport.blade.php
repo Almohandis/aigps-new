@@ -32,15 +32,15 @@
                         <th scope="row">Passport number</th>
                         <td>{{ $passport->passport_number }}</td>
                     </tr>
-                    
-                    <tr>
-                        <th scope="row">Vaccine name</th>
-                        <td>{{ $passport->vaccine_name }}</td>
-                    </tr>
 
                     @foreach ($dates as $id => $vaccine_date)
                         <tr>
-                            <th scope="row">Dose #{{ $id }} Date</th>
+                            <th scope="row">Vaccine dose {{ $id + 1 }} name</th>
+                            <td>{{ $passport->vaccine_name }}</td>
+                        </tr>
+
+                        <tr>
+                            <th scope="row">Vaccine dose #{{ $id + 1 }} Date</th>
                             <td>{{ $vaccine_date->vaccine_date }}</td>
                         </tr>
                     @endforeach
