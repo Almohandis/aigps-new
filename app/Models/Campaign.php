@@ -16,6 +16,7 @@ class Campaign extends Model
         'address',
         'status',   //# pending, active, completed
         'city',
+        'capacity_per_day'
     ];
 
     public function doctors()
