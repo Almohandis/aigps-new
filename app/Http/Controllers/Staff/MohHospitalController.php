@@ -9,14 +9,30 @@ use App\Models\Campaign;
 use App\Models\Hospital;
 use App\Models\User;
 use Symfony\Contracts\Service\Attribute\Required;
+use App\Models\City;
 
 class MohHospitalController extends Controller {
     public function index(Request $request) {
-        $hospitals = Hospital::paginate(10);
+        $hospitals = Hospital::query();
 
-        $cities = ['Alexandria', 'Aswan', 'Asyut', 'Beheira', 'Beni Suef', 'Cairo', 'Dakahlia', 'Damietta', 'Faiyum', 'Gharbia', 'Giza', 'Helwan', 'Ismailia', 'Kafr El Sheikh', 'Luxor', 'Matruh', 'Minya', 'Monufia', 'New Valley', 'North Sinai', 'Port Said', 'Qalyubia', 'Qena', 'Red Sea', 'Sharqia', 'Sohag', 'South Sinai', 'Suez', '6th of October'];
+        if ($request->has('sort') && $request->sort) {
+            $hospitals = $hospitals->orderBy($request->sort, $request->order == 'asc' ? 'asc' : 'desc');
+        }
 
-        return view('moh.manage-hospitals', compact('hospitals', 'cities'));
+
+        if ($request->has('is_isolation') && $request->is_isolation) {
+            $hospitals = $hospitals->where('is_isolation', $request->is_isolation == 'is_isolation');
+        }
+
+        if ($request->has('city') && $request->city) {
+            $hospitals = $hospitals->where('city', $request->city);
+        }
+
+        $cities = City::all();
+
+        return view('moh.manage-hospitals')
+            ->with('hospitals', $hospitals->paginate(10)->withQueryString())
+            ->with('cities', $cities);
     }
 
     public function create(Request $request) {
@@ -54,7 +70,8 @@ class MohHospitalController extends Controller {
     }
 
     public function updateView(Request $request, Hospital $hospital) {
-        $cities = ['Alexandria', 'Aswan', 'Asyut', 'Beheira', 'Beni Suef', 'Cairo', 'Dakahlia', 'Damietta', 'Faiyum', 'Gharbia', 'Giza', 'Helwan', 'Ismailia', 'Kafr El Sheikh', 'Luxor', 'Matruh', 'Minya', 'Monufia', 'New Valley', 'North Sinai', 'Port Said', 'Qalyubia', 'Qena', 'Red Sea', 'Sharqia', 'Sohag', 'South Sinai', 'Suez', '6th of October'];
+        $cities = City::all();
+
         return view('moh.update-hospital')
             ->with('hospital', $hospital)
             ->with('cities', $cities);

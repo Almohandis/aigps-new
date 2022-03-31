@@ -4,14 +4,82 @@
     <div class="mt-5 text-center">
         <h1 class="aigps-title">Manage Campaigns</h1>
 
-        @if (session('message'))
-            <div class="container alert alert-dark" role="alert">
-                {{ session('message') }}
-            </div>
-        @endif
-
         <div class="table-responsive text-start shadow container bg-white mt-5 rounded px-5 py-3 text-dark">
             <h4 class="text-center mb-3"> All Campaigns </h4>
+            
+            @if (session('message'))
+                <div class="container alert alert-dark" role="alert">
+                    {{ session('message') }}
+                </div>
+            @endif
+
+            @if ($errors->any())
+                <div class="container">
+                    <div class="alert alert-danger" role="alert">
+                        <p>Something went wrong. Please check the form below for errors.</p>
+
+                        <ul class="">
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                </div>
+            @endif
+
+            <form method="GET" class="row">
+                <div class="form-group col-12 col-md-6 col-lg-3">
+                    <label for="sort" class="">Sort by</label>
+                    <div>
+                        <select class="form-control" name="sort">
+                            <option value="">Select Sorting</option>
+                            <option value="address">Address</option>
+                            <option value="status">status</option>
+                            <option value="start_date">Start Date</option>
+                            <option value="end_date">End Date</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group col-12 col-md-6 col-lg-3">
+                    <label class="">Sort Order</label>
+                    <div class="">
+                        <select class="form-control" name="order">
+                            <option value="asc">Ascending</option>
+                            <option value="desc">Descending</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group col-12 col-md-6 col-lg-3">
+                    <label for="city" class="">City</label>
+                    <div class="">
+                        <select class="form-control" name="city">
+                            <option value="">All Cities</option>
+                            @foreach ($cities as $city)
+                                <option value="{{ $city->name }}">{{ $city->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group col-12 col-md-6 col-lg-3">
+                    <label for="status" class="">Status</label>
+                    <div class="">
+                        <select class="form-control" name="status">
+                            <option value="">All Statuses</option>
+                            <option value="active">Active</option>
+                            <option value="inactive">Inactive</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group row justify-content-center mt-2 mb-4">
+                    <div class="row">
+                        <button type="submit" class="btn btn-primary">Filter</button>
+                    </div>
+                </div>
+            </form>
     
             <table class="table table-hover">
                 <thead>
@@ -44,22 +112,9 @@
                     @endforeach
                 </tbody>
             </table>
-
-            <div class="flex">
-                <ul class="pagination justify-content-center">
-                    @if ($campaigns->previousPageUrl())
-                        <li class="page-item"><a class="page-link" href="/staff/moh/manage-campaigns?page={{ $campaigns->currentPage() - 1 }}">Previous</a></li>
-                    @endif
-                    
-                    
-                    @for($page = 1; $page <= $campaigns->lastPage(); $page++)
-                        <li class="page-item"><a class="page-link" href="/staff/moh/manage-campaigns?page={{ $page }}">{{ $page }}</a></li>
-                    @endfor
-
-                    @if ($campaigns->nextPageUrl())
-                        <li class="page-item"><a class="page-link" href="/staff/moh/manage-campaigns?page={{ $campaigns->currentPage() + 1 }}">Next</a></li>
-                    @endif
-                </ul>
+            
+            <div>
+                {{ $campaigns->links() }}
             </div>
         </div>
 
@@ -90,16 +145,25 @@
                         <label>City</label>
                         <select name="city" class="form-control">
                             @foreach ($cities as $city)
-                                <option value="{{ $city }}">{{ $city }}</option>
+                                <option value="{{ $city->name }}">{{ $city->name }}</option>
                             @endforeach
                         </select>
                     </div>
                 </div>
 
                 <div class="form-group row">
-                    <div class="col">
+                    <div class="col-12 col-md-6">
                         <label>Address</label>
                         <input class="form-control" type="text" name="address" required>
+                    </div>
+
+                    <div class="col-12 col-md-6">
+                        <label>Status</label>
+
+                        <select name="status" class="form-control">
+                            <option value="active">active</option>
+                            <option value="pending">pending</option>
+                        </select>
                     </div>
                 </div>
 

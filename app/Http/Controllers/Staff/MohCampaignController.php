@@ -10,67 +10,60 @@ use App\Models\Hospital;
 use App\Models\User;
 use Symfony\Contracts\Service\Attribute\Required;
 use \Carbon\Carbon;
+use App\Models\City;
 
 class MohCampaignController extends Controller {
     //# Get all campaigns
     public function index(Request $request) {
-        $cities = ['6th of October', 'Alexandria', 'Aswan', 'Asyut', 'Beheira', 'Beni Suef', 'Cairo', 'Dakahlia', 'Damietta', 'Faiyum', 'Gharbia', 'Giza', 'Helwan', 'Ismailia', 'Kafr El Sheikh', 'Luxor', 'Matruh', 'Minya', 'Monufia', 'New Valley', 'North Sinai', 'Port Said', 'Qalyubia', 'Qena', 'Red Sea', 'Sharqia', 'Sohag', 'South Sinai', 'Suez'];
+        $cities = City::all();
 
-        $campaigns = Campaign::paginate(10);
+        $campaigns = Campaign::query();
+
+        if ($request->has('sort') && $request->sort) {
+            $campaigns = $campaigns->orderBy($request->sort, $request->order == 'asc' ? 'asc' : 'desc');
+        }
+
+
+        if ($request->has('status') && $request->status) {
+            if ($request->status == 'active') {
+                $campaigns = $campaigns->where('status', 'active');
+            } else {
+                $campaigns = $campaigns->where('status', '!=', 'active');
+            }
+        }
+
+        if ($request->has('city') && $request->city) {
+            $campaigns = $campaigns->where('city', $request->city);
+        }
 
         return view('moh.manage-campaigns')
-            ->with('campaigns', $campaigns)
+            ->with('campaigns', $campaigns->paginate(10)->withQueryString())
             ->with('cities', $cities);
     }
 
     //# Add new campaign
     public function create(Request $request) {
-        if ($request->end_date < $request->start_date)
-            return back()->with('message', 'End date cannot be before start date');
-        if (!$request->location)
-            return back()->with('message', 'Please select a location');
-
-
-        //# Check if doctors with given IDs exist
-        if ($request->doctors) {
-            foreach ($request->doctors as $doctor) {
-                $user = User::where('national_id', $doctor)->first();
-                if (!$user)
-                    return back()->with('message', 'Doctor with ID ' . $doctor . ' does not exist');
-
-                //# Check if doctor is already working in a campaign
-                if ($user->campaigns()->first()) {
-                    $busy_doctor = $user->campaigns()->where('start_date', '>', now())->first();
-                    $unavailable_doctor = $user->campaigns()->where('end_date', '>', now())->first();
-                    if ($busy_doctor || $unavailable_doctor)
-                        return back()->with('message', 'Doctor with ID ' . $doctor . ' is already assigned to a campaign');
-                }
-            }
-        }
-
-
-        //# Create new campaign
-        $campaign = Campaign::create([
-            'start_date' => $request->start_date,
-            'end_date' => $request->end_date,
-            'location' => preg_replace(array('/\(/', '/\)/'), array('', ''), $request->location),
-            'city' => $request->city,
-            'address' => $request->address,
-            'capacity_per_day' => $request->capacity_per_day ?? 20,
+        $request->validate([
+            'start_date' => 'required|date|after:yesterday',
+            'end_date' => 'required|date|after:start_date',
+            'capacity_per_day' => 'required|integer|min:1',
+            'city' => 'required|string',
+            'address' => 'required|string',
+            'status'    =>  'required|string',
         ]);
 
-        //# Assign doctors to campaign
-        if ($request->doctors) {
-            foreach ($request->doctors as $doctor) {
-                $doctor_id = User::where('national_id', $doctor)->first()->id;
-                $campaign->doctors()->attach($doctor_id, ['from' => $request->start_date, 'to' => $request->end_date]);
-            }
-        }
 
-        if ($campaign)
-            return back()->with('message', 'Campaign added successfully');
-        else
-            return back()->with('message', 'Campaign could not be added');
+        $campaign = Campaign::create([
+            'start_date'        => $request->start_date,
+            'end_date'          => $request->end_date,
+            'location'          => preg_replace(array('/\(/', '/\)/'), array('', ''), $request->location),
+            'city'              => $request->city,
+            'address'           => $request->address,
+            'capacity_per_day'  => $request->capacity_per_day,
+            'status'            => $request->status
+        ]);
+
+        return back()->with('message', 'Campaign added successfully');
     }
 
     public function delete(Campaign $campaign) {
@@ -112,9 +105,7 @@ class MohCampaignController extends Controller {
     }
 
     public function updateView(Request $request, Campaign $campaign) {
-        $cities = ['6th of October', 'Alexandria', 'Aswan', 'Asyut', 'Beheira', 'Beni Suef', 'Cairo', 'Dakahlia', 'Damietta', 'Faiyum', 'Gharbia', 'Giza', 'Helwan', 'Ismailia', 'Kafr El Sheikh', 'Luxor', 'Matruh', 'Minya', 'Monufia', 'New Valley', 'North Sinai', 'Port Said', 'Qalyubia', 'Qena', 'Red Sea', 'Sharqia', 'Sohag', 'South Sinai', 'Suez'];
-
-
+        $cities = City::all();
 
         if (now()->diffInDays($campaign->start_date) < 1) {
             return back()->with('message', 'Can\'t update a campaign that is starting in two days !');
