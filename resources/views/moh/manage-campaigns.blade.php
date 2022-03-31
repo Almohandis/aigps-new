@@ -90,7 +90,7 @@
                         <label>City</label>
                         <select name="city" class="form-control">
                             @foreach ($cities as $city)
-                                <option value="{{ $city }}">{{ $city }}</option>
+                                <option value="{{ $city->name }}">{{ $city->name }}</option>
                             @endforeach
                         </select>
                     </div>

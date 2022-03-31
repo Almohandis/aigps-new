@@ -44,7 +44,7 @@ trait Roles {
     }
 
     public function getRoleName() {
-        return $this->getRoleNames()[$this->role_id];
+        return $this->getRoleNames()[$this->role_id - 1];
     }
 
     public function scopeEmployees($query) {

@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
 use App\Models\NationalId;
 use App\Notifications\RegisterationNotification;
+use App\Models\City;
 
 class RegisteredUserController extends Controller
 {
@@ -21,8 +22,8 @@ class RegisteredUserController extends Controller
      * @return \Illuminate\View\View
      */
     public function create() {
-        $cities = ['Alexandria', 'Aswan', 'Asyut', 'Beheira', 'Beni Suef', 'Cairo', 'Dakahlia', 'Damietta', 'Faiyum', 'Gharbia', 'Giza', 'Helwan', 'Ismailia', 'Kafr El Sheikh', 'Luxor', 'Matruh', 'Minya', 'Monufia', 'New Valley', 'North Sinai', 'Port Said', 'Qalyubia', 'Qena', 'Red Sea', 'Sharqia', 'Sohag', 'South Sinai', 'Suez', '6th of October'];
-        // countries
+        $cities = City::all();
+        
         return view('auth.register')->with([
             'countries' => \Countries::getList('en'),
             'cities'    =>  $cities

@@ -10,11 +10,12 @@ use App\Models\Hospital;
 use App\Models\User;
 use Symfony\Contracts\Service\Attribute\Required;
 use \Carbon\Carbon;
+use App\Models\City;
 
 class MohCampaignController extends Controller {
     //# Get all campaigns
     public function index(Request $request) {
-        $cities = ['6th of October', 'Alexandria', 'Aswan', 'Asyut', 'Beheira', 'Beni Suef', 'Cairo', 'Dakahlia', 'Damietta', 'Faiyum', 'Gharbia', 'Giza', 'Helwan', 'Ismailia', 'Kafr El Sheikh', 'Luxor', 'Matruh', 'Minya', 'Monufia', 'New Valley', 'North Sinai', 'Port Said', 'Qalyubia', 'Qena', 'Red Sea', 'Sharqia', 'Sohag', 'South Sinai', 'Suez'];
+        $cities = City::all();
 
         $campaigns = Campaign::paginate(10);
 
@@ -112,9 +113,7 @@ class MohCampaignController extends Controller {
     }
 
     public function updateView(Request $request, Campaign $campaign) {
-        $cities = ['6th of October', 'Alexandria', 'Aswan', 'Asyut', 'Beheira', 'Beni Suef', 'Cairo', 'Dakahlia', 'Damietta', 'Faiyum', 'Gharbia', 'Giza', 'Helwan', 'Ismailia', 'Kafr El Sheikh', 'Luxor', 'Matruh', 'Minya', 'Monufia', 'New Valley', 'North Sinai', 'Port Said', 'Qalyubia', 'Qena', 'Red Sea', 'Sharqia', 'Sohag', 'South Sinai', 'Suez'];
-
-
+        $cities = City::all();
 
         if (now()->diffInDays($campaign->start_date) < 1) {
             return back()->with('message', 'Can\'t update a campaign that is starting in two days !');

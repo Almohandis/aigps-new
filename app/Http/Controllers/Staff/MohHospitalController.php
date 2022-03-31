@@ -9,12 +9,13 @@ use App\Models\Campaign;
 use App\Models\Hospital;
 use App\Models\User;
 use Symfony\Contracts\Service\Attribute\Required;
+use App\Models\City;
 
 class MohHospitalController extends Controller {
     public function index(Request $request) {
         $hospitals = Hospital::paginate(10);
 
-        $cities = ['Alexandria', 'Aswan', 'Asyut', 'Beheira', 'Beni Suef', 'Cairo', 'Dakahlia', 'Damietta', 'Faiyum', 'Gharbia', 'Giza', 'Helwan', 'Ismailia', 'Kafr El Sheikh', 'Luxor', 'Matruh', 'Minya', 'Monufia', 'New Valley', 'North Sinai', 'Port Said', 'Qalyubia', 'Qena', 'Red Sea', 'Sharqia', 'Sohag', 'South Sinai', 'Suez', '6th of October'];
+        $cities = City::all();
 
         return view('moh.manage-hospitals', compact('hospitals', 'cities'));
     }
@@ -54,7 +55,8 @@ class MohHospitalController extends Controller {
     }
 
     public function updateView(Request $request, Hospital $hospital) {
-        $cities = ['Alexandria', 'Aswan', 'Asyut', 'Beheira', 'Beni Suef', 'Cairo', 'Dakahlia', 'Damietta', 'Faiyum', 'Gharbia', 'Giza', 'Helwan', 'Ismailia', 'Kafr El Sheikh', 'Luxor', 'Matruh', 'Minya', 'Monufia', 'New Valley', 'North Sinai', 'Port Said', 'Qalyubia', 'Qena', 'Red Sea', 'Sharqia', 'Sohag', 'South Sinai', 'Suez', '6th of October'];
+        $cities = City::all();
+
         return view('moh.update-hospital')
             ->with('hospital', $hospital)
             ->with('cities', $cities);
