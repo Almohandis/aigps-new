@@ -69,6 +69,11 @@ Route::middleware('moh')->prefix('/moh')->group(function () {
     Route::get('/articles/{article}/update', 'MohArticleController@updateView');
     Route::post('/articles/{article}/update', 'MohArticleController@update');
     Route::get('/articles/{article}/delete', 'MohArticleController@delete');
+
+    Route::get('/survey', 'MohSurveyController@index');
+    Route::post('/survey/add', 'MohSurveyController@create');
+    Route::post('/survey/{question}/update', 'MohSurveyController@update');
+    Route::post('/survey/{question}/delete', 'MohSurveyController@delete');
 });
 
 Route::middleware('admin')->group(function () {

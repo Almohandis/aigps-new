@@ -17,7 +17,7 @@
         @endif
 
         <div class="text-start shadow container bg-white mt-5 rounded px-5 py-3 text-dark">
-            <h4 class="mb-3 text-center"> Update Hospital (#{{$hospital->id}}) </h4>    
+            <h4 class="mb-3 text-center"> Update Hospital ({{$hospital->name}}) </h4>    
             <form method="POST">
                 @csrf
                 <div class="form-group row">
@@ -43,7 +43,7 @@
                         <label>City</label>
                         <select name="city" class="form-control">
                             @foreach ($cities as $city)
-                                <option value="{{ $city }}">{{ $city }}</option>
+                                <option value="{{ $city->name }}">{{ $city->name }}</option>
                             @endforeach
                         </select>
                     </div>

@@ -44,25 +44,7 @@ trait Roles {
     }
 
     public function getRoleName() {
-        if ($this->role_id == 9) {
-            return 'System Admin';
-        } else if ($this->role_id == 8) {
-            return 'Spokes Person';
-        } else if ($this->role_id == 7) {
-            return 'Preseident Advisor';
-        } else if ($this->role_id == 6) {
-            return 'Hospital';
-        } else if ($this->role_id == 5) {
-            return 'Campaign Clerk';
-        } else if ($this->role_id == 4) {
-            return 'Ministry of Internal Affairs';
-        } else if ($this->role_id == 3) {
-            return 'System User';
-        } else if ($this->role_id == 2) {
-            return 'National Id Entry';
-        } else if ($this->role_id == 1) {
-            return 'Ministry of health';
-        }
+        return $this->getRoleNames()[$this->role_id - 1];
     }
 
     public function scopeEmployees($query) {
@@ -71,15 +53,15 @@ trait Roles {
 
     public static function getRoleNames() {
         return [
-            'Ministry of health',
-            'National Id Entry',
+            'Ministry of health Clerk',
+            'National Id Entry Clerk',
             'System User',
-            'Ministry of Internal Affairs',
+            'Ministry of Internal Affairs Clerk',
             'Campaign Clerk',
-            'Hospital',
-            'Preseident Advisor',
-            'Spokes Person',
-            'System Admin'
+            'Hospital Clerk',
+            'Preseident Advisor Clerk',
+            'Spokes Person Clerk',
+            'System Admin Clerk'
         ];
     }
 }

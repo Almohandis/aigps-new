@@ -7,9 +7,7 @@
             email: '',
             password: '',
             password_confirmation: '',
-            workemail: '',
-            gender: '',
-            birthdate: '',
+            workemail: ''
         };
 
         function updateError() {
@@ -77,6 +75,7 @@
                             input.style.outline = "green solid thin";
                             errors.national_id = '#';
                             updateError();
+                            updateNidRelatedData(input.value);
                         }
                     }
 
@@ -87,8 +86,32 @@
                             return false;
                         }
 
+                        let nid_year = input.substring(1, 3);
+                        let year = '';
+
+                        if (input[0] == 2) {
+                            year = '19' + nid_year;
+                        } else {
+                            year = '20' + nid_year;
+                        }
+
                         let month = parseInt(input.substring(3, 5));
                         let day = parseInt(input.substring(5, 7));
+
+                        // check if the date isn't greater than today
+                        let today = new Date();
+                        let today_year = today.getFullYear();
+                        let today_month = today.getMonth() + 1;
+                        let today_day = today.getDate();
+
+                        if (year > today_year || (year == today_year && month > today_month) || (year == today_year && month == today_month && day > today_day)) {
+                            return false;
+                        }
+
+                        // check if the date isn't less than 1900
+                        if (year < 1900) {
+                            return false;
+                        }
 
                         if (month > 12 || month < 1) {
                             return false;
@@ -99,6 +122,34 @@
                         }
 
                         return true;
+                    }
+
+                    function updateNidRelatedData(nationalid) {
+                        let millennium = parseInt(nationalid[0]);
+
+                        let nid_year = nationalid.substring(1, 3);
+                        let nid_month = parseInt(nationalid.substring(3, 5));
+                        let nid_day = parseInt(nationalid.substring(5, 7));
+                        
+                        let nid_gender = parseInt(nationalid[12]);
+
+                        let year = '';
+
+                        if (nationalid[0] == 2) {
+                            year = '19' + nid_year;
+                        } else {
+                            year = '20' + nid_year;
+                        }
+
+                        let month = nid_month < 10 ? '0' + nid_month : nid_month;
+                        let day = nid_day < 10 ? '0' + nid_day : nid_day;
+
+                        let birthdate = document.getElementById('birthdate');
+
+                        let gender = nid_gender % 2 == 0 ? 'female' : 'male';
+                        document.getElementById(gender).selected = true;
+
+                        birthdate.value = `${year}-${month}-${day}`;
                     }
                 </script>
 
@@ -203,80 +254,23 @@
                     <label>City *</label>
                     <select name="city" class="form-control">
                         @foreach ($cities as $city)
-                            <option value="{{ $city }}">{{ $city }}</option>
+                            <option value="{{ $city->name }}">{{ $city->name }}</option>
                         @endforeach
                     </select>
                 </div>
 
                 <div class="col-12 col-md-6 mt-2">
-                    <i id="gender_mark" class="fa-solid fa-close text-danger visually-hidden"></i>
                     <label>Gender *</label>
 
-                    <select name="gender" class="form-control" onchange="validateGender(this)" required>
-                        <option value="">Select Gender</option>
-                        <option value="Male">Male</option>
-                        <option value="Female">Female</option>
+                    <select name="gender" class="form-control" id="gender" required readonly required>
+                        <option id="male" value="Male">Male</option>
+                        <option id="female" value="Female">Female</option>
                     </select>
-
-                    <div id="gender_error" class="form-text text-danger"></div>
-
-                    <script>
-                        function validateGender(input) {
-                            let nid = document.getElementById('national_id').value;
-
-                            if (! nid[12]) return;
-
-                            if (input.value == 'Male' && nid[12] % 2 != 0) {
-                                input.style.outline = "green solid thin";
-                                errors.gender = '#';
-                                updateError();
-                            } else if (input.value == 'Female' && nid[12] % 2 == 0) {
-                                input.style.outline = "green solid thin";
-                                errors.gender = '#';
-                                updateError();
-                            } else {
-                                input.style.outline = "red solid thin";
-                                errors.gender = 'Gender must match the gender in your national id';
-                                updateError();
-                            }
-                        }
-                    </script>
                 </div>
 
                 <div class="col-12 col-md-6 mt-2">
-                    <i id="birthdate_mark" class="fa-solid fa-close text-danger visually-hidden"></i>
-
                     <label>Birthdate *</label>
-                    <input type="date" class="form-control" name="birthdate" required oninput="validateBirthDate(this)">
-
-                    <div id="birthdate_error" class="form-text text-danger"></div>
-
-                    <script>
-                        function validateBirthDate(input) {
-                            let nid = document.getElementById('national_id').value;
-
-                            if (! nid[6]) return;
-
-                            let birthdate = new Date(input.value);
-                            let birthdate_year = birthdate.getFullYear().toString().substr(-2);
-                            let birthdate_month = birthdate.getMonth() + 1;
-                            let birthdate_day = birthdate.getDate();
-
-                            let nid_year = parseInt(nid.substring(1, 3));
-                            let nid_month = parseInt(nid.substring(3, 5));
-                            let nid_day = parseInt(nid.substring(5, 7));
-
-                            if (birthdate_year == nid_year && birthdate_month == nid_month && birthdate_day == nid_day) {
-                                input.style.outline = "green solid thin";
-                                errors.birthdate = '#';
-                                updateError();
-                            } else {
-                                input.style.outline = "red solid thin";
-                                errors.birthdate = 'Birthdate must match the birthdate in your national id';
-                                updateError();
-                            }
-                        }
-                    </script>
+                    <input type="date" class="form-control" id="birthdate" name="birthdate" required readonly>
                 </div>
 
                 <div class="col-12 col-md-6 mt-2">
