@@ -49,10 +49,10 @@
                 </div>
 
                 <div class="form-group col-12 col-md-6 col-lg-3">
-                    <label for="status" class="">Status</label>
+                    <label for="status" class="">Isolation State</label>
                     <div class="">
                         <select class="form-control" name="is_isolation">
-                            <option value="">All Statuses</option>
+                            <option value="">All</option>
                             <option value="is_isolation">Isolation</option>
                             <option value="inactive">Non-Isolation</option>
                         </select>

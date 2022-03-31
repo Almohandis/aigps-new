@@ -10,13 +10,30 @@ use App\Models\Hospital;
 use App\Models\User;
 use App\Models\NationalId;
 use Symfony\Contracts\Service\Attribute\Required;
+use App\Models\City;
 
 class MohDoctorController extends Controller {
     public function index(Request $request) {
-        $hospitals = Hospital::paginate(10);
+        $hospitals = Hospital::query();
+
+        if ($request->has('sort') && $request->sort) {
+            $hospitals = $hospitals->orderBy($request->sort, $request->order == 'asc' ? 'asc' : 'desc');
+        }
+
+
+        if ($request->has('is_isolation') && $request->is_isolation) {
+            $hospitals = $hospitals->where('is_isolation', $request->is_isolation == 'is_isolation');
+        }
+
+        if ($request->has('city') && $request->city) {
+            $hospitals = $hospitals->where('city', $request->city);
+        }
+
+        $cities = City::all();
 
         return view('moh.doctors.hospitals')
-            ->with('hospitals', $hospitals);
+            ->with('hospitals', $hospitals->paginate(10)->withQueryString())
+            ->with('cities', $cities);
     }
 
     public function doctors(Request $request, Hospital $hospital) {
