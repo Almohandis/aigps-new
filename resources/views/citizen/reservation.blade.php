@@ -3,7 +3,9 @@
 
 
     <div class="mt-5 text-center">
-        <h1 class="aigps-title">Vaccination reservation</h1>
+        <h1 class="aigps-title">
+            {{ $diagnosed ? 'Vaccine' : 'Diagnose'}} reservation
+        </h1>
 
         <div class="text-start shadow container bg-white mt-5 rounded p-5 text-dark">
             @if ($message)

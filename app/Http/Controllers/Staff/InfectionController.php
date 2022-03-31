@@ -11,6 +11,7 @@ use App\Models\Hospital;
 use App\Models\User;
 use App\Models\NationalId;
 use Illuminate\Support\Facades\DB;
+use App\Models\City;
 
 class InfectionController extends Controller {
     public function index(Request $request) {
@@ -36,7 +37,7 @@ class InfectionController extends Controller {
     }
 
     public function updateView(Request $request, User $user) {
-        $cities = ['Alexandria', 'Aswan', 'Asyut', 'Beheira', 'Beni Suef', 'Cairo', 'Dakahlia', 'Damietta', 'Faiyum', 'Gharbia', 'Giza', 'Helwan', 'Ismailia', 'Kafr El Sheikh', 'Luxor', 'Matruh', 'Minya', 'Monufia', 'New Valley', 'North Sinai', 'Port Said', 'Qalyubia', 'Qena', 'Red Sea', 'Sharqia', 'Sohag', 'South Sinai', 'Suez', '6th of October'];
+        $cities = City::all();
 
         return view('isolationHospital.update-user')->with([
             'countries' => \Countries::getList('en'),

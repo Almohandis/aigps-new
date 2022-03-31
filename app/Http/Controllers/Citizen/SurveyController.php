@@ -32,6 +32,9 @@ class SurveyController extends Controller
         $answers = $request->input('answers');
 
         foreach ($answers as $questionId => $answer) {
+            // remove all answers from this user
+            $request->user()->answers()->detach($questionId);
+
             $request->user()->answers()->attach($questionId, ['answer' => $answer]);
         }
 

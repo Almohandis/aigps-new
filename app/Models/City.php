@@ -5,16 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Question extends Model
+class City extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'title',
-        'type',
+        'name',
+        'lat',
+        'lng'
     ];
-
-    public function answers() {
-        return $this->belongsToMany(User::class)->withPivot('id', 'answer');
-    }
 }
