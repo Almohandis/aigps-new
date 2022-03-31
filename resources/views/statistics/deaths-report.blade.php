@@ -1,5 +1,5 @@
 <x-app-layout>
-    <div class="max-w-6xl mx-auto sm:px-6 lg:px-8 mt-9">
+    <div class="table-responsive text-start shadow container bg-white mt-5 rounded px-5 py-3 text-dark">
         <div class="notification">
             @if (session('message'))
                 {{ session('message') }}
@@ -22,8 +22,8 @@
             </form>
             @if (isset($data_by_city))
                 <h1>{{ $report_title }}</h1>
-                <div class="tbl-header">
-                    <table>
+                <table class="table table-hover">
+                    <thead>
                         <tr>
                             <th>City</th>
                             <th>Number of males</th>
@@ -34,10 +34,10 @@
                             <th>Total hospitals</th>
                             <th>Average available beds</th>
                         </tr>
-                    </table>
-                </div>
-                <div class="tbl-content">
-                    <table>
+                    </thead>
+
+
+                    <tbody>
                         @foreach ($data_by_city as $city)
                             <tr>
                                 <td>{{ $city->city }}</td>
@@ -50,8 +50,8 @@
                                 <td>{{ $city->avg_avail_beds }}</td>
                             </tr>
                         @endforeach
-                    </table>
-                </div>
+                    </tbody>
+                </table>
                 <div>
                     @php
                         $counter = count($data_by_city);
@@ -59,24 +59,24 @@
                         $mean = 0;
                         $variance = 0;
                         $standard_deviation = 0;
-
+                        
                         foreach ($data_by_city as $city) {
                             $sum += $city->total_deaths;
                         }
-
+                        
                         $mean = round($sum / $counter, 2);
-
+                        
                         $total = $sum;
                         $sum = 0;
-
+                        
                         foreach ($data_by_city as $city) {
                             $sum += pow($city->total_deaths - $mean, 2);
                         }
-
+                        
                         $variance = round($sum / $counter, 2);
-
+                        
                         $standard_deviation = round(sqrt($variance), 2);
-
+                        
                     @endphp
                 </div>
                 <div>
@@ -88,115 +88,113 @@
                 </div>
             @elseif(isset($data_by_hospital))
                 <h1>{{ $report_title }}</h1>
-                <div class="tbl-header">
-                    <table>
+                <table class="table table-hover">
+                    <thead>
                         <tr>
                             <th>Hospital name</th>
                             <th>City</th>
                             <th>Total deaths</th>
                             <th>Available beds</th>
                         </tr>
-                    </table>
-                </div>
-                <div class="tbl-content">
-                    <table>
-                        @foreach ($data_by_hospital as $hospital)
-                            <tr>
+                    </thead>
+                    <tbody
+                        @foreach ($data_by_hospital as $hospital) <tr>
                                 <td>{{ $hospital->name }}</td>
                                 <td>{{ $hospital->city }}</td>
                                 <td>{{ $hospital->total_deaths }}</td>
                                 <td>{{ $hospital->avail_beds }}</td>
-                            </tr>
-                        @endforeach
-                    </table>
-                </div>
-            @elseif(isset($data_by_date))
-                <h1>{{ $report_title }}</h1>
-                <div class="tbl-header">
-                    <table>
-                        <tr>
-                            <th colspan="2">Total number of deaths starting from {{ $date }} until now</th>
-                        </tr>
-                        <tr>
-                            <th>Date</th>
-                            <th>Total deaths</th>
-                        </tr>
-                    </table>
-                </div>
-                <div class="tbl-content">
-                    <table>
-                        @foreach ($data_by_date as $date)
-                            <tr>
-                                <td>{{ $date->infection_date }}</td>
-                                <td>{{ $date->total_deaths }}</td>
-                            </tr>
-                        @endforeach
-                    </table>
-                </div>
-            @elseif(isset($data_by_age))
-                <h1>{{ $report_title }}</h1>
-                <div class="tbl-header">
-                    <table>
-                        <tr>
-                            <th>Age segment</th>
-                            <th>Number of males</th>
-                            <th>Male percentage</th>
-                            <th>Number of females</th>
-                            <th>Female percentage</th>
-                            <th>Total deaths</th>
-                        </tr>
-                    </table>
-                </div>
-                <div class="tbl-content">
-                    <table>
-                        @foreach ($data_by_age as $segment)
-                            <tr>
-                                <td>{{ $segment->Age }}</td>
-                                <td>{{ $segment->Male }}</td>
-                                <td>{{ $segment->male_pcnt }}</td>
-                                <td>{{ $segment->Female }}</td>
-                                <td>{{ $segment->female_pcnt }}</td>
-                                <td>{{ $segment->Total }}</td>
-                            </tr>
-                        @endforeach
-                    </table>
-                </div>
-                <div>
-                    @php
-                        $counter = count($data_by_age);
-                        $sum = 0;
-                        $mean = 0;
-                        $variance = 0;
-                        $standard_deviation = 0;
-
-                        foreach ($data_by_age as $age) {
-                            $sum += $age->Total;
-                        }
-
-                        $mean = round($sum / $counter, 2);
-
-                        $total = $sum;
-                        $sum = 0;
-
-                        foreach ($data_by_age as $age) {
-                            $sum += pow($age->Total - $mean, 2);
-                        }
-
-                        $variance = round($sum / $counter, 2);
-
-                        $standard_deviation = round(sqrt($variance), 2);
-
-                    @endphp
-                </div>
-                <div>
-                    <P>Total deaths = {{ $total }}</p>
-                    <canvas id="deaths" width="200" height="100"></canvas>
-                    <p>Deaths mean (µ) = {{ $mean }}</p>
-                    <p>Deaths variance (σ<sup>2</sup>) = {{ $variance }}</p>
-                    <P>Deaths standard deviation (σ) = {{ $standard_deviation }}</P>
-                </div>
-            @endif
+                            </tr> @endforeach
+                        </tbody>
+                </table>
         </div>
+    @elseif(isset($data_by_date))
+        <h1>{{ $report_title }}</h1>
+
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th colspan="2">Total number of deaths starting from {{ $date }} until now</th>
+                </tr>
+                <tr>
+                    <th>Date</th>
+                    <th>Total deaths</th>
+                </tr>
+            </thead>
+
+
+            <tbody>
+                @foreach ($data_by_date as $date)
+                    <tr>
+                        <td>{{ $date->infection_date }}</td>
+                        <td>{{ $date->total_deaths }}</td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
+    @elseif(isset($data_by_age))
+        <h1>{{ $report_title }}</h1>
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>Age segment</th>
+                    <th>Number of males</th>
+                    <th>Male percentage</th>
+                    <th>Number of females</th>
+                    <th>Female percentage</th>
+                    <th>Total deaths</th>
+                </tr>
+            </thead>
+
+
+            <tbody>
+                @foreach ($data_by_age as $segment)
+                    <tr>
+                        <td>{{ $segment->Age }}</td>
+                        <td>{{ $segment->Male }}</td>
+                        <td>{{ $segment->male_pcnt }}</td>
+                        <td>{{ $segment->Female }}</td>
+                        <td>{{ $segment->female_pcnt }}</td>
+                        <td>{{ $segment->Total }}</td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
+        <div>
+            @php
+                $counter = count($data_by_age);
+                $sum = 0;
+                $mean = 0;
+                $variance = 0;
+                $standard_deviation = 0;
+                
+                foreach ($data_by_age as $age) {
+                    $sum += $age->Total;
+                }
+                
+                $mean = round($sum / $counter, 2);
+                
+                $total = $sum;
+                $sum = 0;
+                
+                foreach ($data_by_age as $age) {
+                    $sum += pow($age->Total - $mean, 2);
+                }
+                
+                $variance = round($sum / $counter, 2);
+                
+                $standard_deviation = round(sqrt($variance), 2);
+                
+            @endphp
+        </div>
+        <div>
+            <P>Total deaths = {{ $total }}</p>
+            <canvas id="deaths" width="200" height="100"></canvas>
+            <p>Deaths mean (µ) = {{ $mean }}</p>
+            <p>Deaths variance (σ<sup>2</sup>) = {{ $variance }}</p>
+            <P>Deaths standard deviation (σ) = {{ $standard_deviation }}</P>
+        </div>
+        @endif
+    </div>
     </div>
     @if (isset($data_by_city))
         <script>
