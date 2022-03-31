@@ -14,8 +14,7 @@ class Question extends Model
         'type',
     ];
 
-    public function answers()
-    {
-        return $this->belongsToMany(User::class)->withPivot('answer');
+    public function answers() {
+        return $this->belongsToMany(User::class)->withPivot('id', 'answer');
     }
 }
