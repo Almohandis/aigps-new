@@ -74,8 +74,10 @@ class RegisteredUserController extends Controller
         ];
 
         //# check if user exists
-        if ($user) {
+        if ($user && ! $user->password) {
             $user->update($data);
+        } else if ($user && $user->password) {
+            return back()->withErrors(['national_id' => 'A User with this national Id already exists']);
         } else {
             //# if the user does not exist, create a new record
             $user = User::create($data);
