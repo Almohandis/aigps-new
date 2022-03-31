@@ -1,5 +1,5 @@
 <x-app-layout>
-    <div class="max-w-6xl mx-auto sm:px-6 lg:px-8 mt-9">
+    <div class="table-responsive text-start shadow container bg-white mt-5 rounded px-5 py-3 text-dark">
         <div class="notification">
             @if (session('message'))
                 {{ session('message') }}
@@ -22,24 +22,23 @@
             </form>
             @if (isset($data_by_vaccine_status))
                 <h1>{{ $report_title }}</h1>
-                <div class="tbl-header">
-                    <table>
+                <table class="table table-hover">
+                    <thead>
                         <tr>
                             <th>Vaccine status category</th>
                             <th>Total</th>
                         </tr>
-                    </table>
-                </div>
-                <div class="tbl-content">
-                    <table>
+                    </thead>
+               
+                    <tbody>
                         @foreach ($data_by_vaccine_status as $status)
                             <tr>
                                 <td>{{ $status->vac_status }}</td>
                                 <td>{{ $status->Total }}</td>
                             </tr>
                         @endforeach
-                    </table>
-                </div>
+                    </tbody>
+                </table>
                 <div>
                     <canvas id="vaccine" width="200" height="100"></canvas>
                 </div>
