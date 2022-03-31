@@ -11,13 +11,13 @@
         <div class="pt-8 sm:pt-0">
             <form id="form" action="/stats" method="POST">
                 @csrf
-                <select name="report_name" id="report-name">
+                <select name="report_name" id="report-name" class="form-control">
                     <option disabled hidden selected>Please choose a report name</option>
                     @foreach ($names as $name)
                         <option value="{{ $name }}">{{ $name }}</option>
                     @endforeach
                 </select>
-                <select name="report_by" id="report-by"></select>
+                <select name="report_by" id="report-by" class="form-control"></select>
                 <button type="submit" id="generate-btn" class="btn btn-primary">Generate report</button>
             </form>
             @if (isset($data_by_chronic_disease))
