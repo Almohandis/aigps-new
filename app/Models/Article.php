@@ -12,7 +12,6 @@ class Article extends Model
     protected $fillable = [
         'title',
         'content',
-        'name',
         'path',
         'video_link',
         'full_article_link',
