@@ -170,10 +170,11 @@ class ReservationController extends Controller {
         }
 
         return view('citizen.reservation')->with([
-            'campaigns' => $campaigns,
-            'cities' => $citiesData,
-            'max' => $max,
-            'message' => $request->user()->is_diagnosed ? null : 'You will recieve diagnosis during your first reservation.',
+			'campaigns' 		=> $campaigns,
+			'cities' 			=> $citiesData,
+			'max' 				=> $max,
+			'diagnosed'			=>	$request->user()->is_diagnosed,
+			'message' 			=> $request->user()->is_diagnosed ? null : 'This will be a diagnose reservation.',
         ]);
     }
 
@@ -217,7 +218,7 @@ class ReservationController extends Controller {
 
         $request->user()->notify(new ReservationNotification());
 
-        return view('citizen.reservecomplete');
+        return view('citizen.reservecomplete')->with('diagnosed', $request->user()->is_diagnosed);
     }
 
     private function canReserve(Request $request) {
