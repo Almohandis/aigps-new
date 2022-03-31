@@ -1,10 +1,10 @@
 <x-app-layout>
-    <link href="{{asset('css/reservation.css')}}" rel="stylesheet">
+    <link href="{{ asset('css/reservation.css') }}" rel="stylesheet">
 
 
     <div class="mt-5 text-center">
         <h1 class="aigps-title">
-            {{ $diagnosed ? 'Vaccine' : 'Diagnose'}} reservation
+            {{ $diagnosed ? 'Vaccine' : 'Diagnose' }} reservation
         </h1>
 
         <div class="text-start shadow container bg-white mt-5 rounded p-5 text-dark">
@@ -30,15 +30,17 @@
 
             <h4> Select a campaign </h4>
             <p class="text-muted">Select a campaign either through the map or through the select options.</p>
-            
+
             <div class="accordion mb-4" id="campaignsAccordion">
                 <div class="accordion-item">
                     <h2 class="accordion-header" id="flush-headingOne">
-                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#flush-collapseOne">
                             List of campaigns
                         </button>
                     </h2>
-                    <div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#campaignsAccordion">
+                    <div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne"
+                        data-bs-parent="#campaignsAccordion">
                         <div class="accordion-body">
                             <div class="ms-1 row mb-3">
                                 <div class="col-12 col-md-2">
@@ -56,7 +58,7 @@
                                 </div>
                             </div>
 
-                            
+
                             <div class="m-0 mb-3 card visually-hidden" id="campaignCopy">
                                 <div class="card-body">
                                     <div class="d-flex justify-content-between">
@@ -105,26 +107,27 @@
                     <p id="distance"> Distance: </p>
                     <p id="start_date"> Starts At: </p>
                     <p id="end_date"> Ends At: </p>
-                </div> 
+                </div>
             </div>
 
             <div class="mx-auto text-center mt-5">
                 <div id="map" class="aigps-map"></div>
 
-                <script src="https://maps.googleapis.com/maps/api/js?key={{ config('app.google_maps_api') }}&callback=initMap" defer></script>
-    
+                <script src="https://maps.googleapis.com/maps/api/js?key={{ config('app.google_maps_api') }}&callback=initMap" defer>
+                </script>
+
                 <script>
                     var locations = [
                         @foreach ($campaigns as $campaign)
                             {
-                                lat: [{{ $campaign->location }}][0],
-                                lng: [{{ $campaign->location }}][1],
-                                city: '{{ $campaign->city }}',
-                                address: '{{ preg_replace('/\s+/', ' ', trim($campaign->address)) }}',
-                                start_date: '{{ $campaign->start_date }}',
-                                end_date: '{{ $campaign->end_date }}',
-                                status: '{{ $campaign->status }}',
-                                id: {{ $campaign->id }}
+                            lat: [{{ $campaign->location }}][0],
+                            lng: [{{ $campaign->location }}][1],
+                            city: '{{ $campaign->city }}',
+                            address: '{{ preg_replace('/\s+/', ' ', trim($campaign->address)) }}',
+                            start_date: '{{ $campaign->start_date }}',
+                            end_date: '{{ $campaign->end_date }}',
+                            status: '{{ $campaign->status }}',
+                            id: {{ $campaign->id }}
                             },
                         @endforeach
                     ];
@@ -141,7 +144,8 @@
                     function getDistanceByLocation(location) {
                         distances.forEach(function(element, index) {
                             if (location[0] == element.name) {
-                                document.getElementById('distance').innerHTML = "Distance: " + element.distance.toFixed(2) + " km";
+                                document.getElementById('distance').innerHTML = "Distance: " + element.distance.toFixed(2) +
+                                    " km";
                                 document.getElementById('start_date').innerHTML = "Starts At: " + location[4];
                                 document.getElementById('end_date').innerHTML = "Ends At: " + location[6];
                                 return;
@@ -221,8 +225,10 @@
                                         '<h5 class="text-start"><strong>Address:</strong> ' +
                                         locations[i].address + '</h5>' +
                                         '<div id="bodyContent">' +
-                                        '<p class="text-start"><strong>Start date:</strong> ' + locations[i].start_date + '</p>' +
-                                        '<p class="text-start"><strong>End date:</strong> ' + locations[i].end_date + '</p>' +
+                                        '<p class="text-start"><strong>Start date:</strong> ' + locations[i]
+                                        .start_date + '</p>' +
+                                        '<p class="text-start"><strong>End date:</strong> ' + locations[i].end_date +
+                                        '</p>' +
                                         '</div>' +
                                         '</div>';
                                     infowindow.setContent(content);
@@ -231,12 +237,14 @@
                                 }
                             })(marker, i));
                         }
-  
+
                         getUserLocation();
                         getUserCity();
                         getUserDescTime();
 
-                        sortCampaigns({value: 0});
+                        sortCampaigns({
+                            value: 0
+                        });
                     }
 
                     function getMarker(location) {
@@ -323,7 +331,7 @@
                             return a.distance - b.distance;
                         });
 
-                        for(var i = 0; i < result.length; i++) {
+                        for (var i = 0; i < result.length; i++) {
                             distances.push(result[i].distance);
                         }
 
@@ -373,7 +381,7 @@
                         }
                     }
 
-                    function generateCampaignsList(array, time=false) {
+                    function generateCampaignsList(array, time = false) {
                         const campaignsList = document.getElementById('campaigns-list');
 
                         campaignsList.innerHTML = '';
@@ -387,10 +395,10 @@
                             copy.querySelector('.campaign-address').innerHTML = array[i].address;
                             copy.querySelector('.campaign-start').innerHTML = array[i].start_date;
                             copy.querySelector('.campaign-end').innerHTML = array[i].end_date;
-                            copy.querySelector('.campaign-select').onclick = function () {
+                            copy.querySelector('.campaign-select').onclick = function() {
                                 selectCampaign(array[i]);
                             }
-    
+
                             // copy.querySelector('.campaign-distance').innerHTML = dis.toFixed(2) + ' km';
 
 

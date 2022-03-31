@@ -329,12 +329,151 @@ class StatisticsController extends Controller
     {
         switch ($report_by) {
             case 'City':
-                $data = DB::select('SELECT u1.city, ( SELECT COUNT(*) FROM infections_id, users AS u2 WHERE u2.id = infections_id.id AND u2.city = u1.city ) as total_infections, ( SELECT COUNT(*) FROM infections_id, users AS u2 WHERE u2.gender = "Male" AND infections_id.id = u2.id AND u1.city = u2.city ) AS male_count, Round( ifnull( ( SELECT male_count / total_infections * 100 ), 0 ), 1 ) as male_pcnt, ( SELECT COUNT(*) FROM infections_id, users AS u2 WHERE u2.gender = "Female" AND infections_id.id = u2.id AND u1.city = u2.city ) AS female_count, Round( ifnull( ( SELECT female_count / total_infections * 100 ), 0 ), 1 ) as female_pcnt, ( SELECT COUNT(*) FROM hospitals AS hos1 WHERE hos1.city = u1.city ) AS tot_hos, ( SELECT ifnull( round( ( ( ( SELECT sum(hos3.capacity) FROM hospitals as hos3 where hos3.city = u1.city ) - ( SELECT COUNT(*) FROM hospitalizations AS hoz2, hospitals as hos2 WHERE hoz2.hospital_id = hos2.id AND hoz2.checkout_date IS NULL and hos2.city = u1.city ) )/ ( SELECT count(*) FROM hospitals as hos3 where hos3.city = u1.city ) ), 0 ), 0 ) ) AS avg_avail_beds FROM users AS u1 GROUP BY u1.city;');
-                $data = json_encode($data);
-                $data = json_decode($data);
-                // return $data;
+                $data_by_city = DB::select('SELECT u1.city, ( SELECT COUNT(*) FROM infections_id, users AS u2 WHERE u2.id = infections_id.id AND u2.city = u1.city ) as total_infections, ( SELECT COUNT(*) FROM infections_id, users AS u2 WHERE u2.gender = "Male" AND infections_id.id = u2.id AND u1.city = u2.city ) AS male_count, Round( ifnull( ( SELECT male_count / total_infections * 100 ), 0 ), 1 ) as male_pcnt, ( SELECT COUNT(*) FROM infections_id, users AS u2 WHERE u2.gender = "Female" AND infections_id.id = u2.id AND u1.city = u2.city ) AS female_count, Round( ifnull( ( SELECT female_count / total_infections * 100 ), 0 ), 1 ) as female_pcnt, ( SELECT COUNT(*) FROM hospitals AS hos1 WHERE hos1.city = u1.city ) AS tot_hos, ( SELECT ifnull( round( ( ( ( SELECT sum(hos3.capacity) FROM hospitals as hos3 where hos3.city = u1.city ) - ( SELECT COUNT(*) FROM hospitalizations AS hoz2, hospitals as hos2 WHERE hoz2.hospital_id = hos2.id AND hoz2.checkout_date IS NULL and hos2.city = u1.city ) )/ ( SELECT count(*) FROM hospitals as hos3 where hos3.city = u1.city ) ), 0 ), 0 ) ) AS avg_avail_beds FROM users AS u1 GROUP BY u1.city;');
+                $data_by_city = json_encode($data_by_city);
+                $data_by_city = json_decode($data_by_city);
+                // return $data_by_city;
                 $report_title = 'Infections report in each city';
-                return view('statistics.infections-report', ['data_by_city' => $data, 'names' => $names, 'report_by' => $report_by, 'cities' => $this->cities, 'report_title' => $report_title]);
+                $cities = [
+                    'Alexandria'  =>  [
+                        'lat' =>  31.2001,
+                        'lng' =>  29.9187,
+                    ],
+                    'Aswan'  =>  [
+                        'lat' =>  24.0889,
+                        'lng' =>  32.8998,
+                    ],
+                    'Asyut'  =>  [
+                        'lat' =>  27.1783,
+                        'lng' =>  31.1859,
+                    ],
+                    'Beheira'  =>  [
+                        'lat' =>  30.8481,
+                        'lng' =>  30.3436,
+                    ],
+                    'Beni Suef'  =>  [
+                        'lat' =>  29.0661,
+                        'lng' =>  31.0994,
+                    ],
+                    'Cairo'  =>  [
+                        'lat' =>  30.0444,
+                        'lng' =>  31.2357,
+                    ],
+                    'Dakahlia'  =>  [
+                        'lat' =>  31.1656,
+                        'lng' =>  31.4913,
+                    ],
+                    'Damietta'  =>  [
+                        'lat' =>  31.4175,
+                        'lng' =>  31.8144,
+                    ],
+                    'Faiyum'  =>  [
+                        'lat' =>  29.3565,
+                        'lng' =>  30.6200,
+                    ],
+                    'Gharbia'  =>  [
+                        'lat' =>  30.8754,
+                        'lng' =>  31.0335,
+                    ],
+                    'Giza'  =>  [
+                        'lat' =>  30.0131,
+                        'lng' =>  31.2089,
+                    ],
+                    'Helwan'  =>  [
+                        'lat' =>  29.8403,
+                        'lng' =>  31.2982,
+                    ],
+                    'Ismailia'  =>  [
+                        'lat' =>  30.5965,
+                        'lng' =>  32.2715,
+                    ],
+                    'Kafr El Sheikh'  =>  [
+                        'lat' =>  31.1107,
+                        'lng' =>  30.9388,
+                    ],
+                    'Luxor'  =>  [
+                        'lat' =>  25.6872,
+                        'lng' =>  32.6396,
+                    ],
+                    'Matruh'  =>  [
+                        'lat' =>  31.3543,
+                        'lng' =>  27.2373,
+                    ],
+                    'Minya'  =>  [
+                        'lat' =>  28.0871,
+                        'lng' =>  30.7618,
+                    ],
+                    'Monufia'  =>  [
+                        'lat' =>  30.5972,
+                        'lng' =>  30.9876,
+                    ],
+                    'New Valley'  =>  [
+                        'lat' =>  24.5456,
+                        'lng' =>  27.1735,
+                    ],
+                    'North Sinai'  =>  [
+                        'lat' =>  30.2824,
+                        'lng' =>  33.6176,
+                    ],
+                    'Port Said'  =>  [
+                        'lat' =>  31.2653,
+                        'lng' =>  32.3019,
+                    ],
+                    'Qalyubia'  =>  [
+                        'lat' =>  30.3292,
+                        'lng' =>  31.2168,
+                    ],
+                    'Qena'  =>  [
+                        'lat' =>  26.1551,
+                        'lng' =>  32.7160,
+                    ],
+                    'Red Sea'  =>  [
+                        'lat' =>  24.6826,
+                        'lng' =>  34.1532,
+                    ],
+                    'Sharqia'  =>  [
+                        'lat' =>  30.7327,
+                        'lng' =>  31.7195,
+                    ],
+                    'Sohag'  =>  [
+                        'lat' =>  26.5591,
+                        'lng' =>  31.6957,
+                    ],
+                    'South Sinai'  =>  [
+                        'lat' =>  29.3102,
+                        'lng' =>  34.1532,
+                    ],
+                    'Suez'  =>  [
+                        'lat' =>  29.9668,
+                        'lng' =>  32.5498,
+                    ],
+                    '6th of October'  =>  [
+                        'lat' =>  29.9285,
+                        'lng' =>  30.9188,
+                    ]
+                ];
+
+                $citiesData = User::whereHas('infections', function ($query) {
+                    $query->where('is_recovered', false);
+                })
+                    ->selectRaw('city, count(*) as total')
+                    ->groupBy('city')
+                    ->get();
+
+                $max = 0;
+
+                foreach ($citiesData as $cityData) {
+                    $max = max($max, $cityData->total);
+
+                    foreach ($cities as $city => $data) {
+                        if ($city == $cityData->city) {
+                            $cityData->lat = $data['lat'];
+                            $cityData->lng = $data['lng'];
+                            break;
+                        }
+                    }
+                }
+                return view('statistics.infections-report', ['data_by_city' => $data_by_city, 'names' => $names, 'report_by' => $report_by, 'cities' => $citiesData, 'max' => $max, 'report_title' => $report_title]);
                 break;
             case 'Vaccine status':
                 $data = DB::select('SELECT if( m1.vaccine_dose_count = 0, "Not vaccinated", if( m1.vaccine_dose_count = 1, "Partially vaccinated", "Fully vaccinated" ) ) as vac_status, ( select count(*) from medical_passports as m2, users as u1 where u1.id = m2.user_id and u1.gender = "Male" and u1.id in (select id from infections_id) AND ( select if( m2.vaccine_dose_count = 0, "Not vaccinated", if( m2.vaccine_dose_count = 1, "Partially vaccinated", "Fully vaccinated" ) ) ) = vac_status ) as male_count, IFNULL( round( ( select male_count ) / ( select count(*) from medical_passports as m2, users as u1 where u1.id = m2.user_id and u1.id in (select id from infections_id) AND ( select if( m2.vaccine_dose_count = 0, "Not vaccinated", if( m2.vaccine_dose_count = 1, "Partially vaccinated", "Fully vaccinated" ) ) ) = vac_status )* 100, 1 ),0) as male_pcnt, ( select count(*) from medical_passports as m2, users as u1 where u1.id = m2.user_id and u1.gender = "Female" and u1.id in (select id from infections_id) AND ( select if( m2.vaccine_dose_count = 0, "Not vaccinated", if( m2.vaccine_dose_count = 1, "Partially vaccinated", "Fully vaccinated" ) ) ) = vac_status ) as female_count, IFNULL( round( ( select female_count ) / ( select count(*) from medical_passports as m2, users as u1 where u1.id = m2.user_id and u1.id in (select id from infections_id) AND ( select if( m2.vaccine_dose_count = 0, "Not vaccinated", if( m2.vaccine_dose_count = 1, "Partially vaccinated", "Fully vaccinated" ) ) ) = vac_status )* 100, 1 ),0) as female_pcnt, ( select count(*) from medical_passports as m2, users as u1 where u1.id = m2.user_id and u1.id in (select id from infections_id) AND ( select if( m2.vaccine_dose_count = 0, "Not vaccinated", if( m2.vaccine_dose_count = 1, "Partially vaccinated", "Fully vaccinated" ) ) ) = vac_status ) as total FROM medical_passports as m1 , infections_id GROUP BY vac_status;');
