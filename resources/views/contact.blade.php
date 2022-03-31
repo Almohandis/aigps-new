@@ -3,7 +3,7 @@
         <h1 class="aigps-title">Contact Us</h1>
 
         <div class="shadow container bg-white mt-5 rounded p-5 text-dark">
-            <h2>AIGPS Software House</h2>
+           <img src="EDIT3.png" style="width:100px;height:100px"> <h2>AIGPS Software House</h2>
             <hr class="mb-4">
 
             <div class="container row">
@@ -24,10 +24,10 @@
                         <h5> Our Numbers </h5>
                         <div class="ms-2">
                             <div>
-                                <a href="mailto:info@aigps.ml"> info@aigps.ml </a>
+                                <a href="tel:0224030030">0224030030</a>
                             </div>
                             <div>
-                                <a href="mailto:contact@aigps.ml"> contact@aigps.ml </a>
+                                <a href="tel:0224030031">0224030031</a>
                             </div>
                         </div>
                     </div>
