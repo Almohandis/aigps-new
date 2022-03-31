@@ -1,5 +1,5 @@
 <x-app-layout>
-    <div class="max-w-6xl mx-auto sm:px-6 lg:px-8 mt-9">
+    <div class="table-responsive text-start shadow container bg-white mt-5 rounded px-5 py-3 text-dark">
         <div class="notification">
             @if (session('message'))
                 {{ session('message') }}
@@ -29,8 +29,8 @@
             </form>
             @if (isset($data_by_city))
                 <h1>{{ $report_title }}</h1>
-                <div class="tbl-header">
-                    <table>
+                <table class="table table-hover">
+                    <thead>
                         <tr>
                             <th>City</th>
                             <th>Available beds</th>
@@ -38,10 +38,10 @@
                             <th>Isolation hospitals</th>
                             <th>Total hospitalizations</th>
                         </tr>
-                    </table>
-                </div>
-                <div class="tbl-content">
-                    <table>
+                    </thead>
+
+
+                    <tbody>
                         @for ($i = 0, $j = 0; $i < count($cities); $i++)
                             <tr>
                                 <td>{{ $cities[$i] }}</td>
@@ -66,12 +66,12 @@
                                 @endif
                             </tr>
                         @endfor
-                    </table>
-                </div>
+                    </tbody>
+                </table>
             @elseif(isset($data_by_hospital))
                 <h1>{{ $report_title }}</h1>
-                <div class="tbl-header">
-                    <table>
+                <table class="table table-hover">
+                    <thead>
                         <tr>
                             <th>Hospital name</th>
                             <th>City</th>
@@ -79,10 +79,9 @@
                             <th>Capacity</th>
                             <th>Available beds</th>
                         </tr>
-                    </table>
-                </div>
-                <div class="tbl-content">
-                    <table>
+                    </thead>
+               
+                    <tbody>
                         @foreach ($data_by_hospital as $hospital)
                             <tr>
                                 <td>{{ $hospital->name }}</td>
@@ -92,8 +91,8 @@
                                 <td>{{ $hospital->avail_beds }}</td>
                             </tr>
                         @endforeach
-                    </table>
-                </div>
+                    </tbody>
+                </table>
             @endif
         </div>
     </div>
