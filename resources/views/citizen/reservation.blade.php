@@ -86,10 +86,6 @@
                                         <span class="text-muted campaign-address"></span>
                                     </div>
 
-                                    <div class="mt-3">
-                                        <strong>Distance: </strong>
-                                        <span class="text-muted campaign-distance"></span>
-                                    </div>
 
                                 </div>
                             </div>
@@ -241,7 +237,6 @@
                         getUserDescTime();
 
                         sortCampaigns({value: 0});
-                        console.log(locations)
                     }
 
                     function getMarker(location) {
@@ -366,7 +361,7 @@
 
                     function sortCampaigns(input) {
                         if (input.value == 1) {
-                            generateCampaignsList(locationsDescTime);
+                            generateCampaignsList(locationsDescTime, true);
                         } else if (input.value == 2) {
                             generateCampaignsList(locationsCity);
                         } else if (input.value == 3) {
@@ -374,11 +369,11 @@
                         } else if (input.value == 4) {
                             generateCampaignsList(locationsUserLocation);
                         } else {
-                            generateCampaignsList(locations);
+                            generateCampaignsList(locations, true);
                         }
                     }
 
-                    function generateCampaignsList(array) {
+                    function generateCampaignsList(array, time=false) {
                         const campaignsList = document.getElementById('campaigns-list');
 
                         campaignsList.innerHTML = '';
@@ -392,10 +387,11 @@
                             copy.querySelector('.campaign-address').innerHTML = array[i].address;
                             copy.querySelector('.campaign-start').innerHTML = array[i].start_date;
                             copy.querySelector('.campaign-end').innerHTML = array[i].end_date;
-                            copy.querySelector('.campaign-distance').innerHTML = array[i].distance.toFixed(2) + ' km';
                             copy.querySelector('.campaign-select').onclick = function () {
                                 selectCampaign(array[i]);
                             }
+    
+                            // copy.querySelector('.campaign-distance').innerHTML = dis.toFixed(2) + ' km';
 
 
                             // add copy to list
