@@ -3,11 +3,16 @@
         <h1 class="aigps-title">Medical Passport</h1>
 
         <div class="text-start shadow container bg-white mt-5 rounded p-5 text-dark">
-            <h3 class="text-center mb-3">VACCINE CERTIFICATE</h3>
+            <h3 class="text-center mb-4">VACCINE CERTIFICATE</h3>
 
             <div id="medicalPassportTable">
             <table class="table table-striped">
                 <tbody>
+                    <tr>
+                        <th colspan="2" class="text-center py-3">
+                            <h5> Personal Data </h5>
+                        </th>
+                    </tr>
                     <tr>
                         <th scope="row">Full Name</th>
                         <td>{{ Auth::user()->name }}</td>
@@ -33,9 +38,16 @@
                         <td>{{ $passport->passport_number }}</td>
                     </tr>
 
+
+                    <tr>
+                        <th colspan="2" class="text-center py-3">
+                            <h5> Vaccine Status </h5>
+                        </th>
+                    </tr>
+
                     @foreach ($dates as $id => $vaccine_date)
                         <tr>
-                            <th scope="row">Vaccine dose {{ $id + 1 }} name</th>
+                            <th scope="row">Vaccine dose #{{ $id + 1 }} name</th>
                             <td>{{ $passport->vaccine_name }}</td>
                         </tr>
 
@@ -44,6 +56,36 @@
                             <td>{{ $vaccine_date->vaccine_date }}</td>
                         </tr>
                     @endforeach
+
+                    @if (count($infections) > 0)
+                        <tr>
+                            <th colspan="2" class="text-center py-3">
+                                <h5> Previous Infections </h5>
+                            </th>
+                        </tr>
+
+                        @foreach ($infections as $index => $infection)
+                            <tr>
+                                <th scope="row">Infection #{{ $index + 1 }} date</th>
+                                <td>{{ $infection->infection_date }}</td>
+                            </tr>
+                        @endforeach
+                    @endif
+
+                    @if (count($chronic_diseases) > 0)
+                        <tr>
+                            <th colspan="2" class="text-center py-3">
+                                <h5> Chronic Diseases</h5>
+                            </th>
+                        </tr>
+
+                        @foreach ($chronic_diseases as $index => $chronic_disease)
+                            <tr>
+                                <th scope="row">Chronic Disease #{{ $index + 1 }}</th>
+                                <td>{{ $chronic_disease->name }}</td>
+                            </tr>
+                        @endforeach
+                    @endif
 
                     <tr>
                         <th scope="row">QR Code</th>
