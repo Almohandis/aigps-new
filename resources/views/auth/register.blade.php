@@ -86,8 +86,32 @@
                             return false;
                         }
 
+                        let nid_year = input.substring(1, 3);
+                        let year = '';
+
+                        if (input[0] == 2) {
+                            year = '19' + nid_year;
+                        } else {
+                            year = '20' + nid_year;
+                        }
+
                         let month = parseInt(input.substring(3, 5));
                         let day = parseInt(input.substring(5, 7));
+
+                        // check if the date isn't greater than today
+                        let today = new Date();
+                        let today_year = today.getFullYear();
+                        let today_month = today.getMonth() + 1;
+                        let today_day = today.getDate();
+
+                        if (year > today_year || (year == today_year && month > today_month) || (year == today_year && month == today_month && day > today_day)) {
+                            return false;
+                        }
+
+                        // check if the date isn't less than 1900
+                        if (year < 1900) {
+                            return false;
+                        }
 
                         if (month > 12 || month < 1) {
                             return false;
@@ -103,7 +127,7 @@
                     function updateNidRelatedData(nationalid) {
                         let millennium = parseInt(nationalid[0]);
 
-                        let nid_year = parseInt(nationalid.substring(1, 3));
+                        let nid_year = nationalid.substring(1, 3);
                         let nid_month = parseInt(nationalid.substring(3, 5));
                         let nid_day = parseInt(nationalid.substring(5, 7));
                         
