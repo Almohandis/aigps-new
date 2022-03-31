@@ -41,6 +41,8 @@
                 </table>
                 <div>
                     <canvas id="vaccine" width="200" height="100"></canvas>
+                    <div class="alert alert-info mt-5" style="display: none">
+                    </div>
                 </div>
             @endif
         </div>

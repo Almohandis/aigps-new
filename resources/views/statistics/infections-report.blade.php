@@ -35,7 +35,7 @@
                             <th>Average available beds</th>
                         </tr>
                     </thead>
-               
+
                     <tbody>
                         @foreach ($data_by_city as $city)
                             <tr>
@@ -58,32 +58,34 @@
                         $mean = 0;
                         $variance = 0;
                         $standard_deviation = 0;
-
+                        
                         foreach ($data_by_city as $city) {
                             $sum += $city->total_infections;
                         }
-
+                        
                         $mean = round($sum / $counter, 2);
-
+                        
                         $total = $sum;
                         $sum = 0;
-
+                        
                         foreach ($data_by_city as $city) {
                             $sum += pow($city->total_infections - $mean, 2);
                         }
-
+                        
                         $variance = round($sum / $counter, 2);
-
+                        
                         $standard_deviation = round(sqrt($variance), 2);
-
+                        
                     @endphp
                 </div>
                 <div>
                     <P>Total infections = {{ $total }}</p>
                     <canvas id="infections" width="200" height="100"></canvas>
-                    <p>Infections mean (µ) = {{ $mean }}</p>
-                    <p>Infections variance (σ<sup>2</sup>) = {{ $variance }}</p>
-                    <P>Infections standard deviation (σ) = {{ $standard_deviation }}</P>
+                    <div class="alert alert-info mt-5">
+                        <p>Infections mean (µ) = {{ $mean }}</p>
+                        <p>Infections variance (σ<sup>2</sup>) = {{ $variance }}</p>
+                        <P>Infections standard deviation (σ) = {{ $standard_deviation }}</P>
+                    </div>
                 </div>
             @elseif(isset($data_by_vaccine_status))
                 <h1>{{ $report_title }}</h1>
@@ -98,7 +100,7 @@
                             <th>Total number of infections</th>
                         </tr>
                     </thead>
-            
+
                     <tbody>
                         @foreach ($data_by_vaccine_status as $vac)
                             <tr>
@@ -128,7 +130,7 @@
                             <th>Total infections</th>
                         </tr>
                     </thead>
-               
+
                     <tbody>
                         @foreach ($data_by_date as $date)
                             <tr>
@@ -155,7 +157,7 @@
                             <th>Total infections</th>
                         </tr>
                     </thead>
-                
+
                     <tbody>
                         @foreach ($data_by_age as $segment)
                             <tr>
@@ -176,32 +178,34 @@
                         $mean = 0;
                         $variance = 0;
                         $standard_deviation = 0;
-
+                        
                         foreach ($data_by_age as $age) {
                             $sum += $age->total;
                         }
-
+                        
                         $mean = round($sum / $counter, 2);
-
+                        
                         $total = $sum;
                         $sum = 0;
-
+                        
                         foreach ($data_by_age as $age) {
                             $sum += pow($age->total - $mean, 2);
                         }
-
+                        
                         $variance = round($sum / $counter, 2);
-
+                        
                         $standard_deviation = round(sqrt($variance), 2);
-
+                        
                     @endphp
                 </div>
                 <div>
                     <P>Total infections = {{ $total }}</p>
                     <canvas id="infections" width="200" height="100"></canvas>
-                    <p>Infections mean (µ) = {{ $mean }}</p>
-                    <p>Infections variance (σ<sup>2</sup>) = {{ $variance }}</p>
-                    <P>Infections standard deviation (σ) = {{ $standard_deviation }}</P>
+                    <div class="alert alert-info mt-5">
+                        <p>Infections mean (µ) = {{ $mean }}</p>
+                        <p>Infections variance (σ<sup>2</sup>) = {{ $variance }}</p>
+                        <P>Infections standard deviation (σ) = {{ $standard_deviation }}</P>
+                    </div>
                 </div>
             @endif
         </div>
@@ -222,7 +226,7 @@
                             lat: {{ $city->lat }},
                             lng: {{ $city->lng }}
                             },
-
+                        
                             population: {{ ($city->total * 100) / $max / 100 }}
                             },
                         @endforeach

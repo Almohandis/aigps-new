@@ -82,9 +82,11 @@
                 <div>
                     <P>Total deaths = {{ $total }}</p>
                     <canvas id="deaths" width="200" height="100"></canvas>
-                    <p>Deaths mean (µ) = {{ $mean }}</p>
-                    <p>Deaths variance (σ<sup>2</sup>) = {{ $variance }}</p>
-                    <P>Deaths standard deviation (σ) = {{ $standard_deviation }}</P>
+                    <div class="alert alert-info mt-5">
+                        <p>Deaths mean (µ) = {{ $mean }}</p>
+                        <p>Deaths variance (σ<sup>2</sup>) = {{ $variance }}</p>
+                        <P>Deaths standard deviation (σ) = {{ $standard_deviation }}</P>
+                    </div>
                 </div>
             @elseif(isset($data_by_hospital))
                 <h1>{{ $report_title }}</h1>
@@ -189,9 +191,11 @@
         <div>
             <P>Total deaths = {{ $total }}</p>
             <canvas id="deaths" width="200" height="100"></canvas>
-            <p>Deaths mean (µ) = {{ $mean }}</p>
-            <p>Deaths variance (σ<sup>2</sup>) = {{ $variance }}</p>
-            <P>Deaths standard deviation (σ) = {{ $standard_deviation }}</P>
+            <div class="alert alert-info mt-5">
+                <p>Deaths mean (µ) = {{ $mean }}</p>
+                <p>Deaths variance (σ<sup>2</sup>) = {{ $variance }}</p>
+                <P>Deaths standard deviation (σ) = {{ $standard_deviation }}</P>
+            </div>
         </div>
         @endif
     </div>
