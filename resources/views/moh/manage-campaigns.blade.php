@@ -4,14 +4,28 @@
     <div class="mt-5 text-center">
         <h1 class="aigps-title">Manage Campaigns</h1>
 
-        @if (session('message'))
-            <div class="container alert alert-dark" role="alert">
-                {{ session('message') }}
-            </div>
-        @endif
-
         <div class="table-responsive text-start shadow container bg-white mt-5 rounded px-5 py-3 text-dark">
             <h4 class="text-center mb-3"> All Campaigns </h4>
+            
+            @if (session('message'))
+                <div class="container alert alert-dark" role="alert">
+                    {{ session('message') }}
+                </div>
+            @endif
+
+            @if ($errors->any())
+                <div class="container">
+                    <div class="alert alert-danger" role="alert">
+                        <p>Something went wrong. Please check the form below for errors.</p>
+
+                        <ul class="">
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                </div>
+            @endif
 
             <form method="GET" class="row">
                 <div class="form-group col-12 col-md-6 col-lg-3">
@@ -138,9 +152,18 @@
                 </div>
 
                 <div class="form-group row">
-                    <div class="col">
+                    <div class="col-12 col-md-6">
                         <label>Address</label>
                         <input class="form-control" type="text" name="address" required>
+                    </div>
+
+                    <div class="col-12 col-md-6">
+                        <label>Status</label>
+
+                        <select name="status" class="form-control">
+                            <option value="active">active</option>
+                            <option value="pending">pending</option>
+                        </select>
                     </div>
                 </div>
 

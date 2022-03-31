@@ -29,34 +29,8 @@ class ReservationController extends Controller {
             }
         }
 
-        $cities = City::all();
-
-        $citiesData = User::whereHas('infections', function ($query) {
-            $query->where('is_recovered', false);
-        })
-        ->selectRaw('city, count(*) as total')
-        ->groupBy('city')
-        ->get();
-
-        $max = 0;
-
-        foreach($citiesData as $cityData) {
-            $max = max($max, $cityData->total);
-
-            foreach($cities as $city) {
-                if ($city->name == $cityData->city) {
-                    $cityData->lat = $city->lat;
-                    $cityData->lng = $city->lng;;
-                    break;
-                }
-            }
-
-        }
-
         return view('citizen.reservation')->with([
 			'campaigns' 		=> $campaigns,
-			'cities' 			=> $citiesData,
-			'max' 				=> $max,
 			'diagnosed'			=>	$request->user()->is_diagnosed,
 			'message' 			=> $request->user()->is_diagnosed ? null : 'This will be a diagnose reservation.',
 		]);
