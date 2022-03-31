@@ -14,7 +14,9 @@ class CityFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'name'  => $this->faker->city,
+            'lat'   =>  $this->faker->latitude,
+            'lng'   =>  $this->faker->longitude
         ];
     }
 }
