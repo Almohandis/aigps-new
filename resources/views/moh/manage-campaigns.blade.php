@@ -14,7 +14,7 @@
             <h4 class="text-center mb-3"> All Campaigns </h4>
 
             <form method="GET" class="row">
-                <div class="form-group col-3">
+                <div class="form-group col-12 col-md-6 col-lg-3">
                     <label for="sort" class="">Sort by</label>
                     <div>
                         <select class="form-control" name="sort">
@@ -27,7 +27,7 @@
                     </div>
                 </div>
 
-                <div class="form-group col-3">
+                <div class="form-group col-12 col-md-6 col-lg-3">
                     <label class="">Sort Order</label>
                     <div class="">
                         <select class="form-control" name="order">
@@ -37,7 +37,7 @@
                     </div>
                 </div>
 
-                <div class="form-group col-3">
+                <div class="form-group col-12 col-md-6 col-lg-3">
                     <label for="city" class="">City</label>
                     <div class="">
                         <select class="form-control" name="city">
@@ -49,7 +49,7 @@
                     </div>
                 </div>
 
-                <div class="form-group col-3">
+                <div class="form-group col-12 col-md-6 col-lg-3">
                     <label for="status" class="">Status</label>
                     <div class="">
                         <select class="form-control" name="status">

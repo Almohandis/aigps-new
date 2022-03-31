@@ -12,6 +12,59 @@
 
         <div class="table-responsive text-start shadow container bg-white mt-5 rounded px-5 py-3 text-dark">
             <h4 class="text-center mb-3"> All Hospitals </h4>
+            
+            <form method="GET" class="row">
+                <div class="form-group col-12 col-md-6 col-lg-3">
+                    <label for="sort" class="">Sort by</label>
+                    <div>
+                        <select class="form-control" name="sort">
+                            <option value="">Select Sorting</option>
+                            <option value="name">Name</option>
+                            <option value="capacity">capacity</option>
+                            <option value="is_isolation">Isolation</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group col-12 col-md-6 col-lg-3">
+                    <label class="">Sort Order</label>
+                    <div class="">
+                        <select class="form-control" name="order">
+                            <option value="asc">Ascending</option>
+                            <option value="desc">Descending</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group col-12 col-md-6 col-lg-3">
+                    <label for="city" class="">City</label>
+                    <div class="">
+                        <select class="form-control" name="city">
+                            <option value="">All Cities</option>
+                            @foreach ($cities as $city)
+                                <option value="{{ $city->name }}">{{ $city->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group col-12 col-md-6 col-lg-3">
+                    <label for="status" class="">Status</label>
+                    <div class="">
+                        <select class="form-control" name="is_isolation">
+                            <option value="">All Statuses</option>
+                            <option value="is_isolation">Isolation</option>
+                            <option value="inactive">Non-Isolation</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group row justify-content-center mt-2 mb-4">
+                    <div class="row">
+                        <button type="submit" class="btn btn-primary">Filter</button>
+                    </div>
+                </div>
+            </form>
     
             <table class="table table-hover">
                 <thead>
@@ -42,21 +95,8 @@
                 </tbody>
             </table>
 
-            <div class="flex">
-                <ul class="pagination justify-content-center">
-                    @if ($hospitals->previousPageUrl())
-                        <li class="page-item"><a class="page-link" href="/staff/moh/manage-hospitals/?page={{ $hospitals->currentPage() - 1 }}">Previous</a></li>
-                    @endif
-                    
-                    
-                    @for($page = 1; $page <= $hospitals->lastPage(); $page++)
-                        <li class="page-item"><a class="page-link" href="/staff/moh/manage-hospitals/?page={{ $page }}">{{ $page }}</a></li>
-                    @endfor
-
-                    @if ($hospitals->nextPageUrl())
-                        <li class="page-item"><a class="page-link" href="/staff/moh/manage-hospitals/?page={{ $hospitals->currentPage() + 1 }}">Next</a></li>
-                    @endif
-                </ul>
+            <div>
+                {{ $hospitals->links() }}
             </div>
         </div>
 

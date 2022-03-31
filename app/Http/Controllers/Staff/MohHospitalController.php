@@ -13,11 +13,26 @@ use App\Models\City;
 
 class MohHospitalController extends Controller {
     public function index(Request $request) {
-        $hospitals = Hospital::paginate(10);
+        $hospitals = Hospital::query();
+
+        if ($request->has('sort') && $request->sort) {
+            $hospitals = $hospitals->orderBy($request->sort, $request->order == 'asc' ? 'asc' : 'desc');
+        }
+
+
+        if ($request->has('is_isolation') && $request->is_isolation) {
+            $hospitals = $hospitals->where('is_isolation', $request->is_isolation == 'is_isolation');
+        }
+
+        if ($request->has('city') && $request->city) {
+            $hospitals = $hospitals->where('city', $request->city);
+        }
 
         $cities = City::all();
 
-        return view('moh.manage-hospitals', compact('hospitals', 'cities'));
+        return view('moh.manage-hospitals')
+            ->with('hospitals', $hospitals->paginate(10)->withQueryString())
+            ->with('cities', $cities);
     }
 
     public function create(Request $request) {

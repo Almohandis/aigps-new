@@ -19,8 +19,6 @@ class MohCampaignController extends Controller {
 
         $campaigns = Campaign::query();
 
-        // filter by ascending address
-
         if ($request->has('sort') && $request->sort) {
             $campaigns = $campaigns->orderBy($request->sort, $request->order == 'asc' ? 'asc' : 'desc');
         }
