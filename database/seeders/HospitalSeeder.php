@@ -14,6 +14,16 @@ class HospitalSeeder extends Seeder
      */
     public function run()
     {
-        Hospital::factory(50)->create();
+        Hospital::factory(7)
+            ->state(new Sequence(
+                ['name' =>  'Wadi Elneel Hospital'],
+                ['name' =>  'El Safa Hospital'],
+                ['name' =>  'El Nozha International Hospital'],
+                ['name' =>  'El Salam Mohandesin Hospital'],
+                ['name' =>  'El Salam International Hospital'],
+                ['name' =>  'Hayat Medical Center'],
+                ['name' =>  'Ibn Sina Hospital'],
+            ))
+            ->create();
     }
 }

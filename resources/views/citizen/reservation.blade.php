@@ -120,7 +120,7 @@
                                 lat: [{{ $campaign->location }}][0],
                                 lng: [{{ $campaign->location }}][1],
                                 city: '{{ $campaign->city }}',
-                                address: '{{ $campaign->address }}',
+                                address: '{{ preg_replace('/\s+/', ' ', trim($campaign->address)) }}',
                                 start_date: '{{ $campaign->start_date }}',
                                 end_date: '{{ $campaign->end_date }}',
                                 status: '{{ $campaign->status }}',

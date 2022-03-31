@@ -16,9 +16,9 @@ class DatabaseSeeder extends Seeder
         $this->call([
             NationalIdSeeder::class,
             QuestionSeeder::class,
+            CampaignSeeder::class,
             HospitalSeeder::class,
             ArticleSeeder::class,
-            CampaignSeeder::class,
             UserSeeder::class,
             InfectionSeeder::class,
             VaccineDateSeeder::class,
