@@ -52,6 +52,10 @@ class MohDoctorController extends Controller {
             return back()->withErrors('User not found');
         }
 
+        if ($user->hospital_id) {
+            return back()->withErrors('User is already a doctor of another hospital');
+        }
+
         if ($user->hospital_id == $hospital->id) {
             return back()->withErrors('User is already a doctor of this hospital');
         }

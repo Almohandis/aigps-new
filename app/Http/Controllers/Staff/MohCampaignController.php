@@ -17,10 +17,29 @@ class MohCampaignController extends Controller {
     public function index(Request $request) {
         $cities = City::all();
 
-        $campaigns = Campaign::paginate(10);
+        $campaigns = Campaign::query();
+
+        // filter by ascending address
+
+        if ($request->has('sort') && $request->sort) {
+            $campaigns = $campaigns->orderBy($request->sort, $request->order == 'asc' ? 'asc' : 'desc');
+        }
+
+
+        if ($request->has('status') && $request->status) {
+            if ($request->status == 'active') {
+                $campaigns = $campaigns->where('status', 'active');
+            } else {
+                $campaigns = $campaigns->where('status', '!=', 'active');
+            }
+        }
+
+        if ($request->has('city') && $request->city) {
+            $campaigns = $campaigns->where('city', $request->city);
+        }
 
         return view('moh.manage-campaigns')
-            ->with('campaigns', $campaigns)
+            ->with('campaigns', $campaigns->paginate(10)->withQueryString())
             ->with('cities', $cities);
     }
 

@@ -18,6 +18,7 @@
                     <tr>
                         <th scope="col">Name</th>
                         <th scope="col">City</th>
+                        <th scope="col">Is Isolation</th>
                         <th scope="col">Total capacity</th>
                         <th scope="col">Update</th>
                         <th scope="col">Delete</th>
@@ -28,6 +29,7 @@
                         <tr>
                             <td>{{ $hospital->name }}</td>
                             <td>{{ $hospital->city }}</td>
+                            <td>{{ $hospital->is_isolation ? 'Yes' : 'No' }}</td>
                             <td>{{ $hospital->capacity }}</td>
                             <td>
                                 <a class="btn btn-outline-primary" href="/staff/moh/manage-hospitals/{{$hospital->id}}/update"> Update </a>
