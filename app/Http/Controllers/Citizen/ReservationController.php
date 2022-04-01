@@ -50,9 +50,18 @@ class ReservationController extends Controller
             ]);
         }
 
-        if ($request->user()->reservations()->where('campaign_appointments.status', '!=', 'cancelled')->where('date', '>=', now())->count()) {
+        if ($request->user()->reservations()->where('campaign_appointments.status', '!=', 'cancelled')->where('campaign_appointments.status', '!=', 'finished')->where('date', '>=', now())->count()) {
             return back()->withErrors([
                 'campaign' => 'You have already reserved an appointment'
+            ]);
+        }
+
+        $birthdate = Carbon::parse($request->user()->birthdate);
+
+        // only allow people of ages between 16 to 70
+        if ($birthdate->diffInYears(now()) < 16 || $birthdate->diffInYears(now()) > 70) {
+            return back()->withErrors([
+                'campaign' => 'You have to be between 16 and 70 years old to reserve an appointment'
             ]);
         }
 

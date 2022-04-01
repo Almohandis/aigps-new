@@ -16,19 +16,35 @@ class MohArticleController extends Controller {
 
     public function create(Request $request) {
         $request->validate([
-            'title'     => 'required',
-            'content'   => 'required',
-            'image'     => 'required|image',
+            'title'     =>  'required|string',
+            'content'   =>  'required|string',
+            'type'      =>  'required|string'
         ]);
 
-        $link = str_replace('watch?v=', 'embed/', $request->link);
+        $filePath = NULL;
+        if ($request->type == 'image') {
+            if ($request->hasFile('path')) {
+                $filePath = $request->file('path')->store('articles', 'public');
+            } else {
+                return back()->withErrors([
+                    'path' => 'Please upload an image'
+                ]);
+            }
+        } else if ($request->type == 'video') {
+            if (filter_var($request->path, FILTER_VALIDATE_URL)) {
+                $filePath = $request->path;
+            } else {
+                return back()->withErrors([
+                    'path' => 'Video must have a valid url'
+                ]);
+            }
+        }
 
         Article::create([
-            'title'             => $request->title,
-            'content'           => $request->content,
-            'path'              => $request->image?->store('articles', 'public') ?? NULL,
-            'full_article_link' => $request->full_link ?? null,
-            'video_link'        => $link ?? null,
+            'title'             =>  $request->title,
+            'content'           =>  $request->content,
+            'type'              =>  $request->type,
+            'path'              =>  $filePath
         ]);
 
         return back()->with('message', 'Article added successfully');
@@ -36,18 +52,32 @@ class MohArticleController extends Controller {
 
     public function update(Request $request, Article $article) {
         $request->validate([
-            'title'     => 'required',
-            'content'   => 'required'
+            'title'     =>  'required|string',
+            'content'   =>  'required|string',
+            'type'      =>  'required|string'
         ]);
 
-        $link = str_replace('watch?v=', 'embed/', $request->link);
+        $filePath = NULL;
+
+        if ($request->type == 'image') {
+            if ($request->hasFile('path')) {
+                $filePath = $request->file('path')->store('articles', 'public');
+            } else {
+                $filePath = $article->path;
+            }
+        } else if ($request->type == 'video') {
+            if (filter_var($request->path, FILTER_VALIDATE_URL)) {
+                $filePath = $request->path;
+            } else {
+                $filePath = $article->path;
+            }
+        }
 
         $article->update([
             'title'             => $request->title,
             'content'           => $request->content,
-            'path'              => $request->image?->store('articles', 'public') ?? $article->path,
-            'full_article_link' => $request->full_link ?? null,
-            'video_link'        => $link ?? null,
+            'type'              => $request->type,
+            'path'              => $filePath
         ]);
 
         return redirect('/staff/moh/articles')->with('message', 'Article updated successfully');
