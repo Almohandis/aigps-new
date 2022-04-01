@@ -9,6 +9,7 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use \Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 
 class CampaignValidityJob implements ShouldQueue
 {
@@ -41,14 +42,22 @@ class CampaignValidityJob implements ShouldQueue
             $end = new Carbon($campaign->end_date);
             $days = $start->diffInDays($end);
 
-            if ($days * $campaign->capacity_per_day < $campaign->appointments()->count()) {
+            if (($days * $campaign->capacity_per_day) * 0.6 < $campaign->appointments()->count()) {
                 $campaign->update([
                     'status'    =>  'cancelled'
                 ]);
+
+                DB::table('campaign_appointments')
+                    ->where('campaign_id', $campaign->id)
+                    ->where('status', '!=', 'cancelled')
+                    ->where('status', '!=', 'finished')
+                    ->update([
+                        'status'    =>  'cancelled'
+                    ]);
             }
         }
 
-        $campaigns = Campaign::where('status', '!=', 'cancelled')->get();
+        $campaigns = Campaign::where('status', '!=', 'cancelled')->where('status', '!=', 'finished')->get();
 
         foreach ($campaigns as $campaign) {
             $start = new Carbon($campaign->start_date);
@@ -58,13 +67,26 @@ class CampaignValidityJob implements ShouldQueue
                 $campaign->update([
                     'status'    =>  'finished'
                 ]);
+
+                DB::table('campaign_appointments')
+                    ->where('campaign_id', $campaign->id)
+                    ->where('status', '!=', 'cancelled')
+                    ->update([
+                        'status'    =>  'finished'
+                    ]);
+                continue;
             }
 
             if ($start > now()) {
                 $campaign->update([
                     'status'    =>  'upcoming'
                 ]);
+                continue;
             }
+
+            $campaign->update([
+                'status'    =>  'active'
+            ]);
         }
     }
 }

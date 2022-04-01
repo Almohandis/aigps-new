@@ -156,15 +156,6 @@
                         <label>Address</label>
                         <input class="form-control" type="text" name="address" required>
                     </div>
-
-                    <div class="col-12 col-md-6">
-                        <label>Status</label>
-
-                        <select name="status" class="form-control">
-                            <option value="active">active</option>
-                            <option value="pending">pending</option>
-                        </select>
-                    </div>
                 </div>
 
                 <div class="mt-3">

@@ -11,9 +11,9 @@ use App\Models\User;
 use Symfony\Contracts\Service\Attribute\Required;
 use \Carbon\Carbon;
 use App\Models\City;
+use Illuminate\Support\Facades\DB;
 
 class MohCampaignController extends Controller {
-    //# Get all campaigns
     public function index(Request $request) {
         $cities = City::all();
 
@@ -41,15 +41,13 @@ class MohCampaignController extends Controller {
             ->with('cities', $cities);
     }
 
-    //# Add new campaign
     public function create(Request $request) {
         $request->validate([
             'start_date' => 'required|date|after:yesterday',
             'end_date' => 'required|date|after:start_date',
             'capacity_per_day' => 'required|integer|min:1',
             'city' => 'required|string',
-            'address' => 'required|string',
-            'status'    =>  'required|string',
+            'address' => 'required|string'
         ]);
 
 
@@ -60,7 +58,7 @@ class MohCampaignController extends Controller {
             'city'              => $request->city,
             'address'           => $request->address,
             'capacity_per_day'  => $request->capacity_per_day,
-            'status'            => $request->status
+            'status'            => now() >= $request->start_date ? 'active' : 'pending'
         ]);
 
         return back()->with('message', 'Campaign added successfully');
@@ -71,9 +69,17 @@ class MohCampaignController extends Controller {
             return back()->with('message', 'Can\'t cancel a campaign that is starting in two days !');
         }
 
-        $campaign->delete();
+        $campaign->update([
+            'status'    =>  'cancelled'
+        ]);
 
-        //TODO: we should probably notify the user that their campaign has been cancelled
+        DB::table('campaign_appointments')
+            ->where('campaign_id', $campaign->id)
+            ->where('status', '!=', 'cancelled')
+            ->where('status', '!=', 'finished')
+            ->update([
+                'status'    =>  'cancelled'
+            ]);
 
         return back()->with('message', 'Campaign cancelled successfully');
     }
@@ -84,8 +90,8 @@ class MohCampaignController extends Controller {
         }
 
         $request->validate([
-            'start_date' => 'required',
-            'end_date' => 'required',
+            'start_date' => 'required|date|after:yesterday',
+            'end_date' => 'required|date|after:start_date',
             'location' => 'required',
             'city' => 'required',
             'address' => 'required',
@@ -99,6 +105,7 @@ class MohCampaignController extends Controller {
             'city' => $request->city,
             'address' => $request->address,
             'capacity_per_day' => $request->capacity_per_day,
+            'status'            => now() >= $request->start_date ? 'active' : 'pending'
         ]);
 
         return redirect('/staff/moh/manage-campaigns')->with('message', 'Campaign updated successfully');
