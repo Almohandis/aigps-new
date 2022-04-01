@@ -54,6 +54,8 @@
                                         <option value="2">Near your city</option>
                                         <option value="3">Near your marker</option>
                                         <option value="4">Near your location</option>
+                                        <option value="5">Capacity Ascending</option>
+                                        <option value="6">Capacity Descending</option>
                                     </select>
                                 </div>
                             </div>
@@ -88,6 +90,10 @@
                                         <span class="text-muted campaign-address"></span>
                                     </div>
 
+                                    <div class="mt-3">
+                                        <strong>Capacity: </strong>
+                                        <span class="text-muted campaign-capacity"></span>
+                                    </div>
 
                                 </div>
                             </div>
@@ -120,14 +126,16 @@
                     var locations = [
                         @foreach ($campaigns as $campaign)
                             {
-                            lat: [{{ $campaign->location }}][0],
-                            lng: [{{ $campaign->location }}][1],
-                            city: '{{ $campaign->city }}',
-                            address: '{{ preg_replace('/\s+/', ' ', trim($campaign->address)) }}',
-                            start_date: '{{ $campaign->start_date }}',
-                            end_date: '{{ $campaign->end_date }}',
-                            status: '{{ $campaign->status }}',
-                            id: {{ $campaign->id }}
+                                lat: [{{ $campaign->location }}][0],
+                                lng: [{{ $campaign->location }}][1],
+                                city: '{{ $campaign->city }}',
+                                address: '{{ preg_replace('/\s+/', ' ', trim($campaign->address)) }}',
+                                start_date: '{{ $campaign->start_date }}',
+                                end_date: '{{ $campaign->end_date }}',
+                                status: '{{ $campaign->status }}',
+                                id: {{ $campaign->id }},
+                                capacity: {{ $campaign->capacity }},
+                                maxCapacity: {{ $campaign->maxCapacity }},
                             },
                         @endforeach
                     ];
@@ -136,6 +144,7 @@
                     var locationsMarker = [];
                     var locationsCity = [];
                     var locationsUserLocation = [];
+                    var locationsCapacity = [];
 
                     var userLocationAvailable = false;
 
@@ -358,6 +367,14 @@
                         }
                     }
 
+                    function getCapacityLocations(ascending) {
+                        locationsCapacity = JSON.parse(JSON.stringify(locations));
+
+                        locationsCapacity.sort(function(a, b) {
+                            return ascending ? a.capacity - b.capacity : b.capacity - a.capacity;
+                        });
+                    }
+
                     function getUserMarkerLocation(lat, lng) {
                         let distancesSorted = sortLocations(lat, lng);
 
@@ -376,7 +393,13 @@
                             generateCampaignsList(locationsMarker);
                         } else if (input.value == 4) {
                             generateCampaignsList(locationsUserLocation);
-                        } else {
+                        } else if (input.value == 5) {
+                            getCapacityLocations(true);
+                            generateCampaignsList(locationsCapacity);
+                        } else if (input.value == 6) {
+                            getCapacityLocations(false);
+                            generateCampaignsList(locationsCapacity);
+                        }  else {
                             generateCampaignsList(locations, true);
                         }
                     }
@@ -395,14 +418,13 @@
                             copy.querySelector('.campaign-address').innerHTML = array[i].address;
                             copy.querySelector('.campaign-start').innerHTML = array[i].start_date;
                             copy.querySelector('.campaign-end').innerHTML = array[i].end_date;
+                            copy.querySelector('.campaign-capacity').innerHTML = array[i].capacity + ' reservations out of ' + array[i].maxCapacity;
                             copy.querySelector('.campaign-select').onclick = function() {
                                 selectCampaign(array[i]);
                             }
 
                             // copy.querySelector('.campaign-distance').innerHTML = dis.toFixed(2) + ' km';
 
-
-                            // add copy to list
                             campaignsList.appendChild(copy);
                         }
                     }
