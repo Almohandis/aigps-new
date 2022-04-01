@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\Hospital;
 use Illuminate\Database\Seeder;
+use Illuminate\Database\Eloquent\Factories\Sequence;
 
 class HospitalSeeder extends Seeder
 {
