@@ -257,6 +257,7 @@ class UserFactory extends Factory
             'password' => Hash::make('Test1234'),
             'remember_token' => Str::random(10),
             'national_id'   =>  rand(2, 999),
+            'address'       =>  $this->faker->address,
             'city'      =>      $this->faker->randomElement($this->cities),
             'birthdate' =>      $this->faker->dateTimeBetween('-60 years', '-7 years')->format('Y-m-d'),
             'gender' =>         $this->faker->randomElement(['Male', 'Female']),

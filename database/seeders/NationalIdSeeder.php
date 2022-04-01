@@ -14,6 +14,12 @@ class NationalIdSeeder extends Seeder
      * @return void
      */
     public function run() {
-        NationalId::factory()->count(50)->create();
+        NationalId::factory()->count(200)->create();
+
+        NationalId::factory()->count(9)->state(new Sequence(function ($sequence) {
+            return [
+                'national_id'   => '2971001890123' . $sequence->index + 1
+            ];
+        }))->create();
     }
 }
