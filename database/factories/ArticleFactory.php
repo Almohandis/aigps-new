@@ -16,9 +16,7 @@ class ArticleFactory extends Factory
         $paragraphs = $this->faker->numberBetween(1, 5);
         return [
             'title'     =>      $this->faker->sentence,
-            'content'   =>      $this->faker->paragraphs($paragraphs, true),
-            'video_link'      =>      'https://www.youtube.com/embed/7nmVILOWYbo',
-            'full_article_link'      =>      NULL,
+            'content'   =>      $this->faker->paragraphs($paragraphs, true)
         ];
     }
 }
