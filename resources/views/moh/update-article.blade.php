@@ -91,7 +91,7 @@
                 </script>
 
                 <div class="container text-center my-3">
-                    <button type="submit" style="width: 300px;" class="btn btn-success">Add</button>
+                    <button type="submit" style="width: 300px;" class="btn btn-success">Update</button>
                 </div>
             </form>
 

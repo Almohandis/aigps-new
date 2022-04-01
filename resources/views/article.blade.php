@@ -1,20 +1,22 @@
 <x-app-layout>
-    <div class="mt-6">
-        <h1 class="ml-5 text-left text-4xl text-white text-center" style="text-shadow: 2px 2px 8px #000000;">
-            {{ $article->title }}
-        </h1>
+    <div class="mt-5">
+        <div class="shadow container bg-white mt-5 rounded p-3 text-dark text-center">
+            <h5 class="text-center col"> {{ $article->title }} </h5>
+            <small class="text-muted">Published: {{ $article->created_at->diffForHumans() }}</small>
 
-        @if($article->video_link)
-            <div class="embed-responsive embed-responsive-16by9">
-                <iframe class="embed-responsive-item" src="{{ $article->video_link }}" allowfullscreen></iframe>
+            <div class="my-3 row justify-content-center">
+                <hr class="col-8">
             </div>
-        @endif
-        @if($article->path)
-            <img class="w-full" src="{{ asset('storage/'.$article->path) }}" alt="">
-        @endif
 
-        <div class="mx-auto text-center mt-5 text-white">
-            {{ $article->content }}
+            @if($article->type == 'image')
+                <img src="{{ asset('storage/'.$article->path) }}" class="img-fluid rounded">
+            @elseif($article->type == 'video')
+                <iframe class="col-11 col-md-8 col-lg-5" height="300" src="{{ Str::replace('watch?v=', 'embed/', $article->path) }}"></iframe>
+            @endif
+
+            <p class="px-4 mt-2" style="text-align: justify;">
+                {{ $article->content }}  
+            </p>
         </div>
     </div>
 </x-app-layout>
