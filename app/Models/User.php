@@ -132,4 +132,8 @@ class User extends Authenticatable
     public function emailProfiles() {
         return $this->hasMany(EmailProfile::class);
     }
+
+    public function getCity() {
+        return City::where('name', $this->city)->first();
+    }
 }
