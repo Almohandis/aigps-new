@@ -119,6 +119,7 @@
                         You have selected: <span class="fw-bold">Campaign Name</span>
                     </p>
                     <p id="distance"> Distance: </p>
+                    <p id="distanceCity"> Distance: </p>
                     <p id="start_date"> Starts At: </p>
                     <p id="end_date"> Ends At: </p>
                 </div>
@@ -132,8 +133,9 @@
 
                 <script>
                     var locations = [
-                        @foreach ($campaigns as $campaign)
+                        @foreach ($campaigns as $index => $campaign)
                             {
+                                index: {{ $index }},
                                 lat: [{{ $campaign->location }}][0],
                                 lng: [{{ $campaign->location }}][1],
                                 city: '{{ $campaign->city }}',
@@ -150,6 +152,7 @@
 
                     var map;
                     var markers = [];
+                    var infowindow;
 
                     var distinations = [];
                     var origins = [];
@@ -164,12 +167,43 @@
                         document.getElementById('campaign_selection').classList.remove('visually-hidden');
                         document.getElementById('campaign_selection').children[0].children[0].innerHTML = campaign.address;
 
-                        document.getElementById('distance').innerHTML = "Distance: " + campaign.distance.toFixed(2) + " km";
+                        if (userHasLocation) {
+                            document.getElementById('distance').innerHTML = 'Distance from your location: ' + campaign.distanceUser.toFixed(2) + ' km';
+                        } else {
+                            document.getElementById('distance').innerHTML = 'Distance from your location: Location not available';
+                        }
+                        document.getElementById('distanceCity').innerHTML = "Distance from your city: " + campaign.distanceCity.toFixed(2) + " km";
                         document.getElementById('start_date').innerHTML = "Starts At: " + campaign.start_date;
                         document.getElementById('end_date').innerHTML = "Ends At: " + campaign.end_date;
 
                         document.getElementById('procceed_button').removeAttribute('disabled');
                         document.getElementById('procceed_form').action = '/reserve/map/' + campaign.id;
+
+                        setMarkerContent(markers[campaign.index], campaign);
+                    }
+
+                    function setMarkerContent(marker, campaign) {
+                        let content = '<div id="content text-start">' +
+                            '<div>' +
+                            '</div>' +
+                            '<h5 class="text-start"><strong>Address:</strong> ' +
+                            campaign.address + '</h5>' +
+                            '<div id="bodyContent">' +
+                            '<p class="text-start"><strong>Start date:</strong> ' + campaign
+                            .start_date + '</p>' +
+                            '<p class="text-start"><strong>End date:</strong> ' + campaign.end_date +
+                            '</p>';
+
+                        if (userHasLocation) {
+                            content += '<p class="text-start"><strong>Distance from your location:</strong> ' + campaign.distanceUser.toFixed(2) + ' km' +
+                            '</p>';
+                        }
+                        content += '<p class="text-start"><strong>Distance from your city:</strong> ' + campaign.distanceCity.toFixed(2) + ' km' +
+                            '</p>' +
+                            '</div>' +
+                            '</div>';
+                        infowindow.setContent(content);
+                        infowindow.open(map, marker);
                     }
 
                     function initMap() {
@@ -202,8 +236,8 @@
                         const trafficLayer = new google.maps.TrafficLayer();
                         trafficLayer.setMap(map);
 
-                        var infowindow = new google.maps.InfoWindow();
-                        var marker, i;
+                        infowindow = new google.maps.InfoWindow();
+                        var i;
 
                         for (i = 0; i < locations.length; i++) {
                             markers.push(new google.maps.Marker({
@@ -214,23 +248,10 @@
 
                             google.maps.event.addListener(markers[i], 'click', (function(marker, i) {
                                 return function() {
-                                    let content = '<div id="content text-start">' +
-                                        '<div>' +
-                                        '</div>' +
-                                        '<h5 class="text-start"><strong>Address:</strong> ' +
-                                        locations[i].address + '</h5>' +
-                                        '<div id="bodyContent">' +
-                                        '<p class="text-start"><strong>Start date:</strong> ' + locations[i]
-                                        .start_date + '</p>' +
-                                        '<p class="text-start"><strong>End date:</strong> ' + locations[i].end_date +
-                                        '</p>' +
-                                        '</div>' +
-                                        '</div>';
-                                    infowindow.setContent(content);
-                                    infowindow.open(map, marker);
+                                    // setMarkerContent(markers[i], locations[i]);
                                     selectCampaign(locations[i]);
                                 }
-                            })(marker, i));
+                            })(markers[i], i));
                         }
 
                         getUserLocation();
