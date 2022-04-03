@@ -32,6 +32,14 @@ class MohCampaignController extends Controller {
             }
         }
 
+        if ($request->has('search') && $request->search) {
+            $campaigns = $campaigns->where('address', 'like', '%' . $request->search . '%');
+        }
+
+        if ($request->has('start_date') && $request->start_date && $request->has('end_date') && $request->end_date) {
+            $campaigns = $campaigns->where('start_date', '>=', $request->start_date)->where('end_date', '<=', $request->end_date);
+        }
+
         if ($request->has('city') && $request->city) {
             $campaigns = $campaigns->where('city', $request->city);
         }

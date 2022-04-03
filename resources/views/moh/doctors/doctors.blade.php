@@ -58,7 +58,56 @@
 
         <div class="table-responsive text-start shadow container bg-white mt-5 rounded px-5 py-3 text-dark">
             <h4 class="text-center mb-3"> All Doctors in the hospital [{{ $hospital->name }}] </h4>
-    
+
+            
+            <div class="accordion mb-4" id="campaignsAccordion">
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="flush-headingOne">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#flush-collapseOne">
+                            Filters & search
+                        </button>
+                    </h2>
+                    <div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne"
+                        data-bs-parent="#campaignsAccordion">
+                        <div class="accordion-body">
+                            <form method="GET" class="row">
+                                <div class="form-group mb-2">
+                                    <label class="">Search</label>
+                                    <input type="text" name="search" class="form-control" placeholder="Search by name" value="{{ request()->search }}">
+                                </div>
+
+                                <div class="form-group col-12 col-md-6 col-lg-3">
+                                    <label for="sort" class="">Sort by</label>
+                                    <div>
+                                        <select class="form-control" name="sort">
+                                            <option value="">Select Sorting</option>
+                                            <option value="name">Name</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="form-group col-12 col-md-6 col-lg-3">
+                                    <label class="">Sort Order</label>
+                                    <div class="">
+                                        <select class="form-control" name="order">
+                                            <option value="asc">Ascending</option>
+                                            <option value="desc">Descending</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="form-group row justify-content-center mt-2 mb-4">
+                                    <div class="row justify-content-center mt-2">
+                                        <button style="width: 250px" type="submit" class="btn btn-primary">Filter</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <table class="table table-hover">
                 <thead>
                     <tr>
