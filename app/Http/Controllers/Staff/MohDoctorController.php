@@ -14,26 +14,63 @@ use App\Models\City;
 
 class MohDoctorController extends Controller {
     public function index(Request $request) {
-        $hospitals = Hospital::query();
+        $doctors = User::with('hospital')->where('hospital_id', '!=', NULL);
+        $order = $request->input('order') == 'asc' ? 'asc' : 'desc';
 
-        if ($request->has('sort') && $request->sort) {
-            $hospitals = $hospitals->orderBy($request->sort, $request->order == 'asc' ? 'asc' : 'desc');
+        if ($request->has('sort') && $request->input('sort') == 'name') {
+            $doctors->orderBy('name', $order);
         }
 
-
-        if ($request->has('is_isolation') && $request->is_isolation) {
-            $hospitals = $hospitals->where('is_isolation', $request->is_isolation == 'is_isolation');
+        if ($request->has('sort') && $request->input('sort') == 'national_id') {
+            $doctors->orderBy('national_id', $order);
         }
 
-        if ($request->has('city') && $request->city) {
-            $hospitals = $hospitals->where('city', $request->city);
+        if ($request->has('search') && $request->input('search') != '') {
+            $doctors->where('name', 'like', '%' . $request->input('search') . '%');
         }
 
-        $cities = City::all();
+        $hospitals = Hospital::get(['id', 'name']);
 
-        return view('moh.doctors.hospitals')
-            ->with('hospitals', $hospitals->paginate(10)->withQueryString())
-            ->with('cities', $cities);
+        return view('moh.manage-doctors')
+            ->with('doctors', $doctors->paginate(10)->withQueryString())
+            ->with('hospitals', $hospitals);
+    }
+
+    public function users(Request $request) {
+        $users = User::where('hospital_id', NULL);
+        $order = $request->input('order') == 'asc' ? 'asc' : 'desc';
+
+        if ($request->has('sort') && $request->input('sort') == 'name') {
+            $users->orderBy('name', $order);
+        }
+
+        if ($request->has('sort') && $request->input('sort') == 'national_id') {
+            $users->orderBy('national_id', $order);
+        }
+
+        if ($request->has('search') && $request->input('search') != '') {
+            $users->where('name', 'like', '%' . $request->input('search') . '%');
+        }
+
+        $hospitals = Hospital::get(['id', 'name']);
+
+        return view('moh.manage-users')
+            ->with('users', $users->paginate(10)->withQueryString())
+            ->with('hospitals', $hospitals);
+    }
+
+    public function update(Request $request, User $doctor) {
+        $request->validate([
+            'hospital'      =>      'required|numeric'
+        ]);
+
+
+
+        $doctor->update([
+            'hospital_id'   =>   $request->hospital == '-1' ? NULL : $request->hospital
+        ]);
+
+        return back()->withSuccess('Doctor hospital has been changed successfully');
     }
 
     public function doctors(Request $request, Hospital $hospital) {
