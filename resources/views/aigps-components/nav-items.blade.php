@@ -21,8 +21,8 @@
             Hospitalization
         </a>
     @elseif (Auth::user()->isClerk())
-        <a class="nav-link text-dark" href="/staff/clerk">
-            Insert patient data
+        <a class="nav-link text-dark" href="/staff/clerk/">
+            Campaign Clerk Entry
         </a>
     @elseif (Auth::user()->isAdmin())
         <a class="nav-link text-dark" href="/staff/admin">

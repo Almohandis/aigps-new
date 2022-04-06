@@ -7,82 +7,150 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Jobs\InfectionNotificationJob;
 use App\Models\MedicalPassport;
+use App\Models\VaccineDate;
 
 class CampaignClerkController extends Controller
 {
     public function index() {
-        $cities = ['6th of October', 'Alexandria', 'Aswan', 'Asyut', 'Beheira', 'Beni Suef', 'Cairo', 'Dakahlia', 'Damietta', 'Faiyum', 'Gharbia', 'Giza', 'Helwan', 'Ismailia', 'Kafr El Sheikh', 'Luxor', 'Matruh', 'Minya', 'Monufia', 'New Valley', 'North Sinai', 'Port Said', 'Qalyubia', 'Qena', 'Red Sea', 'Sharqia', 'Sohag', 'South Sinai', 'Suez'];
-
-        return view('clerk.clerk')
-            ->with('cities', $cities)
-            ->with('countries', \Countries::getList('en'));
+        return view('clerk.clerk');
     }
 
-    public function store(Request $request) {
+    public function find(Request $request) {
         $request->validate([
-            'national_id' => 'required|string|max:255',
-            'blood_type' => 'required|string|max:3',
-            'city'      =>      'required|string'
+            'national_id' => 'required|string|max:255'
         ]);
 
-        $user = User::where('national_id', $request->national_id)->first();
+        $user = User::with('infections')->with('diseases')->where('national_id', $request->national_id)->first();
 
-        if (!$user) {
+        if (! $user) {
             return back()->withErrors(['national_id' => 'User not found']);
         }
 
-        $blood_types = ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'];
-        if (!in_array($request->blood_type, $blood_types)) {
-            return back()->withErrors(['blood_type' => 'Invalid blood type']);
+        $campaigns = $request->user()
+            ->campaigns()
+            ->where('campaign_doctors.from', '<=', now())
+            ->where('campaign_doctors.to', '>=', now())
+            ->where('start_date', '<=', now())
+            ->where('end_date', '>=', now())
+            ->where('status', 'active')
+            ->get();
+
+        if (count($campaigns) == 0) {
+            return back()->withErrors(['campaign' => 'You are not a doctor of any active campaigns']);
         }
 
-        //# increase dose count if patient already has been diagnosed because they have just taken vaccination
-        if ($user->is_diagnosed) {
-            $user->passport()->update([
-                'vaccine_dose_count' => $user->passport->vaccine_dose_count + 1,
-                'vaccine_name' => $request->vaccine_name,
-            ]);
+        $reservation = $user->reservations()
+            ->whereIn('campaign_appointments.campaign_id', $campaigns->pluck('id'))
+            ->where('campaign_appointments.date', '>', now()->subDays(1))
+            ->where('campaign_appointments.date', '<', now()->addDays(1))
+            ->where('campaign_appointments.status', '!=', 'cancelled')
+            ->where('campaign_appointments.status', '!=', 'finished')
+            ->first();
 
-            $date = $user->passport()->first()->dates()->create([
-                'vaccine_date' => now(),
-            ]);
+        if (! $reservation) {
+            return back()->withErrors(['reservation' => 'This user is not a registered in this campaign, or the date of his reservation is not today']);
         }
 
-        $user->update([
-            'blood_type'    => $request->blood_type,
-            'is_diagnosed'  => $request->is_diagnosed == 'true' ? true : ($user->is_diagnosed ? true : false),
-            'city'          => $request->city
-        ]);
-        // return $request;
+        $medicalPassport = $user->passport()->where('user_id', $user->id)->first();
+        $vaccines = [];
+
+        if ($medicalPassport) {
+            $vaccines = VaccineDate::where('medical_passport_id', $medicalPassport->id)->get();
+        } else {
+            $medicalPassport = new MedicalPassport();
+            $medicalPassport->user_id = $user->id;
+            $medicalPassport->name = '';
+            $medicalPassport->vaccine_dose_count = 0;
+            $medicalPassport->save();
+        }
+
+        return view('clerk.user')
+            ->with('user', $user)
+            ->with('reservation', $reservation)
+            ->with('campaigns', $campaigns)
+            ->with('vaccines', $vaccines)
+            ->with('passport', $medicalPassport);
+    }
+
+    public function complete(Request $request, User $user) {
+        $campaigns = $request->user()
+            ->campaigns()
+            ->where('campaign_doctors.from', '<=', now())
+            ->where('campaign_doctors.to', '>=', now())
+            ->where('start_date', '<=', now())
+            ->where('end_date', '>=', now())
+            ->where('status', 'active')
+            ->get();
+
+        if (count($campaigns) == 0) {
+            return back()->withErrors(['campaign' => 'You are not a doctor of any active campaigns']);
+        }
+
+
+        $reservation = $user->reservations()
+            ->whereIn('campaign_appointments.campaign_id', $campaigns->pluck('id'))
+            ->where('campaign_appointments.date', '>', now()->subDays(1))
+            ->where('campaign_appointments.date', '<', now()->addDays(1))
+            ->where('campaign_appointments.status', '!=', 'cancelled')
+            ->where('campaign_appointments.status', '!=', 'finished')
+            ->first();
+
+        if (! $reservation) {
+            return back()->withErrors(['reservation' => 'This user is not a registered in this campaign, or the date of his reservation is not today']);
+        }
+
+        $medicalPassport = $user->passport()->where('user_id', $user->id)->first();
+        
+        if ($request->has('blood_type') && $request->blood_type != '') {
+            $user->blood_type = $request->blood_type;
+        }
+
         $disease = 1;
-        while (1) {
-            $disease_name = $request->input('disease' . $disease);
-            // return $disease_name;
-            if (!$disease_name) {
+        while ($disease < 10) {
+            $disease_number = $request->input('disease' . $disease);
+            if ($disease_number) {
+                $user->diseases()->create([
+                    'name'      =>      $disease_number
+                ]);
+            } else {
                 break;
             }
-
-            $user->diseases()->create([
-                'name' => $disease_name
-            ]);
 
             $disease++;
         }
 
-        if ($request->input('infection')) {
+        $reservation->pivot->status = 'finished';
+        $reservation->pivot->save();
+
+        if ($request->has('infection') && $request->infection != '') {
             $user->infections()->create([
-                'infection_date'  => $request->infection
+                'infection_date'    =>  now(),
+                'hospital_id'       =>  NULL,
+                'is_recovered'      =>  false,
+                'has_passed_away'   =>  false
             ]);
+        } else {
+            if ($user->is_diagnosed) {
+                if ($request->has('vaccine_name') && $request->vaccine_name != '') {
+                    $medicalPassport->update([
+                        'vaccine_name' => $request->vaccine_name,
+                    ]);
+    
+                    $doseCount = $medicalPassport->vaccine_dose_count;
+                    $medicalPassport->update([
+                        'vaccine_dose_count' => $doseCount < 2 ? $doseCount + 1 : $doseCount
+                    ]);
 
-            InfectionNotificationJob::dispatch($user);
+                    VaccineDate::create([
+                        'medical_passport_id'   => $medicalPassport->id,
+                        'vaccine_date'          =>  now()
+                    ]);
+                }
+            } else {
+                $user->update([
+                    'is_diagnosed' => true
+                ]);
+            }
         }
-
-        if ($request->input('is_recovered') == 'true') {
-            $user->infections()->update([
-                'is_recovered'      =>  true,
-            ]);
-        }
-
-        return back()->withSuccess('User updated successfully');
     }
 }

@@ -23,8 +23,13 @@ Route::middleware('nationalid')->prefix('/nationalids')->group(function () {
 Route::get('/moia/escorting', [MoiaController::class, 'index'])->middleware('moia');
 
 //# Campaign clerk routes
-Route::get('/clerk', 'CampaignClerkController@index')->middleware('clerk');
-Route::post('/clerk', 'CampaignClerkController@store')->middleware('clerk');
+
+Route::middleware('clerk')->prefix('/clerk')->group(function () {
+    Route::get('/', 'CampaignClerkController@index');
+    Route::post('/', 'CampaignClerkController@find');
+    Route::post('/{user}/complete', 'CampaignClerkController@complete');
+    
+});
 
 //# Isolation hospital routes
 // group the Isolation hospital routes into a single middleware group
