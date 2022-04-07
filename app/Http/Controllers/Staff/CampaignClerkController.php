@@ -129,6 +129,8 @@ class CampaignClerkController extends Controller
                 'is_recovered'      =>  false,
                 'has_passed_away'   =>  false
             ]);
+
+            return redirect('/staff/clerk')->withSuccess('This user has been infected, and his data has been inserted into the database successfully !');
         } else {
             if ($user->is_diagnosed) {
                 if ($request->has('vaccine_name') && $request->vaccine_name != '') {
@@ -145,11 +147,17 @@ class CampaignClerkController extends Controller
                         'medical_passport_id'   => $medicalPassport->id,
                         'vaccine_date'          =>  now()
                     ]);
+
+                    return redirect('/staff/clerk')->withSuccess('User has been vaccination successfully !');
+                } else {
+                    return back()->withErrors(['vaccine' => 'Please select a vaccine name']);
                 }
             } else {
                 $user->update([
                     'is_diagnosed' => true
                 ]);
+
+                return redirect('/staff/clerk')->withSuccess('User has been diagnosed successfully !');
             }
         }
     }
