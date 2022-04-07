@@ -54,13 +54,13 @@
             </div>
         @endif
 
-        <div class="text-start shadow container bg-white mt-5 rounded px-5 py-3 text-dark">
-            <h4 class="mb-3 text-center"> Insert Patient Data </h4>    
+        <div class="text-center shadow container bg-white mt-5 rounded px-5 py-3 text-dark">
+            <h4 class="mb-3 text-center"> Find patients in your campaign </h4>    
 
             <form method="POST">
                 @csrf
                 <div class="row">
-                    <div class="col-12 col-md-6 mt-2">
+                    <div class="mt-2">
                         <i id="national_id_mark" class="fa-solid fa-close text-danger visually-hidden"></i>
                         <label>National ID *</label>
                         <input id="national_id" type="text" class="form-control" name="national_id" oninput="validateNid(this)" required>
@@ -77,6 +77,7 @@
                                 input.style.outline = "green solid thin";
                                 errors.national_id = '#';
                                 updateError();
+                                updateNidRelatedData(input.value);
                             }
                         }
 
@@ -87,8 +88,32 @@
                                 return false;
                             }
 
+                            let nid_year = input.substring(1, 3);
+                            let year = '';
+
+                            if (input[0] == 2) {
+                                year = '19' + nid_year;
+                            } else {
+                                year = '20' + nid_year;
+                            }
+
                             let month = parseInt(input.substring(3, 5));
                             let day = parseInt(input.substring(5, 7));
+
+                            // check if the date isn't greater than today
+                            let today = new Date();
+                            let today_year = today.getFullYear();
+                            let today_month = today.getMonth() + 1;
+                            let today_day = today.getDate();
+
+                            if (year > today_year || (year == today_year && month > today_month) || (year == today_year && month == today_month && day > today_day)) {
+                                return false;
+                            }
+
+                            // check if the date isn't less than 1900
+                            if (year < 1900) {
+                                return false;
+                            }
 
                             if (month > 12 || month < 1) {
                                 return false;
@@ -101,110 +126,6 @@
                             return true;
                         }
                     </script>
-
-                    <div class="col-12 col-md-6 mt-2">
-                        <label>City *</label>
-                        <select name="city" class="form-control">
-                            @foreach ($cities as $city)
-                                <option value="{{ $city }}">{{ $city }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-
-                    <div class="col-12 col-md-6 mt-2">
-                        <label>Blood Type *</label>
-                        
-                        <select name="blood_type" class="form-control">
-                            <option value="A+">A+</option>
-                            <option value="A-">A-</option>
-                            <option value="B+">B+</option>
-                            <option value="B-">B-</option>
-                            <option value="AB+">AB+</option>
-                            <option value="AB-">AB-</option>
-                            <option value="O+">O+</option>
-                            <option value="O-">O-</option>
-                        </select>
-                    </div>
-
-                    <div class="col-12 col-md-6 mt-2 mb-5">
-                        <label class="container">&nbsp;</label>
-                        <input class="form-check-input" type="checkbox" name="is_diagnosed" value="true" />
-                        <label>Is Diagnosed</label>
-                    </div>
-
-                    <hr>
-
-                    <div class="col-12">
-                        <h5>
-                            Infection Status
-                            <small class="fw-normal text-muted">optional</small>
-                        </h5>
-                    </div>
-
-                    <div class="col-12 col-md-6 mt-2">
-                        <label>Infection Date: </label>
-                        <input type="date" class="form-control" name="infection">
-                    </div>
-
-                    <div class="col-12 col-md-6 mt-2 mb-5">
-                        <label class="container">&nbsp;</label>
-                        <input class="form-check-input" type="checkbox" name="is_recovered" value="true" />
-                        <label>Is Recovered </label>
-                    </div>
-
-                    <hr>
-
-                    <div class="col-12">
-                        <h5>
-                            Chronic Diseases
-                            <small class="fw-normal text-muted">optional</small>
-                        </h5>
-                    </div>
-
-                    <div id="diseases">
-                    </div>
-
-                    <div class="d-flex mt-3 justify-content-center">
-                        <div class="btn btn-outline-danger border-0 visually-hidden" onclick="removeDisease()" id="removeDisease">
-                            Remove Disease
-                        </div>
-
-                        <div class="btn btn-outline-primary border-0" onclick="addDisease()">
-                            Add Disease
-                        </div>
-
-                        <script>
-                            var diseases = 1;
-                            var disease_input = document.getElementById('diseases');
-
-                            function addDisease() {
-                                var disease = document.createElement('input');
-                                disease.setAttribute('type', 'text');
-                                disease.setAttribute('name', 'disease' + diseases);
-                                disease.setAttribute('placeholder', 'Disease Name');
-                                disease.setAttribute('required', '');
-                                disease.setAttribute('class', 'form-control mt-2');
-
-                                disease_input.appendChild(disease);
-
-                                diseases++;
-
-                                if (diseases > 1) {
-                                    document.getElementById('removeDisease').classList.remove('visually-hidden');
-                                }
-                            }
-
-                            function removeDisease() {
-                                disease_input.removeChild(disease_input.lastChild);
-
-                                diseases--;
-
-                                if (diseases == 1) {
-                                    document.getElementById('removeDisease').classList.add('visually-hidden');
-                                }
-                            }
-                        </script>
-                    </div>
                 </div>
 
                 <div class="d-flex justify-content-center mt-3">
