@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Models\EmailVerificationToken;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
@@ -110,10 +111,40 @@ class RegisteredUserController extends Controller
 
         event(new Registered($user));
 
-        $user->notify(new RegisterationNotification());
+        $token = str_random(30);
 
-        // Auth::login($user);
+        while (EmailVerificationToken::where('token', $token)->exists()) {
+            $token = str_random(30);
+        }
+
+        EmailVerificationToken::create([
+            'user_id' => $user->id,
+            'token' => $token
+        ]);
+
+        $user->notify(new RegisterationNotification($token));
 
         return view('auth.register-complete');
+    }
+
+    public function verify($token) {
+        $emailVerificationToken = EmailVerificationToken::where('token', $token)->first();
+
+        if (! $emailVerificationToken) {
+            return redirect('/');
+        }
+
+        $user = $emailVerificationToken->user;
+
+        if ($user->email_verified_at) {
+            return redirect('/');
+        }
+
+        $user->email_verified_at = now();
+        $user->save();
+
+        $emailVerificationToken->delete();
+
+        return redirect('/login');
     }
 }
