@@ -24,8 +24,8 @@ Route::get('/', 'App\Http\Controllers\Citizen\HomePageController@index');
 
 Route::get('/account/verify/{token}', '\App\Http\Controllers\Auth\RegisteredUserController@verify');
 
-Route::get('/gallery', 'ArticleController@index');
-Route::get('/gallery/{article}', 'ArticleController@show');
+Route::get('/gallery', 'App\Http\Controllers\Citizen\ArticleController@index');
+Route::get('/gallery/{article}', 'App\Http\Controllers\Citizen\ArticleController@show');
 
 require __DIR__ . '/auth.php';
 
