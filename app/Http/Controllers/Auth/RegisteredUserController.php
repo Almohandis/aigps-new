@@ -15,6 +15,7 @@ use App\Models\NationalId;
 use App\Notifications\RegisterationNotification;
 use App\Models\City;
 use Twilio;
+use Illuminate\Support\Str;
 
 class RegisteredUserController extends Controller
 {
@@ -99,10 +100,10 @@ class RegisteredUserController extends Controller
 
         event(new Registered($user));
 
-        $token = str_random(30);
+        $token = Str::random(40);
 
         while (EmailVerificationToken::where('token', $token)->exists()) {
-            $token = str_random(30);
+            $token = Str::random(40);
         }
 
         EmailVerificationToken::create([
