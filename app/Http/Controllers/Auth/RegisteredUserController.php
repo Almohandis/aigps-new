@@ -98,7 +98,7 @@ class RegisteredUserController extends Controller
             ]);
         }
 
-        event(new Registered($user));
+        // event(new Registered($user));
 
         $token = Str::random(40);
 
