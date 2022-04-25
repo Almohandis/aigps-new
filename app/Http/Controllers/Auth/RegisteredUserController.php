@@ -14,6 +14,7 @@ use Illuminate\Validation\Rules;
 use App\Models\NationalId;
 use App\Notifications\RegisterationNotification;
 use App\Models\City;
+use Twilio;
 
 class RegisteredUserController extends Controller
 {
@@ -49,7 +50,8 @@ class RegisteredUserController extends Controller
             'birthdate'         => 'required',
             'gender'            => 'required',
             'country'           =>  'required|string',
-            'city'              =>  'required|string'
+            'city'              =>  'required|string',
+            'telephone_number'  =>  'required|string'
         ]);
 
         //# check if the provided national id exists in the database
@@ -72,7 +74,8 @@ class RegisteredUserController extends Controller
             'birthdate'         =>  $request->birthdate,
             'gender'            =>  $gender,
             'country'           =>  $request->country,
-            'city'              =>  $request->city
+            'city'              =>  $request->city,
+            'telephone_number'  =>  $request->telephone_number
         ];
 
         //# check if user exists
@@ -94,21 +97,6 @@ class RegisteredUserController extends Controller
             ]);
         }
 
-        //# user can have multiple phones, up to 10
-        $phone = 1;
-        while ($phone < 10) {
-            $phone_number = $request->input('phone' . $phone);
-            if ($phone_number) {
-                $user->phones()->create([
-                    'phone_number' => $phone_number
-                ]);
-            } else {
-                break;
-            }
-
-            $phone++;
-        }
-
         event(new Registered($user));
 
         $token = str_random(30);
@@ -123,6 +111,7 @@ class RegisteredUserController extends Controller
         ]);
 
         $user->notify(new RegisterationNotification($token));
+        Twilio::message($user->telephone_number, 'Your account in AIGPS has been created successfully');
 
         return view('auth.register-complete');
     }
