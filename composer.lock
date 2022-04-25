@@ -4,8 +4,82 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "53d7846395e1e2206c43d4f9c3b6ecfa",
+    "content-hash": "fb0131e6cd476a44f0f25b8bcf214060",
     "packages": [
+        {
+            "name": "aloha/twilio",
+            "version": "5.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/aloha/laravel-twilio.git",
+                "reference": "f430c272c4e21a53cab6aadade696ba8083e3207"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/aloha/laravel-twilio/zipball/f430c272c4e21a53cab6aadade696ba8083e3207",
+                "reference": "f430c272c4e21a53cab6aadade696ba8083e3207",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.2.0",
+                "twilio/sdk": "^6.0"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "^2.16",
+                "illuminate/console": "~6||~7||~8",
+                "illuminate/support": "~6||~7||~8",
+                "phpunit/phpunit": "^8.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Aloha\\Twilio\\Support\\Laravel\\ServiceProvider"
+                    ],
+                    "aliases": {
+                        "Twilio": "Aloha\\Twilio\\Support\\Laravel\\Facade"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Aloha\\Twilio\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Travis J Ryan",
+                    "email": "travisjryan@gmail.com"
+                },
+                {
+                    "name": "Hannes Van De Vreken",
+                    "email": "vandevreken.hannes@gmail.com"
+                }
+            ],
+            "description": "Twilio API for Laravel",
+            "homepage": "https://github.com/aloha/laravel-twilio",
+            "keywords": [
+                "ivr",
+                "laravel",
+                "sms",
+                "twilio"
+            ],
+            "support": {
+                "issues": "https://github.com/aloha/laravel-twilio/issues",
+                "source": "https://github.com/aloha/laravel-twilio/tree/5.0.0"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/sponsors/hannesvdvreken",
+                    "type": "github"
+                }
+            ],
+            "time": "2021-02-10T17:00:02+00:00"
+        },
         {
             "name": "asm89/stack-cors",
             "version": "v2.1.1",

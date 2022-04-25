@@ -9,6 +9,7 @@ use App\Models\User;
 use Carbon\Carbon;
 use App\Notifications\ReservationNotification;
 use App\Models\City;
+use Twilio;
 
 class ReservationController extends Controller
 {
@@ -87,6 +88,7 @@ class ReservationController extends Controller
         $request->user()->reservations()->attach($campaign->id, ['date' =>  $start->format('Y-m-d')]);
 
         $request->user()->notify(new ReservationNotification());
+        Twilio::message($request->user()->telephone_number, 'Reservation successful, Reservation date: ' . $start->format('Y-m-d'));
 
         return view('citizen.reservecomplete')->with('diagnosed', $request->user()->is_diagnosed);
     }

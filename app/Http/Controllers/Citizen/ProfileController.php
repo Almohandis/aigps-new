@@ -29,7 +29,8 @@ class ProfileController extends Controller
             'birthdate'         => 'required',
             'gender'            => 'required',
             'country'           =>  'required|string',
-            'city'              =>  'required|string'
+            'city'              =>  'required|string',
+            'telephone_number'  =>  'required'
         ]);
 
         $gender = ($request->gender === 'Male') ? 'Male' : 'Female';

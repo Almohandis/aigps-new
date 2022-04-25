@@ -7,8 +7,6 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 use App\Models\User;
-use NotificationChannels\Twilio\TwilioChannel;
-use NotificationChannels\Twilio\TwilioSmsMessage;
 use App\Mail\InfectionMail;
 
 class InfectionNotification extends Notification implements ShouldQueue
@@ -52,12 +50,6 @@ class InfectionNotification extends Notification implements ShouldQueue
     public function toMail($notifiable)
     {
         return (new InfectionMail)->to($this->user->emailProfiles()->first()->email);
-    }
-
-    public function toTwilio($notifiable)
-    {
-        return (new TwilioSmsMessage())
-            ->content('Your relative ('.$this->user->name.') has been infected!');
     }
 
     /**
