@@ -30,6 +30,10 @@ class AuthenticatedSessionController extends Controller
     public function store(LoginRequest $request)
     {
         $user = User::where('national_id', $request->national_id)->first();
+        if (! $user) {
+            return back()->withErrors(['national_id' => 'This account doesnt exist !']);;
+        }
+
         if (! $user->email_verified_at) {
             return back()->withErrors(['email' => 'This account is not verified, please follow the verification link sent to you via email.']);
         }
