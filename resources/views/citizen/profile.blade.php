@@ -320,29 +320,31 @@
                 </div>
             </div>
 
-            <div class="accordion-item">
-            <h2 class="accordion-header">
-                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo">
-                    Medical Passport
-                </button>
-            </h2>
-            <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
-                <div class="accordion-body">
-                    <div class="row"
-                        style="form-control">
-                        <div class="col-12" style="text-align: center;">
-                            If you have a passport and want to request your <strong>medical passport</strong>, type in your
-                            passport number and click on the button below
+            @if($hasPassport)
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo">
+                            Medical Passport
+                        </button>
+                    </h2>
+                    <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                        <div class="accordion-body">
+                            <div class="row"
+                                style="form-control">
+                                <div class="col-12" style="text-align: center;">
+                                    If you have a passport and want to request your <strong>medical passport</strong>, type in your
+                                    passport number and click on the button below
+                                </div>
+                                <form action="/medical-passport" method="POST" class="d-flex my-3">
+                                    @csrf
+                                    <input type="text" name="passport_number" class="form-control mx-2">
+                                    <input type="submit" value="Request medical passport" class="btn btn-success mx-2">
+                                </form>
+                            </div>
                         </div>
-                        <form action="/medical-passport" method="POST" class="d-flex my-3">
-                            @csrf
-                            <input type="text" name="passport_number" class="form-control mx-2">
-                            <input type="submit" value="Request medical passport" class="btn btn-success mx-2">
-                        </form>
                     </div>
                 </div>
-            </div>
-            </div>
+            @endif
         </div>
     </div>
 

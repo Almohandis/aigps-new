@@ -7,12 +7,18 @@ use App\Http\Controllers\Controller;
 use App\Models\Article;
 
 class ArticleController extends Controller {
-    public function index() {
-        $articles = Article::paginate(10);
+    public function index(Request $request) {
+        $articles = Article::query();
 
-        return view('articles', [
-            'articles' => $articles
-        ]);
+        if ($request->has('sort') && $request->sort) {
+            $articles = $articles->orderBy($request->sort, $request->order == 'asc' ? 'asc' : 'desc');
+        }
+
+        if ($request->has('search') && $request->search) {
+            $articles = $articles->where('title', 'like', '%' . $request->search . '%');
+        }
+
+        return view('articles')->with('articles', $articles->paginate(10)->withQueryString());
     }
 
     public function show(Article $article) {

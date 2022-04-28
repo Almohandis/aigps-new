@@ -1,7 +1,7 @@
 <a class="nav-link text-dark" href="/">Home</a>
-<a class="nav-link text-dark" href="/reserve">Vaccine</a>
+<a class="nav-link text-dark" href="/gallery">Gallery</a>
+<a class="nav-link text-dark" href="/reserve">Vaccine Reservation</a>
 <a class="nav-link text-dark" href="/stats">Pandemic Statistics</a>
-<a class="nav-link text-dark" href="/contact"">Contact Us</a>
 
 @auth
     @if (Auth::user()->isNationalId())
@@ -64,3 +64,6 @@
     <a class="nav-link text-dark" href="/login">Login</a>
     <a class="nav-link text-dark" href="/register">Register</a>
 @endauth
+
+
+<a class="nav-link text-dark" href="/contact"">Contact Us</a>
