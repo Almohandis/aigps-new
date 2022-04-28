@@ -272,7 +272,7 @@
                                 <div class="col-12 col-md-6 mt-2">
                                     <label>Gender *</label>
 
-                                    <select name="gender" class="form-control" id="gender" required readonly required>
+                                    <select name="gender" class="form-control" id="gender" disabled readonly>
                                         <option id="male" value="Male">Male</option>
                                         <option id="female" value="Female">Female</option>
                                     </select>
