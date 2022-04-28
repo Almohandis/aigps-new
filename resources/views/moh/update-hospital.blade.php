@@ -54,10 +54,6 @@
                 </div>
             </form>
 
-            <div class="container text-center my-3">
-                <a style="width: 300px;" href="/staff/moh/manage-doctors/{{$hospital->id}}/doctors" class="btn btn-outline-primary">Modify Doctors</a>
-            </div>
-
         </div>
     </div>
 </x-app-layout>

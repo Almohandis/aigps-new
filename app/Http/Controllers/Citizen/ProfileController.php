@@ -14,10 +14,18 @@ class ProfileController extends Controller
         $cities = City::all();
         $countries = \Countries::getList('en');
 
+        $passport = $request->user()->passport()->first();
+        $hasPassport = false;
+
+        if ($passport && $passport->vaccine_dose_count >= 2 && $request->user()->infections()->where('is_recovered', false)->count() == 0) {
+            $hasPassport = true;
+        }
+
         return view('citizen.profile')
             ->with('cities', $cities)
             ->with('countries', $countries)
-            ->with('user', $request->user());
+            ->with('user', $request->user())
+            ->with('hasPassport', $hasPassport);
     }
 
     public function update(Request $request) {

@@ -52,8 +52,14 @@ class RegisteredUserController extends Controller
             'gender'            => 'required',
             'country'           =>  'required|string',
             'city'              =>  'required|string',
-            'telephone_number'  =>  'required|string'
+            'telephone_number'  =>  'required|string|unique:users'
         ]);
+
+        // only allow people between the age of 15 to 60
+        $age = \Carbon\Carbon::parse(\Carbon\Carbon::now())->diffInYears(\Carbon\Carbon::parse($request->birthdate));
+        if ($age < 15 || $age > 60) {
+            return redirect()->back()->withErrors(['birthdate' => 'You must be between the age of 15 to 60']);
+        }
 
         //# check if the provided national id exists in the database
         $nationalId = NationalId::find($request->national_id);

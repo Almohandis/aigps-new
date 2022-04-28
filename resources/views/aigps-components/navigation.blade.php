@@ -1,6 +1,6 @@
 <nav class="p-3 aigps-nav aigps-nav-desktop">
     <div class="container-fluid nav justify-content-center nav-desktop">
-        <a class="navbar-brand text-dark" href="/">
+        <a class="navbar-brand text-dark" href="/" style="position: absolute; left: 40px;">
             <img src="/EDIT3.png" width="30" height="30" alt="">
             AIGPS
         </a>
