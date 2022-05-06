@@ -1,6 +1,11 @@
 <x-app-layout>
     <link href="{{asset('css/welcome.css')}}" rel="stylesheet">
 
+    <!-- background video  -->
+    <video autoplay muted loop class="background-video" width="100%">
+        <source src="{{asset('background.mp4')}}" type="video/mp4">
+    </video>
+
 
     <div class="aigps-welcome-content text-center">
         <h1 class="text-black aigps-title">AIGPS</h1>
