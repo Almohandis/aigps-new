@@ -27,10 +27,60 @@
         <div class="table-responsive text-start shadow container bg-white mt-5 rounded px-5 py-3 text-dark">
             <h4 class="text-center mb-3"> All Articles </h4>
 
+            <div class="accordion mb-4" id="campaignsAccordion">
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="flush-headingOne">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#flush-collapseOne">
+                            Filters & search
+                        </button>
+                    </h2>
+                    <div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne"
+                        data-bs-parent="#campaignsAccordion">
+                        <div class="accordion-body">
+                            <form method="GET" class="row">
+                                <div class="form-group mb-2">
+                                    <label class="">Search</label>
+                                    <input type="text" name="search" class="form-control" placeholder="Search by title" value="{{ request()->search }}">
+                                </div>
+
+                                <div class="form-group col-12 col-md-6 col-lg-3">
+                                    <label for="sort" class="">Sort by</label>
+                                    <div>
+                                        <select class="form-control" name="sort">
+                                            <option value="">Select Sorting</option>
+                                            <option value="title">Title</option>
+                                            <option value="type">Type</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="form-group col-12 col-md-6 col-lg-3">
+                                    <label class="">Sort Order</label>
+                                    <div class="">
+                                        <select class="form-control" name="order">
+                                            <option value="asc">Ascending</option>
+                                            <option value="desc">Descending</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="form-group row justify-content-center mt-2 mb-4">
+                                    <div class="row justify-content-center mt-2">
+                                        <button style="width: 250px" type="submit" class="btn btn-primary">Filter</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <table class="table table-hover">
                 <thead>
                     <tr>
                         <th scope="col">Title</th>
+                        <th scope="col">Type</th>
                         <th scope="col">Update</th>
                         <th scope="col">Delete</th>
                     </tr>
@@ -39,6 +89,7 @@
                     @foreach ($articles as $article)
                         <tr>
                             <td>{{ $article->title }}</td>
+                            <td>{{ $article->type }}</td>
                             <td>
                                 <a class="btn btn-outline-primary" href="/staff/moh/articles/{{$article->id}}/update"> Update </a>
                             </td>
@@ -50,26 +101,13 @@
                 </tbody>
             </table>
 
-            <div class="flex">
-                <ul class="pagination justify-content-center">
-                    @if ($articles->previousPageUrl())
-                        <li class="page-item"><a class="page-link" href="/staff/moh/articles/?page={{ $articles->currentPage() - 1 }}">Previous</a></li>
-                    @endif
-                    
-                    
-                    @for($page = 1; $page <= $articles->lastPage(); $page++)
-                        <li class="page-item"><a class="page-link" href="/staff/moh/articles/?page={{ $page }}">{{ $page }}</a></li>
-                    @endfor
-
-                    @if ($articles->nextPageUrl())
-                        <li class="page-item"><a class="page-link" href="/staff/moh/articles/?page={{ $articles->currentPage() + 1 }}">Next</a></li>
-                    @endif
-                </ul>
+            <div>
+                {{ $articles->links() }}
             </div>
         </div>
 
         <div class="text-start shadow container bg-white mt-5 rounded px-5 py-3 text-dark">
-            <h4 class="mb-3 text-center"> Add a new Article </h4>    
+            <h4 class="mb-3 text-center"> Add a new Article </h4>
             <form action="/staff/moh/articles/add" method="POST" enctype="multipart/form-data">
                 @csrf
                 <div class="row">
@@ -77,12 +115,45 @@
                         <label>Title</label>
                         <input type="text" class="form-control" name="title" placeholder="Enter article title" required>
                     </div>
-
+                    
                     <div class="col-12 col-md-6">
-                        <label>Add image</label>
+                        <label>Article type</label>
                         <br>
-                        <input class="form-control" type="file" name="image" required>
+                        <select class="form-control" name="type" onchange="changeType(this)">
+                            <option value="article">Article</option>
+                            <option value="image">Image</option>
+                            <option value="video">Video</option>
+                        </select>
                     </div>
+
+                    <script>
+                        function changeType(input) {
+                            if (input.value == 'image') {
+                                show('image')
+                                hide('video')
+                            } else if (input.value == 'video') {
+                                hide('image')
+                                show('video')
+                            } else {
+                                hide('image')
+                                hide('video')
+                            }
+                        }
+
+                        function show(name) {
+                            document.getElementById(name + '-div').classList.remove('d-none');
+                            document.getElementById(name + '-div').classList.add('d-block');
+
+                            document.getElementById(name + '-input').disabled = false;
+                        }
+
+                        function hide(name) {
+                            document.getElementById(name + '-div').classList.remove('d-block');
+                            document.getElementById(name + '-div').classList.add('d-none');
+
+                            document.getElementById(name + '-input').disabled = true;
+                        }
+                    </script>
                 </div>
 
                 <div class="row mt-2">
@@ -92,11 +163,16 @@
                     </div>
 
                     <div class="col-12 col-md-6">
-                        <label>(Optional) Link to the full article</label>
-                        <input class="form-control" type="text" name="full_link" placeholder="Enter full article link">
-                    
-                        <label class="mt-2">(Optional) Link to video</label>
-                        <input class="form-control" type="text" name="link" placeholder="Enter full article link">
+                        <div id="image-div" class="d-none">
+                            <label>Add image</label>
+                            <br>
+                            <input id="image-input" class="form-control" type="file" name="path" required disabled>
+                        </div>
+                        <div id="video-div" class="d-none">
+                            <label>Add Video Url</label>
+                            <br>
+                            <input id="video-input" class="form-control" placeholder="Enter video url" type="text" name="path" required disabled>
+                        </div>
                     </div>
                 </div>
 

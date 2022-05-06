@@ -15,7 +15,8 @@ class MedicalPassportFactory extends Factory
     {
         return [
             'vaccine_name'          => $this->faker->randomElement(['Hepatitis B', 'Hepatitis A', 'Hepatitis C']),
-            'vaccine_dose_count'    => $this->faker->numberBetween(0, 2)
+            'vaccine_dose_count'    => $this->faker->numberBetween(0, 2),
+            'passport_number'       => 'A' . $this->faker->numberBetween(1000000, 9999999),
         ];
     }
 }

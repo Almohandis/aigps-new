@@ -1,5 +1,7 @@
 <x-app-layout>
     <link href="{{asset('css/reservation.css')}}" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
+
 
     <div class="mt-5 text-center">
         <h1 class="aigps-title">Manage Campaigns</h1>
@@ -27,59 +29,107 @@
                 </div>
             @endif
 
-            <form method="GET" class="row">
-                <div class="form-group col-12 col-md-6 col-lg-3">
-                    <label for="sort" class="">Sort by</label>
-                    <div>
-                        <select class="form-control" name="sort">
-                            <option value="">Select Sorting</option>
-                            <option value="address">Address</option>
-                            <option value="status">status</option>
-                            <option value="start_date">Start Date</option>
-                            <option value="end_date">End Date</option>
-                        </select>
-                    </div>
-                </div>
+            <div class="accordion mb-4" id="campaignsAccordion">
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="flush-headingOne">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#flush-collapseOne">
+                            Filters & search
+                        </button>
+                    </h2>
+                    <div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne"
+                        data-bs-parent="#campaignsAccordion">
+                        <div class="accordion-body">
+                            <form method="GET" class="row">
+                                <div class="form-group mb-2">
+                                    <label class="">Search</label>
+                                    <input type="text" name="search" class="form-control" placeholder="Search by address" value="{{ request()->search }}">
+                                </div>
 
-                <div class="form-group col-12 col-md-6 col-lg-3">
-                    <label class="">Sort Order</label>
-                    <div class="">
-                        <select class="form-control" name="order">
-                            <option value="asc">Ascending</option>
-                            <option value="desc">Descending</option>
-                        </select>
-                    </div>
-                </div>
+                                <div class="form-group col-12 col-md-6 col-lg-3 mt-2">
+                                    <label for="sort" class="">Sort by</label>
+                                    <div>
+                                        <select class="form-control" name="sort" onchange="ChangeSort(this)">
+                                            <option value="">Select Sorting</option>
+                                            <option value="address">Address</option>
+                                            <option value="status">status</option>
+                                            <option value="start_date">Start Date</option>
+                                            <option value="end_date">End Date</option>
+                                        </select>
+                                    </div>
+                                </div>
 
-                <div class="form-group col-12 col-md-6 col-lg-3">
-                    <label for="city" class="">City</label>
-                    <div class="">
-                        <select class="form-control" name="city">
-                            <option value="">All Cities</option>
-                            @foreach ($cities as $city)
-                                <option value="{{ $city->name }}">{{ $city->name }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                </div>
+                                <div class="form-group col-12 col-md-6 col-lg-3 mt-2">
+                                    <label class="">Sort Order</label>
+                                    <div class="">
+                                        <select class="form-control" name="order">
+                                            <option value="asc">Ascending</option>
+                                            <option value="desc">Descending</option>
+                                        </select>
+                                    </div>
+                                </div>
 
-                <div class="form-group col-12 col-md-6 col-lg-3">
-                    <label for="status" class="">Status</label>
-                    <div class="">
-                        <select class="form-control" name="status">
-                            <option value="">All Statuses</option>
-                            <option value="active">Active</option>
-                            <option value="inactive">Inactive</option>
-                        </select>
-                    </div>
-                </div>
+                                <div class="form-group col-12 col-md-6 col-lg-3 mt-2">
+                                    <label for="city" class="">City</label>
+                                    <div class="">
+                                        <select class="form-control" name="city">
+                                            <option value="">All Cities</option>
+                                            @foreach ($cities as $city)
+                                                <option value="{{ $city->name }}">{{ $city->name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
 
-                <div class="form-group row justify-content-center mt-2 mb-4">
-                    <div class="row">
-                        <button type="submit" class="btn btn-primary">Filter</button>
+                                <div class="form-group col-12 col-md-6 col-lg-3 mt-2">
+                                    <label for="status" class="">Status</label>
+                                    <div class="">
+                                        <select class="form-control" name="status">
+                                            <option value="">All Statuses</option>
+                                            <option value="active">Active</option>
+                                            <option value="inactive">Inactive</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="form-group mt-4 text-center">
+                                    Sort by campaign start and end date
+                                </div>
+
+                                <div class="form-group col-12 col-md-6 col-lg-3 mt-2">
+                                    <label for="status" class="">From</label>
+                                    <div class="">
+                                        <input type="date" name="start_date" class="form-control" placeholder="From">
+                                    </div>
+                                </div>
+
+                                <div class="form-group col-12 col-md-6 col-lg-3 mt-2">
+                                    <label for="status" class="">To</label>
+                                    <div class="">
+                                        <input type="date" name="end_date" class="form-control" placeholder="To">
+                                    </div>
+                                </div>
+
+                                <div class="form-group row justify-content-center mt-4 mb-4">
+                                    <div class="row justify-content-center mt-2">
+                                        <button style="width: 250px" type="submit" class="btn btn-primary">Filter</button>
+                                    </div>
+                                </div>
+
+                                <script>
+                                    function ChangeSort(input) {
+                                        if (input.value == 'start_date' || input.value == 'end_date') {
+
+                                        } else {
+
+                                        }
+                                    }
+                                </script>
+                            </form>
+                        </div>
                     </div>
                 </div>
-            </form>
+            </div>
     
             <table class="table table-hover">
                 <thead>
@@ -155,15 +205,6 @@
                     <div class="col-12 col-md-6">
                         <label>Address</label>
                         <input class="form-control" type="text" name="address" required>
-                    </div>
-
-                    <div class="col-12 col-md-6">
-                        <label>Status</label>
-
-                        <select name="status" class="form-control">
-                            <option value="active">active</option>
-                            <option value="pending">pending</option>
-                        </select>
                     </div>
                 </div>
 

@@ -23,8 +23,13 @@ Route::middleware('nationalid')->prefix('/nationalids')->group(function () {
 Route::get('/moia/escorting', [MoiaController::class, 'index'])->middleware('moia');
 
 //# Campaign clerk routes
-Route::get('/clerk', 'CampaignClerkController@index')->middleware('clerk');
-Route::post('/clerk', 'CampaignClerkController@store')->middleware('clerk');
+
+Route::middleware('clerk')->prefix('/clerk')->group(function () {
+    Route::get('/', 'CampaignClerkController@index');
+    Route::post('/', 'CampaignClerkController@find');
+    Route::post('/{user}/complete', 'CampaignClerkController@complete');
+    
+});
 
 //# Isolation hospital routes
 // group the Isolation hospital routes into a single middleware group
@@ -51,9 +56,11 @@ Route::middleware('moh')->prefix('/moh')->group(function () {
     Route::post('/manage-hospitals/{hospital}/update', 'MohHospitalController@update');
 
     Route::get('/manage-doctors', 'MohDoctorController@index');
+    Route::get('/manage-doctors/users', 'MohDoctorController@users');
     Route::get('/manage-doctors/{hospital}/doctors', 'MohDoctorController@doctors');
     Route::post('/manage-doctors/{hospital}/doctors/add', 'MohDoctorController@add');
     Route::post('/manage-doctors/doctors/{doctor}/delete', 'MohDoctorController@delete');
+    Route::post('/manage-doctors/doctors/{doctor}/update', 'MohDoctorController@update');
 
     Route::get('/manage-campaigns', 'MohCampaignController@index');
     Route::post('/manage-campaigns/add', 'MohCampaignController@create');

@@ -9,11 +9,11 @@ use App\Models\User;
 use Carbon\Carbon;
 use App\Notifications\ReservationNotification;
 use App\Models\City;
+use Twilio;
 
 class ReservationController extends Controller
 {
-    public function index(Request $request)
-    {
+    public function index(Request $request) {
         if (!$this->canReserve($request)) {
             return view('citizen.survey-error');
         }
@@ -28,6 +28,9 @@ class ReservationController extends Controller
 
             if ($campaign->appointments()->count() >= $days * $campaign->capacity_per_day) {
                 $campaigns->forget($campaign->id);
+            } else {
+                $campaign->capacity = $campaign->appointments()->count();
+                $campaign->maxCapacity = $days * $campaign->capacity_per_day;
             }
         }
 
@@ -38,8 +41,7 @@ class ReservationController extends Controller
 		]);
     }
 
-    public function reserve(Request $request, Campaign $campaign)
-    {
+    public function reserve(Request $request, Campaign $campaign) {
         if (!$this->canReserve($request)) {
             return view('citizen.survey-error');
         }
@@ -50,9 +52,17 @@ class ReservationController extends Controller
             ]);
         }
 
-        if ($request->user()->reservations()->where('campaign_appointments.status', '!=', 'cancelled')->where('date', '>=', now())->count()) {
+        if ($request->user()->reservations()->where('campaign_appointments.status', '!=', 'cancelled')->where('campaign_appointments.status', '!=', 'finished')->where('date', '>=', now())->count()) {
             return back()->withErrors([
                 'campaign' => 'You have already reserved an appointment'
+            ]);
+        }
+
+        $birthdate = Carbon::parse($request->user()->birthdate);
+
+        if ($birthdate->diffInYears(now()) < 16 || $birthdate->diffInYears(now()) > 70) {
+            return back()->withErrors([
+                'campaign' => 'You have to be between 16 and 70 years old to reserve an appointment'
             ]);
         }
 
@@ -78,12 +88,12 @@ class ReservationController extends Controller
         $request->user()->reservations()->attach($campaign->id, ['date' =>  $start->format('Y-m-d')]);
 
         $request->user()->notify(new ReservationNotification());
+        Twilio::message($request->user()->telephone_number, 'Reservation successful, Reservation date: ' . $start->format('Y-m-d'));
 
         return view('citizen.reservecomplete')->with('diagnosed', $request->user()->is_diagnosed);
     }
 
-    private function canReserve(Request $request)
-    {
+    private function canReserve(Request $request) {
         return !$request->user()->answers()->where('question_user.created_at', '>', now()->subDays(14))->where('answer', 'Yes')->first();
     }
 }

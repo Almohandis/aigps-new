@@ -14,6 +14,7 @@ class AppointmentsController extends Controller
         $appointments = $request->user()
             ->reservations()
             ->where('campaign_appointments.status', '!=', 'cancelled')
+            ->where('campaign_appointments.status', '!=', 'finished')
             ->orderBy('date', 'asc')
             ->paginate(10);
 

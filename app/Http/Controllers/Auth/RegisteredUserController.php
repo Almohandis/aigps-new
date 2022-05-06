@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Models\EmailVerificationToken;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
@@ -13,6 +14,8 @@ use Illuminate\Validation\Rules;
 use App\Models\NationalId;
 use App\Notifications\RegisterationNotification;
 use App\Models\City;
+use Twilio;
+use Illuminate\Support\Str;
 
 class RegisteredUserController extends Controller
 {
@@ -48,8 +51,15 @@ class RegisteredUserController extends Controller
             'birthdate'         => 'required',
             'gender'            => 'required',
             'country'           =>  'required|string',
-            'city'              =>  'required|string'
+            'city'              =>  'required|string',
+            'telephone_number'  =>  'required|string|unique:users'
         ]);
+
+        // only allow people between the age of 15 to 60
+        $age = \Carbon\Carbon::parse(\Carbon\Carbon::now())->diffInYears(\Carbon\Carbon::parse($request->birthdate));
+        if ($age < 15 || $age > 60) {
+            return redirect()->back()->withErrors(['birthdate' => 'You must be between the age of 15 to 60']);
+        }
 
         //# check if the provided national id exists in the database
         $nationalId = NationalId::find($request->national_id);
@@ -71,7 +81,8 @@ class RegisteredUserController extends Controller
             'birthdate'         =>  $request->birthdate,
             'gender'            =>  $gender,
             'country'           =>  $request->country,
-            'city'              =>  $request->city
+            'city'              =>  $request->city,
+            'telephone_number'  =>  $request->telephone_number
         ];
 
         //# check if user exists
@@ -93,27 +104,43 @@ class RegisteredUserController extends Controller
             ]);
         }
 
-        //# user can have multiple phones, up to 10
-        $phone = 1;
-        while ($phone < 10) {
-            $phone_number = $request->input('phone' . $phone);
-            if ($phone_number) {
-                $user->phones()->create([
-                    'phone_number' => $phone_number
-                ]);
-            } else {
-                break;
-            }
+        // event(new Registered($user));
 
-            $phone++;
+        $token = Str::random(40);
+
+        while (EmailVerificationToken::where('token', $token)->exists()) {
+            $token = Str::random(40);
         }
 
-        event(new Registered($user));
+        EmailVerificationToken::create([
+            'user_id' => $user->id,
+            'token' => $token
+        ]);
 
-        $user->notify(new RegisterationNotification());
-
-        // Auth::login($user);
+        $user->notify(new RegisterationNotification($token));
+        Twilio::message($user->telephone_number, 'Your account in AIGPS has been created successfully');
 
         return view('auth.register-complete');
+    }
+
+    public function verify($token) {
+        $emailVerificationToken = EmailVerificationToken::where('token', $token)->first();
+
+        if (! $emailVerificationToken) {
+            return redirect('/');
+        }
+
+        $user = $emailVerificationToken->user;
+
+        if ($user->email_verified_at) {
+            return redirect('/');
+        }
+
+        $user->email_verified_at = now();
+        $user->save();
+
+        $emailVerificationToken->delete();
+
+        return redirect('/login');
     }
 }

@@ -294,50 +294,11 @@
                     }
                 </script>
 
-                <div class="col-12 col-md-6 mt-2" id="phones">
+                <div class="col-12 col-md-6 mt-2">
                     <label>Mobile Number *</label>
-                    <input type="number" class="form-control" name="phone1" required>
+                    <input type="text" class="form-control" name="telephone_number" required>
                 </div>
 
-                <script>
-                    var phones = 2;
-                    var phone_input = document.getElementById('phones');
-
-                    function addPhone() {
-                        var phone = phone_input.cloneNode(true);
-                        phone.setAttribute('id', 'phone' + phones);
-                        phone.children[1].value = '';
-                        phone.children[1].name = 'phone' + phones;
-
-                        phone_input.parentNode.insertBefore(phone, phone_input.nextSibling);
-
-                        phones++;
-
-                        if (phones > 2) {
-                            document.getElementById('removeAPhone').classList.remove('visually-hidden');
-                        }
-                    }
-
-                    function removePhone() {
-                        if (phones > 2) {
-                            phones--;
-                            document.getElementById('phone' + phones).remove();
-                            if (phones == 2) {
-                                document.getElementById('removeAPhone').classList.add('visually-hidden');
-                            }
-                        }
-                    }
-                </script>
-            </div>
-
-            <div class="d-flex mt-3 justify-content-center">
-                <div class="btn btn-outline-danger border-0 visually-hidden" onclick="removePhone()" id="removeAPhone">
-                    Remove phone
-                </div>
-
-                <div class="btn btn-outline-primary border-0" onclick="addPhone()">
-                    Add Phone
-                </div>
             </div>
 
             <div class="mt-4">

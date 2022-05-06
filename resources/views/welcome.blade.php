@@ -20,10 +20,6 @@
             <a href="/reserve" class="shadow btn btn-success btn-md">
                 Reserve Vaccine
             </a>
-
-            <a href="/gallery" class="shadow btn btn-dark btn-md ms-2">
-                Visit Gallery
-            </a>
         </div>
     </div>
 </x-app-layout>

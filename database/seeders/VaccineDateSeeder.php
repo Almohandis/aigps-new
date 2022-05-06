@@ -45,7 +45,8 @@ class VaccineDateSeeder extends Seeder
     public function run()
     {
         $passports = MedicalPassport::pluck('id')->toArray();
-        for ($i = 0; $i < 60; $i++) {
+
+        for ($i = 0; $i < count($passports) / 2; $i++) {
             VaccineDate::factory()->create([
                 'medical_passport_id' => $this->faker->randomElement($passports),
             ]);

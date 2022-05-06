@@ -18,9 +18,6 @@ Route::middleware('survey')->group(function () {
 
 Route::get('/notifications', 'NotificationController@index');
 
-Route::get('/gallery', 'ArticleController@index');
-Route::get('/gallery/{article}', 'ArticleController@show');
-
 //# User profile
 Route::get('/profile', 'ProfileController@index')->name('profile');
 Route::post('/profile/update', 'ProfileController@update');

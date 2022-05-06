@@ -28,6 +28,10 @@ class MohHospitalController extends Controller {
             $hospitals = $hospitals->where('city', $request->city);
         }
 
+        if ($request->has('search') && $request->search) {
+            $hospitals = $hospitals->where('name', 'like', '%' . $request->search . '%');
+        }
+
         $cities = City::all();
 
         return view('moh.manage-hospitals')

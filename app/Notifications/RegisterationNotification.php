@@ -6,21 +6,21 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
-use NotificationChannels\Twilio\TwilioChannel;
-use NotificationChannels\Twilio\TwilioSmsMessage;
 
 class RegisterationNotification extends Notification implements ShouldQueue
 {
     use Queueable;
+
+    protected $token;
 
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($token)
     {
-        //
+        $this->token = $token;
     }
 
     /**
@@ -31,7 +31,7 @@ class RegisterationNotification extends Notification implements ShouldQueue
      */
     public function via($notifiable)
     {
-        return ['mail', TwilioChannel::class];
+        return ['mail'];
     }
 
     /**
@@ -44,14 +44,9 @@ class RegisterationNotification extends Notification implements ShouldQueue
     {
         return (new MailMessage)
                     ->line('Welcome to AIGPS')
-                    ->action('Take a reservation', url('/'))
+                    ->line('Please verify your account by following the link below.')
+                    ->action('Verify your account', url('/account/verify/' . $this->token))
                     ->line('Thank you for using our application!');
-    }
-
-    public function toTwilio($notifiable)
-    {
-        return (new TwilioSmsMessage())
-            ->content('You have registered in AIGPS');
     }
 
     /**

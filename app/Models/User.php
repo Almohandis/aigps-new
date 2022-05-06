@@ -124,12 +124,11 @@ class User extends Authenticatable
         return $this->belongsToMany(Question::class)->withPivot('answer')->withTimestamps();
     }
 
-    public function routeNotificationForTwilio() {
-        $phone = $this->phones()->first() ?? NULL;
-        return $phone;
-    }
-
     public function emailProfiles() {
         return $this->hasMany(EmailProfile::class);
+    }
+
+    public function getCity() {
+        return City::where('name', $this->city)->first();
     }
 }

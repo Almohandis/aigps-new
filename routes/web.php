@@ -22,6 +22,11 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', 'App\Http\Controllers\Citizen\HomePageController@index');
 
+Route::get('/account/verify/{token}', '\App\Http\Controllers\Auth\RegisteredUserController@verify');
+
+Route::get('/gallery', 'App\Http\Controllers\Citizen\ArticleController@index');
+Route::get('/gallery/{article}', 'App\Http\Controllers\Citizen\ArticleController@show');
+
 require __DIR__ . '/auth.php';
 
 Route::namespace('App\Http\Controllers\Citizen')->middleware('auth')->group(base_path('routes/citizen.php'));

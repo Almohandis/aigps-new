@@ -7,6 +7,7 @@ use App\Http\Requests\Auth\LoginRequest;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use \App\Models\User;
 
 class AuthenticatedSessionController extends Controller
 {
@@ -28,6 +29,15 @@ class AuthenticatedSessionController extends Controller
      */
     public function store(LoginRequest $request)
     {
+        $user = User::where('national_id', $request->national_id)->first();
+        if (! $user) {
+            return back()->withErrors(['national_id' => 'This account doesnt exist !']);;
+        }
+
+        if (! $user->email_verified_at) {
+            return back()->withErrors(['email' => 'This account is not verified, please follow the verification link sent to you via email.']);
+        }
+
         $request->authenticate();
 
         $request->session()->regenerate();
