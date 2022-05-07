@@ -1,14 +1,12 @@
 <x-app-layout>
     <link href="{{asset('css/welcome.css')}}" rel="stylesheet">
-    {{-- <style>
-        #bgvid{
-            width: 100%;
-        }
-    </style>
-    <video playsinline autoplay muted loop id="bgvid">
-        <source src="Vaccine Mint.webm" type="video/webm">
-        <source src="Vaccine Mint.mp4" type="video/mp4">
-      </video>  --}}
+
+    <!-- background video  -->
+    <video autoplay muted loop class="background-video" width="100%">
+        <source src="{{asset('background.mp4')}}" type="video/mp4">
+    </video>
+
+
     <div class="aigps-welcome-content text-center">
         <h1 class="text-black aigps-title">AIGPS</h1>
 

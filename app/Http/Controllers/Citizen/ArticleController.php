@@ -11,7 +11,7 @@ class ArticleController extends Controller {
         $articles = Article::query();
 
         if ($request->has('sort') && $request->sort) {
-            $articles = $articles->orderBy($request->sort, $request->order == 'asc' ? 'asc' : 'desc');
+            $articles = $articles->where('type', $request->sort);
         }
 
         if ($request->has('search') && $request->search) {
