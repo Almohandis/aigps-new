@@ -6,9 +6,9 @@
         }
     </style>
     <video playsinline autoplay muted loop id="bgvid">
-        <source src="Vaccine Dusk.webm" type="video/webm">
-        <source src="Vaccine Dusk.mp4" type="video/mp4">
-      </video> --}}
+        <source src="Vaccine Mint.webm" type="video/webm">
+        <source src="Vaccine Mint.mp4" type="video/mp4">
+      </video>  --}}
     <div class="aigps-welcome-content text-center">
         <h1 class="text-black aigps-title">AIGPS</h1>
 
