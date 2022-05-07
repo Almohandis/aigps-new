@@ -127,6 +127,7 @@
 
             <div class="mx-auto text-center mt-5">
                 <div id="map" class="aigps-map"></div>
+                <div id="legend"><h5>Legend</h5></div>
 
                 <script src="https://maps.googleapis.com/maps/api/js?key={{ config('app.google_maps_api') }}&callback=initMap" defer>
                 </script>
@@ -178,8 +179,6 @@
 
                         document.getElementById('procceed_button').removeAttribute('disabled');
                         document.getElementById('procceed_form').action = '/reserve/map/' + campaign.id;
-
-                        setMarkerContent(markers[campaign.index], campaign);
                     }
 
                     function setMarkerContent(marker, campaign) {
@@ -253,6 +252,28 @@
                                 }
                             })(markers[i], i));
                         }
+
+                        const icons = {
+                            campaign: {
+                                name: "Campaign",
+                                icon: greenMarker,
+                            }
+                        };
+
+                        const legend = document.getElementById("legend");
+
+                        for (const key in icons) {
+                            const type = icons[key];
+                            const name = type.name;
+                            const icon = type.icon;
+                            const div = document.createElement("div");
+                            div.className = "text-start";
+
+                            div.innerHTML = '<svg fill-opacity="0.7" fill="' + icon.fillColor + '" width="32" height="32"><path strokeWeight="' + icon.strokeWeight + '"  d="' + icon.path + '"></path></svg>' + name;
+                            legend.appendChild(div);
+                        }
+
+                        map.controls[google.maps.ControlPosition.LEFT_BOTTOM].push(legend);
 
                         getUserLocation();
                         

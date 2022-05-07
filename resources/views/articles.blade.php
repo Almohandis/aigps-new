@@ -22,23 +22,14 @@
                                     <input type="text" name="search" class="form-control" placeholder="Search by title" value="{{ request()->search }}">
                                 </div>
 
-                                <div class="form-group col-12 col-md-6 col-lg-3">
+                                <div class="form-group">
                                     <label for="sort" class="">Sort by</label>
                                     <div>
                                         <select class="form-control" name="sort">
                                             <option value="">Select Sorting</option>
-                                            <option value="title">Title</option>
-                                            <option value="type">Type</option>
-                                        </select>
-                                    </div>
-                                </div>
-
-                                <div class="form-group col-12 col-md-6 col-lg-3">
-                                    <label class="">Sort Order</label>
-                                    <div class="">
-                                        <select class="form-control" name="order">
-                                            <option value="asc">Ascending</option>
-                                            <option value="desc">Descending</option>
+                                            <option value="article">Articles</option>
+                                            <option value="image">Images</option>
+                                            <option value="video">Videos</option>
                                         </select>
                                     </div>
                                 </div>
