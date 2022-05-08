@@ -84,7 +84,7 @@ class StatisticsController extends Controller
                 [$names, $report_by] = $this->getReportDetails([6, 13, 14]);
                 break;
             case 3:
-                [$names, $report_by] = $this->getReportDetails([6, 13, 14]);
+                [$names, $report_by] = $this->getReportDetails([13, 14]);
                 break;
             case 4:
                 [$names, $report_by] = $this->getReportDetails([6, 12, 13, 14]);
