@@ -7,10 +7,6 @@ use App\Models\MedicalPassport;
 
 class MedicalPassportController extends Controller {
     public function index(Request $request) {
-        $request->validate([
-            'passport_number'       =>      ['required', 'min:8']
-        ]);
-
         $passport = $request->user()->passport()->first();
 
         if (! $passport) {
@@ -24,9 +20,6 @@ class MedicalPassportController extends Controller {
         if ($request->user()->infections()->where('is_recovered', false)->count() > 0) {
             return back()->withErrors('You are currently infected, you cannot generate a medical passport until you recover !');
         }
-
-        $passport->passport_number = $request->passport_number;
-        $passport->save();
 
         $dates = $passport->dates()->get();
 

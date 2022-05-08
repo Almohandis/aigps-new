@@ -11,14 +11,16 @@ class ReservationNotification extends Notification implements ShouldQueue
 {
     use Queueable;
 
+    protected $date;
+
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($date)
     {
-        //
+        $this->date = $date;
     }
 
     /**
@@ -42,6 +44,7 @@ class ReservationNotification extends Notification implements ShouldQueue
     {
         return (new MailMessage)
                     ->line('Your reservation has been confirmed')
+                    ->line('Your reservation is set to: ' . $this->date)
                     ->action('Visit Reservation', url('/appointments'))
                     ->line('Thank you for using our application!');
     }

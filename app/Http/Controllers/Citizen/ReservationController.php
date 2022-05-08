@@ -36,8 +36,7 @@ class ReservationController extends Controller
 
         return view('citizen.reservation')->with([
 			'campaigns' 		=> $campaigns,
-			'diagnosed'			=>	$request->user()->is_diagnosed,
-			'message' 			=> $request->user()->is_diagnosed ? null : 'This will be a diagnose reservation.',
+			'message' 			=> '',
 		]);
     }
 
@@ -85,10 +84,13 @@ class ReservationController extends Controller
             ]);
         }
 
-        $request->user()->reservations()->attach($campaign->id, ['date' =>  $start->format('Y-m-d')]);
+        // add random time into the day
+        $appointmentDate = $start->addMinutes(rand(0, 1439))->format('Y-m-d H:i:s');
 
-        $request->user()->notify(new ReservationNotification());
-        Twilio::message($request->user()->telephone_number, 'Reservation successful, Reservation date: ' . $start->format('Y-m-d'));
+        $request->user()->reservations()->attach($campaign->id, ['date' =>  $appointmentDate]);
+
+        $request->user()->notify(new ReservationNotification($appointmentDate));
+        Twilio::message($request->user()->telephone_number, 'Reservation successful, Reservation date: ' . $appointmentDate);
 
         return view('citizen.reservecomplete')->with('diagnosed', $request->user()->is_diagnosed);
     }
