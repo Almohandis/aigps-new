@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\Hospital;
 use App\Models\Infection;
+use App\Models\User;
 use Illuminate\Container\Container;
 use Faker\Generator;
 use Illuminate\Database\Seeder;
@@ -44,10 +45,13 @@ class InfectionSeeder extends Seeder
      */
     public function run()
     {
+        Infection::factory()->count(200)->create();
         $hospitals = Hospital::pluck('id');
+        $users = User::pluck('id');
         $infections = Infection::get();
         foreach ($infections as $infection) {
             $infection->update([
+                'user_id'       =>  $this->faker->randomElement($users),
                 'hospital_id' => $this->faker->randomElement($hospitals),
             ]);
         }
