@@ -41,8 +41,7 @@
                 Swal.fire({
                     icon: 'error',
                     title: 'Something went wrong, please check your inputs.',
-                    showConfirmButton: false,
-                    timer: 1500
+                    showConfirmButton: true
                 })
             </script>
             <div class="container">
@@ -66,7 +65,7 @@
                     icon: 'success',
                     title: '{{ session('success') }}',
                     showConfirmButton: false,
-                    timer: 1500
+                    timer: 2500
                 })
             </script>
 
