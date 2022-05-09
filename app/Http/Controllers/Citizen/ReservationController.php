@@ -89,7 +89,7 @@ class ReservationController extends Controller
 
         $request->user()->reservations()->attach($campaign->id, ['date' =>  $appointmentDate]);
 
-        $request->user()->notify(new ReservationNotification($appointmentDate));
+        $request->user()->notify(new ReservationNotification($campaign, $appointmentDate));
         Twilio::message($request->user()->telephone_number, 'Reservation successful, Reservation date: ' . $appointmentDate);
 
         return view('citizen.reservecomplete')->with('diagnosed', $request->user()->is_diagnosed);
