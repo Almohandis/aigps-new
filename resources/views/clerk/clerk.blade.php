@@ -49,6 +49,17 @@
         @endif
 
         @if (session('success'))
+            <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+            <script>
+                Swal.fire({
+                    icon: 'success',
+                    title: '{{ session('success') }}',
+                    showConfirmButton: false,
+                    timer: 1500
+                })
+            </script>
+
             <div class="container alert alert-success" role="alert">
                 {{ session('success') }}
             </div>
