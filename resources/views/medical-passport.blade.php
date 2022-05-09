@@ -32,12 +32,6 @@
                         <th scope="row">Blood type</th>
                         <td>{{ Auth::user()->blood_type }}</td>
                     </tr>
-                    
-                    <tr>
-                        <th scope="row">Passport number</th>
-                        <td>{{ $passport->passport_number }}</td>
-                    </tr>
-
 
                     <tr>
                         <th colspan="2" class="text-center py-3">

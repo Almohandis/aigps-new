@@ -15,7 +15,6 @@ class CreateMedicalPassportsTable extends Migration
     {
         Schema::create('medical_passports', function (Blueprint $table) {
             $table->id();
-            $table->string('passport_number')->unique()->nullable()->default(null);
             $table->integer('user_id');
             $table->string('vaccine_name')->nullable()->default(null);
             $table->integer('vaccine_dose_count')->default(0);
