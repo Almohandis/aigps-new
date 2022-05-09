@@ -89,6 +89,10 @@ class InfectionController extends Controller {
             return back()->withErrors('This user is already hospitalized !');
         }
 
+        if ($hospital->capacity <= $hospital->patients()->count()) {
+            return back()->withErrors('The hospital has reached its maximum capacity !');
+        }
+
         $hospital->patients()->attach($user->id, [
             'checkin_date' => now(),
             'checkout_date' => null,

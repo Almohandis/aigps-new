@@ -11,8 +11,7 @@ class MedicalPassport extends Model
 
     protected $fillable = [
         'user_id',
-        'vaccine_name',
-        'passport_number',
+        'vaccine_name'
     ];
 
     public function dates()

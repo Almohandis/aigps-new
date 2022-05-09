@@ -1,5 +1,9 @@
 <x-app-layout>
     <style>
+        #submit-btn {
+            display: none;
+        }
+
         #red {
             width: 10px;
             height: 10px;
@@ -49,42 +53,46 @@
                 {{ session('message') }}
             @endif
         </div>
-        <div class="pt-8 sm:pt-0">
-            <form id="form" action="/stats" method="POST">
-                @csrf
+        <form id="form" action="/stats" method="POST" class="row">
+            @csrf
+            <div class="col-12 col-md-4 mt-3">
                 <select name="report_name" id="report-name" class="form-control">
                     <option disabled hidden selected>Please choose a report name</option>
                     @foreach ($names as $name)
                         <option value="{{ $name }}">{{ $name }}</option>
                     @endforeach
                 </select>
+            </div>
+            <div class="col-12 col-md-4 mt-3">
                 <select name="report_by" id="report-by" class="form-control"></select>
-                <button type="submit" id="generate-btn" class="btn btn-primary">Generate report</button>
-            </form>
-            @if (isset($data_by_city))
-                <h1>{{ $report_title }}</h1>
-                <table class="table table-hover">
-                    <thead>
+            </div>
+            <div id="submit-btn" class="col-12 col-md-4 mt-3 row">
+                <div>
+                    <button type="submit" id="generate-btn" class="btn btn-primary">Generate report</button>
+                </div>
+            </div>
+        </form>
+        @if (isset($data_by_city))
+            <h1>{{ $report_title }}</h1>
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>City</th>
+                        <th>Number of campaigns</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($data_by_city as $city)
                         <tr>
-                            <th>City</th>
-                            <th>Number of campaigns</th>
+                            <td>{{ $city->city }}</td>
+                            <td>{{ $city->total_campaigns }}</td>
                         </tr>
-                    </thead>
-                    <tbody>
-
-                        @foreach ($data_by_city as $city)
-                            <tr>
-                                <td>{{ $city->city }}</td>
-                                <td>{{ $city->total_campaigns }}</td>
-                            </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-        </div>
-    @elseif (isset($campaigns))
-        <h1>{{ $report_title }}</h1>
-        @php $i = 1; @endphp
-        <div class="table-responsive text-start shadow container bg-white mt-5 rounded px-5 py-3 text-dark">
+                    @endforeach
+                </tbody>
+            </table>
+        @elseif (isset($campaigns))
+            <h1>{{ $report_title }}</h1>
+            @php $i = 1; @endphp
             <table class="table table-hover">
                 <thead>
                     <tr>
@@ -107,8 +115,7 @@
                     @endforeach
                 </tbody>
             </table>
-            @endif
-        </div>
+        @endif
         <div id="map" class="mt-8 rounded-md border-solid border-4 border-black"
             style="width: 100%; height: 600px; max-height: 90vh; margin: 0px auto; position: relative; overflow: hidden;">
         </div>
@@ -237,6 +244,6 @@
                 }
             }
         </script>
-
-        <script src="{{ asset('js/statistics.js') }}"></script>
+    </div>
+    <script src="{{ asset('js/statistics.js') }}"></script>
 </x-app-layout>

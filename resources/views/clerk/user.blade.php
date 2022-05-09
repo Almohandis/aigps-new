@@ -120,27 +120,30 @@
                         <div class="mt-2">
                             <label>Infection date: </label>
                             <input type="date" class="form-control" name="infection">
+
+                            <div class="mt-2">
+                                <input type="checkbox" name="passed_away">
+                                <label>Has this user passed away</label>
+                            </div>
                         </div>
                     </div>
                 </div>
 
-                @if ($user->is_diagnosed)
-                    <div class="col-12 col-md-6 mt-4">
-                        <div class="">
-                            <h5 class="m-0">
-                                Vaccination
-                            </h5>
-                            <small class="m-0 text-muted">The vaccination date will be set to today</small>
-                        </div>
+                <div class="col-12 col-md-6 mt-4">
+                    <div class="">
+                        <h5 class="m-0">
+                            Vaccination
+                        </h5>
+                        <small class="m-0 text-muted">The vaccination date will be set to today</small>
+                    </div>
 
-                        <div class="row">
-                            <div class="mt-2">
-                                <label>Vaccine name: </label>
-                                <input type="text" class="form-control" name="vaccine_name">
-                            </div>
+                    <div class="row">
+                        <div class="mt-2">
+                            <label>Vaccine name: </label>
+                            <input type="text" class="form-control" name="vaccine_name">
                         </div>
                     </div>
-                @endif
+                </div>
 
                 @if (! $user->blood_type)
                     <div class="col-12 col-md-6 mt-4">

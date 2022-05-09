@@ -1,4 +1,10 @@
 <x-app-layout>
+    <style>
+        #submit-btn {
+            display: none;
+        }
+
+    </style>
     <div class="table-responsive text-start shadow container bg-white mt-5 rounded px-5 py-3 text-dark">
         <div class="notification">
             @if (session('message'))
@@ -9,16 +15,24 @@
                 integrity="sha512-QSkVNOCYLtj73J4hbmVoOV6KVZuMluZlioC+trLpewV8qMjsWqlIQvkn1KGX2StWvPMdWGBqim1xlC8krl1EKQ=="
                 crossorigin="anonymous" referrerpolicy="no-referrer"></script>
         <div class="pt-8 sm:pt-0">
-            <form id="form" action="/stats" method="POST">
+            <form id="form" action="/stats" method="POST" class="row">
                 @csrf
-                <select name="report_name" id="report-name" class="form-control">
-                    <option disabled hidden selected>Please choose a report name</option>
-                    @foreach ($names as $name)
-                        <option value="{{ $name }}">{{ $name }}</option>
-                    @endforeach
-                </select>
-                <select name="report_by" id="report-by" class="form-control"></select>
-                <button type="submit" id="generate-btn" class="btn btn-primary">Generate report</button>
+                <div class="col-12 col-md-4 mt-3">
+                    <select name="report_name" id="report-name" class="form-control">
+                        <option disabled hidden selected>Please choose a report name</option>
+                        @foreach ($names as $name)
+                            <option value="{{ $name }}">{{ $name }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="col-12 col-md-4 mt-3">
+                    <select name="report_by" id="report-by" class="form-control"></select>
+                </div>
+                <div id="submit-btn" class="col-12 col-md-4 mt-3 row">
+                    <div>
+                        <button type="submit" id="generate-btn" class="btn btn-primary">Generate report</button>
+                    </div>
+                </div>
             </form>
             @if (isset($data_by_city))
                 <h1>{{ $report_title }}</h1>
@@ -95,7 +109,7 @@
                 $means[5] = $counters[5] ? round($total_count->tot_ab_minus / $counters[5], 2) : 0;
                 $means[6] = $counters[6] ? round($total_count->tot_o_plus / $counters[6], 2) : 0;
                 $means[7] = $counters[7] ? round($total_count->tot_o_minus / $counters[7], 2) : 0;
-                
+
                 foreach ($data_by_city as $city) {
                     if ($city->A_plus != 0) {
                         $sums[0] += pow($city->A_plus - $means[0], 2);
@@ -207,6 +221,10 @@
         </div>
     @elseif(isset($data_by_age))
         <h1>{{ $report_title }}</h1>
+<<<<<<< HEAD
+=======
+
+>>>>>>> master
         <table class="table table-hover">
             <thead>
                 <tr>
@@ -238,6 +256,10 @@
                 @endforeach
             </tbody>
         </table>
+<<<<<<< HEAD
+=======
+
+>>>>>>> master
         <div>
             @php
                 $counters = array_fill(0, count($data_by_age), 8);
@@ -245,7 +267,7 @@
                 $means = array_fill(0, count($data_by_age), 0);
                 $variances = array_fill(0, count($data_by_age), 0);
                 $standard_deviations = array_fill(0, count($data_by_age), 0);
-                
+
                 for ($i = 0; $i < count($counters); $i++) {
                     foreach ($data_by_age[$i] as $key => $blood_type) {
                         if (is_numeric($blood_type) && $key != 'total') {
@@ -253,13 +275,13 @@
                         }
                     }
                 }
-                
+
                 for ($i = 0; $i < count($counters); $i++) {
                     $means[$i] = round($sums[$i] / $counters[$i], 2);
                 }
-                
+
                 $sums = array_fill(0, count($data_by_age), 0);
-                
+
                 for ($i = 0; $i < count($counters); $i++) {
                     foreach ($data_by_age[$i] as $key => $blood_type) {
                         if (is_numeric($blood_type) && $key != 'total') {
@@ -267,11 +289,11 @@
                         }
                     }
                 }
-                
+
                 for ($i = 0; $i < count($counters); $i++) {
                     $variances[$i] = round($sums[$i] / $counters[$i], 2);
                 }
-                
+
                 for ($i = 0; $i < count($counters); $i++) {
                     $standard_deviations[$i] = round(sqrt($variances[$i]), 2);
                 }
@@ -292,25 +314,21 @@
     @elseif(isset($data_by_blood))
         <h1>{{ $report_title }}</h1>
         <table class="table table-hover">
-            <thead>
-                <tr>
-                    <th>Blood type</th>
-                    <th>Total persons from this type</th>
-                    <th>Percentage of this type</th>
-                    <th>Male percentage</th>
-                    <th>Female percentage</th>
-                </tr>
-            </thead>
+            <tr>
+                <th>Blood type</th>
+                <th>Total persons from this type</th>
+                <th>Percentage of this type</th>
+                <th>Male percentage</th>
+                <th>Female percentage</th>
+            </tr>
 
-            <tbody>
-                @for ($i = 0; $i < count($data_by_blood); $i++)
-                    <tr>
-                        @foreach ($data_by_blood[$i] as $item)
-                            <td>{{ $item }}</td>
-                        @endforeach
-                    </tr>
-                @endfor
-            </tbody>
+            @for ($i = 0; $i < count($data_by_blood); $i++)
+                <tr>
+                    @foreach ($data_by_blood[$i] as $item)
+                        <td>{{ $item }}</td>
+                    @endforeach
+                </tr>
+            @endfor
         </table>
         <div>
             @php
@@ -327,11 +345,11 @@
                 foreach ($data_by_blood as $blood) {
                     $sum += pow($blood->total_blood_type_count - $mean, 2);
                 }
-                
+
                 $variance = $counter ? round($sum / $counter, 2) : 0;
-                
+
                 $standard_deviation = round(sqrt($variance), 2);
-                
+
             @endphp
         </div>
         <div>
