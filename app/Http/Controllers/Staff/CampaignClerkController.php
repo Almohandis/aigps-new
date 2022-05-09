@@ -11,8 +11,27 @@ use App\Models\VaccineDate;
 
 class CampaignClerkController extends Controller
 {
-    public function index() {
-        return view('clerk.clerk');
+    public function index(Request $request) {
+        $campaign = $request->user()
+            ->campaigns()
+            ->where('campaign_doctors.from', '<=', now())
+            ->where('campaign_doctors.to', '>=', now())
+            ->where('start_date', '<=', now())
+            ->where('end_date', '>=', now())
+            ->where('status', 'active')
+            ->first();
+
+        $appointments = \DB::table('campaign_appointments')
+        ->where('campaign_id', $campaign->id)
+        ->where('date', '>=', now()->startOfDay())
+        ->where('date', '<=', now()->endOfDay())
+        ->where('status', '!=', 'cancelled')
+        ->where('status', '!=', 'finished')
+        ->join('users', 'users.id', '=', 'campaign_appointments.user_id')
+        ->get();
+
+
+        return view('clerk.clerk')->with('appointments', $appointments);
     }
 
     public function find(Request $request) {
@@ -59,7 +78,6 @@ class CampaignClerkController extends Controller
         } else {
             $medicalPassport = new MedicalPassport();
             $medicalPassport->user_id = $user->id;
-            $medicalPassport->name = '';
             $medicalPassport->vaccine_dose_count = 0;
             $medicalPassport->save();
         }
@@ -127,37 +145,29 @@ class CampaignClerkController extends Controller
                 'infection_date'    =>  now(),
                 'hospital_id'       =>  NULL,
                 'is_recovered'      =>  false,
-                'has_passed_away'   =>  false
+                'has_passed_away'   =>  $request->has('passed_away')
             ]);
 
             return redirect('/staff/clerk')->withSuccess('This user has been infected, and his data has been inserted into the database successfully !');
         } else {
-            if ($user->is_diagnosed) {
-                if ($request->has('vaccine_name') && $request->vaccine_name != '') {
-                    $medicalPassport->update([
-                        'vaccine_name' => $request->vaccine_name,
-                    ]);
-    
-                    $doseCount = $medicalPassport->vaccine_dose_count;
-                    $medicalPassport->update([
-                        'vaccine_dose_count' => $doseCount < 2 ? $doseCount + 1 : $doseCount
-                    ]);
-
-                    VaccineDate::create([
-                        'medical_passport_id'   => $medicalPassport->id,
-                        'vaccine_date'          =>  now()
-                    ]);
-
-                    return redirect('/staff/clerk')->withSuccess('User has been vaccination successfully !');
-                } else {
-                    return back()->withErrors(['vaccine' => 'Please select a vaccine name']);
-                }
-            } else {
-                $user->update([
-                    'is_diagnosed' => true
+            if ($request->has('vaccine_name') && $request->vaccine_name != '') {
+                $medicalPassport->update([
+                    'vaccine_name' => $request->vaccine_name,
                 ]);
 
-                return redirect('/staff/clerk')->withSuccess('User has been diagnosed successfully !');
+                $doseCount = $medicalPassport->vaccine_dose_count;
+                $medicalPassport->update([
+                    'vaccine_dose_count' => $doseCount < 2 ? $doseCount + 1 : $doseCount
+                ]);
+
+                VaccineDate::create([
+                    'medical_passport_id'   => $medicalPassport->id,
+                    'vaccine_date'          =>  now()
+                ]);
+
+                return redirect('/staff/clerk')->withSuccess('User has been vaccination successfully !');
+            } else {
+                return back()->withErrors(['vaccine' => 'Please select a vaccine name']);
             }
         }
     }

@@ -49,6 +49,17 @@
         @endif
 
         @if (session('success'))
+            <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+            <script>
+                Swal.fire({
+                    icon: 'success',
+                    title: '{{ session('success') }}',
+                    showConfirmButton: false,
+                    timer: 1500
+                })
+            </script>
+
             <div class="container alert alert-success" role="alert">
                 {{ session('success') }}
             </div>
@@ -135,6 +146,30 @@
                 </div>
             </form>
 
+        </div>
+
+        
+        <div class="text-center shadow container bg-white mt-5 rounded px-5 py-3 text-dark">
+            <h4 class="mb-3 text-center"> Today's Appointments </h4>    
+
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th scope="col">Name</th>
+                        <th scope="col">National ID</th>
+                        <th scope="col">Date & Time</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($appointments as $appointment)
+                        <tr>
+                            <td>{{ $appointment->name }}</td>
+                            <td>{{ $appointment->national_id }}</td>
+                            <td>{{ $appointment->date }}</td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
         </div>
     </div>
 </x-app-layout>
