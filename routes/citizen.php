@@ -14,6 +14,7 @@ Route::middleware('survey')->group(function () {
 
     Route::get('/appointments', 'AppointmentsController@index');
     Route::get('/appointments/{id}/cancel', 'AppointmentsController@cancel');
+    Route::post('/appointments/{id}/edit', 'AppointmentsController@edit');
 });
 
 Route::get('/notifications', 'NotificationController@index');
