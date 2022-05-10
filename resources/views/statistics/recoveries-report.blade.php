@@ -1,4 +1,10 @@
 <x-app-layout>
+    <style>
+        #submit-btn {
+            display: none;
+        }
+
+    </style>
     <div class="table-responsive text-start shadow container bg-white mt-5 rounded px-5 py-3 text-dark">
         <div class="notification">
             @if (session('message'))
@@ -9,16 +15,24 @@
                 integrity="sha512-QSkVNOCYLtj73J4hbmVoOV6KVZuMluZlioC+trLpewV8qMjsWqlIQvkn1KGX2StWvPMdWGBqim1xlC8krl1EKQ=="
                 crossorigin="anonymous" referrerpolicy="no-referrer"></script>
         <div class="pt-8 sm:pt-0">
-            <form id="form" action="/stats" method="POST">
+            <form id="form" action="/stats" method="POST" class="row">
                 @csrf
-                <select name="report_name" id="report-name" class="form-control">
-                    <option disabled hidden selected>Please choose a report name</option>
-                    @foreach ($names as $name)
-                        <option value="{{ $name }}">{{ $name }}</option>
-                    @endforeach
-                </select>
-                <select name="report_by" id="report-by" class="form-control"></select>
-                <button type="submit" id="generate-btn" class="btn btn-primary">Generate report</button>
+                <div class="col-12 col-md-4 mt-3">
+                    <select name="report_name" id="report-name" class="form-control">
+                        <option disabled hidden selected>Please choose a report name</option>
+                        @foreach ($names as $name)
+                            <option value="{{ $name }}">{{ $name }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="col-12 col-md-4 mt-3">
+                    <select name="report_by" id="report-by" class="form-control"></select>
+                </div>
+                <div id="submit-btn" class="col-12 col-md-4 mt-3 row">
+                    <div>
+                        <button type="submit" id="generate-btn" class="btn btn-primary">Generate report</button>
+                    </div>
+                </div>
             </form>
             @if (isset($data_by_city))
                 <h1>{{ $report_title }}</h1>
@@ -58,24 +72,24 @@
                         $mean = 0;
                         $variance = 0;
                         $standard_deviation = 0;
-                        
+
                         foreach ($data_by_city as $city) {
                             $sum += $city->total_rec;
                         }
-                        
+
                         $mean = round($sum / $counter, 2);
-                        
+
                         $total = $sum;
                         $sum = 0;
-                        
+
                         foreach ($data_by_city as $city) {
                             $sum += pow($city->total_rec - $mean, 2);
                         }
-                        
+
                         $variance = round($sum / $counter, 2);
-                        
+
                         $standard_deviation = round(sqrt($variance), 2);
-                        
+
                     @endphp
                 </div>
                 <div>
@@ -166,24 +180,24 @@
                         $mean = 0;
                         $variance = 0;
                         $standard_deviation = 0;
-                        
+
                         foreach ($data_by_age as $age) {
                             $sum += $age->Total;
                         }
-                        
+
                         $mean = round($sum / $counter, 2);
-                        
+
                         $total = $sum;
                         $sum = 0;
-                        
+
                         foreach ($data_by_age as $age) {
                             $sum += pow($age->Total - $mean, 2);
                         }
-                        
+
                         $variance = round($sum / $counter, 2);
-                        
+
                         $standard_deviation = round(sqrt($variance), 2);
-                        
+
                     @endphp
                 </div>
                 <div>

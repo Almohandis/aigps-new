@@ -1,4 +1,10 @@
 <x-app-layout>
+    <style>
+        #submit-btn {
+            display: none;
+        }
+
+    </style>
     <div class="table-responsive text-start shadow container bg-white mt-5 rounded px-5 py-3 text-dark">
         <div class="notification">
             @if (session('message'))
@@ -9,16 +15,24 @@
                 integrity="sha512-QSkVNOCYLtj73J4hbmVoOV6KVZuMluZlioC+trLpewV8qMjsWqlIQvkn1KGX2StWvPMdWGBqim1xlC8krl1EKQ=="
                 crossorigin="anonymous" referrerpolicy="no-referrer"></script>
         <div class="pt-8 sm:pt-0">
-            <form id="form" action="/stats" method="POST">
+            <form id="form" action="/stats" method="POST" class="row">
                 @csrf
-                <select name="report_name" id="report-name" class="form-control">
-                    <option disabled hidden selected>Please choose a report name</option>
-                    @foreach ($names as $name)
-                        <option value="{{ $name }}">{{ $name }}</option>
-                    @endforeach
-                </select>
-                <select name="report_by" id="report-by" class="form-control"></select>
-                <button type="submit" id="generate-btn" class="btn btn-primary">Generate report</button>
+                <div class="col-12 col-md-4 mt-3">
+                    <select name="report_name" id="report-name" class="form-control">
+                        <option disabled hidden selected>Please choose a report name</option>
+                        @foreach ($names as $name)
+                            <option value="{{ $name }}">{{ $name }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="col-12 col-md-4 mt-3">
+                    <select name="report_by" id="report-by" class="form-control"></select>
+                </div>
+                <div id="submit-btn" class="col-12 col-md-4 mt-3 row">
+                    <div>
+                        <button type="submit" id="generate-btn" class="btn btn-primary">Generate report</button>
+                    </div>
+                </div>
             </form>
             @if (isset($data_by_vaccine_status))
                 <h1>{{ $report_title }}</h1>
@@ -29,7 +43,7 @@
                             <th>Total</th>
                         </tr>
                     </thead>
-               
+
                     <tbody>
                         @foreach ($data_by_vaccine_status as $status)
                             <tr>
