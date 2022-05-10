@@ -120,4 +120,24 @@ class MohDoctorController extends Controller {
 
         return back()->withSuccess('Doctor added to hospital successfully');
     }
+
+    public function details(Request $request, $user) {
+        $user = User::find($user);
+        $campaign = \DB::table('campaign_doctors')->where('user_id', $user->id)->first();
+
+        if ($campaign) {
+            $campaign = Campaign::find($campaign->campaign_id);
+        } else {
+            $campaign = NULL;
+        }
+
+        if (!$user) {
+            return back()->withErrors('User not found');
+        }
+
+        return view('moh.doctors.details')
+            ->with('user', $user)
+            ->with('hospital', $user->hospital?->name)
+            ->with('campaign', $campaign?->address);
+    }
 }
