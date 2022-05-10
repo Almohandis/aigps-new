@@ -120,7 +120,7 @@ class StatisticsController extends Controller
                 $total_count = $total_count[0];
 
                 $report_title = 'Blood type distribution in each city';
-                return view('statistics.blood-type-dist', ['data_by_city' => $data, 'names' => $names, 'report_by' => $report_by, 'cities' => $this->cities, 'report_title' => $report_title, 'total_count' => $total_count]);
+                return view('statistics.blood-type-dist', ['data_by_city' => $data, 'names' => $names, 'report_by' => $report_by, 'cities' => $this->cities, 'report_title' => $report_title, 'total_count' => $total_count, 'report_date' => date("M d, Y")]);
                 break;
             case 'Blood type':
                 $data = DB::select('SELECT u1.blood_type AS "blood_type",
