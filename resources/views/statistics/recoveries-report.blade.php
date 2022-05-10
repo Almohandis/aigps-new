@@ -11,13 +11,13 @@
         <div class="pt-8 sm:pt-0">
             <form id="form" action="/stats" method="POST">
                 @csrf
-                <select name="report_name" id="report-name">
+                <select name="report_name" id="report-name" class="form-control">
                     <option disabled hidden selected>Please choose a report name</option>
                     @foreach ($names as $name)
                         <option value="{{ $name }}">{{ $name }}</option>
                     @endforeach
                 </select>
-                <select name="report_by" id="report-by"></select>
+                <select name="report_by" id="report-by" class="form-control"></select>
                 <button type="submit" id="generate-btn" class="btn btn-primary">Generate report</button>
             </form>
             @if (isset($data_by_city))
@@ -35,7 +35,7 @@
                             <th>Average available beds</th>
                         </tr>
                     </thead>
-                
+
                     <tbody>
                         @foreach ($data_by_city as $city)
                             <tr>
@@ -58,32 +58,34 @@
                         $mean = 0;
                         $variance = 0;
                         $standard_deviation = 0;
-
+                        
                         foreach ($data_by_city as $city) {
                             $sum += $city->total_rec;
                         }
-
+                        
                         $mean = round($sum / $counter, 2);
-
+                        
                         $total = $sum;
                         $sum = 0;
-
+                        
                         foreach ($data_by_city as $city) {
                             $sum += pow($city->total_rec - $mean, 2);
                         }
-
+                        
                         $variance = round($sum / $counter, 2);
-
+                        
                         $standard_deviation = round(sqrt($variance), 2);
-
+                        
                     @endphp
                 </div>
                 <div>
                     <P>Total recoveries = {{ $total }}</p>
                     <canvas id="recoveries" width="200" height="100"></canvas>
-                    <p>Recoveries mean (µ) = {{ $mean }}</p>
-                    <p>Recoveries variance (σ<sup>2</sup>) = {{ $variance }}</p>
-                    <P>Recoveries standard deviation (σ) = {{ $standard_deviation }}</P>
+                    <div class="alert alert-info mt-5">
+                        <p>Recoveries mean (µ) = {{ $mean }}</p>
+                        <p>Recoveries variance (σ<sup>2</sup>) = {{ $variance }}</p>
+                        <P>Recoveries standard deviation (σ) = {{ $standard_deviation }}</P>
+                    </div>
                 </div>
             @elseif(isset($data_by_hospital))
                 <h1>{{ $report_title }}</h1>
@@ -96,7 +98,7 @@
                             <th>Available beds</th>
                         </tr>
                     </thead>
-                
+
                     <tbody>
                         @foreach ($data_by_hospital as $hospital)
                             <tr>
@@ -120,7 +122,7 @@
                             <th>Total recoveries</th>
                         </tr>
                     </thead>
-                
+
                     <tbody>
                         @foreach ($data_by_date as $date)
                             <tr>
@@ -143,7 +145,7 @@
                             <th>Total recoveries</th>
                         </tr>
                     </thead>
-                
+
                     <tbody>
                         @foreach ($data_by_age as $segment)
                             <tr>
@@ -164,32 +166,34 @@
                         $mean = 0;
                         $variance = 0;
                         $standard_deviation = 0;
-
+                        
                         foreach ($data_by_age as $age) {
                             $sum += $age->Total;
                         }
-
+                        
                         $mean = round($sum / $counter, 2);
-
+                        
                         $total = $sum;
                         $sum = 0;
-
+                        
                         foreach ($data_by_age as $age) {
                             $sum += pow($age->Total - $mean, 2);
                         }
-
+                        
                         $variance = round($sum / $counter, 2);
-
+                        
                         $standard_deviation = round(sqrt($variance), 2);
-
+                        
                     @endphp
                 </div>
                 <div>
                     <P>Total recoveries = {{ $total }}</p>
                     <canvas id="recoveries" width="200" height="100"></canvas>
-                    <p>Recoveries mean (µ) = {{ $mean }}</p>
-                    <p>Recoveries variance (σ<sup>2</sup>) = {{ $variance }}</p>
-                    <P>Recoveries standard deviation (σ) = {{ $standard_deviation }}</P>
+                    <div class="alert alert-info mt-5">
+                        <p>Recoveries mean (µ) = {{ $mean }}</p>
+                        <p>Recoveries variance (σ<sup>2</sup>) = {{ $variance }}</p>
+                        <P>Recoveries standard deviation (σ) = {{ $standard_deviation }}</P>
+                    </div>
                 </div>
             @endif
         </div>
