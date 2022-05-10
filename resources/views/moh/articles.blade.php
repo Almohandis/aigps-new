@@ -113,7 +113,7 @@
                 <div class="row">
                     <div class="col-12 col-md-6">
                         <label>Title</label>
-                        <input type="text" class="form-control" name="title" placeholder="Enter article title" required>
+                        <input type="text" class="form-control" name="title" placeholder="Enter article title">
                     </div>
                     
                     <div class="col-12 col-md-6">
@@ -159,7 +159,7 @@
                 <div class="row mt-2">
                     <div class="col-12 col-md-6">
                         <label>Content</label>
-                        <textarea class="form-control" rows="5" name="content" placeholder="Enter article content" required></textarea>
+                        <textarea class="form-control" rows="5" name="content" placeholder="Enter article content"></textarea>
                     </div>
 
                     <div class="col-12 col-md-6">

@@ -21,6 +21,13 @@ class CampaignClerkController extends Controller
             ->where('status', 'active')
             ->first();
 
+
+        if (! $campaign) {
+            return view('clerk.clerk')->withErrors([
+                'campaign'  =>  'Your account is not associated with any campaign'
+            ]);
+        }
+
         $appointments = \DB::table('campaign_appointments')
         ->where('campaign_id', $campaign->id)
         ->where('date', '>=', now()->startOfDay())

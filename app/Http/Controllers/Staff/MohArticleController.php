@@ -25,10 +25,16 @@ class MohArticleController extends Controller {
 
     public function create(Request $request) {
         $request->validate([
-            'title'     =>  'required|string',
-            'content'   =>  'required|string',
             'type'      =>  'required|string'
         ]);
+
+        if ($request->type == 'article') {
+            if (! $request->has('title') || ! $request->has('content') || $request->title == '' || $request->content == '') {
+                return back()->withErrors([
+                    'article'   =>  'You need to have both a title and content for articles'
+                ]);
+            }
+        }
 
         $filePath = NULL;
         if ($request->type == 'image') {
@@ -50,8 +56,8 @@ class MohArticleController extends Controller {
         }
 
         Article::create([
-            'title'             =>  $request->title,
-            'content'           =>  $request->content,
+            'title'             =>  $request->title ?? '',
+            'content'           =>  $request->content ?? '',
             'type'              =>  $request->type,
             'path'              =>  $filePath
         ]);
@@ -61,10 +67,16 @@ class MohArticleController extends Controller {
 
     public function update(Request $request, Article $article) {
         $request->validate([
-            'title'     =>  'required|string',
-            'content'   =>  'required|string',
             'type'      =>  'required|string'
         ]);
+
+        if ($request->type == 'article') {
+            if (! $request->has('title') || ! $request->has('content') || $request->title == '' || $request->content == '') {
+                return back()->withErrors([
+                    'article'   =>  'You need to have both a title and content for articles'
+                ]);
+            }
+        }
 
         $filePath = NULL;
 
@@ -83,8 +95,8 @@ class MohArticleController extends Controller {
         }
 
         $article->update([
-            'title'             => $request->title,
-            'content'           => $request->content,
+            'title'             => $request->title ?? '',
+            'content'           => $request->content ?? '',
             'type'              => $request->type,
             'path'              => $filePath
         ]);
