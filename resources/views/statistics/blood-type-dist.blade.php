@@ -14,7 +14,15 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.1/chart.min.js"
                 integrity="sha512-QSkVNOCYLtj73J4hbmVoOV6KVZuMluZlioC+trLpewV8qMjsWqlIQvkn1KGX2StWvPMdWGBqim1xlC8krl1EKQ=="
                 crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
         <div class="pt-8 sm:pt-0">
+            <form action="/print" method="POST">
+                @csrf
+                <input type="hidden" name="table" id="table">
+                <input type="hidden" name="title" id="title">
+                <button type="submit" id="print-btn" class="btn btn-primary">Download as PDF</button>
+            </form>
+
             <form id="form" action="/stats" method="POST" class="row">
                 @csrf
                 <div class="col-12 col-md-4 mt-3">
@@ -36,6 +44,7 @@
             </form>
             @if (isset($data_by_city))
                 <h1>{{ $report_title }}</h1>
+                <h3>Date: {{ $report_date }}</h3>
                 <table class="table table-hover">
                     <thead>
                         <tr>
@@ -221,10 +230,6 @@
         </div>
     @elseif(isset($data_by_age))
         <h1>{{ $report_title }}</h1>
-<<<<<<< HEAD
-=======
-
->>>>>>> master
         <table class="table table-hover">
             <thead>
                 <tr>
@@ -256,10 +261,6 @@
                 @endforeach
             </tbody>
         </table>
-<<<<<<< HEAD
-=======
-
->>>>>>> master
         <div>
             @php
                 $counters = array_fill(0, count($data_by_age), 8);
@@ -306,7 +307,8 @@
                 <div class="alert alert-info mt-5">
                     <p>{{ $data_by_age[$i]->age }} mean (µ) = {{ $means[$i] }}</p>
                     <p>{{ $data_by_age[$i]->age }} variance (σ<sup>2</sup>) = {{ $variances[$i] }}</p>
-                    <P>{{ $data_by_age[$i]->age }} standard deviation (σ) = {{ $standard_deviations[$i] }}</P>
+                    <P>{{ $data_by_age[$i]->age }} standard deviation (σ) = {{ $standard_deviations[$i] }}
+                    </P>
                 </div>
             @endfor
 
@@ -378,7 +380,7 @@
             let xlabels = [];
             @foreach ($data_by_city as $city)
                 {
-                xlabels.push("{{ $city->city }}");
+                    xlabels.push("{{ $city->city }}");
                 }
             @endforeach
 
@@ -386,7 +388,7 @@
             let ylabels_a_plus = [];
             @foreach ($data_by_city as $city)
                 {
-                ylabels_a_plus.push("{{ $city->A_plus }}");
+                    ylabels_a_plus.push("{{ $city->A_plus }}");
                 }
             @endforeach
 
@@ -411,7 +413,7 @@
             let ylabels_a_minus = [];
             @foreach ($data_by_city as $city)
                 {
-                ylabels_a_minus.push("{{ $city->A_minus }}");
+                    ylabels_a_minus.push("{{ $city->A_minus }}");
                 }
             @endforeach
 
@@ -436,7 +438,7 @@
             let ylabels_b_plus = [];
             @foreach ($data_by_city as $city)
                 {
-                ylabels_b_plus.push("{{ $city->B_plus }}");
+                    ylabels_b_plus.push("{{ $city->B_plus }}");
                 }
             @endforeach
 
@@ -461,7 +463,7 @@
             let ylabels_b_minus = [];
             @foreach ($data_by_city as $city)
                 {
-                ylabels_b_minus.push("{{ $city->B_minus }}");
+                    ylabels_b_minus.push("{{ $city->B_minus }}");
                 }
             @endforeach
 
@@ -486,7 +488,7 @@
             let ylabels_ab_plus = [];
             @foreach ($data_by_city as $city)
                 {
-                ylabels_ab_plus.push("{{ $city->AB_plus }}");
+                    ylabels_ab_plus.push("{{ $city->AB_plus }}");
                 }
             @endforeach
 
@@ -511,7 +513,7 @@
             let ylabels_ab_minus = [];
             @foreach ($data_by_city as $city)
                 {
-                ylabels_ab_minus.push("{{ $city->AB_minus }}");
+                    ylabels_ab_minus.push("{{ $city->AB_minus }}");
                 }
             @endforeach
 
@@ -536,7 +538,7 @@
             let ylabels_o_plus = [];
             @foreach ($data_by_city as $city)
                 {
-                ylabels_o_plus.push("{{ $city->O_plus }}");
+                    ylabels_o_plus.push("{{ $city->O_plus }}");
                 }
             @endforeach
 
@@ -561,7 +563,7 @@
             let ylabels_o_minus = [];
             @foreach ($data_by_city as $city)
                 {
-                ylabels_o_minus.push("{{ $city->O_minus }}");
+                    ylabels_o_minus.push("{{ $city->O_minus }}");
                 }
             @endforeach
 
@@ -589,7 +591,7 @@
             let xlabels = [];
             @foreach ($data_by_blood as $blood)
                 {
-                xlabels.push("{{ $blood->blood_type }}");
+                    xlabels.push("{{ $blood->blood_type }}");
                 }
             @endforeach
 
@@ -597,7 +599,7 @@
             let ylabels = [];
             @foreach ($data_by_blood as $blood)
                 {
-                ylabels.push("{{ $blood->total_blood_type_count }}");
+                    ylabels.push("{{ $blood->total_blood_type_count }}");
                 }
             @endforeach
 
@@ -627,11 +629,11 @@
             let ylabels = [
                 @foreach ($data_by_age as $age)
                     [
-                    @foreach ($age as $key => $blood_type)
-                        @if (is_numeric($blood_type) && $key != 'total')
-                            "{{ $blood_type }}",
-                        @endif
-                    @endforeach
+                        @foreach ($age as $key => $blood_type)
+                            @if (is_numeric($blood_type) && $key != 'total')
+                                "{{ $blood_type }}",
+                            @endif
+                        @endforeach
                     ],
                 @endforeach
             ];
@@ -667,5 +669,4 @@
     @endif
 
     <script src="{{ asset('js/statistics.js') }}"></script>
-
 </x-app-layout>

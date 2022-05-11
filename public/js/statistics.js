@@ -46,4 +46,14 @@ window.onload = function () {
         submitBtn.style.display = 'inline-block';
     });
 
+
+    //# Print functionality
+    let btn = document.getElementById('print-btn');
+    btn.addEventListener('click', function () {
+        let table = document.querySelector('table');
+        document.getElementById('table').value = table.outerHTML;
+        let title = document.querySelector('h1');
+        document.getElementById('title').value = title.outerHTML;
+    });
+
 }
