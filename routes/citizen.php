@@ -15,6 +15,10 @@ Route::middleware('survey')->group(function () {
     Route::get('/appointments', 'AppointmentsController@index');
     Route::get('/appointments/{id}/cancel', 'AppointmentsController@cancel');
     Route::post('/appointments/{id}/edit', 'AppointmentsController@edit');
+
+
+    Route::get('/reserve/hospital', 'IsolationHospitalController@index');
+    Route::post('/reserve/hospital/{hospital}', 'IsolationHospitalController@reserve');
 });
 
 Route::get('/notifications', 'NotificationController@index');

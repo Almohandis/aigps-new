@@ -40,6 +40,7 @@ Route::middleware('isolation')->prefix('/isohospital')->group(function () {
     Route::get('/infection', 'InfectionController@index');
     Route::post('/infection/add', 'InfectionController@add');
     Route::post('/infection/{hospitalization}/checkout', 'InfectionController@checkout');
+    Route::get('/infection/{hospitalization}/passaway', 'InfectionController@passaway');
 
     Route::get('/infection/{user}/update', 'InfectionController@updateView');
     Route::post('/infection/{user}/update', 'InfectionController@update');

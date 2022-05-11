@@ -18,6 +18,10 @@
             <a href="/reserve" class="shadow btn btn-success btn-md">
                 Reserve Vaccine
             </a>
+
+            <a href="/reserve/hospital" class="shadow btn btn-dark btn-md">
+                Reserve Isolation Hospital
+            </a>
         </div>
     </div>
 </x-app-layout>
