@@ -7,7 +7,7 @@
     </video>
 
 
-    <div class="aigps-welcome-content text-center">
+    <div class="container aigps-welcome-content text-left">
         <h1 class="text-black aigps-title">AIGPS</h1>
 
         <p class="text-dark mt-1">
