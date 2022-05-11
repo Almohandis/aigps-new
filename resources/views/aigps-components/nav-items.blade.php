@@ -1,6 +1,7 @@
 <a class="nav-link text-dark" href="/">Home</a>
 <a class="nav-link text-dark" href="/gallery">Gallery</a>
 <a class="nav-link text-dark" href="/reserve">Vaccine Reservation</a>
+<a class="nav-link text-dark" href="/reserve/hospital">Reserve Hospital</a>
 <a class="nav-link text-dark" href="/stats">Pandemic Statistics</a>
 
 @auth

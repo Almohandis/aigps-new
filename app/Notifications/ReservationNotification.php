@@ -6,6 +6,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
+use Twilio;
 
 class ReservationNotification extends Notification implements ShouldQueue
 {
@@ -44,6 +45,8 @@ class ReservationNotification extends Notification implements ShouldQueue
      */
     public function toMail($notifiable)
     {
+        Twilio::message($request->user()->telephone_number, 'Reservation successful, Reservation date: ' . $this->date);
+
         return (new MailMessage)
                     ->line('Your reservation has been confirmed')
                     ->line('Your reservation is set to: ' . $this->date)

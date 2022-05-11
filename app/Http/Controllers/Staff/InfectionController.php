@@ -12,6 +12,7 @@ use App\Models\User;
 use App\Models\NationalId;
 use Illuminate\Support\Facades\DB;
 use App\Models\City;
+use App\Models\Infection;
 
 class InfectionController extends Controller {
     public function index(Request $request) {
@@ -34,6 +35,21 @@ class InfectionController extends Controller {
         DB::select("UPDATE hospitalizations SET checkout_date=CURDATE() WHERE id = {$hospitalization}");
 
         return redirect()->back()->withSuccess('Patient checked out successfully');
+    }
+
+    public function passaway(Request $request, $hospitalization) {
+        $data = DB::table('hospitalizations')->where('id', $hospitalization)->first();
+
+        DB::select("UPDATE hospitalizations SET checkout_date=CURDATE() WHERE id = {$hospitalization}");
+
+        Infection::create([
+            'user_id'   =>  $data->user_id,
+            'hospital_id' => $data->hospital_id,
+            'infection_date' => now(),
+            'has_passed_away'   =>  true
+        ]);
+
+        return back()->withSuccess('Patient data updated & checkedout successfully');
     }
 
     public function updateView(Request $request, User $user) {
@@ -89,7 +105,7 @@ class InfectionController extends Controller {
             return back()->withErrors('This user is already hospitalized !');
         }
 
-        if ($hospital->capacity <= $hospital->patients()->count()) {
+        if ($hospital->capacity <= $hospital->patients()->where('checkout_date', NULL)->count()) {
             return back()->withErrors('The hospital has reached its maximum capacity !');
         }
 

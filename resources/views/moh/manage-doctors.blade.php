@@ -92,6 +92,7 @@
                         <th scope="col">Name</th>
                         <th scope="col">Hospital</th>
                         <th scope="col">Modify</th>
+                        <th scope="col">Details</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -102,6 +103,9 @@
                             <td>{{ $doctor->hospital->name }}</td>
                             <td>
                                 <button aigps-doctor-id="{{$doctor->id}}" onclick="openHospitalModal(this)" data-bs-toggle="modal" data-bs-target="#hospitalModal" class="btn btn-outline-primary">Update</button>
+                            </td>
+                            <td>
+                                <a href="/staff/moh/manage-doctors/{{$doctor->id}}/details" class="btn btn-outline-success">Details</button>
                             </td>
                         </tr>
                     @endforeach

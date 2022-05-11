@@ -16,6 +16,15 @@
             @endif
 
             @if ($errors->any())
+                <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+                <script>
+                    Swal.fire({
+                        icon: 'error',
+                        title: '{{implode(', ', $errors->all())}}',
+                        showConfirmButton: true
+                    })
+                </script>
                 <div class="container">
                     <div class="alert alert-danger" role="alert">
                         <p>Something went wrong. Please check the form below for errors.</p>
@@ -26,6 +35,23 @@
                             @endforeach
                         </ul>
                     </div>
+                </div>
+            @endif
+
+            @if (session('success'))
+                <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+                <script>
+                    Swal.fire({
+                        icon: 'success',
+                        title: '{{ session('success') }}',
+                        showConfirmButton: false,
+                        timer: 2500
+                    })
+                </script>
+
+                <div class="container alert alert-success" role="alert">
+                    {{ session('success') }}
                 </div>
             @endif
 
@@ -141,6 +167,7 @@
                         <th scope="col">Status</th>
                         <th scope="col">Cancel</th>
                         <th scope="col">Update</th>
+                        <th scope="col">Clerks</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -158,7 +185,32 @@
                             <td>
                                 <a class="btn btn-outline-primary" href="/staff/moh/manage-campaigns/{{ $campaign->id }}/update"> Update </a>
                             </td>
+                            <td>
+                                <button data-bs-toggle="modal" data-bs-target="#addClerk{{$campaign->id}}" class="btn btn-outline-success"> Edit Clerks </button>
+                            </td>
                         </tr>
+
+                        <div class="modal fade" id="addClerk{{$campaign->id}}" tabindex="-1">
+                            <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="addClerk{{$campaign->id}}Label">Edit Clerks</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    
+                                    <form action="/staff/moh/manage-campaigns/{{ $campaign->id }}/doctors/add" method="POST">
+                                        <div class="modal-body">
+                                            @csrf
+                                            <input placeholder="Clerk National Id" type="text" class="form-control" name="national_id" required autofocus>
+                                        </div>
+                                        <div class="modal-footer justify-content-between">
+                                            <input type="submit" name="remove" class="btn btn-danger" value="Remove Clerk" />
+                                            <input type="submit" name="add" class="btn btn-success" value="Add Clerk" />
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
                     @endforeach
                 </tbody>
             </table>
