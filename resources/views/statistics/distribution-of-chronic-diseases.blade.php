@@ -15,6 +15,12 @@
                 integrity="sha512-QSkVNOCYLtj73J4hbmVoOV6KVZuMluZlioC+trLpewV8qMjsWqlIQvkn1KGX2StWvPMdWGBqim1xlC8krl1EKQ=="
                 crossorigin="anonymous" referrerpolicy="no-referrer"></script>
         <div class="pt-8 sm:pt-0">
+            <form action="/print" method="POST">
+                @csrf
+                <input type="hidden" name="table" id="table">
+                <input type="hidden" name="title" id="title">
+                <button type="submit" id="print-btn" class="btn btn-primary">Download as PDF</button>
+            </form>
             <form id="form" action="/stats" method="POST" class="row">
                 @csrf
                 <div class="col-12 col-md-4 mt-3">

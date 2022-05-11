@@ -53,6 +53,12 @@
                 {{ session('message') }}
             @endif
         </div>
+        <form action="/print" method="POST">
+            @csrf
+            <input type="hidden" name="table" id="table">
+            <input type="hidden" name="title" id="title">
+            <button type="submit" id="print-btn" class="btn btn-primary">Download as PDF</button>
+        </form>
         <form id="form" action="/stats" method="POST" class="row">
             @csrf
             <div class="col-12 col-md-4 mt-3">
@@ -127,8 +133,9 @@
                 var locations = [
                     @foreach ($campaigns as $campaign)
                         ["{{ preg_replace('/\s+/', ' ', trim($campaign->address)) }}", {{ $campaign->location }},
-                        {{ $campaign->id }},
-                        "{{ $campaign->start_date }}", "{{ $campaign->end_date }}"],
+                            {{ $campaign->id }},
+                            "{{ $campaign->start_date }}", "{{ $campaign->end_date }}"
+                        ],
                     @endforeach
                 ];
 

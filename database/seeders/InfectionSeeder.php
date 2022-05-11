@@ -53,6 +53,9 @@ class InfectionSeeder extends Seeder
             $infection->update([
                 'user_id'       =>  $this->faker->randomElement($users),
                 'hospital_id' => $this->faker->randomElement($hospitals),
+                'infection_date' => $this->faker->dateTimeBetween('-1 years', '-3 days'),
+                'is_recovered' => $this->faker->boolean,
+                'has_passed_away' => $this->faker->boolean,
             ]);
         }
     }
