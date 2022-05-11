@@ -523,14 +523,14 @@ class StatisticsController extends Controller
                 $data = DB::select('select distinct hos1.city, ( ( select count(u2.id) from users as u2, hospitals as hos2 where u2.hospital_id is not null and u2.hospital_id=hos2.id and hos2.city = hos1.city ) ) as total_doctors, (select count(hos2.id) from hospitals as hos2 where hos2.city=hos1.city )as num_hospitals from hospitals as hos1 ORDER BY hos1.city ASC;');
                 $data = json_encode($data);
                 $data = json_decode($data);
-                $report_title = 'Distribution of doctors in hospitals in each city';
+                $report_title = 'Distribution of hospital doctors in each city';
                 return view('statistics.distribution-of-doctors-in-hospitals', ['data_by_city' => $data, 'names' => $names, 'report_by' => $report_by, 'cities' => $this->cities, 'report_title' => $report_title]);
                 break;
             case 'Hospital':
                 $data = DB::select('SELECT hos1.name, hos1.city, (select count(*) from users as u2 where u2.hospital_id=hos1.id ) as num_doctors, IF(hos1.is_isolation = 0, "No", "Yes") AS is_iso FROM hospitals AS hos1 ORDER BY hos1.name;');
                 $data = json_encode($data);
                 $data = json_decode($data);
-                $report_title = 'Distribution of doctors in hospitals in each hospital';
+                $report_title = 'Distribution of hospital doctors in each hospital';
                 return view('statistics.distribution-of-doctors-in-hospitals', ['data_by_hospital' => $data, 'names' => $names, 'report_by' => $report_by, 'report_title' => $report_title]);
                 break;
         }

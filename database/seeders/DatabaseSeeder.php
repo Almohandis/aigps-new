@@ -22,6 +22,7 @@ class DatabaseSeeder extends Seeder
             ArticleSeeder::class,
             UserSeeder::class,
             VaccineDateSeeder::class,
+            InfectionSeeder::class,
         ]);
     }
 }
