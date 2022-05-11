@@ -11,17 +11,13 @@
                 {{ session('message') }}
             @endif
         </div>
-        <style>
-            .tr {
-                display: table-cell;
-            }
-
-            .td {
-                display: block;
-            }
-
-        </style>
         <div class="pt-8 sm:pt-0">
+            <form action="/print" method="POST">
+                @csrf
+                <input type="hidden" name="table" id="table">
+                <input type="hidden" name="title" id="title">
+                <button type="submit" id="print-btn" class="btn btn-primary">Download as PDF</button>
+            </form>
             <form id="form" action="/stats" method="POST" class="row">
                 @csrf
                 <div class="col-12 col-md-4 mt-3">

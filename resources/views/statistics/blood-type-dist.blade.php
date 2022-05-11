@@ -16,11 +16,10 @@
                 crossorigin="anonymous" referrerpolicy="no-referrer"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
         <div class="pt-8 sm:pt-0">
-            <form action="/employee/pdf" method="POST">
+            <form action="/print" method="POST">
                 @csrf
                 <input type="hidden" name="table" id="table">
                 <input type="hidden" name="title" id="title">
-                <input type="hidden" name="date" id="date">
                 <button type="submit" id="print-btn" class="btn btn-primary">Download as PDF</button>
             </form>
 
@@ -670,16 +669,4 @@
     @endif
 
     <script src="{{ asset('js/statistics.js') }}"></script>
-    <script>
-        let btn = document.getElementById('print-btn');
-        btn.addEventListener('click', function() {
-            let table = document.querySelector('table');
-            document.getElementById('table').value = table.outerHTML;
-            let title = document.querySelector('h1');
-            document.getElementById('title').value = title.outerHTML;
-            let date = document.querySelector('h3');
-            document.getElementById('date').value = date.outerHTML;
-        });
-    </script>
-
 </x-app-layout>
