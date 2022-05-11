@@ -147,12 +147,22 @@ class MohCampaignController extends Controller {
             return back()->with('message', 'Doctor with ID ' . $request->national_id . ' does not exist');
         }
 
-        if ($campaign->doctors()->where('user_id', $doctor->id)->first()) {
+        $campaign_doctor = $campaign->doctors()->where('user_id', $doctor->id)->first();
+
+        if ($campaign_doctor) {
+            if ($request->remove) {
+                $campaign_doctor->pivot->delete();
+                return back()->withSuccess('Clerk removed successfully');
+            }
+
             return back()->with('message', 'Doctor with ID ' . $request->national_id . ' is already assigned to this campaign');
         }
 
-        $campaign->doctors()->attach($doctor->id);
+        $campaign->doctors()->attach($doctor->id, [
+            'from'  =>  $campaign->start_date,
+            'to'    =>  $campaign->end_date
+        ]);
 
-        return back()->with('message', 'Doctor Added successfully');
+        return back()->withSuccess('Doctor Added successfully');
     }
 }

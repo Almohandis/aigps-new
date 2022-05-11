@@ -36,13 +36,16 @@
     <div class="mt-5 text-center">
         <h1 class="aigps-title">Manage Hospital Patients</h1>
 
-        @if (session('success'))
-            <div class="container alert alert-success" role="alert">
-                {{ session('success') }}
-            </div>
-        @endif
-
         @if ($errors->any())
+            <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+            <script>
+                Swal.fire({
+                    icon: 'error',
+                    title: '{{implode(', ', $errors->all())}}',
+                    showConfirmButton: true
+                })
+            </script>
             <div class="container">
                 <div class="alert alert-danger" role="alert">
                     <p>Something went wrong. Please check the form below for errors.</p>
@@ -56,6 +59,23 @@
             </div>
         @endif
 
+        @if (session('success'))
+            <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+            <script>
+                Swal.fire({
+                    icon: 'success',
+                    title: '{{ session('success') }}',
+                    showConfirmButton: false,
+                    timer: 2500
+                })
+            </script>
+
+            <div class="container alert alert-success" role="alert">
+                {{ session('success') }}
+            </div>
+        @endif
+
         @if($hospital)
             <div class="table-responsive text-start shadow container bg-white mt-5 rounded px-5 py-3 text-dark">
                 <h4 class="text-center mb-3"> All patients in the hospital [{{ $hospital->name }}] </h4>
@@ -65,8 +85,10 @@
                         <tr>
                             <th scope="col">National ID</th>
                             <th scope="col">Name</th>
+                            <th scope="col">Checkin Date</th>
                             <th scope="col">Update</th>
                             <th scope="col">Checkout</th>
+                            <th scope="col">Passed Away</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -74,14 +96,18 @@
                             <tr>
                                 <td>{{ $patient->national_id }}</td>
                                 <td>{{ $patient->name }}</td>
+                                <td>{{ $patient->pivot->checkin_date }}</td>
                                 <td><a class="btn btn-outline-primary" href="/staff/isohospital/infection/{{$patient->id}}/update">Update</a></td>
 
                                 <form method="POST" action="/staff/isohospital/infection/{{$patient->pivot->id}}/checkout">
                                     <td>
                                         @csrf
-                                        <button class="btn btn-outline-danger"> Checkout </button>
+                                        <button class="btn btn-outline-success"> Checkout </button>
                                     </td>
                                 </form>
+                                <td>
+                                    <a href="/staff/isohospital/infection/{{$patient->pivot->id}}/passaway" class="btn btn-outline-danger"> Passed Away </a>
+                                </td>
                             </tr>
                         @endforeach
                     </tbody>

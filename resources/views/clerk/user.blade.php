@@ -180,6 +180,31 @@
                         <small class="m-0 text-muted">Add new chronic diseases</small>
                     </div>
 
+                    <div class="visually-hidden">
+                        <select class="w-full form-control mt-2" id="chronicDisease">
+                            <option value="">Select disease</option>
+                            <option value="ALS (Lou Gehrig's Disease)">ALS (Lou Gehrig's Disease)</option>
+                            <option value="Alzheimer's Disease and other Dementias">Alzheimer's Disease and other Dementias</option>
+                            <option value="Arthritis">Arthritis</option>
+                            <option value="Asthma">Asthma</option>
+                            <option value="Cancer">Cancer</option>
+                            <option value="Chronic Obstructive Pulmonary Disease (COPD)">Chronic Obstructive Pulmonary Disease (COPD)</option>
+                            <option value="Crohn's Disease">Crohn's Disease</option>
+                            <option value="Ulcerative Colitis">Ulcerative Colitis</option>
+                            <option value="Inflammatory Bowel Diseases">Inflammatory Bowel Diseases</option>
+                            <option value="Irritable Bowel Syndrome">Irritable Bowel Syndrome</option>
+                            <option value="Cystic Fibrosis">Cystic Fibrosis</option>
+                            <option value="Diabetes">Diabetes</option>
+                            <option value="Eating Disorders">Eating Disorders</option>
+                            <option value="Heart Disease">Heart Disease</option>
+                            <option value="Obesity">Obesity</option>
+                            <option value="Oral Health">Oral Health</option>
+                            <option value="Osteoporosis">Osteoporosis</option>
+                            <option value="Reflex Sympathetic Dystrophy (RSD) Syndrome">Reflex Sympathetic Dystrophy (RSD) Syndrome</option>
+                            <option value="Tobacco Use and Related Conditions">Tobacco Use and Related Conditions</option>
+                        </select>
+                    </div>
+
                     <div id="diseases">
                     </div>
 
@@ -197,12 +222,8 @@
                             var disease_input = document.getElementById('diseases');
 
                             function addDisease() {
-                                var disease = document.createElement('input');
-                                disease.setAttribute('type', 'text');
+                                var disease = document.getElementById('chronicDisease').cloneNode(true);
                                 disease.setAttribute('name', 'disease' + diseases);
-                                disease.setAttribute('placeholder', 'Disease Name');
-                                disease.setAttribute('required', '');
-                                disease.setAttribute('class', 'form-control mt-2');
 
                                 disease_input.appendChild(disease);
 

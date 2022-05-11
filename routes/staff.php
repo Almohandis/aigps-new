@@ -40,6 +40,7 @@ Route::middleware('isolation')->prefix('/isohospital')->group(function () {
     Route::get('/infection', 'InfectionController@index');
     Route::post('/infection/add', 'InfectionController@add');
     Route::post('/infection/{hospitalization}/checkout', 'InfectionController@checkout');
+    Route::get('/infection/{hospitalization}/passaway', 'InfectionController@passaway');
 
     Route::get('/infection/{user}/update', 'InfectionController@updateView');
     Route::post('/infection/{user}/update', 'InfectionController@update');
@@ -61,6 +62,8 @@ Route::middleware('moh')->prefix('/moh')->group(function () {
     Route::post('/manage-doctors/{hospital}/doctors/add', 'MohDoctorController@add');
     Route::post('/manage-doctors/doctors/{doctor}/delete', 'MohDoctorController@delete');
     Route::post('/manage-doctors/doctors/{doctor}/update', 'MohDoctorController@update');
+    
+    Route::get('/manage-doctors/{doctor}/details', 'MohDoctorController@details');
 
     Route::get('/manage-campaigns', 'MohCampaignController@index');
     Route::post('/manage-campaigns/add', 'MohCampaignController@create');
