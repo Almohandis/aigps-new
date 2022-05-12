@@ -66,7 +66,7 @@
                         <div class="card col-12 text-start my-2 col-lg-5 mx-2">
                             <div class="card-body">
                                 <h5 class="card-title">
-                                    <a class="link-dark text-decoration-none" href="/gallery/{{ $article->id }}">{{ $article->title }}</a>
+                                    <a class="text-decoration-none" href="/gallery/{{ $article->id }}">{{ $article->title }}</a>
                                 </h5>
 
                                 <small class="card-text text-muted">

@@ -257,6 +257,10 @@
                             campaign: {
                                 name: "Campaign",
                                 icon: greenMarker,
+                            },
+                            user: {
+                                name: "User Location",
+                                icon: markerIcon,
                             }
                         };
 
