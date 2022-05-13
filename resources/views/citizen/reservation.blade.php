@@ -8,6 +8,8 @@
         </h1>
 
         <div class="text-start shadow container bg-white mt-5 rounded p-5 text-dark">
+            <x-help-modal></x-help-modal>
+
             @if ($message)
                 <div class="alert alert-info" role="alert">
                     {{ $message }}
@@ -257,6 +259,10 @@
                             campaign: {
                                 name: "Campaign",
                                 icon: greenMarker,
+                            },
+                            user: {
+                                name: "User Location",
+                                icon: markerIcon,
                             }
                         };
 
