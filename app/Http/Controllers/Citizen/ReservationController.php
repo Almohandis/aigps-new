@@ -54,6 +54,13 @@ class ReservationController extends Controller
         if ($request->user()->reservations()->where('campaign_appointments.status', '!=', 'cancelled')->where('campaign_appointments.status', '!=', 'finished')->where('date', '>=', now())->count()) {
             return back()->withErrors([
                 'campaign' => 'You have already reserved an appointment'
+            ])->withHelp([
+                'title' => 'Reservation Help',
+                'message' => 'You can only reserve one appointment at a time. If you want to cancel your current reservation, please contact the campaign organizer.',
+                'steps' =>  [
+                    'You can cancel your reservation by clicking on the "Cancel Reservation" button.',
+                    'You can view your reservation details by clicking on the "View Reservation" button.'
+                ]
             ]);
         }
 
