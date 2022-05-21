@@ -95,7 +95,6 @@ Route::post('/print', function (Request $request) {
     }
     th{
       font-weight:bold;
-      font-size:20px;
       border-bottom:1px solid black;
       background:#FFF;
       text-align:left;
@@ -103,7 +102,7 @@ Route::post('/print', function (Request $request) {
     tr{
       border-bottom:1px solid black;
       border-color:inherit;
-      font-size:14px;
+      font-size:80%;
     }
     #logo-div{
         text-align:center;
@@ -128,7 +127,7 @@ Route::post('/print', function (Request $request) {
     </style>
 
     <div id="logo-div">
-        <img src="' . $base64 . '" alt="logdddo" width="100">
+        <img src="' . $base64 . '" alt="logo" width="100">
         <p>AIGPS</p>
     </div>
     ' . $request->title . '
