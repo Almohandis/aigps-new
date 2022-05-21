@@ -55,5 +55,4 @@ window.onload = function () {
         let title = document.querySelector('h1');
         document.getElementById('title').value = title.outerHTML;
     });
-
 }
