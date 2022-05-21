@@ -8,6 +8,7 @@
         </h1>
 
         <div class="text-start shadow container bg-white mt-5 rounded p-5 text-dark">
+        <x-help-modal></x-help-modal>
             @if ($errors->any())
                 <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
