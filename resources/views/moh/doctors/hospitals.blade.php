@@ -9,7 +9,8 @@
                 {{ session('message') }}
             </div>
         @endif
-
+        
+        <x-help-modal></x-help-modal>
         @if ($errors->any())
             <div class="container">
                 <div class="alert alert-danger" role="alert">

@@ -3,6 +3,7 @@
         <h1 class="aigps-title">Appointments</h1>
     </div>
 
+    <x-help-modal></x-help-modal>
     @if ($errors->any())
         <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 

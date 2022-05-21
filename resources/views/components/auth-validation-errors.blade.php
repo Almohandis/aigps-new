@@ -1,5 +1,6 @@
 @props(['errors'])
 
+<x-help-modal></x-help-modal>
 @if ($errors->any())
     <div {{ $attributes }}>
         <div class="font-medium text-red-600">
