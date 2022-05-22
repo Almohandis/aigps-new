@@ -17,6 +17,7 @@ class CreateArticlesTable extends Migration
             $table->id();
             $table->string('title');
             $table->text('content');
+            $table->string('author')->default('');
             $table->string('type')->default('article'); // article, video, image
             $table->string('path')->nullable()->default(NULL);
             $table->timestamps();

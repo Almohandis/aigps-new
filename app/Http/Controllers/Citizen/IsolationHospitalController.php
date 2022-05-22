@@ -31,15 +31,32 @@ class IsolationHospitalController extends Controller
         $reservation = \DB::table('hospitalizations')->where('user_id', $request->user()->id)->where('checkout_date', NULL)->first();
 
         if ($reservation) {
-            return back()->withErrors(['message' => 'You are already reserved in a hospital.']);
+            return back()->withErrors(['message' => 'You are already reserved in a hospital.'])->withHelp([
+                'title' => 'Isolation Hospital help',
+                'message' => 'You need to either cancel your previous appointment, or wait until it is finished.',
+                'steps' =>  [
+                ]
+            ]);
         }
 
         if (! $hospital->is_isolation) {
-            return back()->withErrors(['message' => 'This hospital is not an isolation hospital.']);
+            return back()->withErrors(['message' => 'This hospital is not an isolation hospital.'])->withHelp([
+                'title' => 'Isolation Hospital help',
+                'message' => 'You need to select another hospital that has isolation rooms.',
+                'steps' =>  [
+                    'Select another hospital.'
+                ]
+            ]);
         }
 
         if ($hospital->capacity <= count($hospital->patients)) {
-            return back()->withErrors(['message' => 'Hospital is full']);
+            return back()->withErrors(['message' => 'Hospital is full'])->withHelp([
+                'title' => 'Isolation Hospital help',
+                'message' => 'You need to select another hospital that is not full.',
+                'steps' =>  [
+                    'Select another hospital.'
+                ]
+            ]);
         }
 
         $hospital->patients()->attach($request->user()->id, [

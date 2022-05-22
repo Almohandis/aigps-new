@@ -39,6 +39,7 @@
         <div class="text-start shadow container bg-white mt-5 rounded px-5 py-3 text-dark">
             <h4 class="mb-3 text-center"> Update Patient Data </h4>
 
+            <x-help-modal></x-help-modal>
             @if ($errors->any())
                 <div>
                     <div class="alert alert-danger" role="alert">

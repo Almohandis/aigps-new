@@ -29,9 +29,17 @@ class MohArticleController extends Controller {
         ]);
 
         if ($request->type == 'article') {
-            if (! $request->has('title') || ! $request->has('content') || $request->title == '' || $request->content == '') {
+            if (! $request->has('title') || ! $request->has('content') || $request->title == '' || $request->content == '' || ! $request->has('author') || $request->author == '') {
                 return back()->withErrors([
-                    'article'   =>  'You need to have both a title and content for articles'
+                    'article'   =>  'You need to have the title and content and author for articles'
+                ])->withHelp([
+                    'title' => 'Article Help',
+                    'message' => 'You need to have the title and content and author for articles',
+                    'steps' =>  [
+                        'Write a title for the article',
+                        'Write the content of the article',
+                        'Write the author of the article'
+                    ]
                 ]);
             }
         }
@@ -59,6 +67,7 @@ class MohArticleController extends Controller {
             'title'             =>  $request->title ?? '',
             'content'           =>  $request->content ?? '',
             'type'              =>  $request->type,
+            'author'            =>  $request->author ?? '',
             'path'              =>  $filePath
         ]);
 
@@ -71,9 +80,17 @@ class MohArticleController extends Controller {
         ]);
 
         if ($request->type == 'article') {
-            if (! $request->has('title') || ! $request->has('content') || $request->title == '' || $request->content == '') {
+            if (! $request->has('title') || ! $request->has('content') || $request->title == '' || $request->content == '' || ! $request->has('author') || $request->author == '') {
                 return back()->withErrors([
-                    'article'   =>  'You need to have both a title and content for articles'
+                    'article'   =>  'You need to have the title and content and author for articles'
+                ])->withHelp([
+                    'title' => 'Article Help',
+                    'message' => 'You need to have the title and content and author for articles',
+                    'steps' =>  [
+                        'Write a title for the article',
+                        'Write the content of the article',
+                        'Write the author of the article'
+                    ]
                 ]);
             }
         }
@@ -98,6 +115,7 @@ class MohArticleController extends Controller {
             'title'             => $request->title ?? '',
             'content'           => $request->content ?? '',
             'type'              => $request->type,
+            'author'            =>  $request->author ?? '',
             'path'              => $filePath
         ]);
 

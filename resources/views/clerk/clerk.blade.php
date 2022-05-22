@@ -34,6 +34,7 @@
         </script>
 
     <div class="mt-5 text-center">
+    <x-help-modal></x-help-modal>
         @if ($errors->any())
             <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
