@@ -5,32 +5,44 @@
         <div class="shadow container bg-white mt-5 rounded p-3 text-dark">
             <h3 class="text-center mb-4">List of articles</h3>
 
-            <div class="accordion mb-4" id="campaignsAccordion">
-                <div class="accordion-item">
-                    <h2 class="accordion-header" id="flush-headingOne">
-                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                            data-bs-target="#flush-collapseOne">
-                            Filters & search
-                        </button>
-                    </h2>
-                    <div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne"
-                        data-bs-parent="#campaignsAccordion">
-                        <div class="accordion-body">
-                            <form method="GET" class="row">
-                                <div class="form-group mb-2">
-                                    <label class="">Search</label>
-                                    <input type="text" name="search" class="form-control" placeholder="Search by title" value="{{ request()->search }}">
-                                </div>
-                                <div class="form-group row justify-content-center mt-2 mb-4">
-                                    <div class="row justify-content-center mt-2">
-                                        <button style="width: 250px" type="submit" class="mx-2 btn btn-primary">Submit</button>
+            @if($type == 'article')
+                <div class="accordion mb-4" id="campaignsAccordion">
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="flush-headingOne">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#flush-collapseOne">
+                                Filters & search
+                            </button>
+                        </h2>
+                        <div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne"
+                            data-bs-parent="#campaignsAccordion">
+                            <div class="accordion-body">
+                                <form method="GET" class="row">
+                                    <div class="container row">
+                                        <div class="form-group mb-2 col-6">
+                                            <label class="">Search</label>
+                                            <input type="text" name="search" class="form-control" placeholder="Search" value="{{ request()->search }}">
+                                        </div>
+                                        <div class="form-group mb-2 col-6">
+                                            <label class="">Search By</label>
+                                            <select name="searchby" class="form-control">
+                                                <option value="title">Title</option>
+                                                <option value="author">Author</option>
+                                                <option value="content">Content</option>
+                                            </select>
+                                        </div>
                                     </div>
-                                </div>
-                            </form>
+                                    <div class="form-group row justify-content-center mt-2 mb-4">
+                                        <div class="row justify-content-center mt-2">
+                                            <button style="width: 250px" type="submit" class="mx-2 btn btn-primary">Submit</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
+            @endif
 
             <div class="container my-3">
                 <a href="?type=article" class="btn btn-primary @if($type == 'article')disabled @endif">Articles</a>

@@ -15,7 +15,7 @@ class ArticleController extends Controller {
         $articles = $articles->where('type', $type);
 
         if ($request->has('search') && $request->search) {
-            $articles = $articles->where('title', 'like', '%' . $request->search . '%');
+            $articles = $articles->where($request->searchby, 'like', '%' . $request->search . '%');
         }
 
         return view('articles')->with('articles', $articles->paginate(10)->withQueryString())
