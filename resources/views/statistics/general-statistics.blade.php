@@ -38,13 +38,35 @@
                 </div>
             </form>
             @if (isset($data_by_general))
-                <h1>{{$report_title}}</h1>
-               <div class="p-header"> <p>Total recoveries:</div> <div class="p-content">  {{ $data_by_general[0]->total_rec }}</div></p>
-               <div class="p-header"><p>Total deaths:</div> <div class="p-content"> {{ $data_by_general[0]->total_deaths }}</p></div>
-               <div class="p-header"><p>Diagnoses done: </div><div class="p-content">{{ $data_by_general[0]->total_diagnosed }}</p></div>
-               <div class="p-header"><p>Unvaccinated:</div> <div class="p-content">{{ $data_by_general[0]->total_un_vac }}</p></div>
-                <div class="p-header"><p>Partially vaccinated:</div><div class="p-content"> {{ $data_by_general[0]->total_part_vac }}</p></div>
-                    <div class="p-header"><p>Fully vaccinated:</div> <div class="p-content">{{ $data_by_general[0]->total_full_vac }}</p></div>
+                <h1>{{ $report_title }}</h1>
+                <table class="table table-hover">
+                    <tbody>
+                        <tr>
+                            <td>Total recoveries</td>
+                            <td>{{ $data_by_general[0]->total_rec }}</td>
+                        </tr>
+                        <tr>
+                            <td>Total deaths</td>
+                            <td>{{ $data_by_general[0]->total_deaths }}</td>
+                        </tr>
+                        <tr>
+                            <td>Diagnoses done</td>
+                            <td>{{ $data_by_general[0]->total_diagnosed }}</td>
+                        </tr>
+                        <tr>
+                            <td>Unvaccinated</td>
+                            <td>{{ $data_by_general[0]->total_un_vac }}</td>
+                        </tr>
+                        <tr>
+                            <td>Partially vaccinated</td>
+                            <td>{{ $data_by_general[0]->total_part_vac }}</td>
+                        </tr>
+                        <tr>
+                            <td>Fully vaccinated</td>
+                            <td>{{ $data_by_general[0]->total_full_vac }}</td>
+                        </tr>
+                    </tbody>
+                </table>
             @endif
         </div>
     </div>
