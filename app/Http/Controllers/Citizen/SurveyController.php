@@ -31,6 +31,12 @@ class SurveyController extends Controller
 
         $answers = $request->input('answers');
 
+        if (count($answers) != Question::count()) {
+            return back()->withErrors([
+                'answers' => 'You must answer all questions'
+            ]);
+        }
+
         foreach ($answers as $questionId => $answer) {
             // remove all answers from this user
             $request->user()->answers()->detach($questionId);
