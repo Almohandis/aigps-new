@@ -41,12 +41,15 @@
                             if (input.value == 'image') {
                                 show('image')
                                 hide('video')
+                                hide('author')
                             } else if (input.value == 'video') {
                                 hide('image')
                                 show('video')
+                                hide('author')
                             } else {
                                 hide('image')
                                 hide('video')
+                                show('author')
                             }
                         }
 
@@ -69,19 +72,24 @@
                 <div class="row mt-2">
                     <div class="col-12 col-md-6">
                         <label>Content</label>
-                        <textarea class="form-control" rows="5" name="content" placeholder="Enter article content">{{ $article->content }}</textarea>
+                        <textarea class="form-control" rows="5" name="content" placeholder="Enter article content"></textarea>
                     </div>
 
                     <div class="col-12 col-md-6">
                         <div id="image-div" class="d-none">
                             <label>Add image</label>
                             <br>
-                            <input id="image-input" class="form-control" type="file" name="path" disabled>
+                            <input id="image-input" class="form-control" type="file" name="path" required disabled>
                         </div>
                         <div id="video-div" class="d-none">
                             <label>Add Video Url</label>
                             <br>
-                            <input id="video-input" class="form-control" placeholder="Enter video url" type="text" name="path" disabled>
+                            <input id="video-input" class="form-control" placeholder="Enter video url" type="text" name="path" required disabled>
+                        </div>
+                        <div id="author-div" class="d-block">
+                            <label>Author</label>
+                            <br>
+                            <input id="author-input" class="form-control" type="text" name="author" required>
                         </div>
                     </div>
                 </div>

@@ -2,6 +2,13 @@
     <div class="mt-5">
         <div class="shadow container bg-white mt-5 rounded p-3 text-dark text-center">
             <h5 class="text-center col"> {{ $article->title }} </h5>
+
+            <div>
+                @if($article->author)
+                    <small class="text-muted">Author: {{ $article->author }}</small>
+                @endif
+            </div>
+
             <small class="text-muted">Published: {{ $article->created_at->diffForHumans() }}</small>
 
             <div class="my-3 row justify-content-center">

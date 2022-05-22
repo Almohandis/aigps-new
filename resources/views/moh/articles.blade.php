@@ -131,12 +131,15 @@
                             if (input.value == 'image') {
                                 show('image')
                                 hide('video')
+                                hide('author')
                             } else if (input.value == 'video') {
                                 hide('image')
                                 show('video')
+                                hide('author')
                             } else {
                                 hide('image')
                                 hide('video')
+                                show('author')
                             }
                         }
 
@@ -172,6 +175,11 @@
                             <label>Add Video Url</label>
                             <br>
                             <input id="video-input" class="form-control" placeholder="Enter video url" type="text" name="path" required disabled>
+                        </div>
+                        <div id="author-div" class="d-block">
+                            <label>Author</label>
+                            <br>
+                            <input id="author-input" class="form-control" type="text" name="author" required>
                         </div>
                     </div>
                 </div>
