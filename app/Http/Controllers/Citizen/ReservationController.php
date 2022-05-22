@@ -103,8 +103,10 @@ class ReservationController extends Controller
             ]);
         }
 
+        // random date between now and end
+        $appointmentDate = now()->addDays(rand(0, $end->diffInDays(now())));
         // add random time into the day
-        $appointmentDate = $start->addMinutes(rand(0, 1439))->format('Y-m-d H:i:s');
+        $appointmentDate = $appointmentDate->addMinutes(rand(0, 1439))->format('Y-m-d H:i:s');
 
         $request->user()->reservations()->attach($campaign->id, ['date' =>  $appointmentDate]);
 

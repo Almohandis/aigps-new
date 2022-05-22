@@ -91,8 +91,8 @@
             </div>
         @else
             <div class="my-3 mb-5 text-center">
-                <a href="/" class="btn btn-outline-success">Home</a>
-                <a href="/reserve" class="btn btn-outline-success">Reserve</a>
+                <a href="/" class="btn btn-dark">Home</a>
+                <a href="/reserve" class="btn btn-dark">Reserve</a>
             </div>
 
             <div class="flex">
