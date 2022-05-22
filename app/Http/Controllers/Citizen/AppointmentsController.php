@@ -43,6 +43,14 @@ class AppointmentsController extends Controller
         if (! $date->between($start, $end)) {
             return back()->withErrors([
                 'date' => 'Date is not within the campaign\'s time frame.'
+            ])->withHelp([
+                'title' => 'Appointment help',
+                'message' => 'You need to select a date within the time frame of the campaign.',
+                'steps' =>  [
+                    'The start date is: ' . $start->format('d/m/Y'),
+                    'The end date is: ' . $end->format('d/m/Y'),
+                    'Try to edit again.'
+                ]
             ]);
         }
 

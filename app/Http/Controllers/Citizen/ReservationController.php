@@ -48,6 +48,12 @@ class ReservationController extends Controller
         if ($campaign->end_date < now()) {
             return back()->withErrors([
                 'campaign' => 'Campaign has ended'
+            ])->withHelp([
+                'title' => 'Campaign Reservation Help',
+                'message' => 'You need to select another campaign that is currently active',
+                'steps' =>  [
+                    'Select another campaign.'
+                ]
             ]);
         }
 
@@ -88,6 +94,12 @@ class ReservationController extends Controller
         if ($reservations >= $campaign->capacity_per_day || $day > $totalDays) {
             return back()->withErrors([
                 'campaign' => 'No slots available in that campaign'
+            ])->withHelp([
+                'title' => 'Campaign Reservation Help',
+                'message' => 'You need to select another campaign that is not full',
+                'steps' =>  [
+                    'Select another campaign.'
+                ]
             ]);
         }
 
