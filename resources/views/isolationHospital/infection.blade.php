@@ -36,6 +36,7 @@
     <div class="mt-5 text-center">
         <h1 class="aigps-title">Manage Hospital Patients</h1>
 
+        <x-help-modal></x-help-modal>
         @if ($errors->any())
             <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 

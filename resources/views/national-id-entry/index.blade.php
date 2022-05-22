@@ -39,6 +39,7 @@
         <div class="table-responsive text-start shadow container bg-white mt-5 rounded px-5 py-3 text-dark">
             <h4 class="text-center mb-3"> List of national IDs </h4>
 
+            <x-help-modal></x-help-modal>
             @if ($errors->any())
                 <div>
                     <div class="alert alert-danger" role="alert">

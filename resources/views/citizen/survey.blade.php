@@ -10,6 +10,7 @@
                 <img width="100" class="text-center mb-2" src="{{ asset('mioh-logo.png') }}">
             </div>
 
+            <x-help-modal></x-help-modal>
             @if ($errors->any())
                 <div>
                     <div class="alert alert-danger" role="alert">

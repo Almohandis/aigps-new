@@ -2,6 +2,7 @@
     <link href="{{asset('css/reservation.css')}}" rel="stylesheet">
 
     <div class="mt-5 text-center">
+    <x-help-modal></x-help-modal>
         @if ($errors->any())
             <div class="container">
                 <div class="alert alert-danger" role="alert">
