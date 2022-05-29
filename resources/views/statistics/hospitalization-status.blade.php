@@ -39,6 +39,8 @@
             </form>
             @if (isset($data_by_city))
                 <h1>{{ $report_title }}</h1>
+                <h4>Date: {{ date('M d, Y') }}</h4>
+                <h4>Time: {{ date('h:i A') }}</h4>
                 <table class="table table-hover">
                     <thead>
                         <tr>
@@ -67,6 +69,8 @@
         </div>
     @elseif(isset($data_by_hospital))
         <h1>{{ $report_title }}</h1>
+        <h4>Date: {{ date('M d, Y') }}</h4>
+        <h4>Time: {{ date('h:i A') }}</h4>
         <table class="table table-hover">
             <thead>
                 <tr>
@@ -92,6 +96,8 @@
         </table>
     @elseif(isset($data_by_date))
         <h1>{{ $report_title }}</h1>
+        <h4>Date: {{ date('M d, Y') }}</h4>
+        <h4>Time: {{ date('h:i A') }}</h4>
         <table class="table table-hover">
             <thead>
                 <tr>
@@ -119,6 +125,8 @@
         </table>
     @elseif(isset($data_by_age))
         <h1>{{ $report_title }}</h1>
+        <h4>Date: {{ date('M d, Y') }}</h4>
+        <h4>Time: {{ date('h:i A') }}</h4>
         <table class="table table-hover">
             <thead>
                 <tr>
