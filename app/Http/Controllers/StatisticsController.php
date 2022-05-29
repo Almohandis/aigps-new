@@ -12,7 +12,7 @@ use function Pest\Laravel\json;
 
 class StatisticsController extends Controller
 {
-    protected $cities = ['6th of October', 'Alexandria', 'Aswan', 'Asyut', 'Beheira', 'Beni Suef', 'Cairo', 'Dakahlia', 'Damietta', 'Faiyum', 'Gharbia', 'Giza', 'Helwan', 'Ismailia', 'Kafr El Sheikh', 'Luxor', 'Matruh', 'Minya', 'Monufia', 'New Valley', 'North Sinai', 'Port Said', 'Qalyubia', 'Qena', 'Red Sea', 'Sharqia', 'Sohag', 'South Sinai', 'Suez'];
+    protected $cities = ['Alexandria', 'Aswan', 'Asyut', 'Beheira', 'Beni Suef', 'Cairo', 'Dakahlia', 'Damietta', 'Faiyum', 'Gharbia', 'Giza', 'Ismailia', 'Kafr El Sheikh', 'Luxor', 'Matruh', 'Minya', 'Monufia', 'New Valley', 'North Sinai', 'Port Said', 'Qalyubia', 'Qena', 'Red Sea', 'Sharqia', 'Sohag', 'South Sinai', 'Suez'];
 
     protected $blood_types = ['A_plus', 'A_minus', 'B_plus', 'B_minus', 'AB_plus', 'AB_minus', 'O_plus', 'O_minus'];
 
@@ -379,10 +379,10 @@ class StatisticsController extends Controller
                         'lat' =>  30.0131,
                         'lng' =>  31.2089,
                     ],
-                    'Helwan'  =>  [
-                        'lat' =>  29.8403,
-                        'lng' =>  31.2982,
-                    ],
+                    // 'Helwan'  =>  [
+                    //     'lat' =>  29.8403,
+                    //     'lng' =>  31.2982,
+                    // ],
                     'Ismailia'  =>  [
                         'lat' =>  30.5965,
                         'lng' =>  32.2715,
@@ -446,11 +446,12 @@ class StatisticsController extends Controller
                     'Suez'  =>  [
                         'lat' =>  29.9668,
                         'lng' =>  32.5498,
-                    ],
-                    '6th of October'  =>  [
-                        'lat' =>  29.9285,
-                        'lng' =>  30.9188,
                     ]
+                    // ,
+                    // '6th of October'  =>  [
+                    //     'lat' =>  29.9285,
+                    //     'lng' =>  30.9188,
+                    // ]
                 ];
 
                 $citiesData = User::whereHas('infections', function ($query) {
