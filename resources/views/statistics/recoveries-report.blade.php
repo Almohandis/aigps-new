@@ -169,7 +169,11 @@
                             <th>Total recoveries</th>
                         </tr>
                     </thead>
-
+                    @php
+                        $second = $data_by_age[1];
+                        $data_by_age[1] = $data_by_age[2];
+                        $data_by_age[2] = $second;
+                    @endphp
                     <tbody>
                         @foreach ($data_by_age as $segment)
                             <tr>

@@ -177,7 +177,11 @@
                             <th>Total infections</th>
                         </tr>
                     </thead>
-
+                    @php
+                        $second = $data_by_age[1];
+                        $data_by_age[1] = $data_by_age[2];
+                        $data_by_age[2] = $second;
+                    @endphp
                     <tbody>
                         @foreach ($data_by_age as $segment)
                             <tr>
@@ -246,13 +250,13 @@
                         let cities = [
                             @foreach ($cities as $city)
                                 {
-                                name: "{{ $city->city }}",
-                                center: {
-                                lat: {{ $city->lat }},
-                                lng: {{ $city->lng }}
-                                },
+                                    name: "{{ $city->city }}",
+                                    center: {
+                                        lat: {{ $city->lat }},
+                                        lng: {{ $city->lng }}
+                                    },
 
-                                population: {{ ($city->total * 100) / $max / 100 }}
+                                    population: {{ ($city->total * 100) / $max / 100 }}
                                 },
                             @endforeach
                         ];
