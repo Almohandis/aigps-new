@@ -119,7 +119,7 @@ class StatisticsController extends Controller
                 $total_count = DB::select('SELECT (SELECT COUNT(*) FROM users WHERE BLOOD_TYPE="A+") AS tot_a_plus, (SELECT COUNT(*) FROM users WHERE BLOOD_TYPE="A-") AS tot_a_minus, (SELECT COUNT(*) FROM users WHERE BLOOD_TYPE="B+") AS tot_b_plus, (SELECT COUNT(*) FROM users WHERE BLOOD_TYPE="B-") AS tot_b_minus, (SELECT COUNT(*) FROM users WHERE BLOOD_TYPE="AB+") AS tot_ab_plus, (SELECT COUNT(*) FROM users WHERE BLOOD_TYPE="AB-") AS tot_ab_minus, (SELECT COUNT(*) FROM users WHERE BLOOD_TYPE="O+") AS tot_o_plus, (SELECT COUNT(*) FROM users WHERE BLOOD_TYPE="O-") AS tot_o_minus');
                 $total_count = $total_count[0];
 
-                $report_title = 'Blood type distribution in each city';
+                $report_title = 'Blood type availability by city';
                 return view('statistics.blood-type-dist', ['data_by_city' => $data, 'names' => $names, 'report_by' => $report_by, 'cities' => $this->cities, 'report_title' => $report_title, 'total_count' => $total_count, 'report_date' => date("M d, Y")]);
                 break;
             case 'Blood type':
@@ -160,10 +160,10 @@ class StatisticsController extends Controller
             case 'City':
                 break;
             case 'Question':
-                $data = DB::select('SELECT q1.title, (SELECT COUNT(*) FROM question_user AS qu2 WHERE q1.id=qu2.question_id AND qu2.answer="Yes") AS yes, (SELECT COUNT(*) FROM question_user AS qu2 WHERE q1.id=qu2.question_id AND qu2.answer="No") AS no from questions AS q1;');
+                $data = DB::select('SELECT q1.title, ( SELECT COUNT(*) FROM question_user AS qu2 WHERE q1.id = qu2.question_id AND qu2.answer = "Yes" ) AS yes, ROUND(( (select yes)/( SELECT COUNT(*) FROM question_user AS qu2 WHERE q1.id = qu2.question_id )*100 ),2 )AS yes_pcnt, ( SELECT COUNT(*) FROM question_user AS qu2 WHERE q1.id = qu2.question_id AND qu2.answer = "No" ) AS no, ROUND(( (select no)/( SELECT COUNT(*) FROM question_user AS qu2 WHERE q1.id = qu2.question_id )*100 ),2 )AS no_pcnt from questions AS q1;');
                 $data = json_encode($data);
                 $data = json_decode($data);
-                $report_title = 'Survey results';
+                $report_title = 'Survey analysis report';
                 return view('statistics.survey-results', ['data_by_question' => $data, 'names' => $names, 'report_by' => $report_by, 'report_title' => $report_title]);
                 break;
             case 'Age segment':

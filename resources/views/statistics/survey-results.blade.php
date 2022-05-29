@@ -44,7 +44,9 @@
                         <tr>
                             <th>Question title</th>
                             <th>Answered No</th>
+                            <th>Percentage (no)</th>
                             <th>Answered Yes</th>
+                            <th>Percentage (yes)</th>
                         </tr>
                     </thead>
 
@@ -53,16 +55,18 @@
                             <tr>
                                 <td>{{ $data_by_question[$i]->title }}</td>
                                 <td>{{ $data_by_question[$i]->no }}</td>
+                                <td>{{ $data_by_question[$i]->no_pcnt }}</td>
                                 <td>{{ $data_by_question[$i]->yes }}</td>
+                                <td>{{ $data_by_question[$i]->yes_pcnt }}</td>
                             </tr>
                         @endfor
-                    </table>
-                </div>
-            @elseif(isset($data_by_age))
-
-            @elseif(isset($data_by_blood))
-            @endif
+                </table>
         </div>
+    @elseif(isset($data_by_age))
+
+    @elseif(isset($data_by_blood))
+        @endif
+    </div>
     </div>
     <script src="{{ asset('js/statistics.js') }}"></script>
 </x-app-layout>
