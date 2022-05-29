@@ -582,7 +582,7 @@ class StatisticsController extends Controller
                 $data = DB::select('SELECT DISTINCT cam1.city, count(*) as total_campaigns FROM campaigns as cam1 where cam1.status!="Cancelled" group by cam1.city order by cam1.city;');
                 $data = json_encode($data);
                 $data = json_decode($data);
-                $report_title = 'Campaigns report by city';
+                $report_title = 'Planned campaigns report by city';
                 return view('statistics.campaign-report-summary', ['data_by_city' => $data, 'names' => $names, 'report_by' => $report_by, 'campaigns' => $campaigns, 'report_title' => $report_title]);
                 break;
             case 'Campaign':
