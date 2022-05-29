@@ -603,7 +603,7 @@ class StatisticsController extends Controller
     {
         switch ($report_by) {
             case 'Default':
-                $data = DB::select('SELECT (SELECT COUNT(*) FROM recoveries_id )AS total_rec, (SELECT COUNT(*) FROM deaths_id) AS total_deaths, (SELECT COUNT(DISTINCT question_user.user_id) FROM question_user )AS total_diagnosed, (SELECT COUNT(*) FROM medical_passports WHERE vaccine_dose_count=0 )AS total_un_vac, (SELECT COUNT(*) FROM medical_passports WHERE vaccine_dose_count=1 )AS total_part_vac, (SELECT COUNT(*) FROM medical_passports WHERE vaccine_dose_count=2 )AS total_full_vac, (SELECT COUNT(*) FROM hospitals )AS total_hos');
+                $data = DB::select('SELECT ( SELECT COUNT(*) FROM recoveries_id ) AS total_rec, ( SELECT COUNT(*) FROM infections AS inf1 WHERE MONTH(infection_date) = MONTH( CURRENT_DATE() ) AND YEAR(infection_date) = YEAR( CURRENT_DATE() ) ) AS new_cases, ( SELECT COUNT(*) FROM deaths_id ) AS total_deaths, ( SELECT COUNT(DISTINCT question_user.user_id) FROM question_user ) AS total_diagnosed, ( SELECT COUNT(*) FROM medical_passports WHERE vaccine_dose_count = 0 ) AS total_un_vac, ( SELECT COUNT(*) FROM medical_passports WHERE vaccine_dose_count = 1 ) AS total_part_vac, ( SELECT COUNT(*) FROM medical_passports WHERE vaccine_dose_count = 2 ) AS total_full_vac, ( SELECT COUNT(*) FROM hospitals ) AS total_hos;');
                 $data = json_encode($data);
                 $data = json_decode($data);
                 $report_title = 'General statistics';

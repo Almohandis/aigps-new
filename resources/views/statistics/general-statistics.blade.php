@@ -46,12 +46,12 @@
                             <td>{{ $data_by_general[0]->total_rec }}</td>
                         </tr>
                         <tr>
-                            <td>Total deaths</td>
-                            <td>{{ $data_by_general[0]->total_deaths }}</td>
+                            <td>New cases</td>
+                            <td>{{ $data_by_general[0]->new_cases }}</td>
                         </tr>
                         <tr>
-                            <td>Diagnoses done</td>
-                            <td>{{ $data_by_general[0]->total_diagnosed }}</td>
+                            <td>Total deaths</td>
+                            <td>{{ $data_by_general[0]->total_deaths }}</td>
                         </tr>
                         <tr>
                             <td>Unvaccinated</td>
