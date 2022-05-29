@@ -14,10 +14,6 @@
             Campaigns
         </a>
     @elseif (Auth::user()->isHospital())
-        <a class="nav-link text-dark" href="/staff/isohospital">
-            Modify hospital statistics
-        </a>
-
         <a class="nav-link text-dark" href="/staff/isohospital/infection">
             Hospitalization
         </a>
@@ -30,7 +26,8 @@
             Manage roles
         </a>
     @elseif (Auth::user()->isMoh())
-        <a class="nav-link text-dark dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown">
+        <a class="nav-link text-dark dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button"
+            data-bs-toggle="dropdown">
             Manage
         </a>
         <ul class="dropdown-menu">
@@ -42,25 +39,26 @@
         </ul>
     @endif
 
-    <a class="nav-link text-dark dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown">
+    <a class="nav-link text-dark dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button"
+        data-bs-toggle="dropdown">
         {{ Auth::user()->name }}
     </a>
     <ul class="dropdown-menu">
-        <li><p class="dropdown-item-text"> {{ Auth::user()->getRoleName() }}</p></li>
+        <li>
+            <p class="dropdown-item-text"> {{ Auth::user()->getRoleName() }}</p>
+        </li>
         <hr>
         <li><a class="dropdown-item" href="/appointments">My Appointments</a></li>
         <li><a class="dropdown-item" href="/profile">My profile</a></li>
         <form method="POST" action="{{ route('logout') }}">
             @csrf
             <li>
-                <a class="dropdown-item" href="/logout"
-                    onclick="event.preventDefault();this.closest('form').submit();">
+                <a class="dropdown-item" href="/logout" onclick="event.preventDefault();this.closest('form').submit();">
                     Logout
                 </a>
             </li>
         </form>
     </ul>
-
 @else
     <a class="nav-link text-dark" href="/login">Login</a>
     <a class="nav-link text-dark" href="/register">Register</a>

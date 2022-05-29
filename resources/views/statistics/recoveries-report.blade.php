@@ -114,8 +114,10 @@
                         <tr>
                             <th>Hospital name</th>
                             <th>City</th>
+                            <th>Total cases</th>
                             <th>Total recoveries</th>
-                            <th>Available beds</th>
+                            <th>Recovery percentage</th>
+                            <th>Capacity</th>
                         </tr>
                     </thead>
 
@@ -124,8 +126,10 @@
                             <tr>
                                 <td>{{ $hospital->name }}</td>
                                 <td>{{ $hospital->city }}</td>
+                                <td>{{ $hospital->total_cases }}</td>
                                 <td>{{ $hospital->total_recoveries }}</td>
-                                <td>{{ $hospital->avail_beds }}</td>
+                                <td>{{ $hospital->recovery_pcnt }}</td>
+                                <td>{{ $hospital->capacity }}</td>
                             </tr>
                         @endforeach
                     </tbody>

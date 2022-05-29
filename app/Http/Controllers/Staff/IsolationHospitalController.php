@@ -12,11 +12,13 @@ use App\Models\User;
 use App\Models\NationalId;
 use Illuminate\Support\Facades\DB;
 
-class IsolationHospitalController extends Controller {
-    public function index(Request $request) {
+class IsolationHospitalController extends Controller
+{
+    public function index(Request $request)
+    {
         $hospital = $request->user()->hospital()->first();
 
-        if (! $hospital || ! $hospital->is_isolation) {
+        if (!$hospital || !$hospital->is_isolation) {
             return view('isolationHospital.isolation-hospital')
                 ->with('hospital', null)
                 ->withErrors('You arent a member of any isolation hospital !');
@@ -26,7 +28,8 @@ class IsolationHospitalController extends Controller {
             ->with('hospital', $hospital);
     }
 
-    public function update(Request $request) {
+    public function update(Request $request)
+    {
         $request->validate([
             'capacity'          =>  ['required', 'numeric', 'min:0'],
             'recoveries'        =>  ['required', 'numeric', 'min:0'],
@@ -35,7 +38,7 @@ class IsolationHospitalController extends Controller {
 
         $hospital = $request->user()->hospital()->first();
 
-        if (! $hospital || $hospital->is_isolation == false) {
+        if (!$hospital || $hospital->is_isolation == false) {
             return back()
                 ->with('hospital', null)
                 ->withErrors('You arent a member of any isolation hospital !');
