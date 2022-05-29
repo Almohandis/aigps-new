@@ -43,38 +43,26 @@
                     <thead>
                         <tr>
                             <th>City</th>
+                            <th>Total capacity</th>
                             <th>Available beds</th>
+                            <th>Total hospitalizations</th>
                             <th>Total hospitals</th>
                             <th>Isolation hospitals</th>
-                            <th>Total hospitalizations</th>
                         </tr>
                     </thead>
 
                     <tbody>
-                        @for ($i = 0, $j = 0; $i < count($cities); $i++)
+                        @foreach ($data_by_city as $city)
                             <tr>
-                                <td>{{ $cities[$i] }}</td>
-                                @if (isset($data_by_city[$j]))
-                                    @if ($data_by_city[$j]->city == $cities[$i])
-                                        <td>{{ $data_by_city[$j]->avail_beds }}</td>
-                                        <td>{{ $data_by_city[$j]->total_hospitals }}</td>
-                                        <td>{{ $data_by_city[$j]->iso_hospitals }}</td>
-                                        <td>{{ $data_by_city[$j]->total_hospitalization }}</td>
-                                        @php $j++ @endphp
-                                    @else
-                                        <td>0</td>
-                                        <td>0</td>
-                                        <td>0</td>
-                                        <td>0</td>
-                                    @endif
-                                @else
-                                    <td>0</td>
-                                    <td>0</td>
-                                    <td>0</td>
-                                    <td>0</td>
-                                @endif
+                                <td>{{ $city->city }}</td>
+                                <td>{{ $city->total_capacity }}</td>
+                                <td>{{ $city->avail_beds }}</td>
+                                <td>{{ $city->total_hospitalization }}</td>
+                                <td>{{ $city->total_hospitals }}</td>
+                                <td>{{ $city->iso_hospitals }}</td>
                             </tr>
-                        @endfor
+                        @endforeach
+                    </tbody>
                 </table>
         </div>
     @elseif(isset($data_by_hospital))
