@@ -181,7 +181,7 @@ class StatisticsController extends Controller
                 $data = json_encode($data);
                 $data = json_decode($data);
                 // return $data;
-                $report_title = 'Recoveries report in each city';
+                $report_title = 'Recovery analysis report by city';
                 return view('statistics.recoveries-report', ['data_by_city' => $data, 'names' => $names, 'report_by' => $report_by, 'report_title' => $report_title]);
                 break;
             case 'Hospital':
@@ -192,7 +192,7 @@ class StatisticsController extends Controller
                 FROM hospitals AS hos1;');
                 $data = json_encode($data);
                 $data = json_decode($data);
-                $report_title = 'Recoveries report in each hospital';
+                $report_title = 'Recovery analysis report by hospital';
                 return view('statistics.recoveries-report', ['data_by_hospital' => $data, 'names' => $names, 'report_by' => $report_by, 'report_title' => $report_title]);
                 break;
             case 'Date':
@@ -231,14 +231,14 @@ class StatisticsController extends Controller
                 $data = json_encode($data);
                 $data = json_decode($data);
                 // return $data;
-                $report_title = 'Deaths report in each city';
+                $report_title = 'Death analysis report by city';
                 return view('statistics.deaths-report', ['data_by_city' => $data, 'names' => $names, 'report_by' => $report_by, 'cities' => $this->cities, 'report_title' => $report_title]);
                 break;
             case 'Hospital':
                 $data = DB::select('SELECT hos1.name, hos1.city, (SELECT COUNT(*) FROM infections AS inf1 WHERE inf1.hospital_id=hos1.id AND inf1.has_passed_away=1 ) AS total_deaths, (SELECT hos1.capacity - (SELECT COUNT(*) FROM hospitals AS hos2, users AS u1, hospitalizations AS hoz1 WHERE hos2.id=hoz1.hospital_id AND u1.id=hoz1.user_id AND hos2.id=hos1.id AND hoz1.checkout_date IS NULL ) ) AS "avail_beds" FROM hospitals AS hos1;');
                 $data = json_encode($data);
                 $data = json_decode($data);
-                $report_title = 'Deaths report in each hospital';
+                $report_title = 'Death analysis report by hospital';
                 return view('statistics.deaths-report', ['data_by_hospital' => $data, 'names' => $names, 'report_by' => $report_by, 'report_title' => $report_title]);
                 break;
             case 'Date':
@@ -312,7 +312,7 @@ class StatisticsController extends Controller
                 $data = DB::select('SELECT hos1.city, ( SELECT ifnull( ( ( ( SELECT sum(hos2.capacity) FROM hospitals as hos2 where hos2.city = hos1.city ) - ( SELECT COUNT(*) FROM hospitalizations AS hoz2, hospitals as hos3 WHERE hoz2.hospital_id = hos3.id AND hoz2.checkout_date IS NULL and hos3.city = hos1.city ) ) ), 0 ) ) AS avail_beds , (select count(*) from hospitals as hos4 where hos4.city=hos1.city)as total_hospitals, (select count(*) from hospitals as hos5 where hos5.city=hos1.city and hos5.is_isolation=1)as iso_hospitals, (select count(*) from hospitalizations as hoz3,hospitals as hos6 where hoz3.hospital_id=hos6.id AND hoz3.checkout_date IS NULL and hos6.city = hos1.city) as total_hospitalization FROM hospitals as hos1 GROUP BY hos1.city ORDER BY hos1.city asc;');
                 $data = json_encode($data);
                 $data = json_decode($data);
-                $report_title = 'Distribution of hospitals in each city';
+                $report_title = 'Distribution of hospitals by city';
                 return view('statistics.distribution-of-hospitals', ['data_by_city' => $data, 'names' => $names, 'report_by' => $report_by, 'cities' => $this->cities, 'report_title' => $report_title]);
                 break;
             case 'Hospital':
@@ -333,7 +333,7 @@ class StatisticsController extends Controller
                 $data_by_city = json_encode($data_by_city);
                 $data_by_city = json_decode($data_by_city);
                 // return $data_by_city;
-                $report_title = 'Infections report in each city';
+                $report_title = 'Infection analysis report by city';
                 $cities = [
                     'Alexandria'  =>  [
                         'lat' =>  31.2001,
@@ -524,14 +524,14 @@ class StatisticsController extends Controller
                 $data = DB::select('select distinct hos1.city, ( ( select count(u2.id) from users as u2, hospitals as hos2 where u2.hospital_id is not null and u2.hospital_id=hos2.id and hos2.city = hos1.city ) ) as total_doctors, (select count(hos2.id) from hospitals as hos2 where hos2.city=hos1.city )as num_hospitals from hospitals as hos1 ORDER BY hos1.city ASC;');
                 $data = json_encode($data);
                 $data = json_decode($data);
-                $report_title = 'Distribution of hospital doctors in each city';
+                $report_title = 'Distribution of hospital doctors by city';
                 return view('statistics.distribution-of-doctors-in-hospitals', ['data_by_city' => $data, 'names' => $names, 'report_by' => $report_by, 'cities' => $this->cities, 'report_title' => $report_title]);
                 break;
             case 'Hospital':
                 $data = DB::select('SELECT hos1.name, hos1.city, (select count(*) from users as u2 where u2.hospital_id=hos1.id ) as num_doctors, IF(hos1.is_isolation = 0, "No", "Yes") AS is_iso FROM hospitals AS hos1 ORDER BY hos1.name;');
                 $data = json_encode($data);
                 $data = json_decode($data);
-                $report_title = 'Distribution of hospital doctors in each hospital';
+                $report_title = 'Distribution of hospital doctors by hospital';
                 return view('statistics.distribution-of-doctors-in-hospitals', ['data_by_hospital' => $data, 'names' => $names, 'report_by' => $report_by, 'report_title' => $report_title]);
                 break;
         }
@@ -544,7 +544,7 @@ class StatisticsController extends Controller
                 $data = DB::select('SELECT hos1.city, ( SELECT ifnull( ( ( ( SELECT sum(hos2.capacity) FROM hospitals as hos2 where hos2.city = hos1.city ) - ( SELECT COUNT(*) FROM hospitalizations AS hoz2, hospitals as hos3 WHERE hoz2.hospital_id = hos3.id AND hoz2.checkout_date IS NULL and hos3.city = hos1.city ) ) ), 0 ) ) AS avail_beds , (select count(*) from hospitals as hos4 where hos4.city=hos1.city)as total_hospitals, (select count(*) from hospitals as hos5 where hos5.city=hos1.city and hos5.is_isolation=1)as iso_hospitals, (select count(*) from hospitalizations as hoz3,hospitals as hos6 where hoz3.hospital_id=hos6.id AND hoz3.checkout_date IS NULL and hos6.city = hos1.city) as total_hospitalization FROM hospitals as hos1 GROUP BY hos1.city ORDER BY hos1.city asc;');
                 $data = json_encode($data);
                 $data = json_decode($data);
-                $report_title = 'Hospitalization status in each city';
+                $report_title = 'Hospitalization status by city';
                 return view('statistics.hospitalization-status', ['data_by_city' => $data, 'names' => $names, 'report_by' => $report_by, 'cities' => $this->cities, 'report_title' => $report_title]);
                 break;
             case 'Hospital':
@@ -582,7 +582,7 @@ class StatisticsController extends Controller
                 $data = DB::select('SELECT DISTINCT cam1.city, count(*) as total_campaigns FROM campaigns as cam1 where cam1.status!="Cancelled" group by cam1.city order by cam1.city;');
                 $data = json_encode($data);
                 $data = json_decode($data);
-                $report_title = 'Campaigns report in each city';
+                $report_title = 'Campaigns report by city';
                 return view('statistics.campaign-report-summary', ['data_by_city' => $data, 'names' => $names, 'report_by' => $report_by, 'campaigns' => $campaigns, 'report_title' => $report_title]);
                 break;
             case 'Campaign':
