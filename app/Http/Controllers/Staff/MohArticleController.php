@@ -8,8 +8,10 @@ use App\Models\Article;
 use App\Models\User;
 use Symfony\Contracts\Service\Attribute\Required;
 
-class MohArticleController extends Controller {
-    public function index(Request $request) {
+class MohArticleController extends Controller
+{
+    public function index(Request $request)
+    {
         $articles = Article::query();
 
         if ($request->has('sort') && $request->sort) {
@@ -23,13 +25,14 @@ class MohArticleController extends Controller {
         return view('moh.articles')->with('articles', $articles->paginate(10)->withQueryString());
     }
 
-    public function create(Request $request) {
+    public function create(Request $request)
+    {
         $request->validate([
             'type'      =>  'required|string'
         ]);
 
         if ($request->type == 'article') {
-            if (! $request->has('title') || ! $request->has('content') || $request->title == '' || $request->content == '' || ! $request->has('author') || $request->author == '') {
+            if (!$request->has('title') || !$request->has('content') || $request->title == '' || $request->content == '' || !$request->has('author') || $request->author == '') {
                 return back()->withErrors([
                     'article'   =>  'You need to have the title and content and author for articles'
                 ])->withHelp([
@@ -68,19 +71,20 @@ class MohArticleController extends Controller {
             'content'           =>  $request->content ?? '',
             'type'              =>  $request->type,
             'author'            =>  $request->author ?? '',
-            'path'              =>  $filePath
+            'path'              =>  $filePath ?? ''
         ]);
 
         return back()->with('message', 'Article added successfully');
     }
 
-    public function update(Request $request, Article $article) {
+    public function update(Request $request, Article $article)
+    {
         $request->validate([
             'type'      =>  'required|string'
         ]);
 
         if ($request->type == 'article') {
-            if (! $request->has('title') || ! $request->has('content') || $request->title == '' || $request->content == '' || ! $request->has('author') || $request->author == '') {
+            if (!$request->has('title') || !$request->has('content') || $request->title == '' || $request->content == '' || !$request->has('author') || $request->author == '') {
                 return back()->withErrors([
                     'article'   =>  'You need to have the title and content and author for articles'
                 ])->withHelp([
@@ -122,13 +126,15 @@ class MohArticleController extends Controller {
         return redirect('/staff/moh/articles')->with('message', 'Article updated successfully');
     }
 
-    public function delete(Request $request, Article $article) {
+    public function delete(Request $request, Article $article)
+    {
         $article->delete();
 
         return back()->with('message', 'Article deleted successfully');
     }
 
-    public function updateView(Request $request, Article $article) {
+    public function updateView(Request $request, Article $article)
+    {
         return view('moh.update-article')->with('article', $article);
     }
 }
