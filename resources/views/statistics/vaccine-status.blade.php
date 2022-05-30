@@ -39,6 +39,8 @@
             </form>
             @if (isset($data_by_vaccine_status))
                 <h1>{{ $report_title }}</h1>
+                <h4>Date: {{ date('M d, Y') }}</h4>
+                <h4>Time: {{ date('h:i A') }}</h4>
                 <table class="table table-hover">
                     <thead>
                         <tr>
@@ -66,6 +68,8 @@
                 </table>
             @elseif(isset($data_by_city_age_segment))
                 <h1>{{ $report_title }}</h1>
+                <h4>Date: {{ date('M d, Y') }}</h4>
+                <h4>Time: {{ date('h:i A') }}</h4>
                 <table class="table table-hover">
                     <thead>
                         <tr>

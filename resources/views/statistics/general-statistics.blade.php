@@ -39,6 +39,8 @@
             </form>
             @if (isset($data_by_general))
                 <h1>{{ $report_title }}</h1>
+                <h4>Date: {{ date('M d, Y') }}</h4>
+                <h4>Time: {{ date('h:i A') }}</h4>
                 <table class="table table-hover">
                     <tbody>
                         <tr>
@@ -46,12 +48,12 @@
                             <td>{{ $data_by_general[0]->total_rec }}</td>
                         </tr>
                         <tr>
-                            <td>Total deaths</td>
-                            <td>{{ $data_by_general[0]->total_deaths }}</td>
+                            <td>New cases</td>
+                            <td>{{ $data_by_general[0]->new_cases }}</td>
                         </tr>
                         <tr>
-                            <td>Diagnoses done</td>
-                            <td>{{ $data_by_general[0]->total_diagnosed }}</td>
+                            <td>Total deaths</td>
+                            <td>{{ $data_by_general[0]->total_deaths }}</td>
                         </tr>
                         <tr>
                             <td>Unvaccinated</td>
