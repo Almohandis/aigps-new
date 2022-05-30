@@ -58,6 +58,11 @@ Route::post('/print', function (Request $request) {
     $base64 = 'data:image/' . $type . ';base64,' . base64_encode($data);
     date_default_timezone_set("Africa/Cairo");
     $html = '<style>
+
+    @page {
+        margin: 150px 50px 70px 50px;
+    }
+
     img {
         display: block;
         padding:0;
@@ -69,7 +74,7 @@ Route::post('/print', function (Request $request) {
     h1 {
         text-align: center;
         font-size: 22px;
-        margin-bottom: 70px;
+        margin-bottom: 40px;
     }
     h3 {
         font-size: 18px;
@@ -105,16 +110,26 @@ Route::post('/print', function (Request $request) {
       font-size:80%;
     }
     #logo-div{
-        text-align:center;
         margin: 0 auto;
         width:auto;
+        position: fixed;
+        left: 0px;
+        top: -150px;
+        right: 0px;
+        height: 150px;
+        text-align: center;
     }
     #footer{
         display: block;
         padding: 10px;
-        position: fixed;
         bottom: 0px;
         margin-top:auto;
+        border-top: 1px solid black;
+        position: fixed;
+        left: 0px;
+        bottom: -70px;
+        right: 0px;
+        height: 70px;
     }
     .container{
         margin-top:50px;
@@ -124,6 +139,17 @@ Route::post('/print', function (Request $request) {
     p{
         margin-bottom:5px;
     }
+
+    .footer{
+        display: block;
+        padding: 10px;
+        bottom: 30px;
+        margin-top:auto;
+        position: fixed;
+        left: 0px;
+        right: 0px;
+    }
+
     </style>
 
     <div id="logo-div">
@@ -132,17 +158,20 @@ Route::post('/print', function (Request $request) {
     </div>
     ' . $request->title . '
 
+    <div id="footer">
+        <p>Date: ' . date("M d, Y") . ', time: ' . date("h:i A") . '</p>
+    </div>
+
     <div class="container">
 
         ' .  $table  . '
-        <div style="height:200px;"></div>
-        <div id="footer">
+        <div style="height:180px;"></div>
+        <div class="footer">
             <p>Email: aigps.ml@gmail.com</p>
             <p>Tel: +20 154 2015 467</p>
-            <p>Date: ' . date("M d, Y") . '</p>
-            <p>Time: ' . date("h:i A") . '</p>
-            <br><br>
+            <br>
             <p>Signature:.......................</p>
+            <p>Remarks:.........................</p>
         </div>
     </div>
 
@@ -154,7 +183,7 @@ Route::post('/print', function (Request $request) {
         $word_space = 0.0;
         $char_space = 0.0;
         $angle = 0.0;
-        $pdf->page_text(500, 20, $text, $font, $size, $color, $word_space, $char_space, $angle);
+        $pdf->page_text(500, 800, $text, $font, $size, $color, $word_space, $char_space, $angle);
 
     </script>
     ';
