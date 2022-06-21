@@ -16,7 +16,7 @@ class AppointmentsController extends Controller
             ->where('campaign_appointments.status', '!=', 'cancelled')
             ->where('campaign_appointments.status', '!=', 'finished')
             ->where('campaign_appointments.date', '>=', now())
-            ->where('campaign_appointments.date', '<=', 'campaign.end_date')
+            ->where('campaigns.end_date', '>=', 'campaign_appointments.date')
             ->orderBy('date', 'asc')
             ->paginate(10);
 
