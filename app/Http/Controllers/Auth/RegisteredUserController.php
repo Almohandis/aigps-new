@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use Aloha\Twilio\Twilio as TwilioTwilio;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Models\EmailVerificationToken;
@@ -26,7 +27,7 @@ class RegisteredUserController extends Controller
      */
     public function create() {
         $cities = City::all();
-        
+
         return view('auth.register')->with([
             'countries' => \Countries::getList('en'),
             'cities'    =>  $cities
