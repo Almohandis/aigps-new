@@ -50,20 +50,20 @@ test('moia can access escorting page', function () {
 });
 
 //# Moia can modify campaign status (escort)
-test('moia can modify campaign status escort', function () {
-    //# This route has been removed
-    $response = $this->get('/staff/moia/modify?id=1&action=Escort');
+// test('moia can modify campaign status escort', function () {
+//     //# This route has been removed
+//     $response = $this->get('/staff/moia/modify?id=1&action=Escort');
 
-    $this->assertEquals(Campaign::where('status', 'active')->count(), 2);
+//     $this->assertEquals(Campaign::where('status', 'active')->count(), 2);
 
-    $response->assertStatus(200);
-});
+//     $response->assertStatus(200);
+// });
 
 //# Moia can modify campaign status (undo escorting)
-test('moia can modify campaign status undo escorting', function () {
+// test('moia can modify campaign status undo escorting', function () {
 
-    $response = $this->get('/staff/moia/modify?id=2&action=Undo%20Escort');
-    $this->assertEquals(Campaign::where('status', 'pending')->count(), 2);
+//     $response = $this->get('/staff/moia/modify?id=2&action=Undo%20Escort');
+//     $this->assertEquals(Campaign::where('status', 'pending')->count(), 2);
 
-    $response->assertStatus(200);
-});
+//     $response->assertStatus(200);
+// });
