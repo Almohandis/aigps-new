@@ -1,7 +1,7 @@
 @if (session('help'))
     <div>
         <div class="list-group-item my-4 container">
-            It seems like you have encountered an error: 
+            It seems like you have encountered an error:
             <button data-bs-toggle="modal" data-bs-target="#helpModal" class="btn btn-outline-primary">Help</button>
         </div>
 
