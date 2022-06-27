@@ -34,17 +34,18 @@
                         </div>
                         <div class="modal-body" style="height: 300px; overflow:scroll;">
                             <p><b>You can do the following steps:</b></p>
-                            1. The section below displays all the isolation hospitals with available beds.
+
+                            <b>1.</b> The section below displays all the isolation hospitals with available beds.
                             <br>
-                            2. You can reserve a bed by clicking "Reserve" button.
+                            <b>2.</b> You can reserve a bed by clicking "Reserve" button.
                             <br>
-                            3. A popup will apear on your screen containing a calender to choose the check in date.
+                            <b>3.</b> A popup will apear on your screen containing a calender to choose the check in date.
                             <br>
-                            4. Choose the check in date you want from the calendar. 
+                            <b>4.</b> Choose the check in date you want from the calendar. 
                             <br>
-                            5. Make sure you didn't reserve in another isolation hospital before proceeding.
+                            <b>5.</b> Make sure you didn't reserve in another isolation hospital before proceeding.
                             <br>
-                            6. Click "Reserve" button to proceed reservation.
+                            <b>6.</b> Click "Reserve" button to proceed reservation.
                             <br>
 
                         </div>

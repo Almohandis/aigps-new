@@ -60,17 +60,17 @@
                 </div>
                 <div class="modal-body" style="height: 300px; overflow:scroll;">
                     <p><b>This page contains information of all users, do the following steps to add a user as a doctor: </b></p>
-                    1. First, search the name of the user you want to add to hospital.
+                    <b>1.</b> First, search the name of the user you want to add to hospital.
                     <br>
-                    2. Click on "Update" button to add the wanted user.
+                    <b>2.</b> Click on "Update" button to add the wanted user.
                     <br>
-                    3. A popup will appear containing a drop-down list that contains all the hospitals affiliated with the Ministry of Health.
+                    <b>3.</b> A popup will appear containing a drop-down list that contains all the hospitals affiliated with the Ministry of Health.
                     <br>
-                    4. Choose the name of the hospital.
+                    <b>4.</b> Choose the name of the hospital.
                     <br>
-                    5. If you don't want to complete the process, click "Close" button to cancel.
+                    <b>5.</b> If you don't want to complete the process, click "Close" button to cancel.
                     <br>
-                    6. To continue adding the user to the hospital, click "Update" button.
+                    <b>6.</b> To continue adding the user to the hospital, click "Update" button.
                     <br>
                 </div>
                 <div class="modal-footer">

@@ -45,7 +45,7 @@ class ReservationNotification extends Notification implements ShouldQueue
      */
     public function toMail($notifiable)
     {
-        Twilio::message($request->user()->telephone_number, 'Reservation successful, Reservation date: ' . $this->date);
+        // Twilio::message($request->user()->telephone_number, 'Reservation successful, Reservation date: ' . $this->date);
 
         return (new MailMessage)
                     ->line('Your reservation has been confirmed')

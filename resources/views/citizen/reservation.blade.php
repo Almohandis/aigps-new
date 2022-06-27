@@ -57,20 +57,20 @@
                         </div>
                         <div class="modal-body" style="height: 300px; overflow:scroll;">
                             <p><b>You can do the following steps:</b></p>
-                            1. First, allow your browser to know your current location to display the nearest campaign.
+
+                            <b>1.</b> First, allow your browser to know your current location to display the nearest campaign.
                             <br>
-                            2. If you don't want the nearest campaign you can click on list of campaigns and click on
+                            <b>2.</b> If you don't want the nearest campaign you can click on list of campaigns and click on
                             "sort by" button and choose from the displayed options.
                             <br>
-                            3. Choose a campaign from what you see suitable.
+                            <b>3.</b> Choose a campaign from what you see suitable.
                             <br>
-                            4. Make sure you choose an active campaign so you can proceed.
+                            <b>4.</b> Make sure you choose an active campaign so you can proceed.
                             <br>
-                            5. Map legend shows if the campaign is active or not and its availability.
+                            <b>5.</b> Map legend shows if the campaign is active or not and its availability.
                             <br>
-                            6. After Proceeding your appointment will appear in the appointments page.
+                            <b>6.</b> After Proceeding your appointment will appear in the appointments page.
                             <br>
-
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>

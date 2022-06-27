@@ -234,11 +234,11 @@
                         </div>
                         <div class="modal-body" style="height: 300px; overflow:scroll;">
                             <p><b>You can do the following steps:</b></p>
-                            1. Fill the "National ID" of the doctor you want to add to the hospital.
+                            <b>1.</b> Fill the "National ID" of the doctor you want to add to the hospital.
                             <br>
-                            2. Make sure that the national ID is correct before proceeding.
+                            <b>2.</b> Make sure that the national ID is correct before proceeding.
                             <br>
-                            3. Click "Add" button to proceed in adding a new doctor to this hospital.
+                            <b>3.</b> Click "Add" button to proceed in adding a new doctor to this hospital.
                             <br>
 
                         </div>

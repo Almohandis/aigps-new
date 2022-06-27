@@ -44,14 +44,14 @@
                      </div>
                      <div class="modal-body" style="height: 300px; overflow:scroll;">
                          <p><b>You can do the following steps:</b></p>
-                         1. First, if you wish to edit hospital's name, insert the new name in the "Name" textbox.
+                         <b>1.</b> First, if you wish to edit hospital's name, insert the new name in the "Name" textbox.
                          <br>
-                         2. If the hospital "Is Isolation" by checking the checkbox or "Is not Isolation" by leaving
+                         <b>2.</b> If the hospital "Is Isolation" by checking the checkbox or "Is not Isolation" by leaving
                          the checkbox empty.
                          <br>
-                         3. To edit the "Capacity" of the hospital, change the value in the "Capacity" textbox.
+                         <b>3.</b> To edit the "Capacity" of the hospital, change the value in the "Capacity" textbox.
                          <br>
-                         4. Change the hospital's "City", if you want to edit the hospital's city.
+                         <b>4.</b> Change the hospital's "City", if you want to edit the hospital's city.
                          <br>
                      </div>
                      <div class="modal-footer">

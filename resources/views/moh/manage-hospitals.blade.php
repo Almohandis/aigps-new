@@ -200,16 +200,16 @@
                         </div>
                         <div class="modal-body" style="height: 300px; overflow:scroll;">
                             <p><b>You can do the following steps:</b></p>
-                            1. First, you fill the hospitals "Name".
+                            <b>1.</b> First, you fill the hospitals "Name".
                             <br>
-                            2. Specify if the hospital "Is Isolation" by checking the checkbox or "Is not Isolation" by
+                            <b>2.</b> Specify if the hospital "Is Isolation" by checking the checkbox or "Is not Isolation" by
                             leaving the checkbox empty.
                             <br>
-                            3. Specify the "Capacity" of the hospital.
+                            <b>3.</b> Specify the "Capacity" of the hospital.
                             <br>
-                            4. Choose the hospital's "City".
+                            <b>4.</b> Choose the hospital's "City".
                             <br>
-                            5. Click on "Add" button to proceed in adding new hospital.
+                            <b>5.</b> Click on "Add" button to proceed in adding new hospital.
                             <br>
                         </div>
                         <div class="modal-footer">
