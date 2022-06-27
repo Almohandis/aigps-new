@@ -8,7 +8,7 @@
         };
 
         function updateError() {
-            for(var key in errors) {
+            for (var key in errors) {
                 if (errors[key] == '#') {
                     document.getElementById(key + '_mark').classList.remove('text-danger');
                     document.getElementById(key + '_mark').classList.add('text-success');
@@ -17,8 +17,7 @@
                     document.getElementById(key + '_error').innerHTML = '';
                     document.getElementById(key + '_mark').style.color = 'green';
                     document.getElementById('submitBtn').disabled = false;
-                }
-                else if (errors[key] != '') {
+                } else if (errors[key] != '') {
                     document.getElementById(key + '_mark').classList.remove('text-success');
                     document.getElementById(key + '_mark').classList.add('text-danger');
                     document.getElementById(key + '_mark').classList.add('fa-close');
@@ -37,7 +36,8 @@
     <div class="flex container justify-content-center">
         <div class="text-start shadow container bg-white mt-5 rounded px-3 py-3 text-dark row justify-content-center">
             <div class="col-12 col-md-6 d-md-block d-none row justify-content-center">
-                <img class="img-fluid align-middle mt-5 mt-md-3 mt-lg-0" height="300px" src="{{ asset('images/login2.jpg') }}" alt="AIGPS">
+                <img class="img-fluid align-middle mt-5 mt-md-3 mt-lg-0" height="300px"
+                    src="{{ asset('images/login2.jpg') }}" alt="AIGPS">
             </div>
 
             <form class="col-12 col-md-6" method="POST" action="{{ route('login') }}">
@@ -50,8 +50,38 @@
                     <h4 class="col-12 mt-2 text-center">
                         AIGPS
                     </h4>
-                    
-                    <x-help-modal></x-help-modal>
+
+                    <!-- Modal and button -->
+                    <button type="button" style="display: inline-block; width:100px; margin-buttom: 10px" class="btn btn-outline-info" data-bs-toggle="modal"
+                        data-bs-target="#exampleModal"><svg xmlns="http://www.w3.org/2000/svg" width="16"
+                            height="16" fill="currentColor" class="bi bi-question-circle" viewBox="0 0 16 16">
+                            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
+                            <path
+                                d="M5.255 5.786a.237.237 0 0 0 .241.247h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286zm1.557 5.763c0 .533.425.927 1.01.927.609 0 1.028-.394 1.028-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94z" />
+                        </svg> Help</button>
+
+                    <div class="modal fade" style="top: 100px;" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                        aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Login help</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <p>If your account is not verified, you need to verify your account first:</p>
+                                    1. Open your email.<br>
+                                    2. Follow the link provided to you in order to verify your account.<br>
+                                    3. Try to log in again.
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary"
+                                        data-bs-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     @if ($errors->any())
                         <div>
                             <div class="alert alert-danger" role="alert">
@@ -76,9 +106,10 @@
 
                         <script>
                             function validateNid(input) {
-                                if (! isValidNid(input.value)) {
+                                if (!isValidNid(input.value)) {
                                     input.style.outline = "red solid thin";
-                                    errors.national_id = 'National ID must be valid [National Id must be 14 characters long, and starts with 1,2,3]';
+                                    errors.national_id =
+                                        'National ID must be valid [National Id must be 14 characters long, and starts with 1,2,3]';
                                     updateError();
                                 } else {
                                     input.style.outline = "green solid thin";
@@ -120,22 +151,27 @@
 
                         <script>
                             function validatePassword(input) {
-                                if (input.value.length >= 8 && containsUpperCase(input.value) && containsLowerCase(input.value) && containsNumber(input.value)) {
+                                if (input.value.length >= 8 && containsUpperCase(input.value) && containsLowerCase(input.value) &&
+                                    containsNumber(input.value)) {
                                     input.style.outline = "green solid thin";
                                     errors.password = '#';
                                     updateError();
                                 } else {
                                     input.style.outline = "red solid thin";
-                                    errors.password = 'Password must be at least 8 characters, have a capital and small letter, and have a number.';
+                                    errors.password =
+                                        'Password must be at least 8 characters, have a capital and small letter, and have a number.';
                                     updateError();
                                 }
                             }
+
                             function containsUpperCase(str) {
                                 return /[A-Z]/.test(str);
                             }
+
                             function containsLowerCase(str) {
                                 return /[a-z]/.test(str);
                             }
+
                             function containsNumber(str) {
                                 return /[0-9]/.test(str);
                             }
@@ -155,8 +191,7 @@
                 <div class="col-12">
                     <div class="mt-2">
                         @if (Route::has('password.request'))
-                            <a class="underline text-start text-muted"
-                                href="{{ route('password.request') }}">
+                            <a class="underline text-start text-muted" href="{{ route('password.request') }}">
                                 {{ __('Forgot your password?') }}
                             </a>
                         @endif
