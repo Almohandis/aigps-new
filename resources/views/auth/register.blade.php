@@ -131,7 +131,7 @@
                         let nid_year = nationalid.substring(1, 3);
                         let nid_month = parseInt(nationalid.substring(3, 5));
                         let nid_day = parseInt(nationalid.substring(5, 7));
-                        
+
                         let nid_gender = parseInt(nationalid[12]);
 
                         let year = '';

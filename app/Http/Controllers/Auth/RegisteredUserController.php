@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
 use App\Models\NationalId;
+use App\Http\Controllers\RegisterEmailController;
 use App\Notifications\RegisterationNotification;
 use App\Models\City;
 use Twilio;
@@ -119,8 +120,9 @@ class RegisteredUserController extends Controller
         ]);
 
         $user->notify(new RegisterationNotification($token));
-        Twilio::message($user->telephone_number, 'Your account in AIGPS has been created successfully');
-
+        // Twilio::message($user->telephone_number, 'Your account in AIGPS has been created successfully');
+        $send_email = new RegisterEmailController();
+        $send_email->sendEmail($token);
         return view('auth.register-complete');
     }
 
