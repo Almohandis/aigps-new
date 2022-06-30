@@ -11,7 +11,8 @@ use App\Models\VaccineDate;
 
 class CampaignClerkController extends Controller
 {
-    public function index(Request $request) {
+    public function index(Request $request)
+    {
         $campaign = $request->user()
             ->campaigns()
             ->where('campaign_doctors.from', '<=', now())
@@ -22,33 +23,34 @@ class CampaignClerkController extends Controller
             ->first();
 
 
-        if (! $campaign) {
+        if (!$campaign) {
             return view('clerk.clerk')->withErrors([
                 'campaign'  =>  'Your account is not associated with any campaign'
             ]);
         }
 
         $appointments = \DB::table('campaign_appointments')
-        ->where('campaign_id', $campaign->id)
-        ->where('date', '>=', now()->startOfDay())
-        ->where('date', '<=', now()->endOfDay())
-        ->where('status', '!=', 'cancelled')
-        ->where('status', '!=', 'finished')
-        ->join('users', 'users.id', '=', 'campaign_appointments.user_id')
-        ->get();
+            ->where('campaign_id', $campaign->id)
+            ->where('date', '>=', now()->startOfDay())
+            ->where('date', '<=', now()->endOfDay())
+            ->where('status', '!=', 'cancelled')
+            ->where('status', '!=', 'finished')
+            ->join('users', 'users.id', '=', 'campaign_appointments.user_id')
+            ->get();
 
 
         return view('clerk.clerk')->with('appointments', $appointments);
     }
 
-    public function find(Request $request) {
+    public function find(Request $request)
+    {
         $request->validate([
             'national_id' => 'required|string|max:255'
         ]);
 
         $user = User::with('infections')->with('diseases')->where('national_id', $request->national_id)->first();
 
-        if (! $user) {
+        if (!$user) {
             return back()->withErrors(['national_id' => 'User not found']);
         }
 
@@ -73,7 +75,7 @@ class CampaignClerkController extends Controller
             ->where('campaign_appointments.status', '!=', 'finished')
             ->first();
 
-        if (! $reservation) {
+        if (!$reservation) {
             return back()->withErrors(['reservation' => 'This user is not a registered in this campaign, or the date of his reservation is not today']);
         }
 
@@ -97,7 +99,8 @@ class CampaignClerkController extends Controller
             ->with('passport', $medicalPassport);
     }
 
-    public function complete(Request $request, User $user) {
+    public function complete(Request $request, User $user)
+    {
         $campaigns = $request->user()
             ->campaigns()
             ->where('campaign_doctors.from', '<=', now())
@@ -120,12 +123,12 @@ class CampaignClerkController extends Controller
             ->where('campaign_appointments.status', '!=', 'finished')
             ->first();
 
-        if (! $reservation) {
+        if (!$reservation) {
             return back()->withErrors(['reservation' => 'This user is not a registered in this campaign, or the date of his reservation is not today']);
         }
 
         $medicalPassport = $user->passport()->where('user_id', $user->id)->first();
-        
+
         if ($request->has('blood_type') && $request->blood_type != '') {
             $user->blood_type = $request->blood_type;
         }
@@ -174,6 +177,8 @@ class CampaignClerkController extends Controller
 
                 return redirect('/staff/clerk')->withSuccess('User has been vaccination successfully !');
             } else {
+                $reservation->pivot->status = 'pending';
+                $reservation->pivot->save();
                 return back()->withErrors(['vaccine' => 'Please select a vaccine name']);
             }
         }
