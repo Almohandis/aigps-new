@@ -12,7 +12,7 @@ class ArticleController extends Controller {
 
         $type = $request->type ?? 'article';
 
-        $articles = $articles->where('type', $type);
+        $articles = $articles->where('type', $type)->orderByDesc('created_at');
 
         if ($request->has('search') && $request->search) {
             $articles = $articles->where($request->searchby, 'like', '%' . $request->search . '%');
