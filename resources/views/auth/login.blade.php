@@ -70,7 +70,7 @@
                                         aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body">
-                                    <p>If your account is not verified, you need to verify your account first:</p>
+                                    <p><b>If your account is not verified, you need to verify your account first:</b></p>
                                     <b>1.</b> Open your email.<br>
                                     <b>2.</b> Follow the link provided to you in order to verify your account.<br>
                                     <b>3.</b> Try to log in again.
