@@ -64,7 +64,7 @@
                     @foreach($user->infections as $infection)
                         <ul> 
                             <li>
-                                This user has been infection at: 
+                                This user has been infected on: 
                                 <span class="fw-bold">{{ $infection->infection_date }}</span>
                             </li>
                         </ul>
