@@ -14,16 +14,18 @@ class ReservationNotification extends Notification implements ShouldQueue
 
     protected $date;
     protected $campaign;
+    protected $time;
 
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct($campaign, $date)
+    public function __construct($campaign, $date, $time)
     {
         $this->campaign = $campaign;
         $this->date = $date;
+        $this->time = $time;
     }
 
     /**
@@ -49,10 +51,11 @@ class ReservationNotification extends Notification implements ShouldQueue
 
         return (new MailMessage)
                     ->line('Your reservation has been confirmed')
-                    ->line('Your reservation is set to: ' . $this->date)
-                    ->line('Address: ' . $this->campaign->address)
-                    ->action('Visit Reservation', url('/appointments'))
-                    ->line('Thank you for using our application!');
+                    ->line('Your reservation is on: ' . $this->date)
+                    ->line('At: ' . $this->time)
+                    ->line('Campaign site address: ' . $this->campaign->address)
+                    ->action('View appointment', url('/appointments'))
+                    ->line('Thank you for using AIGPS!');
     }
 
     /**
