@@ -104,7 +104,7 @@
                          <p><b>You can do the following steps:</b></p>
                                 <b>1.</b> Find the patient's national ID from "Today's appointments".<br>
                                 <b>2.</b> Insert the national ID.<br>
-                                <b>3.</b> Click "Find" button.<br>
+                                <b>3.</b> Click "Submit" button.<br>
                                 <b>4.</b> You will be directed to a page with the patients information and you can modify it.<br>
                      </div>
                      <div class="modal-footer">
