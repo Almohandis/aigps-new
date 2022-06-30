@@ -85,7 +85,7 @@
                     </div>
                 </div>
             </div>
-    
+
             <table class="table table-hover">
                 <thead>
                     <tr>
@@ -125,7 +125,7 @@
         </div>
 
         <div class="text-start shadow container bg-white mt-5 rounded px-5 py-3 text-dark">
-            <h4 class="mb-3 text-center"> Add a new Hospital </h4>    
+            <h4 class="mb-3 text-center"> Add a new Hospital </h4>
             <form action="/staff/moh/manage-hospitals/add" method="POST">
                 @csrf
                 <div class="form-group row">
