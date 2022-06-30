@@ -26,6 +26,54 @@
         @endif
 
         <div class="table-responsive text-start shadow container bg-white mt-5 rounded px-5 py-3 text-dark">
+            <!-- Modal and button -->
+            <button type="button" class="btn btn-outline-info" data-bs-toggle="modal" data-bs-target="#exampleModal"
+                style="float: right;"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                    fill="currentColor" class="bi bi-question-circle" viewBox="0 0 16 16">
+                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
+                    <path
+                        d="M5.255 5.786a.237.237 0 0 0 .241.247h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286zm1.557 5.763c0 .533.425.927 1.01.927.609 0 1.028-.394 1.028-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94z" />
+                </svg> Help</button>
+
+            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                aria-hidden="true" style="top: 100px;" data-backdrop="static" data-keyboard="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel"><svg xmlns="http://www.w3.org/2000/svg"
+                                    width="16" height="16" fill="currentColor" class="bi bi-question-circle"
+                                    viewBox="0 0 16 16">
+                                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
+                                    <path
+                                        d="M5.255 5.786a.237.237 0 0 0 .241.247h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286zm1.557 5.763c0 .533.425.927 1.01.927.609 0 1.028-.394 1.028-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94z" />
+                                </svg> &nbsp; What is the "Manage Campaigns" Page ?</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body" style="height: 300px; overflow:scroll;">
+                            <p><b></b></p>
+                            • This page shows information of all the Articles, Images & Videos added to the gallery.
+                            <br>
+                            • You can search for the article you are looking for, by clicking on "Filter & Search" and insert the title of the article you want to search for.
+                            <br>
+                            • You can sort by  ("Title or Type") .
+                            <br>
+                            • You can choose the sorting order ("Ascending or Descending") .
+                            <br>
+                            • By clicking on "Delete" button, you can delete the aticle from the gallery.
+                            <br>
+                            • You can edit the article , by clicking on "Update" button.
+                            <br>
+                            • If you wish to add a new article to the gallery, you can fill the section "Add
+                            a new article".
+                            <br>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <h4 class="text-center mb-3"> All Articles </h4>
 
             <div class="accordion mb-4" id="campaignsAccordion">
@@ -108,12 +156,90 @@
         </div>
 
         <div class="text-start shadow container bg-white mt-5 rounded px-5 py-3 text-dark">
+               <!-- Modal and button -->
+               <button type="button" class="btn btn-outline-info" data-bs-toggle="modal" data-bs-target="#exampleModal1"
+               style="float: right;"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                   fill="currentColor" class="bi bi-question-circle" viewBox="0 0 16 16">
+                   <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
+                   <path
+                       d="M5.255 5.786a.237.237 0 0 0 .241.247h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286zm1.557 5.763c0 .533.425.927 1.01.927.609 0 1.028-.394 1.028-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94z" />
+               </svg> Help</button>
+
+           <div class="modal fade" id="exampleModal1" tabindex="-1" aria-labelledby="exampleModalLabel"
+               aria-hidden="true" style="top: 100px;" data-backdrop="static" data-keyboard="true">
+               <div class="modal-dialog">
+                   <div class="modal-content">
+                       <div class="modal-header">
+                           <h5 class="modal-title" id="exampleModalLabel"><svg xmlns="http://www.w3.org/2000/svg"
+                                   width="16" height="16" fill="currentColor" class="bi bi-question-circle"
+                                   viewBox="0 0 16 16">
+                                   <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
+                                   <path
+                                       d="M5.255 5.786a.237.237 0 0 0 .241.247h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286zm1.557 5.763c0 .533.425.927 1.01.927.609 0 1.028-.394 1.028-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94z" />
+                               </svg> &nbsp; How to add a new article, image or video in gallery ?</h5>
+                           <button type="button" class="btn-close" data-bs-dismiss="modal"
+                               aria-label="Close"></button>
+                       </div>
+                       <div class="modal-body" style="height: 300px; overflow:scroll;">
+                           <p><b>You can do the following steps:</b></p>
+                           <b> • </b> You can add article:
+                           <br>
+                           <b>1.</b> First, Choose "article type" as article.
+                           <br>
+                           <b>2.</b> Insert the "Title" of the article.
+                           <br>
+                           <b>3.</b> Add the "content" of the article.
+                           <br>
+                           <b>4.</b> Insert the article "authors" name.
+                           <br>
+                           <b>5.</b> Click "Add" button, to proceed adding article to the gallery.
+                           <br>
+                           <br>
+                           <b> • </b> You can add Image:
+                           <br>
+                           <b>1.</b> First, Choose "article type" as image.
+                           <br>
+                           <b>2.</b> Insert the "Title" of the image (optional).
+                           <br>
+                           <b>3.</b> Add the content of the image (optional).
+                           <br>
+                           <b>4.</b> Click on "Choose File" to add the image from your computer.
+                           <br>
+                           <b>5.</b> The browser will open windows explorer, browse the location of the image.
+                           <br>
+                           <b>6.</b> Select the image,click "open" to open the image.
+                           <br>
+                           <b>7.</b> Click "Add" button, to proceed adding image to the gallery.
+                           <br>
+                           <br>
+                           <b> • </b> You can add Video:
+                           <br>
+                           <b>1.</b> First, Choose "article type" as Video.
+                           <br>
+                           <b>2.</b> Insert the "Title" of the Video (optional).
+                           <br>
+                           <b>3.</b> Add the content to the Video (optional).
+                           <br>
+                           <b>4.</b> Copy the youtube link of the video.
+                           <br>
+                           <b>5.</b> Insert the copied link.
+                           <br>
+                           <b>6.</b> Click "Add" button, to proceed adding Video to the gallery.
+                           <br>
+                       </div>
+                       <div class="modal-footer">
+                           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                       </div>
+                   </div>
+               </div>
+           </div>
             <h4 class="mb-3 text-center"> Add a new Article </h4>
             <form action="/staff/moh/articles/add" method="POST" enctype="multipart/form-data">
                 @csrf
                 <div class="row">
                     <div class="col-12 col-md-6">
                         <label>Title</label>
+                        
                         <input type="text" class="form-control" name="title" placeholder="Enter article title">
                     </div>
                     

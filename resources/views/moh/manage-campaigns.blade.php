@@ -7,6 +7,80 @@
         <h1 class="aigps-title">Manage Campaigns</h1>
 
         <div class="table-responsive text-start shadow container bg-white mt-5 rounded px-5 py-3 text-dark">
+            <!-- Modal and button -->
+            <button type="button" class="btn btn-outline-info" data-bs-toggle="modal" data-bs-target="#exampleModal"
+                style="float: right;"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                    fill="currentColor" class="bi bi-question-circle" viewBox="0 0 16 16">
+                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
+                    <path
+                        d="M5.255 5.786a.237.237 0 0 0 .241.247h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286zm1.557 5.763c0 .533.425.927 1.01.927.609 0 1.028-.394 1.028-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94z" />
+                </svg> Help</button>
+
+            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                aria-hidden="true" style="top: 100px;" data-backdrop="static" data-keyboard="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel"><svg xmlns="http://www.w3.org/2000/svg"
+                                    width="16" height="16" fill="currentColor" class="bi bi-question-circle"
+                                    viewBox="0 0 16 16">
+                                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
+                                    <path
+                                        d="M5.255 5.786a.237.237 0 0 0 .241.247h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286zm1.557 5.763c0 .533.425.927 1.01.927.609 0 1.028-.394 1.028-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94z" />
+                                </svg> &nbsp; What is the "Manage Campaigns" Page ?</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body" style="height: 300px; overflow:scroll;">
+                            <p><b></b></p>
+                            • This page shows information of all the Campaigns created by the Ministry of Health.
+                            <br>
+                            • You can search for the campaign you are looking for, by clicking on "Filter & Search" and insert the address of the campaign you want to search for.
+                            <br>
+                            • You can sort by  ("Address, Status, Start Date or End Date") .
+                            <br>
+                            • You can filter by  ("City or Status") .
+                            <br>
+                            • You can choose the sorting order ("Ascending or Descending") .
+                            <br>
+                            • By clicking on "Delete" button, you can cancel the campaign.
+                            <br>
+                            • You can edit Campaign's information, by clicking on "Update" button.
+                            <br>
+                            <br>
+                            <p><b> • You can remove a clerk from the campaign:</b></p>
+                            
+                             &nbsp;&nbsp;<b>1.</b> First, click on "Edit Clerks" button.
+                             <br>
+                             &nbsp;&nbsp;<b>2.</b> A popup will appear on your screen.
+                             <br>
+                             &nbsp;&nbsp;<b>3.</b> Insert the clerk's national ID you want to remove.
+                             <br>
+                             &nbsp;&nbsp;<b>4.</b> Click on "Remove Clerk" button to proceed with removing the clerk from the campaign.
+                            <br>
+                            <br>
+                            <p><b> • You can add a clerk to the campaign:</b></p>
+                             &nbsp;&nbsp;<b>1.</b> First, click on "Edit Clerks" button.
+                             <br>
+                             &nbsp;&nbsp;<b>2.</b> A popup will appear on your screen.
+                             <br>
+                             &nbsp;&nbsp;<b>3.</b> Insert the clerk's national ID you want to add.
+                             <br>
+                             &nbsp;&nbsp;<b>4.</b> Click on "Add Clerk" button to proceed with adding the clerk to the campaign.
+                            <br>
+                            <br>
+                            • If you wish to add a new Campaign, you can add a new campaign by filling the section "Add
+                            a new campaign".
+                            <br>
+
+
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <h4 class="text-center mb-3"> All Campaigns </h4>
             
             @if (session('message'))
@@ -222,6 +296,54 @@
         </div>
 
         <div class="text-start shadow container bg-white mt-5 rounded px-5 py-3 text-dark">
+            <!-- Modal and button -->
+            <button type="button" class="btn btn-outline-info" data-bs-toggle="modal" data-bs-target="#exampleModal1"
+                style="float: right;"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                    fill="currentColor" class="bi bi-question-circle" viewBox="0 0 16 16">
+                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
+                    <path
+                        d="M5.255 5.786a.237.237 0 0 0 .241.247h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286zm1.557 5.763c0 .533.425.927 1.01.927.609 0 1.028-.394 1.028-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94z" />
+                </svg> Help</button>
+
+            <div class="modal fade" id="exampleModal1" tabindex="-1" aria-labelledby="exampleModalLabel"
+                aria-hidden="true" style="top: 100px;" data-backdrop="static" data-keyboard="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel"><svg xmlns="http://www.w3.org/2000/svg"
+                                    width="16" height="16" fill="currentColor" class="bi bi-question-circle"
+                                    viewBox="0 0 16 16">
+                                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
+                                    <path
+                                        d="M5.255 5.786a.237.237 0 0 0 .241.247h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286zm1.557 5.763c0 .533.425.927 1.01.927.609 0 1.028-.394 1.028-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94z" />
+                                </svg> &nbsp; How to add a new campaign ?</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body" style="height: 300px; overflow:scroll;">
+                            <p><b>You can do the following steps:</b></p>
+                            <b> 1.</b> First, specify the start date of the campaign.
+                            <br>
+                            <b>2.</b> Then, specify the end date of the campaign.
+                            <br>
+                            <b>3.</b> Specify the maximum capacity of the campaign.
+                            <br>
+                            <b>4.</b> Choose the city from the drop-down list, in which the campaign will be.
+                            <br>
+                            <b>5.</b> Insert the descriptive address of the campaign.
+                            <br>
+                            <b>6.</b> Select the location of the campaign from the map, by moving the marker on the map.
+                            <br>
+                            <b>7.</b> Click "Add" button to proceed with adding the new campaign.
+                            <br>
+
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <h4 class="mb-3 text-center"> Add a new campaign </h4>    
             <form action="/staff/moh/manage-campaigns/add" method="POST">
                 @csrf

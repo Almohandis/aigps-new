@@ -1,4 +1,5 @@
 <x-app-layout>
+
     <link href="{{ asset('css/reservation.css') }}" rel="stylesheet">
 
 
@@ -29,7 +30,55 @@
                 </div>
             @endif
 
-            <h4> Select a campaign </h4>
+            <h4 style="display: inline;"> Select a campaign </h4>
+            <!-- Modal and button -->
+            <button type="button" class="btn btn-outline-info" data-bs-toggle="modal" data-bs-target="#exampleModal"
+                style="float: right;"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                    fill="currentColor" class="bi bi-question-circle" viewBox="0 0 16 16">
+                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
+                    <path
+                        d="M5.255 5.786a.237.237 0 0 0 .241.247h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286zm1.557 5.763c0 .533.425.927 1.01.927.609 0 1.028-.394 1.028-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94z" />
+                </svg> Help</button>
+
+            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                aria-hidden="true" style="top: 100px;" data-backdrop="static" data-keyboard="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel"><svg xmlns="http://www.w3.org/2000/svg"
+                                    width="16" height="16" fill="currentColor" class="bi bi-question-circle"
+                                    viewBox="0 0 16 16">
+                                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
+                                    <path
+                                        d="M5.255 5.786a.237.237 0 0 0 .241.247h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286zm1.557 5.763c0 .533.425.927 1.01.927.609 0 1.028-.394 1.028-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94z" />
+                                </svg> &nbsp; How to reserve a vaccination appointment ?</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body" style="height: 300px; overflow:scroll;">
+                            <p><b>You can do the following steps:</b></p>
+
+                            <b>1.</b> First, allow your browser to know your current location to display the nearest campaign.
+                            <br>
+                            <b>2.</b> If you don't want the nearest campaign you can click on list of campaigns and click on
+                            "sort by" button and choose from the displayed options.
+                            <br>
+                            <b>3.</b> Choose a campaign from what you see suitable.
+                            <br>
+                            <b>4.</b> Make sure you choose an active campaign so you can proceed.
+                            <br>
+                            <b>5.</b> Map legend shows if the campaign is active or not and its availability.
+                            <br>
+                            <b>6.</b> After Proceeding your appointment will appear in the appointments page.
+                            <br>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <p class="text-muted">Select a campaign either through the map or through the select options.</p>
 
             <div class="accordion mb-4" id="campaignsAccordion">
@@ -128,7 +177,9 @@
 
             <div class="mx-auto text-center mt-5">
                 <div id="map" class="aigps-map"></div>
-                <div id="legend"><h5>Legend</h5></div>
+                <div id="legend">
+                    <h5>Legend</h5>
+                </div>
 
                 <script src="https://maps.googleapis.com/maps/api/js?key={{ config('app.google_maps_api') }}&callback=initMap" defer>
                 </script>
@@ -170,11 +221,13 @@
                         document.getElementById('campaign_selection').children[0].children[0].innerHTML = campaign.address;
 
                         if (userHasLocation) {
-                            document.getElementById('distance').innerHTML = 'Distance from your location: ' + campaign.distanceUser.toFixed(2) + ' km';
+                            document.getElementById('distance').innerHTML = 'Distance from your location: ' + campaign.distanceUser
+                                .toFixed(2) + ' km';
                         } else {
                             document.getElementById('distance').innerHTML = 'Distance from your location: Location not available';
                         }
-                        document.getElementById('distanceCity').innerHTML = "Distance from your city: " + campaign.distanceCity.toFixed(2) + " km";
+                        document.getElementById('distanceCity').innerHTML = "Distance from your city: " + campaign.distanceCity.toFixed(
+                            2) + " km";
                         document.getElementById('start_date').innerHTML = "Starts At: " + campaign.start_date;
                         document.getElementById('end_date').innerHTML = "Ends At: " + campaign.end_date;
 
@@ -195,10 +248,12 @@
                             '</p>';
 
                         if (userHasLocation) {
-                            content += '<p class="text-start"><strong>Distance from your location:</strong> ' + campaign.distanceUser.toFixed(2) + ' km' +
-                            '</p>';
+                            content += '<p class="text-start"><strong>Distance from your location:</strong> ' + campaign.distanceUser
+                                .toFixed(2) + ' km' +
+                                '</p>';
                         }
-                        content += '<p class="text-start"><strong>Distance from your city:</strong> ' + campaign.distanceCity.toFixed(2) + ' km' +
+                        content += '<p class="text-start"><strong>Distance from your city:</strong> ' + campaign.distanceCity.toFixed(
+                                2) + ' km' +
                             '</p>' +
                             '</div>' +
                             '</div>';
@@ -282,14 +337,16 @@
                             const div = document.createElement("div");
                             div.className = "text-start";
 
-                            div.innerHTML = '<svg fill-opacity="0.7" fill="' + icon.fillColor + '" width="32" height="32"><path strokeWeight="' + icon.strokeWeight + '"  d="' + icon.path + '"></path></svg>' + name;
+                            div.innerHTML = '<svg fill-opacity="0.7" fill="' + icon.fillColor +
+                                '" width="32" height="32"><path strokeWeight="' + icon.strokeWeight + '"  d="' + icon.path +
+                                '"></path></svg>' + name;
                             legend.appendChild(div);
                         }
 
                         map.controls[google.maps.ControlPosition.LEFT_BOTTOM].push(legend);
 
                         getUserLocation();
-                        
+
                     }
 
                     function getCampaignMarker(camp) {
@@ -329,17 +386,16 @@
 
                     function getUserLocation() {
                         navigator.geolocation.getCurrentPosition(
-                            function (position) {
+                            function(position) {
                                 userLocation = {
                                     lat: position.coords.latitude,
                                     lng: position.coords.longitude,
                                 }
                                 setLocations();
                             },
-                            function (error) {
+                            function(error) {
                                 return
-                            },
-                            {
+                            }, {
                                 enableHighAccuracy: true,
                                 timeout: 5000,
                                 maximumAge: 0,
@@ -348,32 +404,38 @@
                     }
 
                     function calculateDistances() {
-                        for(let i = 0; i < locations.length; i++) {
-                            locations[i].distanceUser = userHasLocation ? distance(locations[i].lat, locations[i].lng, userLocation.lat, userLocation.lng) : null;
-                            locations[i].distanceCity = cityLocation ? distance(locations[i].lat, locations[i].lng, cityLocation.lat, cityLocation.lng) : null;
+                        for (let i = 0; i < locations.length; i++) {
+                            locations[i].distanceUser = userHasLocation ? distance(locations[i].lat, locations[i].lng, userLocation.lat,
+                                userLocation.lng) : null;
+                            locations[i].distanceCity = cityLocation ? distance(locations[i].lat, locations[i].lng, cityLocation.lat,
+                                cityLocation.lng) : null;
                         }
 
                         generateCampaignsList('start_date', true, true);
                     }
 
-                    function distance(lat1, lon1, lat2, lon2, unit='K') {
+                    function distance(lat1, lon1, lat2, lon2, unit = 'K') {
                         if ((lat1 == lat2) && (lon1 == lon2)) {
                             return 0;
-                        }
-                        else {
-                            var radlat1 = Math.PI * lat1/180;
-                            var radlat2 = Math.PI * lat2/180;
-                            var theta = lon1-lon2;
-                            var radtheta = Math.PI * theta/180;
-                            var dist = Math.sin(radlat1) * Math.sin(radlat2) + Math.cos(radlat1) * Math.cos(radlat2) * Math.cos(radtheta);
+                        } else {
+                            var radlat1 = Math.PI * lat1 / 180;
+                            var radlat2 = Math.PI * lat2 / 180;
+                            var theta = lon1 - lon2;
+                            var radtheta = Math.PI * theta / 180;
+                            var dist = Math.sin(radlat1) * Math.sin(radlat2) + Math.cos(radlat1) * Math.cos(radlat2) * Math.cos(
+                                radtheta);
                             if (dist > 1) {
                                 dist = 1;
                             }
                             dist = Math.acos(dist);
-                            dist = dist * 180/Math.PI;
+                            dist = dist * 180 / Math.PI;
                             dist = dist * 60 * 1.1515;
-                            if (unit=="K") { dist = dist * 1.609344 }
-                            if (unit=="N") { dist = dist * 0.8684 }
+                            if (unit == "K") {
+                                dist = dist * 1.609344
+                            }
+                            if (unit == "N") {
+                                dist = dist * 0.8684
+                            }
                             return dist;
                         }
                     }
@@ -391,19 +453,20 @@
                             generateCampaignsList('capacity', true);
                         } else if (input.value == 6) {
                             generateCampaignsList('capacity', false);
-                        }  else {
+                        } else {
                             generateCampaignsList('start_date', true, true);
                         }
                     }
 
-                    function generateCampaignsList(sortby, ascending, date=false) {
+                    function generateCampaignsList(sortby, ascending, date = false) {
                         const campaignsList = document.getElementById('campaigns-list');
                         campaignsList.innerHTML = '';
 
                         let array = JSON.parse(JSON.stringify(locations));
                         if (date) {
                             array.sort(function(a, b) {
-                                return ascending ? new Date(a[sortby]) - new Date(b[sortby]) : new Date(b[sortby]) - new Date(a[sortby]);
+                                return ascending ? new Date(a[sortby]) - new Date(b[sortby]) : new Date(b[sortby]) - new Date(a[
+                                    sortby]);
                             });
                         } else {
                             array.sort(function(a, b) {
@@ -420,7 +483,8 @@
                             copy.querySelector('.campaign-address').innerHTML = array[i].address;
                             copy.querySelector('.campaign-start').innerHTML = array[i].start_date;
                             copy.querySelector('.campaign-end').innerHTML = array[i].end_date;
-                            copy.querySelector('.campaign-capacity').innerHTML = array[i].capacity + ' reservations out of ' + array[i].maxCapacity;
+                            copy.querySelector('.campaign-capacity').innerHTML = array[i].capacity + ' reservations out of ' + array[i]
+                                .maxCapacity;
                             copy.querySelector('.campaign-select').onclick = function() {
                                 selectCampaign(array[i]);
                             }
@@ -447,4 +511,5 @@
             </form>
         </div>
     </div>
+
 </x-app-layout>

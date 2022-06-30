@@ -1,5 +1,5 @@
 <x-app-layout>
-    <link href="{{asset('css/reservation.css')}}" rel="stylesheet">
+    <link href="{{ asset('css/reservation.css') }}" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" rel="stylesheet">
 
     <script>
@@ -18,8 +18,7 @@
                 mark.classList.remove('fa-close');
                 error.innerHTML = '';
                 mark.style.color = 'green';
-            }
-            else if (errors['national_id'] != '') {
+            } else if (errors['national_id'] != '') {
                 mark.classList.remove('text-success');
                 mark.classList.add('text-danger');
                 mark.classList.add('fa-close');
@@ -58,9 +57,55 @@
         @endif
 
         <div class="table-responsive text-start shadow container bg-white mt-5 rounded px-5 py-3 text-dark">
+            <!-- Modal and button -->
+            <button type="button" class="btn btn-outline-info" data-bs-toggle="modal"
+                data-bs-target="#exampleModal" style="float: right;"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                    fill="currentColor" class="bi bi-question-circle" viewBox="0 0 16 16">
+                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
+                    <path
+                        d="M5.255 5.786a.237.237 0 0 0 .241.247h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286zm1.557 5.763c0 .533.425.927 1.01.927.609 0 1.028-.394 1.028-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94z" />
+                </svg> Help</button>
             <h4 class="text-center mb-3"> All Doctors in the hospital [{{ $hospital->name }}] </h4>
-
             
+
+            <div class="modal fade" id="exampleModal" tabindex="-1"
+                aria-labelledby="exampleModalLabel" aria-hidden="true" style="top: 100px;" data-backdrop="static"
+                data-keyboard="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel"><svg xmlns="http://www.w3.org/2000/svg"
+                                    width="16" height="16" fill="currentColor" class="bi bi-question-circle"
+                                    viewBox="0 0 16 16">
+                                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
+                                    <path
+                                        d="M5.255 5.786a.237.237 0 0 0 .241.247h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286zm1.557 5.763c0 .533.425.927 1.01.927.609 0 1.028-.394 1.028-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94z" />
+                                </svg> &nbsp; What is the "All doctors in this hospital" section ?</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body" style="height: 300px; overflow:scroll;">
+                            <p><b></b></p>
+                            • This page shows information ("Name" & "National ID") of all the doctors in each hospital.
+                            <br>
+                            • You can search doctors in the hospital by clicking "Filters & Search" and typing the
+                            doctor's name you wish to search for.
+                            <br>
+                            • You can also sort the doctors name, by chosing Sorting Order ("Ascending" or
+                            "Descending").
+                            <br>
+                            • If you wish to remove the doctor from the hospital database, click "Remove" button.
+                            <br>
+                            • You can add a new doctor from the "Add a doctor to this hospital" section.
+                            <br>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <div class="accordion mb-4" id="campaignsAccordion">
                 <div class="accordion-item">
                     <h2 class="accordion-header" id="flush-headingOne">
@@ -75,7 +120,8 @@
                             <form method="GET" class="row">
                                 <div class="form-group mb-2">
                                     <label class="">Search</label>
-                                    <input type="text" name="search" class="form-control" placeholder="Search by name" value="{{ request()->search }}">
+                                    <input type="text" name="search" class="form-control"
+                                        placeholder="Search by name" value="{{ request()->search }}">
                                 </div>
 
                                 <div class="form-group col-12 col-md-6 col-lg-3">
@@ -100,7 +146,8 @@
 
                                 <div class="form-group row justify-content-center mt-2 mb-4">
                                     <div class="row justify-content-center mt-2">
-                                        <button style="width: 250px" type="submit" class="btn btn-primary">Filter</button>
+                                        <button style="width: 250px" type="submit"
+                                            class="btn btn-primary">Filter</button>
                                     </div>
                                 </div>
                             </form>
@@ -123,7 +170,8 @@
                             <td>{{ $doctor->national_id }}</td>
                             <td>{{ $doctor->name }}</td>
 
-                            <form method="POST" action="/staff/moh/manage-doctors/doctors/{{$doctor->id}}/delete">
+                            <form method="POST"
+                                action="/staff/moh/manage-doctors/doctors/{{ $doctor->id }}/delete">
                                 <td>
                                     @csrf
                                     <button class="btn btn-outline-danger"> Remove </button>
@@ -137,40 +185,89 @@
             <div class="flex">
                 <ul class="pagination justify-content-center">
                     @if ($doctors->previousPageUrl())
-                        <li class="page-item"><a class="page-link" href="/staff/moh/manage-doctors/{{$hospital->id}}?page={{ $doctors->currentPage() - 1 }}">Previous</a></li>
+                        <li class="page-item"><a class="page-link"
+                                href="/staff/moh/manage-doctors/{{ $hospital->id }}?page={{ $doctors->currentPage() - 1 }}">Previous</a>
+                        </li>
                     @endif
-                    
-                    
-                    @for($page = 1; $page <= $doctors->lastPage(); $page++)
-                        <li class="page-item"><a class="page-link" href="/staff/moh/manage-doctors/{{$hospital->id}}?page={{ $page }}">{{ $page }}</a></li>
+
+
+                    @for ($page = 1; $page <= $doctors->lastPage(); $page++)
+                        <li class="page-item"><a class="page-link"
+                                href="/staff/moh/manage-doctors/{{ $hospital->id }}?page={{ $page }}">{{ $page }}</a>
+                        </li>
                     @endfor
 
                     @if ($doctors->nextPageUrl())
-                        <li class="page-item"><a class="page-link" href="/staff/moh/manage-doctors/{{$hospital->id}}?page={{ $doctors->currentPage() + 1 }}">Next</a></li>
+                        <li class="page-item"><a class="page-link"
+                                href="/staff/moh/manage-doctors/{{ $hospital->id }}?page={{ $doctors->currentPage() + 1 }}">Next</a>
+                        </li>
                     @endif
                 </ul>
             </div>
         </div>
 
         <div class="text-start shadow container bg-white mt-5 rounded px-5 py-3 text-dark">
-            <h4 class="mb-3 text-center"> Add a doctor to this hospital </h4>    
-            <form action="/staff/moh/manage-doctors/{{$hospital->id}}/doctors/add" method="POST">
+            <!-- Modal and button -->
+            <button type="button" class="btn btn-outline-info" data-bs-toggle="modal"
+                data-bs-target="#exampleModal2" style="float: right;"><svg xmlns="http://www.w3.org/2000/svg" width="16"
+                    height="16" fill="currentColor" class="bi bi-question-circle" viewBox="0 0 16 16">
+                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
+                    <path
+                        d="M5.255 5.786a.237.237 0 0 0 .241.247h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286zm1.557 5.763c0 .533.425.927 1.01.927.609 0 1.028-.394 1.028-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94z" />
+                </svg> Help</button>
+
+            <div class="modal fade" id="exampleModal2" tabindex="-1"
+                aria-labelledby="exampleModalLabel" aria-hidden="true" style="top: 100px;" data-backdrop="static"
+                data-keyboard="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel"><svg xmlns="http://www.w3.org/2000/svg"
+                                    width="16" height="16" fill="currentColor" class="bi bi-question-circle"
+                                    viewBox="0 0 16 16">
+                                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
+                                    <path
+                                        d="M5.255 5.786a.237.237 0 0 0 .241.247h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286zm1.557 5.763c0 .533.425.927 1.01.927.609 0 1.028-.394 1.028-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94z" />
+                                </svg> &nbsp; How to add a new doctor to this hospital ?</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body" style="height: 300px; overflow:scroll;">
+                            <p><b>You can do the following steps:</b></p>
+                            <b>1.</b> Fill the "National ID" of the doctor you want to add to the hospital.
+                            <br>
+                            <b>2.</b> Make sure that the national ID is correct before proceeding.
+                            <br>
+                            <b>3.</b> Click "Add" button to proceed in adding a new doctor to this hospital.
+                            <br>
+
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <h4 class="mb-3 text-center"> Add a doctor to this hospital </h4>
+            <form action="/staff/moh/manage-doctors/{{ $hospital->id }}/doctors/add" method="POST">
                 @csrf
 
                 <div class="row">
                     <div class="col-12 mt-2">
                         <i id="national_id_mark" class="fa-solid fa-close text-danger visually-hidden"></i>
                         <label>National ID *</label>
-                        <input id="national_id" type="text" class="form-control" name="national_id" oninput="validateNid(this)" required>
+                        <input id="national_id" type="text" class="form-control" name="national_id"
+                            oninput="validateNid(this)" required>
                         <div id="national_id_error" class="form-text text-danger"></div>
                     </div>
                 </div>
 
                 <script>
                     function validateNid(input) {
-                        if (! isValidNid(input.value)) {
+                        if (!isValidNid(input.value)) {
                             input.style.outline = "red solid thin";
-                            errors.national_id = 'National ID must be valid [National Id must be 14 characters long, and starts with 1,2,3]';
+                            errors.national_id =
+                                'National ID must be valid [National Id must be 14 characters long, and starts with 1,2,3]';
                             updateError(input);
                         } else {
                             input.style.outline = "green solid thin";
