@@ -3,6 +3,7 @@
 use App\Http\Controllers\Citizen\HomePageController;
 use App\Http\Controllers\MedicalPassportController;
 use App\Http\Controllers\StatisticsController;
+use App\Http\Controllers\RegisterEmailController;
 use App\Http\Controllers\ProfileController;
 use App\Models\Article;
 use App\Models\Campaign;
