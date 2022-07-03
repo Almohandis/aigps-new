@@ -275,6 +275,11 @@
                 </div>
 
                 <div class="col-12 col-md-6 mt-2">
+                    <label>Passport number</label>
+                    <input type="text" class="form-control" name="passport_number">
+                </div>
+
+                <div class="col-12 col-md-6 mt-2">
                     <i id="workemail_mark" class="fa-solid fa-close text-danger visually-hidden"></i>
                     <label>Work Email</label>
                     <input type="email" class="form-control" name="workemail" oninput="validateWorkEmail(this)">
