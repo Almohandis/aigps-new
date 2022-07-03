@@ -249,7 +249,7 @@
                     <canvas width="15" height="15" id="legend1"></canvas>
                 </div>
 
-                <script src="https://maps.googleapis.com/maps/api/js?key={{ config('app.google_maps_api') }}&callback=initMap" defer>
+                <script src="https://maps.googleapis.com/maps/api/js?key={{ config('app.google_maps_api') }}&callback=initMap" defer async>
                 </script>
 
                 <script>
