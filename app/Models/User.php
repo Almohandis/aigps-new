@@ -32,7 +32,8 @@ class User extends Authenticatable
         'hospital_id',
         'country',
         'is_diagnosed',
-        'city'
+        'city',
+        'passport_number'
     ];
 
     /**

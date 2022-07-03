@@ -56,7 +56,7 @@
                 </div>
             </div>
         @endif
-    
+
         <div class="accordion" id="accordionExample">
             <div class="accordion-item">
                 <h2 class="accordion-header">
@@ -72,7 +72,7 @@
                                 <div class="col-12 col-md-6 mt-2">
                                     <i id="national_id_mark" class="fa-solid fa-close text-danger visually-hidden"></i>
                                     <label>National ID *</label>
-                                    <input value="{{Auth::user()->national_id}}" id="national_id" type="text" class="form-control" name="national_id" oninput="validateNid(this)" required>
+                                    <input value="{{Auth::user()->national_id}}" id="national_id" type="text" class="form-control" name="national_id" oninput="validateNid(this)" required disabled readonly>
                                     <div id="national_id_error" class="form-text text-danger"></div>
                                 </div>
 
@@ -141,7 +141,7 @@
                                         let nid_year = nationalid.substring(1, 3);
                                         let nid_month = parseInt(nationalid.substring(3, 5));
                                         let nid_day = parseInt(nationalid.substring(5, 7));
-                                        
+
                                         let nid_gender = parseInt(nationalid[12]);
 
                                         let year = '';
@@ -255,6 +255,7 @@
                                 <div class="col-12 col-md-6 mt-2">
                                     <label>Nationality *</label>
                                     <select name="country" class="form-control">
+                                        <option value="{{Auth::user()->country}}">{{Auth::user()->country}}</option>
                                         @foreach ($countries as $country)
                                             <option value="{{ $country }}">{{ $country }}</option>
                                         @endforeach
@@ -264,6 +265,7 @@
                                 <div class="col-12 col-md-6 mt-2">
                                     <label>City *</label>
                                     <select name="city" class="form-control">
+                                        <option value="{{Auth::user()->city}}">{{Auth::user()->city}}</option>
                                         @foreach ($cities as $city)
                                             <option value="{{ $city->name }}">{{ $city->name }}</option>
                                         @endforeach
@@ -281,7 +283,7 @@
 
                                 <div class="col-12 col-md-6 mt-2">
                                     <label>Birthdate *</label>
-                                    <input type="date" class="form-control" id="birthdate" name="birthdate" required readonly>
+                                    <input type="date" class="form-control" max="2010/01/01" id="birthdate" name="birthdate" required disabled readonly>
                                 </div>
 
                                 <div class="col-12 col-md-6 mt-2">

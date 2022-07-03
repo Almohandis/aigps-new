@@ -111,6 +111,7 @@ class StatisticsController extends Controller
     // Take report_by and names, make a switch statment and return the correct query
     public function bloodTypeDistribution($report_by, $names)
     {
+        date_default_timezone_set("Africa/Cairo");
         switch ($report_by) {
             case 'City':
                 $data = DB::select('SELECT DISTINCT u1.city, ( SELECT count(*) FROM users as u2 WHERE u2.city = u1.city and u2.blood_type = "A+" ) as A_plus, ( SELECT count(*) FROM users as u2 WHERE u2.city = u1.city and u2.blood_type = "A-" ) as A_minus, ( SELECT count(*) FROM users as u2 WHERE u2.city = u1.city and u2.blood_type = "B+" ) as B_plus, ( SELECT count(*) FROM users as u2 WHERE u2.city = u1.city and u2.blood_type = "B-" ) as B_minus, ( SELECT count(*) FROM users as u2 WHERE u2.city = u1.city and u2.blood_type = "AB+" ) as AB_plus, ( SELECT count(*) FROM users as u2 WHERE u2.city = u1.city and u2.blood_type = "AB-" ) as AB_minus, ( SELECT count(*) FROM users as u2 WHERE u2.city = u1.city and u2.blood_type = "O+" ) as O_plus, ( SELECT count(*) FROM users as u2 WHERE u2.city = u1.city and u2.blood_type = "O-" ) as O_minus from users AS u1 group by u1.city order by u1.city asc;');
@@ -156,6 +157,7 @@ class StatisticsController extends Controller
 
     public function surveyResultsAndAnswers($report_by, $names)
     {
+        date_default_timezone_set("Africa/Cairo");
         switch ($report_by) {
             case 'City':
                 break;
@@ -175,6 +177,7 @@ class StatisticsController extends Controller
 
     public function recoveriesReport($report_by, $names)
     {
+        date_default_timezone_set("Africa/Cairo");
         switch ($report_by) {
             case 'City':
                 $data = DB::select('SELECT u1.city, ( SELECT COUNT(*) FROM recoveries_id, users AS u2 WHERE u2.id = recoveries_id.id AND u2.city = u1.city ) as total_rec, ( SELECT COUNT(*) FROM recoveries_id, users AS u2 WHERE u2.gender = "Male" AND recoveries_id.id = u2.id AND u1.city = u2.city ) AS male_count, Round( ifnull( ( SELECT male_count / total_rec * 100 ), 0 ), 1 ) as male_pcnt, ( SELECT COUNT(*) FROM recoveries_id, users AS u2 WHERE u2.gender = "Female" AND recoveries_id.id = u2.id AND u1.city = u2.city ) AS female_count, Round( ifnull( ( SELECT female_count / total_rec * 100 ), 0 ), 1 ) as female_pcnt, ( SELECT COUNT(*) FROM hospitals AS hos1 WHERE hos1.city = u1.city ) AS tot_hos, ( SELECT ifnull( round( ( ( ( SELECT sum(hos3.capacity) FROM hospitals as hos3 where hos3.city = u1.city ) - ( SELECT COUNT(*) FROM hospitalizations AS hoz2, hospitals as hos2 WHERE hoz2.hospital_id = hos2.id AND hoz2.checkout_date IS NULL and hos2.city = u1.city ) )/ ( SELECT count(*) FROM hospitals as hos3 where hos3.city = u1.city ) ), 0 ), 0 ) ) AS avg_avail_beds FROM users AS u1 GROUP BY u1.city ORDER BY u1.city;');
@@ -226,6 +229,7 @@ class StatisticsController extends Controller
 
     public function deathsReport($report_by, $names)
     {
+        date_default_timezone_set("Africa/Cairo");
         switch ($report_by) {
             case 'City':
                 $data = DB::select('SELECT u1.city, ( SELECT COUNT(*) FROM deaths_id, users AS u2 WHERE u2.id = deaths_id.id AND u2.city = u1.city ) as total_deaths, ( SELECT COUNT(*) FROM deaths_id, users AS u2 WHERE u2.gender = "Male" AND deaths_id.id = u2.id AND u1.city = u2.city ) AS male_count, Round( ifnull( ( SELECT male_count / total_deaths * 100 ), 0 ), 1 ) as male_pcnt, ( SELECT COUNT(*) FROM deaths_id, users AS u2 WHERE u2.gender = "Female" AND deaths_id.id = u2.id AND u1.city = u2.city ) AS female_count, Round( ifnull( ( SELECT female_count / total_deaths * 100 ), 0 ), 1 ) as female_pcnt, ( SELECT COUNT(*) FROM hospitals AS hos1 WHERE hos1.city = u1.city ) AS tot_hos, ( SELECT ifnull( round( ( ( ( SELECT sum(hos3.capacity) FROM hospitals as hos3 where hos3.city = u1.city ) - ( SELECT COUNT(*) FROM hospitalizations AS hoz2, hospitals as hos2 WHERE hoz2.hospital_id = hos2.id AND hoz2.checkout_date IS NULL and hos2.city = u1.city ) )/ ( SELECT count(*) FROM hospitals as hos3 where hos3.city = u1.city ) ), 0 ), 0 ) ) AS avg_avail_beds FROM users AS u1 GROUP BY u1.city ORDER BY u1.city;');
@@ -266,6 +270,7 @@ class StatisticsController extends Controller
 
     public function userVaccinatingStatus($report_by, $names)
     {
+        date_default_timezone_set("Africa/Cairo");
         switch ($report_by) {
             case 'Vaccine status':
                 $data = DB::select('SELECT if( m1.vaccine_dose_count = 0, "Not vaccinated", if( m1.vaccine_dose_count = 1, "Partially vaccinated", "Fully vaccinated" ) ) as vac_status, ( select count(*) from medical_passports as m2, users as u1 where u1.id = m2.user_id and u1.gender = "Male" AND ( select if( m2.vaccine_dose_count = 0, "Not vaccinated", if( m2.vaccine_dose_count = 1, "Partially vaccinated", "Fully vaccinated" ) ) ) = vac_status ) as male_count, round((select male_count) / ( select count(*) from medical_passports as m2, users as u1 where u1.id = m2.user_id AND ( select if( m2.vaccine_dose_count = 0, "Not vaccinated", if( m2.vaccine_dose_count = 1, "Partially vaccinated", "Fully vaccinated" ) ) ) = vac_status )*100,1) as male_pcnt, ( select count(*) from medical_passports as m2, users as u1 where u1.id = m2.user_id and u1.gender = "Female" AND ( select if( m2.vaccine_dose_count = 0, "Not vaccinated", if( m2.vaccine_dose_count = 1, "Partially vaccinated", "Fully vaccinated" ) ) ) = vac_status ) as female_count, round((select female_count) / ( select count(*) from medical_passports as m2, users as u1 where u1.id = m2.user_id AND ( select if( m2.vaccine_dose_count = 0, "Not vaccinated", if( m2.vaccine_dose_count = 1, "Partially vaccinated", "Fully vaccinated" ) ) ) = vac_status )*100,1) as female_pcnt, ( select count(*) from medical_passports as m2, users as u1 where u1.id = m2.user_id AND ( select if( m2.vaccine_dose_count = 0, "Not vaccinated", if( m2.vaccine_dose_count = 1, "Partially vaccinated", "Fully vaccinated" ) ) ) = vac_status ) as total FROM medical_passports as m1 GROUP BY vac_status;');
@@ -286,6 +291,7 @@ class StatisticsController extends Controller
 
     public function userVaccinatingStatusSummary($report_by, $names)
     {
+        date_default_timezone_set("Africa/Cairo");
         switch ($report_by) {
             case 'Default':
                 $data = DB::select('SELECT if( mp1.vaccine_dose_count=0,"Not vaccinated", if(mp1.vaccine_dose_count=1,"Partially vaccinated","Fully vaccinated") ) AS vac_status,
@@ -299,7 +305,8 @@ class StatisticsController extends Controller
     }
 
     public function distributionOfHospitals($report_by, $names)
-    { ///////////////////////////////////////////////////////////////////
+    {
+        date_default_timezone_set("Africa/Cairo");
         switch ($report_by) {
             case 'City':
                 // $not_vac = DB::select('SELECT u1.city,COUNT(*) AS not_vac FROM users AS u1, medical_passports AS mp1 WHERE mp1.vaccine_dose_count=0 AND mp1.user_id=u1.id GROUP BY u1.city ASC;');
@@ -328,6 +335,7 @@ class StatisticsController extends Controller
 
     public function infectionsReport($report_by, $names)
     {
+        date_default_timezone_set("Africa/Cairo");
         switch ($report_by) {
             case 'City':
                 $data_by_city = DB::select('SELECT u1.city, ( SELECT COUNT(*) FROM infections_id, users AS u2 WHERE u2.id = infections_id.id AND u2.city = u1.city ) as total_infections, ( SELECT COUNT(*) FROM infections_id, users AS u2 WHERE u2.gender = "Male" AND infections_id.id = u2.id AND u1.city = u2.city ) AS male_count, Round( ifnull( ( SELECT male_count / total_infections * 100 ), 0 ), 1 ) as male_pcnt, ( SELECT COUNT(*) FROM infections_id, users AS u2 WHERE u2.gender = "Female" AND infections_id.id = u2.id AND u1.city = u2.city ) AS female_count, Round( ifnull( ( SELECT female_count / total_infections * 100 ), 0 ), 1 ) as female_pcnt, ( SELECT COUNT(*) FROM hospitals AS hos1 WHERE hos1.city = u1.city ) AS tot_hos, ( SELECT ifnull( round( ( ( ( SELECT sum(hos3.capacity) FROM hospitals as hos3 where hos3.city = u1.city ) - ( SELECT COUNT(*) FROM hospitalizations AS hoz2, hospitals as hos2 WHERE hoz2.hospital_id = hos2.id AND hoz2.checkout_date IS NULL and hos2.city = u1.city ) )/ ( SELECT count(*) FROM hospitals as hos3 where hos3.city = u1.city ) ), 0 ), 0 ) ) AS avg_avail_beds FROM users AS u1 GROUP BY u1.city;');
@@ -505,6 +513,7 @@ class StatisticsController extends Controller
 
     public function distributionOfChronicDiseases($report_by, $names)
     {
+        date_default_timezone_set("Africa/Cairo");
         switch ($report_by) {
             case 'Chronic disease':
                 $data = DB::select('SELECT distinct cd1.name, ( SELECT COUNT(distinct u2.id) FROM users AS u2, chronic_diseases AS cd2 WHERE u2.id = cd2.user_id AND cd1.name=cd2.name ) AS total, ( SELECT COUNT(distinct u2.id) FROM users AS u2, chronic_diseases as cd2 WHERE u2.id=cd2.user_id AND u2.gender = "Male" AND cd1.name=cd2.name ) AS male, ROUND( ( SELECT COUNT(distinct u2.id) FROM users AS u2, chronic_diseases as cd2 WHERE u2.id=cd2.user_id and cd2.name=cd1.name AND u2.gender = "Male" )/( SELECT total )* 100, 2 ) AS male_pcnt, ( SELECT COUNT(distinct u2.id) FROM users AS u2, chronic_diseases as cd2 WHERE u2.id=cd2.user_id AND u2.gender = "Female" and cd2.name=cd1.name ) AS female, ROUND( ( SELECT COUNT(distinct u2.id) FROM users AS u2, chronic_diseases as cd2 WHERE u2.id=cd2.user_id and cd2.name=cd1.name AND u2.gender = "Female" )/( SELECT total )* 100, 2 ) AS female_pcnt FROM chronic_diseases AS cd1 group by cd1.name order by cd1.name');
@@ -520,6 +529,7 @@ class StatisticsController extends Controller
 
     public function distributionOfDoctorsInHospitals($report_by, $names)
     {
+        date_default_timezone_set("Africa/Cairo");
         switch ($report_by) {
             case 'City':
                 $data = DB::select('select distinct hos1.city, ( ( select count(u2.id) from users as u2, hospitals as hos2 where u2.hospital_id is not null and u2.hospital_id=hos2.id and hos2.city = hos1.city ) ) as total_doctors, (select count(hos2.id) from hospitals as hos2 where hos2.city=hos1.city )as num_hospitals from hospitals as hos1 ORDER BY hos1.city ASC;');
@@ -540,6 +550,7 @@ class StatisticsController extends Controller
 
     public function hospitalizationStatus($report_by, $names)
     {
+        date_default_timezone_set("Africa/Cairo");
         switch ($report_by) {
             case 'City':
                 $data = DB::select('SELECT hos1.city, ( SELECT sum(hos2.capacity) FROM hospitals as hos2 where hos2.city = hos1.city ) as total_capacity, ( SELECT ifnull( ( ( ( SELECT sum(hos2.capacity) FROM hospitals as hos2 where hos2.city = hos1.city ) - ( SELECT COUNT(*) FROM hospitalizations AS hoz2, hospitals as hos3 WHERE hoz2.hospital_id = hos3.id AND hoz2.checkout_date IS NULL and hos3.city = hos1.city ) ) ), 0 ) ) AS avail_beds, ( select count(*) from hospitalizations as hoz3, hospitals as hos6 where hoz3.hospital_id = hos6.id AND hoz3.checkout_date IS NULL and hos6.city = hos1.city ) as total_hospitalization, ( select count(*) from hospitals as hos4 where hos4.city = hos1.city ) as total_hospitals, ( select count(*) from hospitals as hos5 where hos5.city = hos1.city and hos5.is_isolation = 1 ) as iso_hospitals FROM hospitals as hos1 GROUP BY hos1.city ORDER BY hos1.city asc;');
@@ -577,6 +588,7 @@ class StatisticsController extends Controller
 
     public function campaignReportSummary($report_by, $names)
     {
+        date_default_timezone_set("Africa/Cairo");
         $campaigns = Campaign::orderBy('start_date', 'desc')->get();
         $campaigns = json_decode(json_encode($campaigns));
         switch ($report_by) {
@@ -601,6 +613,7 @@ class StatisticsController extends Controller
 
     public function generalStatistics($report_by, $names)
     {
+        date_default_timezone_set("Africa/Cairo");
         switch ($report_by) {
             case 'Default':
                 $data = DB::select('SELECT ( SELECT COUNT(*) FROM recoveries_id ) AS total_rec, ( SELECT COUNT(*) FROM infections AS inf1 WHERE MONTH(infection_date) = MONTH( CURRENT_DATE() ) AND YEAR(infection_date) = YEAR( CURRENT_DATE() ) AND DAY(infection_date) = DAY( CURRENT_DATE() ) ) AS new_cases, ( SELECT COUNT(*) FROM deaths_id ) AS total_deaths, ( SELECT COUNT(DISTINCT question_user.user_id) FROM question_user ) AS total_diagnosed, ( SELECT COUNT(*) FROM medical_passports WHERE vaccine_dose_count = 0 ) AS total_un_vac, ( SELECT COUNT(*) FROM medical_passports WHERE vaccine_dose_count = 1 ) AS total_part_vac, ( SELECT COUNT(*) FROM medical_passports WHERE vaccine_dose_count = 2 ) AS total_full_vac, ( SELECT COUNT(*) FROM hospitals ) AS total_hos;');
@@ -616,6 +629,7 @@ class StatisticsController extends Controller
 
     public function personalMedicalReport($report_by, $names)
     {
+        date_default_timezone_set("Africa/Cairo");
         switch ($report_by) {
             case 'Default':
                 $user_id = Auth::user()->id;

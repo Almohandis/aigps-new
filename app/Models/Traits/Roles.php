@@ -60,8 +60,8 @@ trait Roles {
             'Campaign Clerk',
             'Hospital Clerk',
             'Preseident Advisor Clerk',
-            'Spokes Person Clerk',
-            'System Admin Clerk'
+            'Spokeperson Clerk',
+            'System Admin'
         ];
     }
 }
